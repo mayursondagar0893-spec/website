@@ -245,6 +245,11 @@
     .blog-body p { font-size: .8rem; color: var(--text-mid); line-height: 1.65; margin-bottom: 1rem; }
     .blog-read { font-size: .78rem; font-weight: 600; color: var(--olive); text-decoration: none; display: inline-flex; align-items: center; gap: .3rem; transition: gap .2s; }
     .blog-read:hover { gap: .6rem; }
+    .blog-actions { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; }
+    .blog-download { font-size: .75rem; font-weight: 600; color: var(--olive); background: var(--olive-pale); border: 1.5px solid var(--glass-border); border-radius: 6px; padding: .35rem .9rem; text-decoration: none; display: inline-flex; align-items: center; gap: .35rem; transition: background .2s, border-color .2s; }
+    .blog-download:hover { background: var(--olive-bg); border-color: var(--olive); }
+    [data-theme="dark"] .blog-download { background: var(--olive-pale); color: var(--text); }
+    [data-theme="dark"] .blog-download:hover { background: var(--olive-deep); }
     .blog-emoji { height: 90px; display: flex; align-items: center; justify-content: center; font-size: 2.4rem; background: linear-gradient(135deg, var(--olive-bg), var(--olive-pale)); }
     [data-theme="dark"] .blog-emoji { background: linear-gradient(135deg, #1f2209, #2a2f0d); }
 
@@ -492,9 +497,12 @@
         <span class="blog-date">Budget 2025</span>
       </div>
       <div class="blog-body">
-        <h3>New Tax Slabs 2025–26: Which Regime Saves You More?</h3>
-        <p>A simple comparison of old vs new tax regime with examples for salaried individuals earning ₹5L to ₹20L.</p>
-        <a href="#" class="blog-read">Read More →</a>
+        <h3>Section Comparision of Income Tax Act, 1961 vs Income Tax Act, 2025</h3>
+        <p>List of Some Important Sections of Old Income Tax Act,1961 and Section Number of the Same of New Income Tax Act, 2025.</p>
+        <div class="blog-actions">
+          <a href="https://drive.google.com/file/d/1nrgL4B1y0SWwT27Od1UHbjnSqYYQw5wY/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="blog-read">Read More →</a>
+          <a href="https://drive.google.com/file/d/1nrgL4B1y0SWwT27Od1UHbjnSqYYQw5wY/view?usp=drive_link" download="New-Tax-Slabs-2025-26.pdf" class="blog-download">⬇ Download PDF</a>
+        </div>
       </div>
     </div>
 
@@ -507,7 +515,10 @@
       <div class="blog-body">
         <h3>GST Annual Return — GSTR-9 Filing Guide for FY 2024–25</h3>
         <p>Step-by-step walkthrough of GSTR-9 filing, common mistakes to avoid, and deadlines to remember.</p>
-        <a href="#" class="blog-read">Read More →</a>
+        <div class="blog-actions">
+          <a href="files/gstr9-guide-2024-25.pdf" target="_blank" rel="noopener noreferrer" class="blog-read">Read More →</a>
+          <a href="files/gstr9-guide-2024-25.pdf" download="GSTR9-Filing-Guide-2024-25.pdf" class="blog-download">⬇ Download PDF</a>
+        </div>
       </div>
     </div>
 
@@ -520,7 +531,10 @@
       <div class="blog-body">
         <h3>Top 10 Tax-Saving Investments Under Section 80C Explained</h3>
         <p>PPF, ELSS, NSC, LIC — which gives best returns along with tax saving? Full comparison with numbers.</p>
-        <a href="#" class="blog-read">Read More →</a>
+        <div class="blog-actions">
+          <a href="files/section-80c-investments.pdf" target="_blank" rel="noopener noreferrer" class="blog-read">Read More →</a>
+          <a href="files/section-80c-investments.pdf" download="Section-80C-Investments.pdf" class="blog-download">⬇ Download PDF</a>
+        </div>
       </div>
     </div>
 
@@ -533,7 +547,10 @@
       <div class="blog-body">
         <h3>TDS Rate Chart 2025–26: Complete Section-wise Summary</h3>
         <p>All TDS rates under Income Tax Act in one place — salary, rent, professional fees, interest and more.</p>
-        <a href="#" class="blog-read">Read More →</a>
+        <div class="blog-actions">
+          <a href="files/tds-rate-chart-2025-26.pdf" target="_blank" rel="noopener noreferrer" class="blog-read">Read More →</a>
+          <a href="files/tds-rate-chart-2025-26.pdf" download="TDS-Rate-Chart-2025-26.pdf" class="blog-download">⬇ Download PDF</a>
+        </div>
       </div>
     </div>
 
