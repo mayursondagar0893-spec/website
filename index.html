@@ -120,7 +120,7 @@
 
     /* SERVICES */
     #services { background: var(--olive-bg); }
-    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.4rem; margin-top: 1rem; }
+    .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4rem; margin-top: 1rem; }
     .service-card { background: var(--white); border: 1.5px solid var(--glass-border); padding: 2rem; border-radius: 18px; transition: transform .25s, box-shadow .25s, border-color .25s; }
     .service-card:hover { transform: translateY(-6px); border-color: var(--olive); box-shadow: 0 12px 40px rgba(140,154,26,0.18); }
     .service-icon { font-size: 1.6rem; margin-bottom: 1rem; display: flex; width: 50px; height: 50px; background: var(--olive-pale); border-radius: 13px; align-items: center; justify-content: center; }
@@ -198,16 +198,22 @@
     /* RESPONSIVE */
     @media (max-width: 920px) {
       .hero-visual { display: none; }
+      /* Fix empty space: on mobile hero no longer forces full screen height */
+      #hero { min-height: unset; padding-top: 100px; padding-bottom: 3.5rem; align-items: flex-start; }
       .about-grid, .contact-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
       .nav-links { display: none; }
       .nav-cta   { display: none; }
-      .hamburger { display: flex; } /* THE KEY FIX */
+      .hamburger { display: flex; }
       .form-row  { grid-template-columns: 1fr; }
+      /* Keep services 2x2 on tablet */
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 480px) {
       section { padding: 4rem 5%; }
       .hero-stats { gap: 1.5rem; }
       h1 { font-size: 2.2rem; }
+      /* On very small phones, services go 1 column */
+      .services-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -256,8 +262,8 @@
       <a href="#portfolio" class="btn-ghost">View My Content</a>
     </div>
     <div class="hero-stats">
-      <div><div class="stat-num">102.9K</div><div class="stat-label">Twitter Followers</div></div>
-      <div><div class="stat-num">17.2K</div><div class="stat-label">LinkedIn Followers</div></div>
+      <div><div class="stat-num">103.1K</div><div class="stat-label">Twitter Followers</div></div>
+      <div><div class="stat-num">17.3K</div><div class="stat-label">LinkedIn Followers</div></div>
       <div><div class="stat-num">8,400+</div><div class="stat-label">Posts &amp; Updates</div></div>
     </div>
   </div>
