@@ -4,9 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CA Mayur Sondagar – Taxation Updates</title>
-  <meta name="description" content="CA Mayur J Sondagar — Simplifying Taxation, GST and Income Tax. 120K+ followers on Twitter, WhatsApp & LinkedIn. Mumbai-based Chartered Accountant."/>
+  <meta name="description" content="CA Mayur J Sondagar — Simplifying Taxation, GST and Income Tax. 120K+ followers on Twitter, WhatsApp &amp; LinkedIn. Mumbai-based Chartered Accountant."/>
 
-  <!-- ✅ Google Analytics — Replace G-YC1O1DVMH7 with your real ID -->
+  <!-- SEO & Social Sharing -->
+  <meta property="og:title"       content="CA Mayur Sondagar – Taxation Updates"/>
+  <meta property="og:description" content="Simplifying Taxation, GST and Income Tax for 120K+ followers. Mumbai-based Chartered Accountant."/>
+  <meta property="og:type"        content="website"/>
+  <meta property="og:url"         content="https://taxationupdates.com//"/>
+  <meta property="og:image"       content="https://taxationupdates.com//og-cover.png"/>
+  <meta name="twitter:card"        content="summary_large_image"/>
+  <meta name="twitter:site"        content="@TaxationUpdates"/>
+  <meta name="twitter:title"       content="CA Mayur Sondagar – Taxation Updates"/>
+  <meta name="twitter:description" content="Simplifying Taxation, GST and Income Tax for 120K+ followers."/>
+  <meta name="twitter:image"       content="https://taxationupdates.com//og-cover.png"/>
+  <link rel="canonical"            href="https://taxationupdates.com//"/>
+
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-YC1O1DVMH7"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -310,6 +323,12 @@
       h1 { font-size: 2.1rem; }
       .services-grid, .blog-grid { grid-template-columns: 1fr; }
     }
+
+    /* ══════════════ WHATSAPP NUMBER PROTECTION ══════════════ */
+    /* Number rendered via CSS — invisible to DOM scrapers */
+    .wa-number::before { content: '+91 91520'; }
+    .wa-number::after  { content: '62090'; }
+    .wa-number { font-size: .88rem; color: var(--text); font-weight: 500; user-select: none; }
   </style>
 </head>
 <body>
@@ -580,7 +599,7 @@ I really admire how you present complex things in so simple manner @TaxationUpda
         <div class="contact-item"><div class="c-icon">📍</div><div><div class="c-label">Location</div><div class="c-val">Mumbai, Maharashtra, India</div></div></div>
         <div class="contact-item"><div class="c-icon">🐦</div><div><div class="c-label">Twitter / X</div><div class="c-val"><a href="https://twitter.com/TaxationUpdates" target="_blank">@TaxationUpdates</a></div></div></div>
         <div class="contact-item"><div class="c-icon">💼</div><div><div class="c-label">LinkedIn</div><div class="c-val"><a href="https://www.linkedin.com/in/taxation-updates-ca-mayur-j-sondagar-936772219" target="_blank">Taxation Updates (Mayur J Sondagar)</a></div></div></div>
-        <div class="contact-item"><div class="c-icon">💬</div><div><div class="c-label">WhatsApp</div><div class="c-val"><a href="https://wa.me/919152062090" target="_blank">Chat on WhatsApp</a></div></div></div>
+        <div class="contact-item"><div class="c-icon">💬</div><div><div class="c-label">WhatsApp</div><div class="c-val"><a href="#" class="wa-link" target="_blank">Chat on WhatsApp</a> &nbsp;(<span class="wa-number"></span>)</div></div></div>
       </div>
     </div>
     <div class="contact-form reveal">
@@ -614,7 +633,7 @@ I really admire how you present complex things in so simple manner @TaxationUpda
   <div class="footer-socials">
     <a class="social-btn" href="https://twitter.com/TaxationUpdates" target="_blank" title="Twitter / X">𝕏</a>
     <a class="social-btn" href="https://www.linkedin.com/in/taxation-updates-ca-mayur-j-sondagar-936772219" target="_blank" title="LinkedIn">in</a>
-    <a class="social-btn" href="https://wa.me/919152062090" target="_blank" title="WhatsApp">💬</a>
+    <a class="social-btn wa-link" href="#" target="_blank" title="WhatsApp">💬</a>
   </div>
 </footer>
 
@@ -664,6 +683,17 @@ I really admire how you present complex things in so simple manner @TaxationUpda
   ham.addEventListener('click',()=>toggle(!drawer.classList.contains('open')));
   document.querySelectorAll('.dl').forEach(a=>a.addEventListener('click',()=>toggle(false)));
 
+  /* ── WhatsApp Number Protection (base64 encoded) ── */
+  const _w = atob('OTE5MTUyMDYyMDkw');
+
+  /* ── Wire all .wa-link anchors dynamically ── */
+  document.querySelectorAll('.wa-link').forEach(el => {
+    el.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.open('https://wa.me/' + _w, '_blank');
+    });
+  });
+
   /* ── Contact Form → WhatsApp ── */
   document.getElementById('form-btn').addEventListener('click',()=>{
     const name=document.getElementById('f-name').value.trim();
@@ -673,7 +703,7 @@ I really admire how you present complex things in so simple manner @TaxationUpda
     const purpose=document.getElementById('f-purpose').value||'General';
     const company=document.getElementById('f-company').value.trim();
     const text=encodeURIComponent(`Hello CA Mayur,\n\nName: ${name}\nEmail: ${email}${company?'\nCompany: '+company:''}\nPurpose: ${purpose}\n\n${msg}`);
-    window.open('https://wa.me/919152062090?text='+text,'_blank');
+    window.open('https://wa.me/'+_w+'?text='+text,'_blank');
     document.getElementById('form-ok').style.display='block';
     document.getElementById('form-btn').textContent='Sent ✓';
     document.getElementById('form-btn').disabled=true;
