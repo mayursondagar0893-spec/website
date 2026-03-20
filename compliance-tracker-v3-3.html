@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Compliance Calendar 2026 — Taxation Updates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#f4f6fb;--surface:#fff;--surface2:#f8f9fc;--border:#e4e7ef;--border2:#d0d5e2;
+  --text:#111827;--text2:#374151;--muted:#6b7280;--muted2:#9ca3af;
+  --accent:#2563eb;--accent-h:#1d4ed8;--accent-bg:#eff6ff;
+  --hdr:#0f172a;--radius:10px;
+  --shadow:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 16px rgba(0,0,0,.09),0 1px 3px rgba(0,0,0,.05);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.13),0 2px 8px rgba(0,0,0,.06);
+}
+.dk{
+  --bg:#0d1117;--surface:#161b22;--surface2:#1c2128;--border:#21262d;--border2:#30363d;
+  --text:#e6edf3;--text2:#c9d1d9;--muted:#7d8590;--muted2:#6e7681;
+  --accent:#4493f8;--accent-h:#58a6ff;--accent-bg:#0c1a40;
+  --hdr:#010409;--shadow:0 1px 3px rgba(0,0,0,.35);
+  --shadow-md:0 4px 16px rgba(0,0,0,.4);--shadow-lg:0 8px 32px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;transition:background .25s,color .25s;line-height:1.5}
+a{color:var(--accent);text-decoration:none}
+
+/* ── HEADER ── */
+.hdr{background:var(--hdr);height:60px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;border-bottom:1px solid rgba(255,255,255,.05)}
+.hdr-l{display:flex;align-items:center;gap:12px}
+.hdr-icon{width:34px;height:34px;background:#2563eb;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.hdr-brand{font-size:15px;font-weight:700;color:#f0f6fc;letter-spacing:-.2px}
+.hdr-sub{font-size:10.5px;color:#6e7681;margin-top:1px;font-weight:500}
+.hdr-r{display:flex;align-items:center;gap:8px}
+.hdr-date{background:rgba(37,99,235,.2);border:1px solid rgba(37,99,235,.35);color:#79c0ff;padding:4px 11px;border-radius:6px;font-size:11px;font-weight:600;font-family:'JetBrains Mono',monospace}
+.hdr-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#c9d1d9;padding:5px 12px;border-radius:7px;cursor:pointer;font-size:12px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;transition:background .15s;white-space:nowrap}
+.hdr-btn:hover{background:rgba(255,255,255,.14)}
+
+/* ── MAIN ── */
+.main{max-width:1360px;margin:0 auto;padding:22px 28px}
+
+
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--sc,#2563eb);border-radius:3px 3px 0 0}
+.stat:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.stat.active{border-color:var(--sc,#2563eb);box-shadow:0 0 0 3px color-mix(in srgb,var(--sc) 15%,transparent)}
+.stat-num{font-size:28px;font-weight:800;color:var(--sc,#2563eb);line-height:1.1;font-family:'JetBrains Mono',monospace;letter-spacing:-1px}
+.stat-lbl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:4px}
+.stat-hint{font-size:11px;color:var(--muted2);margin-top:2px}
+
+/* ── TOOLBAR ── */
+.toolbar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;box-shadow:var(--shadow)}
+.search-row{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center}
+.search-wrap{position:relative;flex:1}
+.search-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted2);pointer-events:none;font-size:14px}
+.search-inp{width:100%;padding:8px 12px 8px 34px;border:1px solid var(--border2);border-radius:8px;background:var(--surface2);color:var(--text);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;transition:border-color .15s}
+.search-inp:focus{border-color:var(--accent)}
+.search-inp::placeholder{color:var(--muted2)}
+.view-btns{display:flex;border:1px solid var(--border2);border-radius:8px;overflow:hidden;flex-shrink:0}
+.vbtn{padding:7px 13px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:13px;transition:background .13s,color .13s;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;border-right:1px solid var(--border2);white-space:nowrap}
+.vbtn:last-child{border-right:none}
+.vbtn:hover{background:var(--surface2);color:var(--text)}
+.vbtn.on{background:var(--accent);color:#fff}
+.filter-row{padding:9px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.filter-row:last-child{border-bottom:none}
+.filter-lbl{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;width:60px;flex-shrink:0}
+.pills{display:flex;flex-wrap:wrap;gap:4px}
+.pill{padding:3px 10px;border-radius:20px;border:1px solid var(--border2);cursor:pointer;font-size:12px;font-weight:500;font-family:'Plus Jakarta Sans',sans-serif;background:transparent;color:var(--text2);transition:all .12s;white-space:nowrap}
+.pill:hover{border-color:var(--accent);color:var(--accent)}
+.pill.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ── RESULTS BAR ── */
+.res-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;min-height:20px}
+.res-count{font-size:12.5px;color:var(--muted);font-weight:500}
+.res-count strong{color:var(--text);font-weight:700}
+.res-tags{font-size:11.5px;color:var(--muted2)}
+
+/* ══════════════════════════════════
+   VIEW 1 — TABLE
+══════════════════════════════════ */
+.tbl-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.tbl-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead tr{background:var(--surface2);border-bottom:2px solid var(--border)}
+th{padding:10px 16px;text-align:left;font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--surface2)}
+td{padding:10px 16px;vertical-align:middle}
+.td-d{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600}
+.td-dy{font-size:10.5px;color:var(--muted2);margin-top:1px}
+.td-n{font-size:13px;font-weight:600}
+.td-p{font-size:12.5px;color:var(--muted)}
+
+/* ══════════════════════════════════
+   VIEW 2 — CARD GRID
+══════════════════════════════════ */
+.grid-view{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);transition:all .15s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--cc,#2563eb)}
+.card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.card-name{font-size:13.5px;font-weight:700;line-height:1.35;flex:1;padding-right:8px}
+.card-meta{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;align-items:center}
+.card-date{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:var(--text2);background:var(--surface2);border:1px solid var(--border);padding:2px 8px;border-radius:5px}
+.card-period{font-size:12px;color:var(--muted)}
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+
+/* ══════════════════════════════════
+   VIEW 3 — CALENDAR
+══════════════════════════════════ */
+.cal-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.cal-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--surface2)}
+.cal-month-lbl{font-size:15px;font-weight:700}
+.cal-nav{display:flex;gap:6px}
+.cal-nav-btn{background:none;border:1px solid var(--border2);color:var(--text);padding:5px 12px;border-radius:7px;cursor:pointer;font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;transition:background .12s}
+.cal-nav-btn:hover{background:var(--surface2)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr)}
+.cal-dow{text-align:center;padding:8px 4px;font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);border-right:1px solid var(--border)}
+.cal-dow:last-child{border-right:none}
+.cal-cell{min-height:90px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:6px;position:relative;transition:background .1s}
+.cal-cell:last-child,.cal-cell:nth-child(7n){border-right:none}
+.cal-cell:hover{background:var(--surface2)}
+.cal-cell.empty{background:var(--surface2);opacity:.4}
+.cal-cell.today{background:var(--accent-bg)}
+.cal-cell.today .cal-day-num{background:var(--accent);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.cal-day-num{font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center}
+.cal-event{font-size:10px;font-weight:600;padding:2px 5px;border-radius:4px;margin-bottom:2px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .12s;line-height:1.4}
+.cal-event:hover{opacity:.8}
+.cal-more{font-size:10px;color:var(--muted);font-weight:600;cursor:pointer;padding:1px 4px}
+.cal-more:hover{color:var(--accent)}
+
+/* ══════════════════════════════════
+   BADGES
+══════════════════════════════════ */
+.sbadge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace;white-space:nowrap;border:1px solid transparent}
+.sb-ov{background:#fef2f2;color:#b91c1c;border-color:#fecaca}
+.sb-cr{background:#fef2f2;color:#dc2626;border-color:#fca5a5;animation:blink 1.4s ease-in-out infinite}
+.sb-ur{background:#fffbeb;color:#b45309;border-color:#fde68a}
+.sb-up{background:#fefce8;color:#854d0e;border-color:#fef08a}
+.sb-ok{background:#f0fdf4;color:#15803d;border-color:#bbf7d0}
+.dk .sb-ov{background:#1f0808;color:#fca5a5;border-color:#7f1d1d}
+.dk .sb-cr{background:#1f0808;color:#fca5a5;border-color:#991b1b}
+.dk .sb-ur{background:#1c1208;color:#fcd34d;border-color:#78350f}
+.dk .sb-up{background:#1a1600;color:#fde047;border-color:#713f12}
+.dk .sb-ok{background:#071811;color:#86efac;border-color:#14532d}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.55}}
+
+.cbadge{display:inline-block;padding:2px 9px;border-radius:5px;font-size:11px;font-weight:600;white-space:nowrap}
+.cb-gst{background:#ecfdf5;color:#065f46}.dk .cb-gst{background:#052e16;color:#6ee7b7}
+.cb-tds{background:#eff6ff;color:#1e40af}.dk .cb-tds{background:#0c1a40;color:#93c5fd}
+.cb-pf {background:#f5f3ff;color:#4c1d95}.dk .cb-pf {background:#1e0a40;color:#c4b5fd}
+.cb-it {background:#fff1f2;color:#9f1239}.dk .cb-it {background:#2d0a12;color:#fda4af}
+.cb-co {background:#fefce8;color:#713f12}.dk .cb-co {background:#1c1208;color:#fcd34d}
+.cb-ot {background:#f8fafc;color:#475569;border:1px solid #e2e8f0}.dk .cb-ot{background:#1e293b;color:#94a3b8;border-color:#334155}
+
+/* Event cat colors for calendar */
+.ev-gst{background:#dcfce7;color:#166534}.dk .ev-gst{background:#052e16;color:#6ee7b7}
+.ev-tds{background:#dbeafe;color:#1e40af}.dk .ev-tds{background:#0c1a40;color:#93c5fd}
+.ev-pf {background:#ede9fe;color:#5b21b6}.dk .ev-pf {background:#1e0a40;color:#c4b5fd}
+.ev-it {background:#fee2e2;color:#991b1b}.dk .ev-it {background:#2d0a12;color:#fda4af}
+.ev-co {background:#fef3c7;color:#92400e}.dk .ev-co {background:#1c1208;color:#fcd34d}
+.ev-ot {background:#f1f5f9;color:#475569}.dk .ev-ot{background:#1e293b;color:#94a3b8}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:56px 20px;color:var(--muted)}
+.empty-icon{font-size:34px;margin-bottom:12px}
+.empty-txt{font-size:14px;font-weight:500}
+
+/* ── FOOTER ── */
+.footer{text-align:center;padding:28px;color:var(--muted2);font-size:12px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .main{padding:14px}
+  .hdr{padding:0 14px}
+  .cal-cell{min-height:60px}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-l">
+    <div class="hdr-icon">⚡</div>
+    <div>
+      <div class="hdr-brand">Compliance Calendar 2026</div>
+      <div class="hdr-sub">Taxation Updates · CA Mayur J. Sondagar</div>
+    </div>
+  </div>
+  <div class="hdr-r">
+    <span class="hdr-date" id="todayBadge"></span>
+    <button class="hdr-btn" onclick="toggleDark()">☾ Dark</button>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- STATS -->
+  <div class="stats" id="statsGrid"></div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="search-row">
+      <div class="search-wrap">
+        <span class="search-ico">🔍</span>
+        <input class="search-inp" id="searchInp" placeholder="Search compliance name, period, category..." oninput="applyFilters()" autocomplete="off"/>
+      </div>
+      <div class="view-btns">
+        <button class="vbtn on" id="vbtn-table"   onclick="setView('table')">☰ Table</button>
+        <button class="vbtn"    id="vbtn-grid"    onclick="setView('grid')">⊞ Cards</button>
+        <button class="vbtn"    id="vbtn-calendar" onclick="setView('calendar')">⊡ Calendar</button>
+      </div>
+    </div>
+    <div class="filter-row">
+      <span class="filter-lbl">Month</span>
+      <div class="pills" id="monthPills"></div>
+    </div>
+    <div class="filter-row">
+      <span class="filter-lbl">Category</span>
+      <div class="pills" id="catPills"></div>
+    </div>
+  </div>
+
+  <!-- RESULTS BAR -->
+  <div class="res-bar">
+    <div class="res-count" id="resCount"></div>
+    <div class="res-tags" id="resTags"></div>
+  </div>
+
+  <!-- VIEW CONTAINERS -->
+  <div id="viewTable"></div>
+  <div id="viewGrid" style="display:none"></div>
+  <div id="viewCalendar" style="display:none"></div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">Taxation Updates &nbsp;·&nbsp; <a href="https://taxationupdates.in" target="_blank">taxationupdates.in</a> &nbsp;·&nbsp; CA Mayur J. Sondagar</div>
+
+
+<script>
+// ══════════════════════════════════════════════
+//  DATA — 134 DEADLINES
+// ══════════════════════════════════════════════
+const TODAY = new Date('2026-03-15'); TODAY.setHours(0,0,0,0);
+const DATA = [
+  {id:1,d:'2026-01-07',n:'TDS/TCS Payment',p:'December 2025',c:'TDS/TCS'},
+  {id:2,d:'2026-02-07',n:'TDS/TCS Payment',p:'January 2026',c:'TDS/TCS'},
+  {id:3,d:'2026-03-07',n:'TDS/TCS Payment',p:'February 2026',c:'TDS/TCS'},
+  {id:4,d:'2026-04-07',n:'TCS Payment',p:'March 2026',c:'TDS/TCS'},
+  {id:5,d:'2026-05-07',n:'TDS/TCS Payment',p:'April 2026',c:'TDS/TCS'},
+  {id:6,d:'2026-06-07',n:'TDS/TCS Payment',p:'May 2026',c:'TDS/TCS'},
+  {id:7,d:'2026-07-07',n:'TDS/TCS Payment',p:'June 2026',c:'TDS/TCS'},
+  {id:8,d:'2026-08-07',n:'TDS/TCS Payment',p:'July 2026',c:'TDS/TCS'},
+  {id:9,d:'2026-09-07',n:'TDS/TCS Payment',p:'August 2026',c:'TDS/TCS'},
+  {id:10,d:'2026-10-07',n:'TDS/TCS Payment',p:'September 2026',c:'TDS/TCS'},
+  {id:11,d:'2026-11-07',n:'TDS/TCS Payment',p:'October 2026',c:'TDS/TCS'},
+  {id:12,d:'2026-12-07',n:'TDS/TCS Payment',p:'November 2026',c:'TDS/TCS'},
+  {id:13,d:'2026-01-10',n:'GSTR 7 / GSTR 8',p:'December 2025',c:'GST'},
+  {id:14,d:'2026-02-10',n:'GSTR 7 / GSTR 8',p:'January 2026',c:'GST'},
+  {id:15,d:'2026-03-10',n:'GSTR 7 / GSTR 8',p:'February 2026',c:'GST'},
+  {id:16,d:'2026-04-10',n:'GSTR 7 / GSTR 8',p:'March 2026',c:'GST'},
+  {id:17,d:'2026-05-10',n:'GSTR 7 / GSTR 8',p:'April 2026',c:'GST'},
+  {id:18,d:'2026-06-10',n:'GSTR 7 / GSTR 8',p:'May 2026',c:'GST'},
+  {id:19,d:'2026-07-10',n:'GSTR 7 / GSTR 8',p:'June 2026',c:'GST'},
+  {id:20,d:'2026-08-10',n:'GSTR 7 / GSTR 8',p:'July 2026',c:'GST'},
+  {id:21,d:'2026-09-10',n:'GSTR 7 / GSTR 8',p:'August 2026',c:'GST'},
+  {id:22,d:'2026-10-10',n:'GSTR 7 / GSTR 8',p:'September 2026',c:'GST'},
+  {id:23,d:'2026-11-10',n:'GSTR 7 / GSTR 8',p:'October 2026',c:'GST'},
+  {id:24,d:'2026-12-10',n:'GSTR 7 / GSTR 8',p:'November 2026',c:'GST'},
+  {id:25,d:'2026-01-11',n:'GSTR 1 (Monthly)',p:'December 2025',c:'GST'},
+  {id:26,d:'2026-02-11',n:'GSTR 1 (Monthly)',p:'January 2026',c:'GST'},
+  {id:27,d:'2026-03-11',n:'GSTR 1 (Monthly)',p:'February 2026',c:'GST'},
+  {id:28,d:'2026-04-11',n:'GSTR 1 (Monthly)',p:'March 2026',c:'GST'},
+  {id:29,d:'2026-05-11',n:'GSTR 1 (Monthly)',p:'April 2026',c:'GST'},
+  {id:30,d:'2026-06-11',n:'GSTR 1 (Monthly)',p:'May 2026',c:'GST'},
+  {id:31,d:'2026-07-11',n:'GSTR 1 (Monthly)',p:'June 2026',c:'GST'},
+  {id:32,d:'2026-08-11',n:'GSTR 1 (Monthly)',p:'July 2026',c:'GST'},
+  {id:33,d:'2026-09-11',n:'GSTR 1 (Monthly)',p:'August 2026',c:'GST'},
+  {id:34,d:'2026-10-11',n:'GSTR 1 (Monthly)',p:'September 2026',c:'GST'},
+  {id:35,d:'2026-11-11',n:'GSTR 1 (Monthly)',p:'October 2026',c:'GST'},
+  {id:36,d:'2026-12-11',n:'GSTR 1 (Monthly)',p:'November 2026',c:'GST'},
+  {id:37,d:'2026-01-13',n:'GSTR 1 Q3 (QRMP)',p:'Oct–Dec 2025',c:'GST'},
+  {id:38,d:'2026-01-13',n:'GSTR 5 / GSTR 6',p:'December 2025',c:'GST'},
+  {id:39,d:'2026-02-13',n:'IFF (QRMP)',p:'January 2026',c:'GST'},
+  {id:40,d:'2026-02-13',n:'GSTR 5 / GSTR 6',p:'January 2026',c:'GST'},
+  {id:41,d:'2026-03-13',n:'IFF (QRMP)',p:'February 2026',c:'GST'},
+  {id:42,d:'2026-03-13',n:'GSTR 5 / GSTR 6',p:'February 2026',c:'GST'},
+  {id:43,d:'2026-04-13',n:'GSTR 1 Q4 (QRMP)',p:'Jan–Mar 2026',c:'GST'},
+  {id:44,d:'2026-04-13',n:'GSTR 5 / GSTR 6',p:'March 2026',c:'GST'},
+  {id:45,d:'2026-05-13',n:'IFF (QRMP)',p:'April 2026',c:'GST'},
+  {id:46,d:'2026-05-13',n:'GSTR 5 / GSTR 6',p:'April 2026',c:'GST'},
+  {id:47,d:'2026-06-13',n:'IFF (QRMP)',p:'May 2026',c:'GST'},
+  {id:48,d:'2026-06-13',n:'GSTR 5 / GSTR 6',p:'May 2026',c:'GST'},
+  {id:49,d:'2026-07-13',n:'GSTR 1 Q1 (QRMP)',p:'Apr–Jun 2026',c:'GST'},
+  {id:50,d:'2026-07-13',n:'GSTR 5 / GSTR 6',p:'June 2026',c:'GST'},
+  {id:51,d:'2026-08-13',n:'IFF (QRMP)',p:'July 2026',c:'GST'},
+  {id:52,d:'2026-08-13',n:'GSTR 5 / GSTR 6',p:'July 2026',c:'GST'},
+  {id:53,d:'2026-09-13',n:'IFF (QRMP)',p:'August 2026',c:'GST'},
+  {id:54,d:'2026-09-13',n:'GSTR 5 / GSTR 6',p:'August 2026',c:'GST'},
+  {id:55,d:'2026-10-13',n:'GSTR 1 Q2 (QRMP)',p:'Jul–Sep 2026',c:'GST'},
+  {id:56,d:'2026-10-13',n:'GSTR 5 / GSTR 6',p:'September 2026',c:'GST'},
+  {id:57,d:'2026-11-13',n:'IFF (QRMP)',p:'October 2026',c:'GST'},
+  {id:58,d:'2026-11-13',n:'GSTR 5 / GSTR 6',p:'October 2026',c:'GST'},
+  {id:59,d:'2026-12-13',n:'IFF (QRMP)',p:'November 2026',c:'GST'},
+  {id:60,d:'2026-12-13',n:'GSTR 5 / GSTR 6',p:'November 2026',c:'GST'},
+  {id:61,d:'2026-01-15',n:'TCS Return Q3',p:'Oct–Dec 2025',c:'TDS/TCS'},
+  {id:62,d:'2026-02-15',n:'TDS Certificate Q3',p:'Oct–Dec 2025',c:'TDS/TCS'},
+  {id:63,d:'2026-01-15',n:'PF / ESIC Payment',p:'December 2025',c:'PF/ESIC'},
+  {id:64,d:'2026-02-15',n:'PF / ESIC Payment',p:'January 2026',c:'PF/ESIC'},
+  {id:65,d:'2026-03-15',n:'Advance Tax 4th Instalment',p:'AY 2026-27',c:'Income Tax'},
+  {id:66,d:'2026-03-15',n:'PF / ESIC Payment',p:'February 2026',c:'PF/ESIC'},
+  {id:67,d:'2026-04-15',n:'PF / ESIC Payment',p:'March 2026',c:'PF/ESIC'},
+  {id:68,d:'2026-05-15',n:'TCS Return Q4',p:'Jan–Mar 2026',c:'TDS/TCS'},
+  {id:69,d:'2026-05-15',n:'PF / ESIC Payment',p:'April 2026',c:'PF/ESIC'},
+  {id:70,d:'2026-06-15',n:'TDS Certificate Q4',p:'Jan–Mar 2026',c:'TDS/TCS'},
+  {id:71,d:'2026-06-15',n:'Advance Tax 1st Instalment',p:'AY 2027-28',c:'Income Tax'},
+  {id:72,d:'2026-06-15',n:'PF / ESIC Payment',p:'May 2026',c:'PF/ESIC'},
+  {id:73,d:'2026-07-15',n:'TCS Return Q1',p:'Apr–Jun 2026',c:'TDS/TCS'},
+  {id:74,d:'2026-07-15',n:'PF / ESIC Payment',p:'June 2026',c:'PF/ESIC'},
+  {id:75,d:'2026-08-15',n:'TDS Certificate Q1',p:'Apr–Jun 2026',c:'TDS/TCS'},
+  {id:76,d:'2026-08-15',n:'PF / ESIC Payment',p:'July 2026',c:'PF/ESIC'},
+  {id:77,d:'2026-09-15',n:'Advance Tax 2nd Instalment',p:'AY 2027-28',c:'Income Tax'},
+  {id:78,d:'2026-09-15',n:'PF / ESIC Payment',p:'August 2026',c:'PF/ESIC'},
+  {id:79,d:'2026-10-15',n:'TCS Return Q2',p:'Jul–Sep 2026',c:'TDS/TCS'},
+  {id:80,d:'2026-10-15',n:'PF / ESIC Payment',p:'September 2026',c:'PF/ESIC'},
+  {id:81,d:'2026-11-15',n:'TDS Certificate Q2',p:'Jul–Sep 2026',c:'TDS/TCS'},
+  {id:82,d:'2026-11-15',n:'PF / ESIC Payment',p:'October 2026',c:'PF/ESIC'},
+  {id:83,d:'2026-12-15',n:'Advance Tax 3rd Instalment',p:'AY 2027-28',c:'Income Tax'},
+  {id:84,d:'2026-12-15',n:'PF / ESIC Payment',p:'November 2026',c:'PF/ESIC'},
+  {id:85,d:'2026-01-18',n:'GST CMP-08',p:'Q3 2025-26',c:'GST'},
+  {id:86,d:'2026-04-18',n:'GST CMP-08',p:'Q4 2025-26',c:'GST'},
+  {id:87,d:'2026-07-18',n:'GST CMP-08',p:'Q1 2026-27',c:'GST'},
+  {id:88,d:'2026-10-18',n:'GST CMP-08',p:'Q2 2026-27',c:'GST'},
+  {id:89,d:'2026-01-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'December 2025',c:'GST'},
+  {id:90,d:'2026-02-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'January 2026',c:'GST'},
+  {id:91,d:'2026-03-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'February 2026',c:'GST'},
+  {id:92,d:'2026-04-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'March 2026',c:'GST'},
+  {id:93,d:'2026-05-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'April 2026',c:'GST'},
+  {id:94,d:'2026-06-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'May 2026',c:'GST'},
+  {id:95,d:'2026-07-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'June 2026',c:'GST'},
+  {id:96,d:'2026-08-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'July 2026',c:'GST'},
+  {id:97,d:'2026-09-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'August 2026',c:'GST'},
+  {id:98,d:'2026-10-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'September 2026',c:'GST'},
+  {id:99,d:'2026-11-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'October 2026',c:'GST'},
+  {id:100,d:'2026-12-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'November 2026',c:'GST'},
+  {id:101,d:'2026-01-22',n:'GSTR 3B Q3 (QRMP Grp A)',p:'Q3 2025-26',c:'GST'},
+  {id:102,d:'2026-04-22',n:'GSTR 3B Q4 (QRMP Grp A)',p:'Q4 2025-26',c:'GST'},
+  {id:103,d:'2026-07-22',n:'GSTR 3B Q1 (QRMP Grp A)',p:'Q1 2026-27',c:'GST'},
+  {id:104,d:'2026-10-22',n:'GSTR 3B Q2 (QRMP Grp A)',p:'Q2 2026-27',c:'GST'},
+  {id:105,d:'2026-01-24',n:'GSTR 3B Q3 (QRMP Grp B)',p:'Q3 2025-26',c:'GST'},
+  {id:106,d:'2026-04-24',n:'GSTR 3B Q4 (QRMP Grp B)',p:'Q4 2025-26',c:'GST'},
+  {id:107,d:'2026-07-24',n:'GSTR 3B Q1 (QRMP Grp B)',p:'Q1 2026-27',c:'GST'},
+  {id:108,d:'2026-10-24',n:'GSTR 3B Q2 (QRMP Grp B)',p:'Q2 2026-27',c:'GST'},
+  {id:109,d:'2026-01-25',n:'GST PMT-06 (QRMP)',p:'January 2026',c:'GST'},
+  {id:110,d:'2026-02-25',n:'GST PMT-06 (QRMP)',p:'February 2026',c:'GST'},
+  {id:111,d:'2026-04-25',n:'GST PMT-06 (QRMP)',p:'April 2026',c:'GST'},
+  {id:112,d:'2026-05-25',n:'GST PMT-06 (QRMP)',p:'May 2026',c:'GST'},
+  {id:113,d:'2026-07-25',n:'GST PMT-06 (QRMP)',p:'July 2026',c:'GST'},
+  {id:114,d:'2026-08-25',n:'GST PMT-06 (QRMP)',p:'August 2026',c:'GST'},
+  {id:115,d:'2026-10-25',n:'GST PMT-06 (QRMP)',p:'October 2026',c:'GST'},
+  {id:116,d:'2026-11-25',n:'GST PMT-06 (QRMP)',p:'November 2026',c:'GST'},
+  {id:117,d:'2026-01-30',n:'TCS Certificate Q3',p:'Oct–Dec 2025',c:'TDS/TCS'},
+  {id:118,d:'2026-04-30',n:'TDS Payment (March)',p:'March 2026',c:'TDS/TCS'},
+  {id:119,d:'2026-05-30',n:'TCS Certificate Q4',p:'Jan–Mar 2026',c:'TDS/TCS'},
+  {id:120,d:'2026-06-30',n:'Equalisation Levy Statement',p:'FY 2025-26',c:'Other'},
+  {id:121,d:'2026-06-30',n:'GSTR 4',p:'FY 2025-26',c:'GST'},
+  {id:122,d:'2026-06-30',n:'DIR-3 KYC',p:'FY 2025-26',c:'Company Law'},
+  {id:123,d:'2026-07-30',n:'TCS Certificate Q1',p:'Apr–Jun 2026',c:'TDS/TCS'},
+  {id:124,d:'2026-09-30',n:'Tax Audit Report',p:'AY 2026-27',c:'Income Tax'},
+  {id:125,d:'2026-10-30',n:'TCS Certificate Q2',p:'Jul–Sep 2026',c:'TDS/TCS'},
+  {id:126,d:'2026-01-31',n:'TDS Return Q3',p:'Oct–Dec 2025',c:'TDS/TCS'},
+  {id:127,d:'2026-05-31',n:'TDS Return Q4',p:'Jan–Mar 2026',c:'TDS/TCS'},
+  {id:128,d:'2026-07-31',n:'TDS Return Q1',p:'Apr–Jun 2026',c:'TDS/TCS'},
+  {id:129,d:'2026-07-31',n:'ITR Filing (Non-Audit)',p:'AY 2026-27',c:'Income Tax'},
+  {id:130,d:'2026-10-31',n:'TDS Return Q2',p:'Jul–Sep 2026',c:'TDS/TCS'},
+  {id:131,d:'2026-10-31',n:'ITR Filing (Audit Cases)',p:'AY 2026-27',c:'Income Tax'},
+  {id:132,d:'2026-10-31',n:'Transfer Pricing Audit',p:'AY 2026-27',c:'Income Tax'},
+  {id:133,d:'2026-12-31',n:'Belated / Revised ITR',p:'AY 2026-27',c:'Income Tax'},
+  {id:134,d:'2026-12-31',n:'GSTR 9 / GSTR 9C',p:'FY 2025-26',c:'GST'},
+  {id:135,d:'2026-12-30',n:'ITR – Transfer Pricing Cases',p:'AY 2026-27',c:'Income Tax'},
+];
+
+// ══════════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════════
+const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MO_FULL=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function daysLeft(ds){const d=new Date(ds);d.setHours(0,0,0,0);return Math.ceil((d-TODAY)/86400000)}
+function getStatus(n){return n<0?'ov':n<=3?'cr':n<=7?'ur':n<=30?'up':'ok'}
+function statusLabel(s,n){
+  if(s==='ov')return`${Math.abs(n)}d overdue`;
+  if(s==='cr'||s==='ur')return`${n}d left`;
+  if(s==='up')return`${n}d left`;
+  return`${n}d`;
+}
+const SB={ov:'sb-ov',cr:'sb-cr',ur:'sb-ur',up:'sb-up',ok:'sb-ok'};
+const CB={'GST':'cb-gst','TDS/TCS':'cb-tds','PF/ESIC':'cb-pf','Income Tax':'cb-it','Company Law':'cb-co','Other':'cb-ot'};
+const EV={'GST':'ev-gst','TDS/TCS':'ev-tds','PF/ESIC':'ev-pf','Income Tax':'ev-it','Company Law':'ev-co','Other':'ev-ot'};
+const CC={'GST':'#16a34a','TDS/TCS':'#2563eb','PF/ESIC':'#7c3aed','Income Tax':'#dc2626','Company Law':'#d97706','Other':'#475569'};
+function fmtDate(ds){const d=new Date(ds);return{s:`${String(d.getDate()).padStart(2,'0')} ${MO[d.getMonth()]}`,y:d.getFullYear()}}
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let state={month:0,cat:'All',search:'',statusF:'all',view:'table'};
+let isDark=false;
+let calYear=2026,calMonth=0;
+let filteredRows=[];
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+function init(){
+  document.getElementById('todayBadge').textContent=
+    TODAY.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+  renderStats();
+  // Month pills
+  const mp=document.getElementById('monthPills');
+  [['All',0],...MO.map((m,i)=>[m,i+1])].forEach(([l,v])=>{
+    const b=document.createElement('button');
+    b.className='pill'+(v===0?' on':''); b.textContent=l;
+    b.onclick=()=>{state.month=v;state.statusF='all';refreshPills('monthPills',b);clearStatActive();applyFilters()};
+    mp.appendChild(b);
+  });
+  // Cat pills
+  const cp=document.getElementById('catPills');
+  ['All','GST','TDS/TCS','PF/ESIC','Income Tax','Company Law','Other'].forEach(cat=>{
+    const b=document.createElement('button');
+    b.className='pill'+(cat==='All'?' on':''); b.textContent=cat;
+    b.onclick=()=>{state.cat=cat;state.statusF='all';refreshPills('catPills',b);clearStatActive();applyFilters()};
+    cp.appendChild(b);
+  });
+  applyFilters();
+}
+
+function refreshPills(id,activeBtn){
+  document.querySelectorAll('#'+id+' .pill').forEach(x=>x.classList.remove('on'));
+  activeBtn.classList.add('on');
+}
+function clearStatActive(){document.querySelectorAll('.stat').forEach(x=>x.classList.remove('active'))}
+
+// ══════════════════════════════════════════════
+//  DARK MODE
+// ══════════════════════════════════════════════
+function toggleDark(){
+  isDark=!isDark;
+  document.body.classList.toggle('dk',isDark);
+  document.querySelector('.hdr-btn').textContent=isDark?'☀ Light':'☾ Dark';
+}
+
+// ══════════════════════════════════════════════
+//  STATS
+// ══════════════════════════════════════════════
+function renderStats(){
+  const rows=DATA.map(x=>{const d=daysLeft(x.d);return{...x,_dl:d,_st:getStatus(d)}});
+  const ov=rows.filter(x=>x._st==='ov').length;
+  const cr=rows.filter(x=>x._st==='cr').length;
+  const ur=rows.filter(x=>x._st==='ur').length;
+  const up=rows.filter(x=>x._st==='up').length;
+  const cards=[
+    {k:'all',num:rows.length,lbl:'Total Deadlines',hint:'Jan–Dec 2026',col:'#2563eb'},
+    {k:'overdue',num:ov,lbl:'Overdue',hint:'Past due date',col:'#dc2626'},
+    {k:'urgent',num:cr+ur,lbl:'Due in 7 Days',hint:'Needs immediate action',col:'#d97706'},
+    {k:'upcoming',num:up,lbl:'Upcoming (30d)',hint:'Due within 30 days',col:'#16a34a'},
+  ];
+  document.getElementById('statsGrid').innerHTML=cards.map(card=>`
+    <div class="stat" style="--sc:${card.col}" onclick="filterByStatus('${card.k}',this)">
+      <div class="stat-num">${card.num}</div>
+      <div class="stat-lbl">${card.lbl}</div>
+      <div class="stat-hint">${card.hint}</div>
+    </div>`).join('');
+}
+
+function filterByStatus(k,el){
+  state.statusF=(state.statusF===k)?'all':k;
+  state.month=0;state.cat='All';state.search='';
+  document.getElementById('searchInp').value='';
+  document.querySelectorAll('#monthPills .pill').forEach((x,i)=>x.classList.toggle('on',i===0));
+  document.querySelectorAll('#catPills .pill').forEach((x,i)=>x.classList.toggle('on',i===0));
+  clearStatActive();
+  if(state.statusF!=='all') el.classList.add('active');
+  applyFilters();
+}
+
+// ══════════════════════════════════════════════
+//  VIEW SWITCHER
+// ══════════════════════════════════════════════
+function setView(v){
+  state.view=v;
+  ['table','grid','calendar'].forEach(x=>{
+    document.getElementById('view'+x.charAt(0).toUpperCase()+x.slice(1)).style.display=x===v?'block':'none';
+    document.getElementById('vbtn-'+x).classList.toggle('on',x===v);
+  });
+  renderCurrentView();
+}
+
+// ══════════════════════════════════════════════
+//  FILTER
+// ══════════════════════════════════════════════
+function applyFilters(){
+  state.search=document.getElementById('searchInp').value.toLowerCase().trim();
+  filteredRows=DATA
+    .map(x=>{const d=daysLeft(x.d);return{...x,_dl:d,_st:getStatus(d)}})
+    .filter(x=>{
+      if(state.month!==0 && (new Date(x.d).getMonth()+1)!==state.month) return false;
+      if(state.cat!=='All' && x.c!==state.cat) return false;
+      if(state.search && !x.n.toLowerCase().includes(state.search)&&!x.p.toLowerCase().includes(state.search)&&!x.c.toLowerCase().includes(state.search)) return false;
+      if(state.statusF==='overdue' && x._st!=='ov') return false;
+      if(state.statusF==='urgent' && x._st!=='cr'&&x._st!=='ur') return false;
+      if(state.statusF==='upcoming' && x._st!=='up') return false;
+      return true;
+    })
+    .sort((a,b)=>new Date(a.d)-new Date(b.d));
+  // Results bar
+  document.getElementById('resCount').innerHTML=`Showing <strong>${filteredRows.length}</strong> of <strong>${DATA.length}</strong> deadlines`;
+  const tags=[];
+  if(state.statusF!=='all') tags.push(state.statusF);
+  if(state.month!==0) tags.push(MO[state.month-1]);
+  if(state.cat!=='All') tags.push(state.cat);
+  if(state.search) tags.push(`"${state.search}"`);
+  document.getElementById('resTags').textContent=tags.length?'↳ '+tags.join(' · '):'';
+  renderCurrentView();
+}
+
+function renderCurrentView(){
+  if(state.view==='table') renderTable();
+  else if(state.view==='grid') renderGrid();
+  else renderCalendar();
+}
+
+// ══════════════════════════════════════════════
+//  VIEW 1 — TABLE
+// ══════════════════════════════════════════════
+function renderTable(){
+  const el=document.getElementById('viewTable');
+  if(!filteredRows.length){el.innerHTML=emptyHTML();return}
+  el.innerHTML=`<div class="tbl-wrap"><div class="tbl-scroll"><table>
+    <thead><tr>
+      <th>Due Date</th><th>Status</th><th>Compliance</th><th>Period</th><th>Category</th>
+    </tr></thead>
+    <tbody>${filteredRows.map(r=>{
+      const{s,y}=fmtDate(r.d);
+      return`<tr>
+        <td><div class="td-d">${s}</div><div class="td-dy">${y}</div></td>
+        <td><span class="sbadge ${SB[r._st]}">${statusLabel(r._st,r._dl)}</span></td>
+        <td><div class="td-n">${r.n}</div></td>
+        <td><div class="td-p">${r.p}</div></td>
+        <td><span class="cbadge ${CB[r.c]}">${r.c}</span></td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table></div></div>`;
+}
+
+// ══════════════════════════════════════════════
+//  VIEW 2 — CARD GRID
+// ══════════════════════════════════════════════
+function renderGrid(){
+  const el=document.getElementById('viewGrid');
+  if(!filteredRows.length){el.innerHTML=emptyHTML();return}
+  el.innerHTML=`<div class="grid-view">${filteredRows.map(r=>{
+    const{s,y}=fmtDate(r.d);
+    const col=CC[r.c]||'#475569';
+    return`<div class="card" style="--cc:${col}">
+      <div class="card-top">
+        <div class="card-name">${r.n}</div>
+        <span class="sbadge ${SB[r._st]}" style="flex-shrink:0">${statusLabel(r._st,r._dl)}</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-date">${s} ${y}</span>
+        <span class="card-period">${r.p}</span>
+      </div>
+      <div class="card-footer">
+        <span class="cbadge ${CB[r.c]}">${r.c}</span>
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+// ══════════════════════════════════════════════
+//  VIEW 3 — CALENDAR
+// ══════════════════════════════════════════════
+function renderCalendar(){
+  const el=document.getElementById('viewCalendar');
+  // Build a map: date-string → [items]
+  const map={};
+  filteredRows.forEach(r=>{
+    if(!map[r.d]) map[r.d]=[];
+    map[r.d].push(r);
+  });
+  // Calendar for calYear/calMonth
+  const year=calYear, month=calMonth;
+  const firstDay=new Date(year,month,1).getDay(); // 0=Sun
+  const daysInMonth=new Date(year,month+1,0).getDate();
+  const todayStr=`${year}-${String(month+1).padStart(2,'0')}-${String(TODAY.getDate()).padStart(2,'0')}`;
+
+  let cells='';
+  // DOW headers
+  const dows=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const dowHTML=dows.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+  // Empty cells before first day
+  for(let i=0;i<firstDay;i++) cells+=`<div class="cal-cell empty"></div>`;
+  // Day cells
+  for(let day=1;day<=daysInMonth;day++){
+    const ds=`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const items=map[ds]||[];
+    const isToday=ds===`2026-03-15`;
+    const show=items.slice(0,3);
+    const more=items.length-show.length;
+    cells+=`<div class="cal-cell${isToday?' today':''}">
+      <div class="cal-day-num">${day}</div>
+      ${show.map(r=>`<div class="cal-event ${EV[r.c]||'ev-ot'}" title="${r.n} · ${r.p}">${r.n}</div>`).join('')}
+      ${more>0?`<div class="cal-more" onclick="">+${more} more</div>`:''}
+    </div>`;
+  }
+  // Fill trailing cells
+  const total=firstDay+daysInMonth;
+  const trailing=(7-total%7)%7;
+  for(let i=0;i<trailing;i++) cells+=`<div class="cal-cell empty"></div>`;
+
+  el.innerHTML=`<div class="cal-wrap">
+    <div class="cal-hdr">
+      <div class="cal-month-lbl">${MO_FULL[month]} ${year}</div>
+      <div class="cal-nav">
+        <button class="cal-nav-btn" onclick="calNav(-1)">← Prev</button>
+        <button class="cal-nav-btn" onclick="calNav(1)">Next →</button>
+      </div>
+    </div>
+    <div class="cal-grid">
+      ${dowHTML}
+      ${cells}
+    </div>
+  </div>`;
+}
+
+function calNav(dir){
+  calMonth+=dir;
+  if(calMonth<0){calMonth=11;calYear--;}
+  if(calMonth>11){calMonth=0;calYear++;}
+  renderCalendar();
+}
+
+function emptyHTML(){
+  return`<div class="tbl-wrap"><div class="empty"><div class="empty-icon">📋</div><div class="empty-txt">No deadlines match your current filters</div></div></div>`;
+}
+
+
+init();
+calMonth=2; // Start on March
+</script>
+</body>
+</html>
