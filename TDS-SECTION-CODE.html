@@ -493,6 +493,42 @@ body.card-mode .main{display:none!important;}
 .cards-empty{text-align:center;padding:50px 20px;color:var(--t3);}
 .cards-empty-ico{font-size:38px;margin-bottom:10px;}
 .cards-empty h3{font-size:14px;color:var(--t2);margin-bottom:5px;}
+
+/* ══════════════════════════════════════════════
+   GRID VIEW
+══════════════════════════════════════════════ */
+.view-toggle{display:flex;align-items:center;gap:4px;margin-left:auto;padding:0 0 0 10px;border-left:1px solid var(--bd);}
+.view-lbl{font-size:9.5px;color:var(--t3);white-space:nowrap;margin-right:2px;}
+.vbtn{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;
+  border:1px solid var(--bd2);font-size:10px;cursor:pointer;color:var(--t2);
+  background:transparent;font-family:'DM Sans',sans-serif;font-weight:500;transition:all var(--tr);white-space:nowrap;}
+.vbtn:hover{border-color:var(--blue);color:var(--blue);}
+.vbtn.vbtn-on{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600;}
+body.grid-mode .cards-wrap{display:block;}
+body.grid-mode .main{display:none!important;}
+body.grid-mode .cards-wrap{
+  padding:14px 24px 140px;
+  display:grid!important;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:12px;
+  align-items:start;
+}
+body.grid-mode .tds-card{margin-bottom:0;}
+body.grid-mode .card-hint{display:none;}
+body.grid-mode .tds-card{cursor:pointer;}
+body.grid-mode .tds-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(15,23,42,.1);}
+[data-theme="dark"] body.grid-mode .tds-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.4);}
+.grid-group-header{grid-column:1/-1;display:flex;align-items:center;gap:8px;
+  padding:6px 10px;background:var(--grpbg);border:1px solid var(--grpbd);
+  border-radius:6px;font-family:'Syne',sans-serif;font-size:9.5px;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--grpt);}
+.grid-group-header .grsc{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;
+  color:var(--blue);background:rgba(29,78,216,.08);border:1px solid rgba(29,78,216,.18);
+  border-radius:3px;padding:1px 5px;}
+[data-theme="dark"] .grid-group-header .grsc{color:#93c5fd;background:rgba(96,165,250,.1);border-color:rgba(96,165,250,.2);}
+.grid-group-header .grcnt{background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.18);
+  border-radius:8px;padding:1px 5px;font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--grpt);}
+@media print{body.grid-mode .main{display:block!important;}}
 @media(max-width:768px){
   .mv-bar{display:flex!important;}
   .main{padding:0!important;}
@@ -619,6 +655,12 @@ body.card-mode .main{display:none!important;}
   <div class="gtoggle">
     <span class="glbl">Group by Section</span>
     <label class="toggle"><input type="checkbox" id="grpTog" checked><span class="tsl"></span></label>
+  </div>
+
+  <div class="view-toggle">
+    <span class="view-lbl">View:</span>
+    <button class="vbtn vbtn-on" id="vbtnTable" onclick="setDesktopView('table')" title="Table view">☰ Table</button>
+    <button class="vbtn" id="vbtnGrid" onclick="setDesktopView('grid')" title="Grid view">⊞ Grid</button>
   </div>
 </div>
 
@@ -1640,6 +1682,7 @@ render=function(){
   }
   syncFavUI();
   renderCards();
+  if(desktopView==='grid')renderGridCards();
   updateDash();
 };
 
@@ -1738,47 +1781,94 @@ function drawRateBars(data){
    ENHANCEMENT: MOBILE CARD VIEW
 ═══════════════════════════════════════════════════ */
 let curView=window.innerWidth<=768?'cards':'table';
+let desktopView='table';
+
+function setDesktopView(v){
+  desktopView=v;
+  document.getElementById('vbtnTable').classList.toggle('vbtn-on',v==='table');
+  document.getElementById('vbtnGrid').classList.toggle('vbtn-on',v==='grid');
+  if(v==='grid'){
+    document.body.classList.add('grid-mode');
+    document.body.classList.remove('card-mode');
+    renderGridCards();
+  } else {
+    document.body.classList.remove('grid-mode');
+    document.getElementById('cardsWrap').innerHTML='';
+  }
+}
 
 function setView(v){
   curView=v;
   document.getElementById('mvTable').classList.toggle('mv-on',v==='table');
   document.getElementById('mvCards').classList.toggle('mv-on',v==='cards');
-  if(v==='cards'){document.body.classList.add('card-mode');renderCards();}
+  if(v==='cards'){document.body.classList.add('card-mode');document.body.classList.remove('grid-mode');renderCards();}
   else{document.body.classList.remove('card-mode');}
+}
+
+function mkCardHtml(r,idx){
+  const f=getFavs();
+  const fo=f.indexOf(String(r[0]))>-1;
+  const tb=r[10]==='TDS'?'<span class="tbadge tb-tds">TDS</span>':'<span class="tbadge tb-tcs">TCS</span>';
+  return '<div class="tds-card'+(fo?' fav-card':'')+'" data-rcode="'+esc4a(r[0])+'" data-idx="'+idx+'" onclick="cardOpen('+idx+')">'
+    +'<div class="swipe-glow"></div>'
+    +'<div class="card-hd">'
+      +'<span class="card-code">'+esc(r[0])+'</span>'+tb
+      +'<button class="card-star'+(fo?' fav-on':'')+'" data-code="'+esc4a(r[0])+'" onclick="event.stopPropagation();toggleFav(this.dataset.code)" title="'+(fo?'Remove':'Add')+'">'+(fo?'★':'☆')+'</button>'
+    +'</div>'
+    +'<div class="card-bd">'
+      +'<div class="card-nature">'+esc(r[1])+'</div>'
+      +'<div class="card-meta">'
+        +'<div class="card-field"><span class="card-fl">Base Rate</span><span class="card-fv is-rate">'+esc(r[5]||'—')+'</span></div>'
+        +'<div class="card-field"><span class="card-fl">Threshold</span><span class="card-fv is-thr">'+esc(r[6]||'—')+'</span></div>'
+        +'<div class="card-field"><span class="card-fl">Old Section</span><span class="card-fv is-sec">'+esc(r[9]||'—')+'</span></div>'
+        +'<div class="card-field"><span class="card-fl">Form</span><span class="card-fv" style="font-family:monospace;font-weight:700;color:#059669">'+esc(r[4]||'—')+'</span></div>'
+        +(r[2]?'<div class="card-field card-full"><span class="card-fl">Deductor</span><span class="card-fv" style="color:var(--t2);font-size:11px">'+esc(r[2])+'</span></div>':'')
+      +'</div>'
+      +(r[8]?'<div class="card-fb">📋 FB 2026: '+esc(r[8])+'</div>':'')
+    +'</div>'
+    +'<div class="card-hint">👆 Tap for details &nbsp;·&nbsp; ⟶ Swipe right for modal</div>'
+    +'</div>';
+}
+
+function renderGridCards(){
+  const wrap=document.getElementById('cardsWrap');if(!wrap)return;
+  const data=favFilterOn?disp.filter(r=>isFav(r[0])):disp;
+  if(!data.length){
+    wrap.innerHTML='<div class="cards-empty" style="grid-column:1/-1"><div class="cards-empty-ico">🔍</div><h3>No records found</h3><p>'+(favFilterOn?'No bookmarked sections yet.':'Try adjusting your search or filters.')+'</p></div>';
+    return;
+  }
+  const grpOn=document.getElementById('grpTog')&&document.getElementById('grpTog').checked;
+  let html='';
+  if(grpOn){
+    const groups={};const gOrder=[];
+    data.forEach((r,i)=>{
+      const gk=r[3]||'Other';
+      if(!groups[gk]){groups[gk]=[];gOrder.push(gk);}
+      groups[gk].push({r,origIdx:disp.indexOf(r)});
+    });
+    gOrder.forEach(gk=>{
+      const items=groups[gk];
+      const cnt=items.length;
+      html+='<div class="grid-group-header"><span class="grsc">'+esc(gk)+'</span><span class="grcnt">'+cnt+' code'+(cnt>1?'s':'')+'</span></div>';
+      items.forEach(({r,origIdx})=>{ html+=mkCardHtml(r,origIdx); });
+    });
+  } else {
+    data.forEach((r,i)=>{ html+=mkCardHtml(r,i); });
+  }
+  wrap.innerHTML=html;
+  syncFavUI();
 }
 
 function renderCards(){
   const wrap=document.getElementById('cardsWrap');if(!wrap)return;
-  if(window.innerWidth>768){wrap.innerHTML='';return;}
+  if(window.innerWidth>768 && desktopView!=='grid'){wrap.innerHTML='';return;}
+  if(desktopView==='grid'){renderGridCards();return;}
   const data=favFilterOn?disp.filter(r=>isFav(r[0])):disp;
-  const f=getFavs();
   if(!data.length){
     wrap.innerHTML='<div class="cards-empty"><div class="cards-empty-ico">🔍</div><h3>No records found</h3><p>'+(favFilterOn?'No bookmarked sections yet.':'Try adjusting your search or filters.')+'</p></div>';
     return;
   }
-  wrap.innerHTML=data.map((r,idx)=>{
-    const fo=f.indexOf(String(r[0]))>-1;
-    const tb=r[10]==='TDS'?'<span class="tbadge tb-tds">TDS</span>':'<span class="tbadge tb-tcs">TCS</span>';
-    return '<div class="tds-card'+(fo?' fav-card':'')+'" data-rcode="'+esc4a(r[0])+'" data-idx="'+idx+'" onclick="cardOpen('+idx+')">'
-      +'<div class="swipe-glow"></div>'
-      +'<div class="card-hd">'
-        +'<span class="card-code">'+esc(r[0])+'</span>'+tb
-        +'<button class="card-star'+(fo?' fav-on':'')+'" data-code="'+esc4a(r[0])+'" onclick="event.stopPropagation();toggleFav(this.dataset.code)" title="'+(fo?'Remove':'Add')+'">'+(fo?'★':'☆')+'</button>'
-      +'</div>'
-      +'<div class="card-bd">'
-        +'<div class="card-nature">'+esc(r[1])+'</div>'
-        +'<div class="card-meta">'
-          +'<div class="card-field"><span class="card-fl">Base Rate</span><span class="card-fv is-rate">'+esc(r[5]||'—')+'</span></div>'
-          +'<div class="card-field"><span class="card-fl">Threshold</span><span class="card-fv is-thr">'+esc(r[6]||'—')+'</span></div>'
-          +'<div class="card-field"><span class="card-fl">Old Section</span><span class="card-fv is-sec">'+esc(r[9]||'—')+'</span></div>'
-          +'<div class="card-field"><span class="card-fl">Form</span><span class="card-fv" style="font-family:monospace;font-weight:700;color:#059669">'+esc(r[4]||'—')+'</span></div>'
-          +(r[2]?'<div class="card-field card-full"><span class="card-fl">Deductor</span><span class="card-fv" style="color:var(--t2);font-size:11px">'+esc(r[2])+'</span></div>':'')
-        +'</div>'
-        +(r[8]?'<div class="card-fb">📋 FB 2026: '+esc(r[8])+'</div>':'')
-      +'</div>'
-      +'<div class="card-hint">👆 Tap for details &nbsp;·&nbsp; ⟶ Swipe right for modal</div>'
-      +'</div>';
-  }).join('');
+  wrap.innerHTML=data.map((r,idx)=>mkCardHtml(r,idx)).join('');
   initSwipe();
 }
 
@@ -1822,7 +1912,7 @@ window.addEventListener('resize',function(){
     const mob=window.innerWidth<=768;
     const mb=document.getElementById('mvBar');
     if(mb)mb.style.display=mob?'flex':'none';
-    if(!mob){document.body.classList.remove('card-mode');document.getElementById('cardsWrap').innerHTML='';}
+    if(!mob){document.body.classList.remove('card-mode');if(desktopView!=='grid')document.getElementById('cardsWrap').innerHTML='';else renderGridCards();}
     else if(curView==='cards'){document.body.classList.add('card-mode');renderCards();}
     updateDash();
   },150);
