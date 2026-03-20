@@ -1,24 +1,463 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Taxation Updates</title>
-</head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CA Mayur Sondagar – Taxation Updates</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --olive:       #8c9a1a;
+      --olive-dark:  #6b760f;
+      --olive-deep:  #3d4408;
+      --olive-light: #b5c422;
+      --olive-pale:  #e8edbb;
+      --olive-bg:    #f0f3d8;
+      --cream:       #fafbf0;
+      --white:       #ffffff;
+      --text:        #252a08;
+      --text-mid:    #4e570f;
+      --text-soft:   #7a8520;
+      --glass:       rgba(140,154,26,0.07);
+      --glass-border:rgba(140,154,26,0.22);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
 
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 6%;
+      background: rgba(250,251,240,0.93);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: .7rem; }
+    .logo-box {
+      background: var(--olive); color: var(--white);
+      font-family: 'Playfair Display', serif; font-weight: 900;
+      font-size: .82rem; line-height: 1.2;
+      padding: .4rem .7rem; border-radius: 8px;
+    }
+    .logo-box sup { font-size: .48rem; vertical-align: super; }
+    .logo-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--olive-deep); }
+    .logo-name span { color: var(--olive); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul a { color: var(--text-mid); text-decoration: none; font-size: .88rem; font-weight: 500; transition: color .2s; }
+    nav ul a:hover { color: var(--olive); }
+    .nav-cta {
+      background: var(--olive); color: var(--white);
+      padding: .55rem 1.4rem; border-radius: 50px;
+      font-weight: 600; font-size: .85rem;
+      text-decoration: none; transition: background .2s, transform .2s;
+    }
+    .nav-cta:hover { background: var(--olive-dark); transform: translateY(-2px); }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 0 6%; padding-top: 88px;
+      background: linear-gradient(135deg, var(--cream) 0%, var(--olive-bg) 100%);
+      position: relative; overflow: hidden;
+    }
+    .hero-deco {
+      position: absolute; right: -80px; top: -80px;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(140,154,26,0.15) 0%, transparent 70%); z-index: 0;
+    }
+    .hero-deco2 {
+      position: absolute; left: -60px; bottom: -60px;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(140,154,26,0.08) 0%, transparent 70%); z-index: 0;
+    }
+    .hero-dots {
+      position: absolute; inset: 0; z-index: 0;
+      background-image: radial-gradient(rgba(140,154,26,0.13) 1.5px, transparent 1.5px);
+      background-size: 32px 32px;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 620px; animation: fadeUp .85s ease both; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--white); border: 1.5px solid var(--glass-border);
+      padding: .4rem 1rem; border-radius: 50px;
+      font-size: .78rem; font-weight: 600; color: var(--olive);
+      margin-bottom: 1.6rem; letter-spacing: .08em; text-transform: uppercase;
+      box-shadow: 0 2px 12px rgba(140,154,26,0.12);
+    }
+    .hero-badge::before {
+      content: ''; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--olive-light); box-shadow: 0 0 6px var(--olive-light);
+      animation: pulse 1.6s infinite;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1.1; font-weight: 900; color: var(--olive-deep); margin-bottom: 1.2rem;
+    }
+    h1 .accent { color: var(--olive); }
+    h1 .highlight {
+      background: var(--olive); color: var(--white);
+      padding: .05em .22em; border-radius: 7px; display: inline-block;
+    }
+    .hero-sub {
+      font-size: 1rem; color: var(--text-mid);
+      line-height: 1.75; max-width: 520px; margin-bottom: 2.2rem;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--olive); color: var(--white); padding: .85rem 2rem;
+      border-radius: 50px; font-weight: 600; font-size: .95rem;
+      text-decoration: none; transition: transform .2s, background .2s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(140,154,26,0.35);
+    }
+    .btn-primary:hover { background: var(--olive-dark); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(140,154,26,0.45); }
+    .btn-ghost {
+      border: 2px solid var(--olive); color: var(--olive); padding: .85rem 2rem;
+      border-radius: 50px; font-weight: 600; font-size: .95rem;
+      text-decoration: none; transition: all .2s;
+    }
+    .btn-ghost:hover { background: var(--olive); color: var(--white); }
+    .hero-stats {
+      display: flex; gap: 2.5rem; margin-top: 3rem;
+      padding-top: 2rem; border-top: 1.5px solid var(--glass-border);
+      animation: fadeUp .9s .35s ease both; opacity: 0;
+    }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 900; color: var(--olive); }
+    .stat-label { font-size: .73rem; color: var(--text-soft); margin-top: .1rem; font-weight: 500; }
+    .hero-visual {
+      position: absolute; right: 6%; top: 50%; transform: translateY(-50%);
+      z-index: 2; animation: fadeUp .9s .25s ease both; opacity: 0;
+    }
+    .hero-card {
+      width: 280px; padding: 2rem;
+      background: var(--white); border: 1.5px solid var(--glass-border);
+      border-radius: 24px; text-align: center;
+      box-shadow: 0 20px 60px rgba(140,154,26,0.18);
+    }
+    .hero-avatar {
+      width: 90px; height: 90px; border-radius: 50%; background: var(--olive);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--white);
+      margin: 0 auto 1rem; border: 3px solid var(--olive-light);
+      box-shadow: 0 0 20px rgba(140,154,26,0.3);
+    }
+    .hero-card h3 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--olive-deep); margin-bottom: .25rem; }
+    .hero-card p { font-size: .78rem; color: var(--text-soft); }
+    .social-pills { display: flex; justify-content: center; gap: .5rem; margin-top: 1rem; flex-wrap: wrap; }
+    .pill { background: var(--olive-bg); border: 1px solid var(--glass-border); padding: .28rem .75rem; border-radius: 50px; font-size: .72rem; color: var(--text-mid); font-weight: 500; }
+    .hero-card-tag {
+      display: inline-block; background: var(--olive-pale); color: var(--olive-deep);
+      font-size: .68rem; font-weight: 600; padding: .25rem .7rem; border-radius: 4px;
+      text-transform: uppercase; letter-spacing: .06em; margin-top: 1rem;
+    }
+
+    /* SECTIONS */
+    section { padding: 6rem 6%; }
+    .section-tag { font-size: .72rem; text-transform: uppercase; letter-spacing: .14em; color: var(--olive); font-weight: 700; margin-bottom: .7rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.2vw, 2.7rem); font-weight: 900; line-height: 1.15; color: var(--olive-deep); margin-bottom: 1rem; }
+    .section-sub { font-size: .93rem; color: var(--text-mid); max-width: 540px; line-height: 1.75; }
+    .divider { width: 44px; height: 3px; background: linear-gradient(90deg, var(--olive), transparent); margin: 1.1rem 0 2.5rem; border-radius: 2px; }
+
+    /* ABOUT */
+    #about { background: var(--white); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .about-img-wrap { position: relative; }
+    .about-box {
+      width: 100%; aspect-ratio: 4/3; background: var(--olive);
+      border-radius: 20px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; color: var(--white);
+      font-family: 'Playfair Display', serif; position: relative; overflow: hidden;
+      box-shadow: 0 16px 48px rgba(140,154,26,0.3);
+    }
+    .about-box-text { font-size: 2.2rem; font-weight: 900; line-height: 1.2; text-align: center; z-index: 1; }
+    .about-box-text sup { font-size: 1rem; vertical-align: super; }
+    .about-box-sub { font-size: .82rem; opacity: .75; margin-top: .5rem; z-index: 1; }
+    .about-box::before { content: ''; position: absolute; width: 300px; height: 300px; border-radius: 50%; background: rgba(255,255,255,0.07); bottom: -80px; right: -80px; }
+    .about-box::after { content: ''; position: absolute; width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,0.05); top: -60px; left: -60px; }
+    .about-float {
+      position: absolute; bottom: -18px; right: -18px;
+      background: var(--white); border: 1.5px solid var(--glass-border);
+      padding: 1rem 1.4rem; border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(140,154,26,0.15);
+    }
+    .about-float strong { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--olive); display: block; }
+    .about-float span { font-size: .72rem; color: var(--text-soft); }
+    .about-checks { list-style: none; display: flex; flex-direction: column; gap: .85rem; margin-top: 1.6rem; }
+    .about-checks li { display: flex; align-items: flex-start; gap: .75rem; font-size: .9rem; color: var(--text-mid); line-height: 1.5; }
+    .check-icon { width: 20px; height: 20px; flex-shrink: 0; background: var(--olive-pale); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--olive-deep); font-size: .65rem; font-weight: 700; margin-top: .1rem; }
+
+    /* SERVICES */
+    #services { background: var(--olive-bg); }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.4rem; margin-top: 1rem; }
+    .service-card { background: var(--white); border: 1.5px solid var(--glass-border); padding: 2rem; border-radius: 18px; transition: transform .25s, box-shadow .25s, border-color .25s; }
+    .service-card:hover { transform: translateY(-6px); border-color: var(--olive); box-shadow: 0 12px 40px rgba(140,154,26,0.18); }
+    .service-icon { font-size: 1.6rem; margin-bottom: 1rem; display: flex; width: 50px; height: 50px; background: var(--olive-pale); border-radius: 13px; align-items: center; justify-content: center; }
+    .service-card h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: .5rem; color: var(--olive-deep); }
+    .service-card p { font-size: .83rem; color: var(--text-mid); line-height: 1.65; }
+
+    /* PORTFOLIO */
+    #portfolio { background: var(--white); }
+    .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+    .portfolio-card { background: var(--cream); border: 1.5px solid var(--glass-border); border-radius: 18px; overflow: hidden; transition: transform .25s, box-shadow .25s; }
+    .portfolio-card:hover { transform: translateY(-5px); box-shadow: 0 14px 40px rgba(140,154,26,0.15); }
+    .p-thumb { height: 130px; display: flex; align-items: center; justify-content: center; font-size: 2.6rem; background: var(--olive); position: relative; overflow: hidden; }
+    .p-thumb.t2 { background: var(--olive-dark); }
+    .p-thumb.t3 { background: var(--olive-deep); }
+    .p-thumb.t4 { background: linear-gradient(135deg, var(--olive-deep), var(--olive)); }
+    .p-body { padding: 1.4rem; }
+    .p-tag { font-size: .68rem; text-transform: uppercase; letter-spacing: .1em; color: var(--olive); font-weight: 700; margin-bottom: .4rem; }
+    .p-body h3 { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: .4rem; color: var(--olive-deep); }
+    .p-body p { font-size: .8rem; color: var(--text-mid); line-height: 1.6; }
+
+    /* TESTIMONIALS */
+    #testimonials { background: var(--olive-bg); }
+    .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.5rem; }
+    .testi-card { background: var(--white); border: 1.5px solid var(--glass-border); padding: 2rem; border-radius: 18px; position: relative; transition: box-shadow .25s, transform .25s; }
+    .testi-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(140,154,26,0.12); }
+    .testi-quote { font-size: 4rem; line-height: .8; color: var(--olive); opacity: .2; font-family: Georgia, serif; position: absolute; top: 1.2rem; right: 1.5rem; }
+    .testi-text { font-size: .88rem; color: var(--text-mid); line-height: 1.75; margin-bottom: 1.5rem; }
+    .testi-author { display: flex; align-items: center; gap: .75rem; }
+    .testi-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--olive); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .8rem; color: var(--white); flex-shrink: 0; }
+    .testi-name { font-weight: 600; font-size: .88rem; color: var(--olive-deep); }
+    .testi-role { font-size: .73rem; color: var(--text-soft); }
+    .stars { color: var(--olive-light); font-size: .85rem; margin-bottom: .8rem; letter-spacing: .1em; }
+
+    /* CONTACT */
+    #contact { background: var(--white); }
+    .contact-wrap { display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; align-items: start; }
+    .contact-info { display: flex; flex-direction: column; gap: 1.4rem; margin-top: 1rem; }
+    .contact-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .c-icon { width: 44px; height: 44px; flex-shrink: 0; background: var(--olive-pale); border: 1.5px solid var(--glass-border); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .c-label { font-size: .72rem; color: var(--text-soft); text-transform: uppercase; letter-spacing: .08em; font-weight: 600; }
+    .c-val { font-size: .88rem; color: var(--text); font-weight: 500; margin-top: .2rem; }
+    .contact-form { display: flex; flex-direction: column; gap: .9rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }
+    .contact-form input, .contact-form textarea, .contact-form select {
+      width: 100%; background: var(--olive-bg); border: 1.5px solid var(--glass-border);
+      border-radius: 12px; padding: .85rem 1.1rem; color: var(--text);
+      font-family: 'DM Sans', sans-serif; font-size: .9rem; transition: border-color .2s, background .2s; outline: none;
+    }
+    .contact-form input:focus, .contact-form textarea:focus, .contact-form select:focus { border-color: var(--olive); background: var(--white); }
+    .contact-form input::placeholder, .contact-form textarea::placeholder { color: var(--text-soft); }
+    .contact-form textarea { resize: vertical; min-height: 120px; }
+    .form-btn {
+      background: var(--olive); color: var(--white); padding: .9rem 2rem;
+      border: none; border-radius: 50px; font-family: 'DM Sans', sans-serif;
+      font-size: .95rem; font-weight: 600; cursor: pointer;
+      transition: background .2s, transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(140,154,26,0.3);
+    }
+    .form-btn:hover { background: var(--olive-dark); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(140,154,26,0.4); }
+
+    /* FOOTER */
+    footer {
+      padding: 2.2rem 6%; border-top: 1.5px solid var(--glass-border);
+      background: var(--olive-deep); display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo { display: flex; align-items: center; gap: .6rem; }
+    .footer-logo-box { background: var(--olive); color: var(--white); font-family: 'Playfair Display', serif; font-weight: 900; font-size: .75rem; line-height: 1.2; padding: .35rem .6rem; border-radius: 6px; }
+    .footer-logo-box sup { font-size: .45rem; vertical-align: super; }
+    .footer-name { font-family: 'Playfair Display', serif; font-size: .9rem; font-weight: 700; color: var(--olive-pale); }
+    footer p { font-size: .78rem; color: rgba(232,237,187,.4); }
+    .footer-socials { display: flex; gap: .75rem; }
+    .social-btn { width: 36px; height: 36px; background: rgba(140,154,26,0.2); border: 1px solid rgba(140,154,26,0.35); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: .82rem; color: var(--olive-pale); text-decoration: none; transition: background .2s; }
+    .social-btn:hover { background: var(--olive); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(26px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.35;} }
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity .65s ease,transform .65s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    @media (max-width: 920px) {
+      .hero-visual { display: none; }
+      .about-grid, .contact-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+      nav ul { display: none; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
 <body>
 
-<h1>Welcome to Taxation Updates</h1>
+<nav>
+  <div class="nav-logo">
+    <div class="logo-box">Taxation<sup>®</sup><br/>Updates</div>
+    <div class="logo-name">CA Mayur <span>Sondagar</span></div>
+  </div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Content</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Work With Me</a>
+</nav>
 
-<h2>Our Tools</h2>
+<section id="hero">
+  <div class="hero-deco"></div>
+  <div class="hero-deco2"></div>
+  <div class="hero-dots"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Chartered Accountant &amp; Finance Creator</div>
+    <h1>Making <span class="accent">Tax &amp; Finance</span><br/>Simple For <span class="highlight">Everyone</span></h1>
+    <p class="hero-sub">I'm <strong>CA Mayur J Sondagar</strong> — simplifying taxation, GST, income tax, and personal finance for <strong>120K+ followers</strong> across Twitter &amp; LinkedIn. Based in Mumbai.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Collaborate With Me</a>
+      <a href="#portfolio" class="btn-ghost">View My Content</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">102.9K</div><div class="stat-label">Twitter Followers</div></div>
+      <div><div class="stat-num">17.2K</div><div class="stat-label">LinkedIn Followers</div></div>
+      <div><div class="stat-num">8,400+</div><div class="stat-label">Posts &amp; Updates</div></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="hero-avatar">MS</div>
+      <h3>CA Mayur J Sondagar</h3>
+      <p>@TaxationUpdates</p>
+      <div class="social-pills">
+        <span class="pill">🐦 102.9K</span>
+        <span class="pill">💼 17.2K</span>
+      </div>
+      <div class="hero-card-tag">Verified CA · Mumbai</div>
+    </div>
+  </div>
+</section>
 
-<a href="challan-parser.html">
-  <button>Challan Parser</button>
-</a>
+<section id="about">
+  <div class="about-grid">
+    <div class="about-img-wrap reveal">
+      <div class="about-box">
+        <div class="about-box-text">Taxation<sup>®</sup><br/>Updates</div>
+        <div class="about-box-sub">Managed by CA Mayur J Sondagar</div>
+      </div>
+      <div class="about-float">
+        <strong>5+</strong>
+        <span>Years of CA Practice</span>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="section-tag">About Me</div>
+      <h2 class="section-title">Your Trusted<br/>Tax &amp; Finance<br/>Voice Online</h2>
+      <div class="divider"></div>
+      <p class="section-sub">Based in Mumbai, I'm a Chartered Accountant who turned complex tax legislation into clear, actionable insights. Since 2019, I've built one of India's most trusted finance communities on Twitter &amp; LinkedIn.</p>
+      <ul class="about-checks">
+        <li><span class="check-icon">✓</span> Chartered Accountant (CA) by qualification</li>
+        <li><span class="check-icon">✓</span> Specializes in Income Tax, GST &amp; Corporate Finance</li>
+        <li><span class="check-icon">✓</span> Regular updates on budget, tax laws &amp; finance tips</li>
+        <li><span class="check-icon">✓</span> Trusted by business owners, students &amp; professionals</li>
+        <li><span class="check-icon">✓</span> Active WhatsApp community for real-time tax updates</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-<br><br>
+<section id="services">
+  <div class="reveal" style="text-align:center;max-width:580px;margin:0 auto 3rem;">
+    <div class="section-tag">What I Offer</div>
+    <h2 class="section-title">Services &amp; Expertise</h2>
+    <div class="divider" style="margin-left:auto;margin-right:auto;"></div>
+    <p class="section-sub" style="margin:0 auto;">From brand collaborations to personal consultations — here's how we can work together.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal"><div class="service-icon">📢</div><h3>Brand Collaborations</h3><p>Promote your fintech, BFSI, or tax software brand to 120K+ engaged finance professionals and enthusiasts.</p></div>
+    <div class="service-card reveal"><div class="service-icon">📋</div><h3>Tax Consultancy</h3><p>Personal &amp; business tax planning, ITR filing guidance, and GST compliance support from a qualified CA.</p></div>
+    <div class="service-card reveal"><div class="service-icon">🎓</div><h3>Finance Education</h3><p>Workshops, webinars, and online courses on income tax, GST, and personal finance basics.</p></div>
+    <div class="service-card reveal"><div class="service-icon">📱</div><h3>Content Creation</h3><p>Sponsored threads, infographics, and WhatsApp community posts tailored for the Indian finance audience.</p></div>
+    <div class="service-card reveal"><div class="service-icon">🔔</div><h3>Taxation Updates</h3><p>Real-time tax law changes, budget highlights, and regulatory news — keeping followers always informed.</p></div>
+    <div class="service-card reveal"><div class="service-icon">🤝</div><h3>Speaking &amp; Events</h3><p>Guest lectures, panel discussions, and keynote sessions on taxation and personal finance topics.</p></div>
+  </div>
+</section>
 
-<a href="compliance-tracker-v3-3.html">
-  <button>Compliance Tracker</button>
-</a>
+<section id="portfolio">
+  <div class="reveal" style="text-align:center;max-width:580px;margin:0 auto 3rem;">
+    <div class="section-tag">My Content</div>
+    <h2 class="section-title">Featured Work &amp; Topics</h2>
+    <div class="divider" style="margin-left:auto;margin-right:auto;"></div>
+    <p class="section-sub" style="margin:0 auto;">A snapshot of the topics I regularly cover for my growing community.</p>
+  </div>
+  <div class="portfolio-grid">
+    <div class="portfolio-card reveal"><div class="p-thumb t1">📊</div><div class="p-body"><div class="p-tag">Income Tax</div><h3>Union Budget 2024 — Key Tax Changes Explained</h3><p>Breaking down every income tax amendment for individuals and businesses in plain language.</p></div></div>
+    <div class="portfolio-card reveal"><div class="p-thumb t2">🧾</div><div class="p-body"><div class="p-tag">GST</div><h3>GST Rate Changes &amp; Impact Analysis</h3><p>Monthly GST council updates, rate changes, and what they mean for your business.</p></div></div>
+    <div class="portfolio-card reveal"><div class="p-thumb t3">💰</div><div class="p-body"><div class="p-tag">Personal Finance</div><h3>Tax-Saving Investment Guide for Salaried Professionals</h3><p>How to legally reduce your tax liability using 80C, 80D, and other deductions.</p></div></div>
+    <div class="portfolio-card reveal"><div class="p-thumb t4">🏢</div><div class="p-body"><div class="p-tag">Corporate Tax</div><h3>TDS &amp; TCS Compliance Simplified</h3><p>Step-by-step guides on TDS deductions, TCS applicability, and filing deadlines.</p></div></div>
+  </div>
+</section>
 
+<section id="testimonials">
+  <div class="reveal" style="text-align:center;max-width:580px;margin:0 auto 3rem;">
+    <div class="section-tag">Testimonials</div>
+    <h2 class="section-title">What People Say</h2>
+    <div class="divider" style="margin-left:auto;margin-right:auto;"></div>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card reveal"><div class="testi-quote">"</div><div class="stars">★★★★★</div><p class="testi-text">CA Mayur's taxation threads are the first thing I read after every budget. He makes complex provisions so easy to understand. Highly recommend following him!</p><div class="testi-author"><div class="testi-avatar">RK</div><div><div class="testi-name">Rahul Kapoor</div><div class="testi-role">Business Owner, Delhi</div></div></div></div>
+    <div class="testi-card reveal"><div class="testi-quote">"</div><div class="stars">★★★★★</div><p class="testi-text">I save lakhs in taxes every year because of tips from Taxation Updates. The GST updates alone are worth joining the WhatsApp community for.</p><div class="testi-author"><div class="testi-avatar">PS</div><div><div class="testi-name">Priya Shah</div><div class="testi-role">CA Student, Mumbai</div></div></div></div>
+    <div class="testi-card reveal"><div class="testi-quote">"</div><div class="stars">★★★★★</div><p class="testi-text">Our fintech brand partnered with Mayur for a campaign. The engagement and quality of his audience is exceptional — genuine finance professionals who trust him.</p><div class="testi-author"><div class="testi-avatar">AM</div><div><div class="testi-name">Arjun Mehta</div><div class="testi-role">Marketing Head, Fintech Co.</div></div></div></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="reveal">
+      <div class="section-tag">Get In Touch</div>
+      <h2 class="section-title">Let's Work<br/>Together</h2>
+      <div class="divider"></div>
+      <p class="section-sub">Have a collaboration idea, tax query, or speaking invite? I'd love to hear from you.</p>
+      <div class="contact-info">
+        <div class="contact-item"><div class="c-icon">📍</div><div><div class="c-label">Location</div><div class="c-val">Mumbai, Maharashtra, India</div></div></div>
+        <div class="contact-item"><div class="c-icon">🐦</div><div><div class="c-label">Twitter / X</div><div class="c-val">@TaxationUpdates</div></div></div>
+        <div class="contact-item"><div class="c-icon">💼</div><div><div class="c-label">LinkedIn</div><div class="c-val">Mayur J Sondagar</div></div></div>
+        <div class="contact-item"><div class="c-icon">💬</div><div><div class="c-label">WhatsApp Community</div><div class="c-val">Join for live taxation updates</div></div></div>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <div class="form-row">
+        <input type="text" placeholder="Your Name"/>
+        <input type="email" placeholder="Email Address"/>
+      </div>
+      <input type="text" placeholder="Company / Organisation (optional)"/>
+      <select><option value="" disabled selected>Purpose of Enquiry</option><option>Brand Collaboration</option><option>Tax Consultation</option><option>Speaking Engagement</option><option>Media / Press</option><option>Other</option></select>
+      <textarea placeholder="Tell me more about your enquiry or collaboration idea…"></textarea>
+      <button class="form-btn">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">
+    <div class="footer-logo-box">Taxation<sup>®</sup><br/>Updates</div>
+    <div class="footer-name">CA Mayur Sondagar</div>
+  </div>
+  <p>© 2025 CA Mayur J Sondagar · All rights reserved</p>
+  <div class="footer-socials">
+    <a class="social-btn" href="https://twitter.com/TaxationUpdates" target="_blank">𝕏</a>
+    <a class="social-btn" href="#" target="_blank">in</a>
+    <a class="social-btn" href="https://whatsapp.com/channel/0029Va" target="_blank">💬</a>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 90);
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => obs.observe(r));
+  document.querySelector('.form-btn').addEventListener('click', () => {
+    alert('Message sent! CA Mayur will get back to you soon. 🙏');
+  });
+</script>
 </body>
 </html>
