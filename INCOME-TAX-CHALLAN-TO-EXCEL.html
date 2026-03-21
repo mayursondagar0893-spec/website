@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Challan PDF Parser — Taxation Updates</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root {
+    --bg:#f5f6fa; --surface:#fff; --surface2:#f0f2f8; --border:#e2e5ef;
+    --primary:#1a4fd6; --primary-light:#e8edfb; --accent:#0d9e6e;
+    --text:#1a1d2e; --text2:#5a5f7a; --error:#d63031; --warn:#e67e22;
+    --shadow:0 2px 12px rgba(26,79,214,.08); --radius:10px;
+  }
+  [data-theme="dark"] {
+    --bg:#0f1117; --surface:#1a1d2e; --surface2:#22263a; --border:#2e3350;
+    --primary:#4f7ef7; --primary-light:#1e2a4a; --accent:#10c98a;
+    --text:#e8eaf4; --text2:#8b90b0; --shadow:0 2px 12px rgba(0,0,0,.3);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;transition:background .3s,color .3s;}
+
+  /* Header */
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow);}
+  .logo{display:flex;align-items:center;gap:10px;}
+  .logo-icon{width:36px;height:36px;border-radius:8px;background:var(--primary);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;}
+  .logo-text{font-weight:700;font-size:15px;color:var(--text);}
+  .logo-sub{font-size:11px;color:var(--text2);}
+  .header-right{display:flex;align-items:center;gap:12px;}
+  .badge{background:var(--primary-light);color:var(--primary);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;}
+  .btn-dark{background:var(--surface2);border:1px solid var(--border);color:var(--text2);cursor:pointer;border-radius:8px;padding:6px 12px;font-size:12px;transition:all .2s;}
+  .btn-dark:hover{color:var(--text);border-color:var(--primary);}
+
+  main{max-width:1200px;margin:0 auto;padding:24px 20px;}
+
+  /* Drop Zone */
+  .drop-zone{border:2px dashed var(--border);border-radius:var(--radius);background:var(--surface);padding:44px 24px;text-align:center;transition:all .2s;margin-bottom:16px;}
+  .drop-zone:hover,.drop-zone.drag-over{border-color:var(--primary);background:var(--primary-light);}
+  .drop-icon{font-size:40px;margin-bottom:10px;}
+  .drop-title{font-size:16px;font-weight:600;color:var(--text);margin-bottom:6px;}
+  .drop-sub{color:var(--text2);font-size:13px;}
+  #fileInput,#folderInput{display:none;}
+
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .2s;white-space:nowrap;}
+  .btn-primary{background:var(--primary);color:#fff;} .btn-primary:hover{opacity:.88;} .btn-primary:disabled{opacity:.4;cursor:not-allowed;}
+  .btn-success{background:var(--accent);color:#fff;} .btn-success:hover{opacity:.88;} .btn-success:disabled{opacity:.4;cursor:not-allowed;}
+  .btn-outline{background:transparent;color:var(--primary);border:1.5px solid var(--primary);} .btn-outline:hover{background:var(--primary-light);}
+  .btn-danger{background:transparent;color:var(--error);border:1.5px solid var(--error);} .btn-danger:hover{background:#fee2e2;}
+  .controls{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+
+  /* File Queue */
+  .file-queue{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-bottom:14px;display:none;}
+  .file-queue.visible{display:block;}
+  .file-queue h4{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px;}
+  .file-list{display:flex;flex-wrap:wrap;gap:6px;}
+  .file-tag{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;color:var(--text2);display:flex;align-items:center;gap:4px;}
+  .file-tag .remove{cursor:pointer;color:var(--error);font-weight:700;font-size:13px;line-height:1;}
+
+  /* Progress */
+  .progress-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-bottom:16px;display:none;}
+  .progress-wrap.visible{display:block;}
+  .progress-bar-bg{background:var(--surface2);border-radius:20px;height:8px;overflow:hidden;margin-top:8px;}
+  .progress-bar-fill{height:100%;background:var(--primary);border-radius:20px;transition:width .3s;width:0%;}
+  .progress-label{font-size:12px;color:var(--text2);}
+
+  /* Stats */
+  .stat-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+  .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;min-width:110px;flex:1;}
+  .stat-val{font-size:20px;font-weight:700;color:var(--primary);}
+  .stat-label{font-size:11px;color:var(--text2);margin-top:2px;}
+  .stat.success .stat-val{color:var(--accent);}
+  .stat.error .stat-val{color:var(--error);}
+  .stat.warn .stat-val{color:var(--warn);}
+
+  /* Filter Bar */
+  .filter-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;display:none;gap:10px;flex-wrap:wrap;align-items:flex-end;}
+  .filter-bar.visible{display:flex;}
+  .filter-group{display:flex;flex-direction:column;gap:4px;min-width:150px;flex:1;}
+  .filter-group label{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;}
+  .filter-group input,.filter-group select{padding:7px 10px;border:1px solid var(--border);border-radius:7px;background:var(--surface2);color:var(--text);font-size:12px;outline:none;transition:border-color .2s;}
+  .filter-group input:focus,.filter-group select:focus{border-color:var(--primary);}
+  .filter-group input::placeholder{color:var(--text2);}
+  .filter-actions{display:flex;gap:8px;align-items:flex-end;}
+
+  /* Table */
+  .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+  .table-header{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface2);flex-wrap:wrap;gap:8px;}
+  .table-header h3{font-size:13px;font-weight:600;color:var(--text);}
+  .table-scroll{overflow-x:auto;max-height:540px;overflow-y:auto;}
+  table{width:100%;border-collapse:collapse;font-size:12px;}
+  th{background:var(--surface2);color:var(--text2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0;z-index:10;cursor:pointer;user-select:none;transition:color .15s;}
+  th:hover{color:var(--primary);}
+  th .si{margin-left:3px;opacity:.35;font-size:10px;transition:opacity .15s;}
+  th.sort-asc .si,th.sort-desc .si{opacity:1;color:var(--primary);}
+  th.sort-asc .si::after{content:'↑';}
+  th.sort-desc .si::after{content:'↓';}
+  th .si::after{content:'⇅';}
+  td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text);white-space:nowrap;}
+  tr:last-child td{border-bottom:none;}
+  tr:hover td{background:var(--primary-light);}
+  mark.hl{background:#fde68a;border-radius:2px;color:inherit;}
+  [data-theme="dark"] mark.hl{background:#92400e;}
+
+  /* Chips */
+  .chip{display:inline-block;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600;}
+  .chip-280{background:#dbeafe;color:#1d4ed8;} .chip-281{background:#dcfce7;color:#15803d;}
+  .chip-282{background:#fef3c7;color:#b45309;} .chip-283{background:#fce7f3;color:#be185d;}
+  .chip-ok{background:#dcfce7;color:#15803d;} .chip-err{background:#fee2e2;color:#dc2626;}
+  .amt{font-weight:600;color:var(--primary);font-variant-numeric:tabular-nums;}
+  .error-row td{color:var(--error);}
+  .empty-state{text-align:center;padding:48px 24px;color:var(--text2);}
+  .empty-state .ei{font-size:40px;margin-bottom:12px;}
+  .status-msg{font-size:12px;color:var(--text2);}
+  .row-count{font-size:11px;color:var(--text2);}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-icon">TU</div>
+    <div>
+      <div class="logo-text">Challan PDF Parser</div>
+      <div class="logo-sub">taxationupdates.in — ITNS 280 / 281 / 282 / 283</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="badge">Bulk Upload</span>
+    <button class="btn-dark" onclick="toggleTheme()">🌙 Dark Mode</button>
+  </div>
+</header>
+
+<main>
+  <!-- Drop Zone -->
+  <div class="drop-zone" id="dropZone">
+    <div class="drop-icon">📂</div>
+    <div class="drop-title">Drop a folder or PDFs here</div>
+    <div class="drop-sub">ITNS 280 / 281 / 282 / 283 · Processed 100% locally · No server upload</div>
+    <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="event.stopPropagation();document.getElementById('folderInput').click()">📁 Select Folder</button>
+      <button class="btn btn-outline" onclick="event.stopPropagation();document.getElementById('fileInput').click()">📄 Select Files</button>
+    </div>
+  </div>
+  <input type="file" id="fileInput" accept=".pdf" multiple>
+  <input type="file" id="folderInput" webkitdirectory mozdirectory multiple style="display:none">
+
+  <!-- File Queue -->
+  <div class="file-queue" id="fileQueue">
+    <h4>Files Queued</h4>
+    <div class="file-list" id="fileList"></div>
+  </div>
+
+  <!-- Actions -->
+  <div class="controls">
+    <button class="btn btn-primary" id="parseBtn" disabled onclick="parseAll()">⚡ Parse Challans</button>
+    <button class="btn btn-success" id="exportBtn" disabled onclick="exportExcel()">📊 Export to Excel</button>
+    <button class="btn btn-outline" id="csvBtn" onclick="exportCSV()" style="display:none">📄 Export CSV</button>
+    <button class="btn btn-danger" onclick="clearAll()">🗑 Clear All</button>
+    <span class="status-msg" id="statusMsg"></span>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-label" id="progressLabel">Parsing...</div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stat-bar" id="statBar" style="display:none">
+    <div class="stat">          <div class="stat-val" id="stTotal">0</div>  <div class="stat-label">Total Challans</div></div>
+    <div class="stat success">  <div class="stat-val" id="stParsed">0</div> <div class="stat-label">Parsed OK</div></div>
+    <div class="stat error">    <div class="stat-val" id="stFailed">0</div> <div class="stat-label">Needs Review</div></div>
+    <div class="stat warn">     <div class="stat-val" id="stAmount">₹0</div><div class="stat-label">Total Amount</div></div>
+    <div class="stat">          <div class="stat-val" id="stShowing">0</div><div class="stat-label">Showing (filtered)</div></div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar" id="filterBar">
+    <div class="filter-group" style="min-width:200px;flex:2">
+      <label>🔍 Search</label>
+      <input type="text" id="searchInput" placeholder="PAN, Name, CIN, Challan No, Bank Ref…" oninput="applyFilters()">
+    </div>
+    <div class="filter-group">
+      <label>ITNS Type</label>
+      <select id="filterITNS" onchange="applyFilters()">
+        <option value="">All Types</option>
+        <option value="280">280 — Income Tax</option>
+        <option value="281">281 — TDS/TCS</option>
+        <option value="282">282</option>
+        <option value="283">283</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Assessment Year</label>
+      <select id="filterAY" onchange="applyFilters()"><option value="">All AYs</option></select>
+    </div>
+    <div class="filter-group">
+      <label>PAN</label>
+      <select id="filterPAN" onchange="applyFilters()"><option value="">All PANs</option></select>
+    </div>
+    <div class="filter-group">
+      <label>Status</label>
+      <select id="filterStatus" onchange="applyFilters()">
+        <option value="">All</option>
+        <option value="ok">✓ Parsed OK</option>
+        <option value="err">⚠ Needs Review</option>
+      </select>
+    </div>
+    <div class="filter-actions">
+      <button class="btn btn-outline" onclick="clearFilters()" style="padding:7px 12px;font-size:12px;">✕ Clear</button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap">
+    <div class="table-header">
+      <h3>EXTRACTED DATA</h3>
+      <span class="row-count" id="rowCount">—</span>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr id="theadRow">
+            <th data-col="#"          onclick="sortBy('#')">#<span class="si"></span></th>
+            <th data-col="status"     onclick="sortBy('status')">Status<span class="si"></span></th>
+            <th data-col="itns"       onclick="sortBy('itns')">ITNS<span class="si"></span></th>
+            <th data-col="pan"        onclick="sortBy('pan')">PAN / TAN<span class="si"></span></th>
+            <th data-col="name"       onclick="sortBy('name')">Name<span class="si"></span></th>
+            <th data-col="ay"         onclick="sortBy('ay')">AY<span class="si"></span></th>
+            <th data-col="fy"         onclick="sortBy('fy')">FY<span class="si"></span></th>
+            <th data-col="major">Major Head</th>
+            <th data-col="minor"      onclick="sortBy('minor')">Minor Head<span class="si"></span></th>
+            <th data-col="natureOfPayment" onclick="sortBy('natureOfPayment')">Nature of Payment<span class="si"></span></th>
+            <th data-col="cin"        onclick="sortBy('cin')">CIN<span class="si"></span></th>
+            <th data-col="dod"        onclick="sortBy('dod')">Date of Deposit<span class="si"></span></th>
+            <th data-col="tenderDate" onclick="sortBy('tenderDate')">Tender Date<span class="si"></span></th>
+            <th data-col="bank"       onclick="sortBy('bank')">Bank<span class="si"></span></th>
+            <th data-col="bsr"        onclick="sortBy('bsr')">BSR Code<span class="si"></span></th>
+            <th data-col="challanNo"  onclick="sortBy('challanNo')">Challan No<span class="si"></span></th>
+            <th data-col="bankRef">Bank Ref No.</th>
+            <th data-col="mode">Mode</th>
+            <th data-col="tax"        onclick="sortBy('tax')">Tax (₹)<span class="si"></span></th>
+            <th data-col="surcharge"  onclick="sortBy('surcharge')">Surcharge (₹)<span class="si"></span></th>
+            <th data-col="cess"       onclick="sortBy('cess')">Cess (₹)<span class="si"></span></th>
+            <th data-col="interest"   onclick="sortBy('interest')">Interest (₹)<span class="si"></span></th>
+            <th data-col="penalty"    onclick="sortBy('penalty')">Penalty (₹)<span class="si"></span></th>
+            <th data-col="others">Fee / Others (₹)</th>
+            <th data-col="total"      onclick="sortBy('total')">Total (₹)<span class="si"></span></th>
+            <th data-col="file">File</th>
+          </tr>
+        </thead>
+        <tbody id="resultBody">
+          <tr><td colspan="26"><div class="empty-state"><div class="ei">📋</div><div>Upload challan PDFs and click <strong>Parse Challans</strong></div></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+let files=[], parsedData=[], filteredData=[], sortCol='', sortDir='asc';
+
+// ── File input ────────────────────────────────────────────────
+document.getElementById('fileInput').addEventListener('change',e=>addFiles(Array.from(e.target.files)));
+document.getElementById('folderInput').addEventListener('change',e=>{
+  const pdfs=Array.from(e.target.files).filter(f=>f.name.toLowerCase().endsWith('.pdf'));
+  addFiles(pdfs);
+  document.getElementById('statusMsg').textContent=pdfs.length===0?'No PDFs found in folder.':`Found ${pdfs.length} PDF(s) in folder (including sub-folders).`;
+});
+
+// ── Drag-drop with recursive sub-folder support ───────────────
+const dz=document.getElementById('dropZone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('drag-over'));
+dz.addEventListener('drop',async e=>{
+  e.preventDefault();dz.classList.remove('drag-over');
+  const items=Array.from(e.dataTransfer.items);
+  const allFiles=[];
+  await Promise.all(items.map(item=>{
+    const entry=item.webkitGetAsEntry&&item.webkitGetAsEntry();
+    if(!entry)return;
+    return traverseEntry(entry,allFiles);
+  }));
+  const pdfs=allFiles.filter(f=>f.name.toLowerCase().endsWith('.pdf'));
+  addFiles(pdfs);
+  document.getElementById('statusMsg').textContent=pdfs.length===0?'No PDFs found.':`Found ${pdfs.length} PDF(s) (including sub-folders).`;
+});
+
+// Recursively walk a FileSystemEntry and collect all File objects
+function traverseEntry(entry,collector){
+  return new Promise(resolve=>{
+    if(entry.isFile){
+      entry.file(f=>{collector.push(f);resolve();},()=>resolve());
+    } else if(entry.isDirectory){
+      const reader=entry.createReader();
+      const readAll=(entries=[])=>{
+        reader.readEntries(batch=>{
+          if(!batch.length){
+            Promise.all(entries.map(e=>traverseEntry(e,collector))).then(resolve);
+          } else {
+            readAll([...entries,...batch]);
+          }
+        },()=>resolve());
+      };
+      readAll();
+    } else {resolve();}
+  });
+}
+
+// ── Add files & render queue ──────────────────────────────────
+
+function addFiles(nf){nf.forEach(f=>{if(!files.find(x=>x.name===f.name&&x.size===f.size))files.push(f);});renderQueue();}
+function renderQueue(){
+  const list=document.getElementById('fileList'),queue=document.getElementById('fileQueue');
+  list.innerHTML='';
+  files.forEach((f,i)=>{const t=document.createElement('div');t.className='file-tag';t.innerHTML=`📄 ${esc(f.name)} <span class="remove" onclick="removeFile(${i})">×</span>`;list.appendChild(t);});
+  queue.classList.toggle('visible',files.length>0);
+  document.getElementById('parseBtn').disabled=files.length===0;
+}
+function removeFile(i){files.splice(i,1);renderQueue();}
+function clearAll(){
+  files=[];parsedData=[];filteredData=[];
+  renderQueue();
+  document.getElementById('resultBody').innerHTML=`<tr><td colspan="26"><div class="empty-state"><div class="ei">📋</div><div>Upload challan PDFs and click <strong>Parse Challans</strong></div></div></td></tr>`;
+  ['exportBtn'].forEach(id=>document.getElementById(id).disabled=true);
+  document.getElementById('csvBtn').style.display='none';
+  document.getElementById('statBar').style.display='none';
+  document.getElementById('filterBar').classList.remove('visible');
+  document.getElementById('rowCount').textContent='—';
+  document.getElementById('progressWrap').classList.remove('visible');
+  document.getElementById('statusMsg').textContent='';
+  document.getElementById('fileInput').value='';
+  sortCol='';sortDir='asc';
+}
+
+// ── PDF extraction ────────────────────────────────────────────
+async function extractText(file){
+  const buf=await file.arrayBuffer();
+  const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+  let text='';
+  for(let i=1;i<=pdf.numPages;i++){const pg=await pdf.getPage(i);const c=await pg.getTextContent();text+=c.items.map(x=>x.str).join(' ')+'\n';}
+  return text;
+}
+
+// ── Parser ────────────────────────────────────────────────────
+function clean(s){return(s||'').replace(/\s+/g,' ').trim();}
+function parseAmount(s){if(!s)return 0;return parseFloat(s.replace(/[^\d]/g,''))||0;}
+function between(t,sp,ep){const m=t.match(new RegExp(sp+'\\s*[:\\-]?\\s*(.+?)(?='+ep+')','i'));return m?clean(m[1]):'';}
+function get(t,pat){const m=t.match(pat);return m?clean(m[1]):'';}
+
+function parseChallan(text,filename){
+  const t=text.replace(/[\r\n]+/g,' ').replace(/\s+/g,' ').trim();
+
+  const itns     =get(t,/ITNS\s*No\.?\s*[:\-\s]\s*(\d+)/i)||'280';
+  const is281    =itns==='281';
+
+  // PAN (280/282/283) or TAN (281)
+  const pan      =get(t,/PAN\s*[:\-]\s*([A-Z]{5}[0-9]{4}[A-Z])/i);
+  const tan      =get(t,/TAN\s*[:\-]\s*([A-Z]{4}[0-9]{5}[A-Z])/i);
+
+  const name     =between(t,'Name','Assessment\\s*Year');
+  const ay       =get(t,/Assessment\s*Year\s*[:\-]\s*(20\d{2}-\d{2,4})/i);
+  const fy       =get(t,/Financial\s*Year\s*[:\-]\s*(20\d{2}-\d{2,4})/i);
+  const major    =between(t,'Major\\s*Head','Minor\\s*Head');
+
+  // Minor Head boundary differs in 281 (Nature of Payment comes next)
+  const minor    =between(t,'Minor\\s*Head','Nature\\s*of\\s*Payment|Amount\\s*\\(in\\s*Rs');
+
+  // Nature of Payment — 281 only (e.g. 94C, 94H, 192)
+  const natureOfPayment=get(t,/Nature\s*of\s*Payment\s*[:\-]\s*([A-Z0-9]+)/i);
+
+  const cin      =get(t,/CIN\s*[:\-]\s*([A-Z0-9]{14,25})/i);
+  const mode     =between(t,'Mode\\s*of\\s*Payment','Bank\\s*Name');
+  const bank     =between(t,'Bank\\s*Name','Bank\\s*Reference');
+  const bankRef  =get(t,/Bank\s*Reference\s*Number\s*[:\-]\s*([A-Z0-9]+)/i);
+  const dod      =get(t,/Date\s*of\s*Deposit\s*[:\-]\s*(\d{1,2}[-\s][A-Za-z]{3}[-\s]\d{4})/i)
+                ||get(t,/Date\s*of\s*Deposit\s*[:\-]\s*(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4})/i);
+  const bsr        =get(t,/BSR\s*code?\s*[:\-]\s*(\d{7})/i);
+  const challanNo  =get(t,/Challan\s*No\.?\s*[:\-]\s*(\d+)/i);
+  const tenderDate =get(t,/Tender\s*Date\s*[:\-]\s*(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4})/i);
+
+  // Tax breakup — Row F label varies: "Others" (280) or "Fee under section 234E" (281)
+  const amtRx=label=>new RegExp(label+'[^\\d]+(\\d[\\d,]*)','i');
+  const tax      =parseAmount((t.match(amtRx('\\bA\\s+Tax'))                   ||[])[1]);
+  const surcharge=parseAmount((t.match(amtRx('\\bB\\s+Surcharge'))             ||[])[1]);
+  const cess     =parseAmount((t.match(amtRx('\\bC\\s+Cess'))                  ||[])[1]);
+  const interest =parseAmount((t.match(amtRx('\\bD\\s+Interest'))              ||[])[1]);
+  const penalty  =parseAmount((t.match(amtRx('\\bE\\s+Penalty'))               ||[])[1]);
+  // Row F: "Others" for 280, "Fee under section 234E" for 281
+  const others   =parseAmount((t.match(amtRx('\\bF\\s+(?:Others|Fee)'))        ||[])[1]);
+
+  const totM     =t.match(amtRx('Total\\s*\\(A\\+B\\+C\\+D\\+E\\+F\\)'))||t.match(amtRx('Amount\\s*\\(in\\s*Rs\\.\\)\\s*[:\\-]?'));
+  let total      =totM?parseAmount(totM[1]):0;
+  if(!total)total=tax+surcharge+cess+interest+penalty+others;
+
+  // Validity: PAN required for 280/282/283; TAN required for 281
+  const ok=is281 ? !!(tan&&(cin||bsr)) : !!(pan&&(cin||bsr));
+
+  return{ok,itns,pan,tan,name,ay,fy,major,minor,natureOfPayment,cin,mode,bank,bankRef,dod,bsr,challanNo,tenderDate,tax,surcharge,cess,interest,penalty,others,total,file:filename};
+}
+
+// ── Parse All ────────────────────────────────────────────────
+async function parseAll(){
+  if(!files.length)return;
+  parsedData=[];filteredData=[];
+  const btn=document.getElementById('parseBtn');btn.disabled=true;
+  document.getElementById('progressWrap').classList.add('visible');
+  document.getElementById('statBar').style.display='none';
+  document.getElementById('filterBar').classList.remove('visible');
+  document.getElementById('resultBody').innerHTML='';
+  const pFill=document.getElementById('progressFill'),pLabel=document.getElementById('progressLabel');
+  let ok=0,fail=0,totalAmt=0;
+  for(let i=0;i<files.length;i++){
+    pLabel.textContent=`Parsing ${i+1} of ${files.length}: ${files[i].name}`;
+    pFill.style.width=((i/files.length)*100)+'%';
+    try{
+      const text=await extractText(files[i]);
+      const rec=parseChallan(text,files[i].name);
+      parsedData.push(rec);
+      if(rec.ok){ok++;totalAmt+=rec.total;}else fail++;
+    }catch(e){
+      parsedData.push({ok:false,file:files[i].name,pan:'',tan:'',name:'',ay:'',fy:'',itns:'?',major:'',minor:'',natureOfPayment:'',cin:'',mode:'',bank:'',bankRef:'',dod:'',bsr:'',challanNo:'',tenderDate:'',tax:0,surcharge:0,cess:0,interest:0,penalty:0,others:0,total:0});
+      fail++;
+    }
+  }
+  pFill.style.width='100%';
+  pLabel.textContent=`Done — ${files.length} file(s) processed`;
+  document.getElementById('stTotal').textContent=parsedData.length;
+  document.getElementById('stParsed').textContent=ok;
+  document.getElementById('stFailed').textContent=fail;
+  document.getElementById('stAmount').textContent='₹'+totalAmt.toLocaleString('en-IN');
+  document.getElementById('statBar').style.display='flex';
+  populateDropdowns();
+  document.getElementById('filterBar').classList.add('visible');
+  filteredData=[...parsedData];
+  document.getElementById('stShowing').textContent=filteredData.length;
+  renderTable();
+  btn.disabled=false;
+  document.getElementById('exportBtn').disabled=false;
+  document.getElementById('csvBtn').style.display='inline-flex';
+}
+
+// ── Dropdown population ───────────────────────────────────────
+function populateDropdowns(){
+  const aySet=[...new Set(parsedData.map(r=>r.ay).filter(Boolean))].sort();
+  const panSet=[...new Set(parsedData.map(r=>r.pan).filter(Boolean))].sort();
+  const ayEl=document.getElementById('filterAY');
+  ayEl.innerHTML='<option value="">All AYs</option>';
+  aySet.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;ayEl.appendChild(o);});
+  const panEl=document.getElementById('filterPAN');
+  panEl.innerHTML='<option value="">All PANs</option>';
+  panSet.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;panEl.appendChild(o);});
+}
+
+// ── Filters ───────────────────────────────────────────────────
+function applyFilters(){
+  const search=document.getElementById('searchInput').value.trim().toLowerCase();
+  const itns  =document.getElementById('filterITNS').value;
+  const ay    =document.getElementById('filterAY').value;
+  const pan   =document.getElementById('filterPAN').value;
+  const status=document.getElementById('filterStatus').value;
+  filteredData=parsedData.filter(r=>{
+    if(itns   &&r.itns!==itns  )return false;
+    if(ay     &&r.ay!==ay      )return false;
+    if(pan    &&r.pan!==pan    )return false;
+    if(status==='ok' &&!r.ok   )return false;
+    if(status==='err'&& r.ok   )return false;
+    if(search){
+      const hay=[r.pan,r.name,r.cin,r.challanNo,r.bankRef,r.bsr,r.bank,r.major,r.minor,r.dod,r.tenderDate,r.file].join(' ').toLowerCase();
+      if(!hay.includes(search))return false;
+    }
+    return true;
+  });
+  if(sortCol)doSort(sortCol,false);else renderTable();
+  document.getElementById('stShowing').textContent=filteredData.length;
+}
+function clearFilters(){
+  ['searchInput'].forEach(id=>document.getElementById(id).value='');
+  ['filterITNS','filterAY','filterPAN','filterStatus'].forEach(id=>document.getElementById(id).value='');
+  filteredData=[...parsedData];
+  if(sortCol)doSort(sortCol,false);else renderTable();
+  document.getElementById('stShowing').textContent=filteredData.length;
+}
+
+// ── Sorting ───────────────────────────────────────────────────
+function sortBy(col){
+  sortDir=(sortCol===col&&sortDir==='asc')?'desc':'asc';
+  sortCol=col;
+  doSort(col,true);
+}
+function doSort(col,updateHeader){
+  const nums=['tax','surcharge','cess','interest','penalty','others','total'];
+  filteredData.sort((a,b)=>{
+    let va=a[col]??'',vb=b[col]??'';
+    if(col==='#'){va=parsedData.indexOf(a);vb=parsedData.indexOf(b);}
+    else if(col==='status'){va=a.ok?1:0;vb=b.ok?1:0;}
+    else if(nums.includes(col)){va=Number(va)||0;vb=Number(vb)||0;}
+    else{va=va.toString().toLowerCase();vb=vb.toString().toLowerCase();}
+    if(va<vb)return sortDir==='asc'?-1:1;
+    if(va>vb)return sortDir==='asc'?1:-1;
+    return 0;
+  });
+  if(updateHeader){
+    document.querySelectorAll('#theadRow th').forEach(th=>th.classList.remove('sort-asc','sort-desc'));
+    const active=document.querySelector(`#theadRow th[data-col="${col}"]`);
+    if(active)active.classList.add(sortDir==='asc'?'sort-asc':'sort-desc');
+  }
+  renderTable();
+}
+
+// ── Render ────────────────────────────────────────────────────
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function trunc(s,n){return s&&s.length>n?s.slice(0,n)+'…':(s||'—');}
+function fmt(n){return n?Number(n).toLocaleString('en-IN'):'0';}
+function hl(str,term){
+  if(!term||!str)return esc(str);
+  const idx=str.toLowerCase().indexOf(term.toLowerCase());
+  if(idx===-1)return esc(str);
+  return esc(str.slice(0,idx))+`<mark class="hl">${esc(str.slice(idx,idx+term.length))}</mark>`+esc(str.slice(idx+term.length));
+}
+
+function renderTable(){
+  const tbody=document.getElementById('resultBody');
+  const term=document.getElementById('searchInput').value.trim();
+  tbody.innerHTML='';
+  if(!filteredData.length){
+    tbody.innerHTML=`<tr><td colspan="26"><div class="empty-state"><div class="ei">🔍</div><div>No records match the current filters</div></div></td></tr>`;
+    document.getElementById('rowCount').textContent='0 records';
+    return;
+  }
+  filteredData.forEach((r,i)=>{
+    const tr=document.createElement('tr');
+    if(!r.ok)tr.className='error-row';
+    tr.innerHTML=`
+      <td>${i+1}</td>
+      <td><span class="chip ${r.ok?'chip-ok':'chip-err'}">${r.ok?'✓ OK':'⚠ Check'}</span></td>
+      <td><span class="chip chip-${esc(r.itns||'280')}">${esc(r.itns||'?')}</span></td>
+      <td><strong>${hl(r.pan||r.tan,term)}</strong><span style="font-size:9px;color:var(--text2);margin-left:3px">${r.pan?'PAN':r.tan?'TAN':''}</span></td>
+      <td title="${esc(r.name)}">${hl(trunc(r.name,34),term)}</td>
+      <td>${esc(r.ay||'—')}</td>
+      <td>${esc(r.fy||'—')}</td>
+      <td title="${esc(r.major)}">${esc(trunc(r.major,28))}</td>
+      <td title="${esc(r.minor)}">${esc(trunc(r.minor,22))}</td>
+      <td>${r.natureOfPayment?`<span class="chip" style="background:#fef3c7;color:#92400e">${esc(r.natureOfPayment)}</span>`:'—'}</td>
+      <td>${hl(r.cin,term)}</td>
+      <td>${esc(r.dod||'—')}</td>
+      <td><strong>${esc(r.tenderDate||'—')}</strong></td>
+      <td>${esc(r.bank||'—')}</td>
+      <td>${hl(r.bsr,term)}</td>
+      <td>${hl(r.challanNo,term)}</td>
+      <td>${hl(r.bankRef,term)}</td>
+      <td>${esc(r.mode||'—')}</td>
+      <td class="amt">${fmt(r.tax)}</td>
+      <td>${fmt(r.surcharge)}</td>
+      <td>${fmt(r.cess)}</td>
+      <td>${fmt(r.interest)}</td>
+      <td>${fmt(r.penalty)}</td>
+      <td>${fmt(r.others)}</td>
+      <td class="amt">${fmt(r.total)}</td>
+      <td style="color:var(--text2);font-size:11px" title="${esc(r.file)}">${esc(trunc(r.file,18))}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+  document.getElementById('rowCount').textContent=`${filteredData.length} of ${parsedData.length} record(s)`;
+}
+
+// ── Export (uses filteredData) ────────────────────────────────
+const HDRS=['#','Status','ITNS No.','PAN','TAN','Name','AY','FY','Major Head','Minor Head','Nature of Payment','CIN','Date of Deposit','Tender Date','Bank Name','BSR Code','Challan No.','Bank Ref No.','Mode of Payment','Tax','Surcharge','Cess','Interest','Penalty','Fee/Others','Total Amount','File Name'];
+function buildRows(data){
+  return data.map((r,i)=>[i+1,r.ok?'OK':'Check',r.itns,r.pan,r.tan,r.name,r.ay,r.fy,r.major,r.minor,r.natureOfPayment,r.cin,r.dod,r.tenderDate,r.bank,r.bsr,r.challanNo,r.bankRef,r.mode,r.tax,r.surcharge,r.cess,r.interest,r.penalty,r.others,r.total,r.file]);
+}
+function exportExcel(){
+  if(!filteredData.length)return;
+  const ws=XLSX.utils.aoa_to_sheet([HDRS,...buildRows(filteredData)]);
+  ws['!cols']=[4,8,8,14,14,30,8,8,32,28,14,22,14,14,22,10,10,14,14,12,12,10,12,10,10,14,28].map(w=>({wch:w}));
+  const rng=XLSX.utils.decode_range(ws['!ref']);
+  for(let c=rng.s.c;c<=rng.e.c;c++){const cell=XLSX.utils.encode_cell({r:0,c});if(ws[cell])ws[cell].s={font:{bold:true},fill:{fgColor:{rgb:'1A4FD6'}},alignment:{horizontal:'center'}};}
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Challans');
+  const tot=filteredData.reduce((s,r)=>s+r.total,0);
+  const t280=filteredData.filter(r=>r.itns==='280').reduce((s,r)=>s+r.total,0);
+  const t281=filteredData.filter(r=>r.itns==='281').reduce((s,r)=>s+r.total,0);
+  const ws2=XLSX.utils.aoa_to_sheet([
+    ['Challan Summary Report'],['Generated on',new Date().toLocaleDateString('en-IN')],
+    ['Filter Applied',filteredData.length<parsedData.length?'Yes':'No'],[''],
+    ['Metric','Value'],['Total (Filtered)',filteredData.length],
+    ['Parsed OK',filteredData.filter(r=>r.ok).length],['Needs Review',filteredData.filter(r=>!r.ok).length],[''],
+    ['ITNS 280 (Income Tax)',t280.toLocaleString('en-IN')],['ITNS 281 (TDS/TCS)',t281.toLocaleString('en-IN')],
+    ['Others',(tot-t280-t281).toLocaleString('en-IN')],['GRAND TOTAL',tot.toLocaleString('en-IN')],
+  ]);
+  ws2['!cols']=[{wch:32},{wch:20}];
+  XLSX.utils.book_append_sheet(wb,ws2,'Summary');
+  XLSX.writeFile(wb,`Challans_${new Date().toISOString().slice(0,10)}.xlsx`);
+}
+function exportCSV(){
+  if(!filteredData.length)return;
+  const csv=[HDRS,...buildRows(filteredData)].map(r=>r.map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([csv],{type:'text/csv'})),download:`Challans_${new Date().toISOString().slice(0,10)}.csv`});
+  a.click();
+}
+
+// ── Theme ─────────────────────────────────────────────────────
+function toggleTheme(){
+  const d=document.documentElement,isDark=d.getAttribute('data-theme')==='dark';
+  d.setAttribute('data-theme',isDark?'light':'dark');
+  document.querySelector('.btn-dark').textContent=isDark?'🌙 Dark Mode':'☀️ Light Mode';
+}
+</script>
+</body>
+</html>
