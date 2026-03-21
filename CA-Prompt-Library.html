@@ -7,21 +7,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ── THEMES ── */
-:root{--bg:#0f1117;--sur:#181c27;--sur2:#1e2235;--sur3:#232840;--bdr:#2a2f45;--acc:#c9a84c;--acc2:#e8c96a;--accbg:rgba(201,168,76,0.08);--txt:#e8ecf4;--txt2:#9aa0b8;--txt3:#5a6180;--green:#4ade80;--red:#f87171;--blue:#60a5fa;--teal:#2dd4bf;--radius:12px;--shadow:0 8px 32px rgba(0,0,0,.4);--sideW:255px}
-.th-light{--bg:#f2f4fa;--sur:#fff;--sur2:#eef0f8;--sur3:#e6e9f5;--bdr:#dde0ed;--acc:#9a6f1a;--acc2:#b8860b;--accbg:rgba(154,111,26,.07);--txt:#1a1d2e;--txt2:#4a5070;--txt3:#9095b0;--shadow:0 4px 20px rgba(0,0,0,.1)}
-.th-ocean{--bg:#060d1a;--sur:#091424;--sur2:#0d1c30;--sur3:#11223a;--bdr:#163048;--acc:#38bdf8;--acc2:#7dd3fc;--accbg:rgba(56,189,248,.07);--txt:#e0f2fe;--txt2:#7fb8d8;--txt3:#2a5070}
-.th-forest{--bg:#080f0a;--sur:#0d1710;--sur2:#111d14;--sur3:#152419;--bdr:#1c3321;--acc:#4ade80;--acc2:#86efac;--accbg:rgba(74,222,128,.07);--txt:#dcfce7;--txt2:#6db88a;--txt3:#234830}
-.th-rose{--bg:#14080d;--sur:#1e0d15;--sur2:#24101a;--sur3:#2c1422;--bdr:#3d1a2c;--acc:#fb7185;--acc2:#fda4af;--accbg:rgba(251,113,133,.07);--txt:#ffe4e6;--txt2:#b87080;--txt3:#5a2535}
-.th-slate{--bg:#1a1a2e;--sur:#22223e;--sur2:#2a2a4e;--sur3:#323260;--bdr:#3d3d6e;--acc:#cba6f7;--acc2:#f5c2e7;--accbg:rgba(203,166,247,.07);--txt:#cdd6f4;--txt2:#9399b2;--txt3:#585b70}
+:root{--bg:#fafbf0;--sur:#ffffff;--sur2:#f0f3d8;--sur3:#e8edbb;--bdr:rgba(140,154,26,0.22);--acc:#8c9a1a;--acc2:#b5c422;--accbg:rgba(140,154,26,0.07);--txt:#252a08;--txt2:#4e570f;--txt3:#7a8520;--green:#4ade80;--red:#f87171;--blue:#60a5fa;--teal:#2dd4bf;--radius:12px;--shadow:0 8px 32px rgba(140,154,26,0.18);--sideW:255px}
+[data-theme="dark"]{--bg:#1a1d0a;--sur:#242810;--sur2:#1f2209;--sur3:#2e3410;--bdr:rgba(140,154,26,0.3);--acc:#8c9a1a;--acc2:#b5c422;--accbg:rgba(140,154,26,0.12);--txt:#e8edbb;--txt2:#c5ce6e;--txt3:#9aaa2e;--shadow:0 8px 32px rgba(0,0,0,.5)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-height:100vh;transition:background .3s,color .3s}
 ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:99px}::-webkit-scrollbar-thumb:hover{background:var(--txt3)}
 
 /* ── HEADER ── */
-.hdr{background:var(--sur);border-bottom:1px solid var(--bdr);padding:0 16px;position:sticky;top:0;z-index:300;display:flex;align-items:center;gap:10px;height:58px;box-shadow:var(--shadow)}
+.hdr{background:var(--bg);border-bottom:1px solid var(--bdr);padding:0 16px;position:sticky;top:0;z-index:300;display:flex;align-items:center;gap:10px;height:58px;box-shadow:0 2px 16px rgba(140,154,26,0.1);backdrop-filter:blur(12px)}
 .hdr-logo{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .hdr-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--acc),var(--acc2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.hdr-logo-text{font-family:'Playfair Display',serif;font-size:17px;color:var(--acc);white-space:nowrap}
+.hdr-logo-text{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--txt);white-space:nowrap}
 .hdr-logo-sub{font-size:9px;color:var(--txt3);display:block;margin-top:-2px}
 .hdr-search{flex:1;max-width:440px;display:flex;align-items:center;gap:8px;background:var(--sur2);border:1px solid var(--bdr);border-radius:9px;padding:0 11px;transition:border-color .2s}
 .hdr-search:focus-within{border-color:var(--acc)}
@@ -29,15 +25,15 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 .hdr-search input::placeholder{color:var(--txt3)}
 .hdr-clear{color:var(--txt3);cursor:pointer;font-size:12px;display:none;padding:2px 4px}
 .hdr-right{display:flex;align-items:center;gap:6px;margin-left:auto;flex-shrink:0}
-/* theme dots */
-.tdots{display:flex;gap:4px;align-items:center}
-.tdot{width:17px;height:17px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform .2s,border-color .2s;flex-shrink:0}
-.tdot:hover{transform:scale(1.3)}
-.tdot.on{border-color:var(--acc);transform:scale(1.15)}
+/* dark mode toggle */
+.dark-toggle{width:42px;height:24px;border-radius:50px;background:var(--sur3);border:1.5px solid var(--bdr);cursor:pointer;position:relative;transition:background .3s;flex-shrink:0}
+.dark-toggle::after{content:'☀️';position:absolute;left:2px;top:50%;transform:translateY(-50%);font-size:.7rem;width:18px;height:18px;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;transition:left .3s,background .3s}
+[data-theme="dark"] .dark-toggle{background:var(--sur3)}
+[data-theme="dark"] .dark-toggle::after{content:'🌙';left:18px;background:var(--acc2)}
 /* header buttons */
 .hbtn{background:var(--sur2);border:1px solid var(--bdr);color:var(--txt2);padding:5px 11px;border-radius:8px;cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
 .hbtn:hover{background:var(--bdr);color:var(--txt)}
-.hbtn.pri{background:var(--acc);color:#000;border-color:var(--acc);font-weight:600}
+.hbtn.pri{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
 .hbtn.pri:hover{opacity:.9}
 .hbtn .lbl{display:inline}
 .sbtn{background:var(--sur2);border:1px solid var(--bdr);color:var(--txt2);width:30px;height:30px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .15s;flex-shrink:0}
@@ -57,7 +53,7 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 .catbtn .ci{font-size:14px;min-width:17px}
 .catbtn .cl{flex:1;overflow:hidden;text-overflow:ellipsis;font-size:12px}
 .catbtn .cc{background:var(--sur3);color:var(--txt3);font-size:9.5px;padding:1px 5px;border-radius:8px;flex-shrink:0}
-.catbtn.on .cc{background:var(--acc);color:#000}
+.catbtn.on .cc{background:var(--acc);color:#fff}
 .sb-stats{padding:10px 14px;border-top:1px solid var(--bdr);font-size:11px;color:var(--txt3);flex-shrink:0;line-height:1.6}
 .sb-stats strong{color:var(--acc)}
 
@@ -67,7 +63,7 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 .toolbar{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
 .fchip{display:flex;align-items:center;gap:4px;padding:5px 12px;border-radius:20px;border:1px solid var(--bdr);background:var(--sur2);color:var(--txt2);font-size:12px;cursor:pointer;transition:all .15s}
 .fchip:hover{border-color:var(--acc);color:var(--txt)}
-.fchip.on{background:var(--acc);color:#000;border-color:var(--acc);font-weight:600}
+.fchip.on{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
 .sort-sel{background:var(--sur2);border:1px solid var(--bdr);color:var(--txt2);padding:5px 10px;border-radius:8px;font-size:12px;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;margin-left:auto}
 .sort-sel option{background:var(--sur)}
 .stats-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
@@ -75,7 +71,7 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 .stat strong{color:var(--acc);font-size:15px}
 .sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:0 18px}
 .sec-title{font-family:'Playfair Display',serif;font-size:19px;display:flex;align-items:center;gap:8px}
-.sec-badge{background:var(--acc);color:#000;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;font-family:'DM Sans',sans-serif}
+.sec-badge{background:var(--acc);color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;font-family:'DM Sans',sans-serif}
 
 /* ── CARDS ── */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:13px;padding:0 18px 24px}
@@ -138,7 +134,7 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 /* export */
 .ecats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 .ecat{padding:4px 11px;border-radius:20px;border:1px solid var(--bdr);background:var(--sur2);color:var(--txt2);font-size:11.5px;cursor:pointer;transition:all .15s}
-.ecat.on{background:var(--acc);color:#000;border-color:var(--acc)}
+.ecat.on{background:var(--acc);color:#fff;border-color:var(--acc)}
 .colcks{display:flex;gap:14px;flex-wrap:wrap}
 .colcks label{font-size:12px;display:flex;align-items:center;gap:5px;cursor:pointer;color:var(--txt2)}
 .fmts{display:flex;gap:12px;flex-wrap:wrap}
@@ -150,7 +146,7 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 /* responsive */
 @media(max-width:760px){.sidebar{display:none}.grid{grid-template-columns:1fr}.hdr-logo-text{font-size:14px}.hbtn .lbl{display:none}.share-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.tdots{display:none}}
+@media(max-width:480px){.dark-toggle{display:none}}
 </style>
 </head>
 <body>
@@ -159,8 +155,8 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 <div class="hdr">
   <button class="sbtn" id="sideToggle" title="Toggle Sidebar">☰</button>
   <div class="hdr-logo">
-    <div class="hdr-logo-icon">⚖️</div>
-    <div><div class="hdr-logo-text">CA Prompt Library Pro</div><span class="hdr-logo-sub">500+ AI Prompts · Taxation Updates</span></div>
+    <div class="hdr-logo-icon" style="background:var(--acc);border-radius:8px;font-size:14px">Tx<sup style="font-size:8px">®</sup></div>
+    <div><div class="hdr-logo-text">CA Prompt Library</div><span class="hdr-logo-sub">500+ AI Prompts · Taxation Updates</span></div>
   </div>
   <div class="hdr-search">
     <span style="color:var(--txt3);font-size:14px">🔍</span>
@@ -168,14 +164,7 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
     <span class="hdr-clear" id="searchClear" onclick="clearSearch()">✕</span>
   </div>
   <div class="hdr-right">
-    <div class="tdots">
-      <div class="tdot" style="background:#c9a84c" title="Gold" onclick="setTheme('',this)"></div>
-      <div class="tdot on" style="background:#e2e8f0;border:1px solid #ccc" title="Light" onclick="setTheme('th-light',this)"></div>
-      <div class="tdot" style="background:#38bdf8" title="Ocean" onclick="setTheme('th-ocean',this)"></div>
-      <div class="tdot" style="background:#4ade80" title="Forest" onclick="setTheme('th-forest',this)"></div>
-      <div class="tdot" style="background:#fb7185" title="Rose" onclick="setTheme('th-rose',this)"></div>
-      <div class="tdot" style="background:#cba6f7" title="Slate" onclick="setTheme('th-slate',this)"></div>
-    </div>
+    <button class="dark-toggle" id="darkToggle" title="Toggle dark mode" aria-label="Toggle dark mode"></button>
     <button class="hbtn" onclick="showBM()">🔖 <span class="lbl">Saved (<span id="bmCount">0</span>)</span></button>
     <button class="hbtn" onclick="showExport()">📤 <span class="lbl">Export</span></button>
     <button class="hbtn pri" onclick="showAdd()">＋ <span class="lbl">Add Prompt</span></button>
@@ -1516,23 +1505,23 @@ function doPrint() {
 }
 
 // ══ THEME ══
-function setTheme(cls, el) {
-  document.body.className = cls;
-  document.querySelectorAll('.tdot').forEach(d => d.classList.remove('on'));
-  el.classList.add('on');
-  localStorage.setItem('cpl_theme', cls);
+function toggleDarkMode() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('cpl_theme', 'light');
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('cpl_theme', 'dark');
+  }
 }
 function loadTheme() {
-  // Default is always light/white theme per user preference
   const saved = localStorage.getItem('cpl_theme');
-  const cls = saved !== null ? saved : 'th-light';
-  document.body.className = cls;
-  const themeMap = { '': 0, 'th-light': 1, 'th-ocean': 2, 'th-forest': 3, 'th-rose': 4, 'th-slate': 5 };
-  const btns = document.querySelectorAll('.tdot');
-  btns.forEach(b => b.classList.remove('on'));
-  const idx = themeMap[cls] !== undefined ? themeMap[cls] : 1;
-  if (btns[idx]) btns[idx].classList.add('on');
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
 }
+document.getElementById('darkToggle').addEventListener('click', toggleDarkMode);
 
 // ══ MODAL HELPERS ══
 function showModal(id) {
