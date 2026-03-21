@@ -179,7 +179,8 @@
     [data-theme="dark"] .hero-card h3 { color: var(--text); }
     .hero-card p { font-size: .88rem; color: var(--text-soft); }
     .social-pills { display: flex; justify-content: center; gap: .6rem; margin-top: 1.3rem; flex-wrap: wrap; }
-    .pill { background: var(--olive-bg); border: 1px solid var(--glass-border); padding: .4rem 1rem; border-radius: 50px; font-size: .82rem; color: var(--text-mid); font-weight: 600; }
+    .pill { background: var(--olive-bg); border: 1px solid var(--glass-border); padding: .4rem 1rem; border-radius: 50px; font-size: .82rem; color: var(--text-mid); font-weight: 600; text-decoration: none; transition: background .2s, border-color .2s, color .2s; }
+    a.pill:hover { background: var(--olive); border-color: var(--olive); color: #fff; }
     .hero-card-tag { display: inline-block; background: var(--olive-pale); color: var(--olive-deep); font-size: .75rem; font-weight: 700; padding: .35rem 1rem; border-radius: 6px; text-transform: uppercase; letter-spacing: .06em; margin-top: 1.3rem; }
     [data-theme="dark"] .hero-card-tag { color: var(--olive-light); }
 
@@ -404,8 +405,8 @@
       <h3>CA Mayur J Sondagar</h3>
       <p>@TaxationUpdates</p>
       <div class="social-pills">
-        <span class="pill">Twitter 🐦 103.1K</span>
-        <span class="pill">LinkedIn 💼 17.3K</span>
+        <a class="pill" href="https://twitter.com/TaxationUpdates" target="_blank" rel="noopener noreferrer">Twitter 🐦 103.1K</a>
+        <a class="pill" href="https://www.linkedin.com/in/taxation-updates-ca-mayur-j-sondagar-936772219" target="_blank" rel="noopener noreferrer">LinkedIn 💼 17.3K</a>
       </div>
       <div class="hero-card-tag">Verified CA · Mumbai</div>
     </div>
