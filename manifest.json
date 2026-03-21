@@ -1,20 +1,24 @@
 {
-  "name": "Taxation Updates",
-  "short_name": "Taxation Updates",
+  "name": "Taxation Updates – CA Mayur Sondagar",
+  "short_name": "TaxUpdates",
+  "description": "Simplifying Taxation, GST and Income Tax. Tools and resources by CA Mayur Sondagar.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#3d4408",
+  "theme_color": "#8c9a1a",
+  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "/icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
-  ],
-  "start_url": "/",
-  "display": "browser",
-  "background_color": "#8a9a1a",
-  "theme_color": "#8a9a1a"
+  ]
 }
