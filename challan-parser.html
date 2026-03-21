@@ -4,33 +4,36 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Challan PDF Parser — Taxation Updates</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
   :root {
-    --bg:#f5f6fa; --surface:#fff; --surface2:#f0f2f8; --border:#e2e5ef;
-    --primary:#1a4fd6; --primary-light:#e8edfb; --accent:#0d9e6e;
-    --text:#1a1d2e; --text2:#5a5f7a; --error:#d63031; --warn:#e67e22;
-    --shadow:0 2px 12px rgba(26,79,214,.08); --radius:10px;
+    --bg:#fafbf0; --surface:#fff; --surface2:#f0f3d8; --border:#d8dfa0;
+    --primary:#8c9a1a; --primary-light:#e8edbb; --accent:#6b760f;
+    --text:#252a08; --text2:#4e570f; --error:#d63031; --warn:#e67e22;
+    --shadow:0 2px 12px rgba(140,154,26,.08); --radius:10px;
   }
   [data-theme="dark"] {
-    --bg:#0f1117; --surface:#1a1d2e; --surface2:#22263a; --border:#2e3350;
-    --primary:#4f7ef7; --primary-light:#1e2a4a; --accent:#10c98a;
-    --text:#e8eaf4; --text2:#8b90b0; --shadow:0 2px 12px rgba(0,0,0,.3);
+    --bg:#1a1d0a; --surface:#242810; --surface2:#1f2209; --border:rgba(140,154,26,0.25);
+    --primary:#b5c422; --primary-light:#2e3410; --accent:#9aaa2e;
+    --text:#e8edbb; --text2:#c5ce6e; --shadow:0 2px 12px rgba(0,0,0,.3);
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;transition:background .3s,color .3s;}
+  body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;transition:background .3s,color .3s;}
 
   /* Header */
   header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow);}
   .logo{display:flex;align-items:center;gap:10px;}
-  .logo-icon{width:36px;height:36px;border-radius:8px;background:var(--primary);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;}
-  .logo-text{font-weight:700;font-size:15px;color:var(--text);}
+  .logo-icon{background:var(--primary);color:#fff;font-family:'Playfair Display',serif;font-weight:900;font-size:.78rem;line-height:1.2;padding:.4rem .65rem;border-radius:8px;white-space:nowrap;}
+  .logo-icon sup{font-size:.44rem;vertical-align:super;}
+  .logo-text{font-family:'Playfair Display',serif;font-weight:700;font-size:1rem;color:var(--text);}
+  .logo-text span{color:var(--primary);}
   .logo-sub{font-size:11px;color:var(--text2);}
   .header-right{display:flex;align-items:center;gap:12px;}
   .badge{background:var(--primary-light);color:var(--primary);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;}
-  .btn-dark{background:var(--surface2);border:1px solid var(--border);color:var(--text2);cursor:pointer;border-radius:8px;padding:6px 12px;font-size:12px;transition:all .2s;}
-  .btn-dark:hover{color:var(--text);border-color:var(--primary);}
+  .btn-dark{background:var(--primary-light);border:1.5px solid var(--border);color:var(--primary);cursor:pointer;border-radius:50px;padding:6px 14px;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .2s;}
+  .btn-dark:hover{background:var(--primary);color:#fff;border-color:var(--primary);}
 
   main{max-width:1200px;margin:0 auto;padding:24px 20px;}
 
@@ -100,8 +103,8 @@
   td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text);white-space:nowrap;}
   tr:last-child td{border-bottom:none;}
   tr:hover td{background:var(--primary-light);}
-  mark.hl{background:#fde68a;border-radius:2px;color:inherit;}
-  [data-theme="dark"] mark.hl{background:#92400e;}
+  mark.hl{background:#e8edbb;border-radius:2px;color:inherit;}
+  [data-theme="dark"] mark.hl{background:#3d4408;}
 
   /* Chips */
   .chip{display:inline-block;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600;}
@@ -119,10 +122,10 @@
 <body>
 <header>
   <div class="logo">
-    <div class="logo-icon">TU</div>
+    <div class="logo-icon">Taxation<sup>®</sup><br/>Updates</div>
     <div>
-      <div class="logo-text">Challan PDF Parser</div>
-      <div class="logo-sub">taxationupdates.in — ITNS 280 / 281 / 282 / 283</div>
+      <div class="logo-text">CA Mayur <span>Sondagar</span></div>
+      <div class="logo-sub">Challan PDF Parser — ITNS 280 / 281 / 282 / 283</div>
     </div>
   </div>
   <div class="header-right">
