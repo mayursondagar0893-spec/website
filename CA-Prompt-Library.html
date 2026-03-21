@@ -1226,7 +1226,7 @@ function sharePrompt(id) {
     openLink('https://twitter.com/intent/tweet?text=' + encodeURIComponent(p.title + '\n\n' + p.prompt.slice(0, 240) + '…'));
   };
   document.getElementById('shareLIBtn').onclick = () => {
-    openLink('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent('https://taxationupdates.in') + '&title=' + encodeURIComponent(p.title) + '&summary=' + encodeURIComponent(p.prompt.slice(0, 400)));
+    openLink('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent('https://taxationupdates.com') + '&title=' + encodeURIComponent(p.title) + '&summary=' + encodeURIComponent(p.prompt.slice(0, 400)));
   };
   document.getElementById('shareCopyBtn').onclick = () => {
     copyText('*' + p.title + '*\n\n' + p.prompt);
@@ -1247,7 +1247,7 @@ function printPrompt(p) {
   @media print{body{margin:10px}}</style></head><body>
   <h1>${escHtml(p.title)}</h1>
   <pre>${escHtml(p.prompt)}</pre>
-  <div class="ft">CA Prompt Library Pro · Taxation Updates · taxationupdates.in</div>
+  <div class="ft">CA Prompt Library Pro · Taxation Updates · taxationupdates.com</div>
   <script>window.onload=function(){window.print()}<\/script>
   </body></html>`);
   win.document.close();
@@ -1433,7 +1433,7 @@ function doExportWord(data, opts) {
   const groups = {};
   data.forEach(p => { if (!groups[p.cat]) groups[p.cat] = []; groups[p.cat].push(p); });
   let body = '<h1 style="color:#8B6914;font-family:Georgia,serif">⚖️ CA Prompt Library Pro</h1>';
-  body += '<p style="color:#888;font-size:11pt">AI Automation Toolkit · Taxation Updates · taxationupdates.in</p><hr>';
+  body += '<p style="color:#888;font-size:11pt">AI Automation Toolkit · Taxation Updates · taxationupdates.com</p><hr>';
   Object.keys(groups).forEach(catId => {
     const cat = getCat(catId);
     body += `<h2 style="color:#8B6914;border-bottom:2px solid #c9a84c;padding-bottom:4pt">${cat.icon} ${cat.label}</h2>`;
@@ -1498,7 +1498,7 @@ function doPrint() {
     }
     html += `<div class="it"><div class="it-t">${escHtml(p.title)}</div><div class="it-p">${escHtml(p.prompt)}</div></div>`;
   });
-  html += `<div class="ft">CA Prompt Library Pro · taxationupdates.in · Total: ${filtered.length}</div>
+  html += `<div class="ft">CA Prompt Library Pro · taxationupdates.com · Total: ${filtered.length}</div>
   <script>window.onload=function(){window.print()}<\/script></body></html>`;
   win.document.write(html);
   win.document.close();
