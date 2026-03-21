@@ -224,6 +224,7 @@
     .portfolio-card { background: var(--cream); border: 1.5px solid var(--glass-border); border-radius: 18px; overflow: hidden; transition: transform .25s, box-shadow .25s; text-decoration: none; display: block; color: inherit; }
     .portfolio-card:hover { transform: translateY(-5px); box-shadow: 0 14px 40px rgba(140,154,26,0.15); }
     .p-thumb { height: 130px; display: flex; align-items: center; justify-content: center; font-size: 2.6rem; background: var(--olive); }
+    .p-thumb.t1 { background: var(--olive); }
     .p-thumb.t2 { background: var(--olive-dark); }
     .p-body { padding: 1.4rem; }
     .p-tag { font-size: .68rem; text-transform: uppercase; letter-spacing: .1em; color: var(--olive); font-weight: 700; margin-bottom: .4rem; }
@@ -474,7 +475,7 @@
     </a>
     <a href="CA-Prompt-Library.html" class="portfolio-card reveal">
       <div class="p-thumb t2">📊</div>
-      <div class="p-body"><div class="p-tag">Tool</div><h3>CA Prompt Library</h3><p> Most Helpfull AI Prompts for Tax Professionals </p></div>
+      <div class="p-body"><div class="p-tag">Tool</div><h3>CA Prompt Library</h3><p> Most Helpful AI Prompts for Tax Professionals</p></div>
     </a>
   </div>
 </section>
@@ -588,8 +589,8 @@ I really admire how you present complex things in so simple manner @TaxationUpda
       <p class="section-sub">Have a tax query or collaboration idea? I'd love to hear from you.</p>
       <div class="contact-info">
         <div class="contact-item"><div class="c-icon">📍</div><div><div class="c-label">Location</div><div class="c-val">Mumbai, Maharashtra, India</div></div></div>
-        <div class="contact-item"><div class="c-icon">🐦</div><div><div class="c-label">Twitter / X</div><div class="c-val"><a href="https://twitter.com/TaxationUpdates" target="_blank">@TaxationUpdates</a></div></div></div>
-        <div class="contact-item"><div class="c-icon">💼</div><div><div class="c-label">LinkedIn</div><div class="c-val"><a href="https://www.linkedin.com/in/taxation-updates-ca-mayur-j-sondagar-936772219" target="_blank">Taxation Updates (Mayur J Sondagar)</a></div></div></div>
+        <div class="contact-item"><div class="c-icon">🐦</div><div><div class="c-label">Twitter / X</div><div class="c-val"><a href="https://twitter.com/TaxationUpdates" target="_blank" rel="noopener noreferrer">@TaxationUpdates</a></div></div></div>
+        <div class="contact-item"><div class="c-icon">💼</div><div><div class="c-label">LinkedIn</div><div class="c-val"><a href="https://www.linkedin.com/in/taxation-updates-ca-mayur-j-sondagar-936772219" target="_blank" rel="noopener noreferrer">Taxation Updates (Mayur J Sondagar)</a></div></div></div>
         <div class="contact-item"><div class="c-icon">💬</div><div><div class="c-label">WhatsApp</div><div class="c-val"><a href="#" class="wa-link" target="_blank">Chat on WhatsApp</a> &nbsp;(<span class="wa-number"></span>)</div></div></div>
       </div>
     </div>
@@ -622,8 +623,8 @@ I really admire how you present complex things in so simple manner @TaxationUpda
   </div>
   <p>© 2026 CA Mayur J Sondagar · All rights reserved</p>
   <div class="footer-socials">
-    <a class="social-btn" href="https://twitter.com/TaxationUpdates" target="_blank" title="Twitter / X">𝕏</a>
-    <a class="social-btn" href="https://www.linkedin.com/in/taxation-updates-ca-mayur-j-sondagar-936772219" target="_blank" title="LinkedIn">in</a>
+    <a class="social-btn" href="https://twitter.com/TaxationUpdates" target="_blank" rel="noopener noreferrer" title="Twitter / X">𝕏</a>
+    <a class="social-btn" href="https://www.linkedin.com/in/taxation-updates-ca-mayur-j-sondagar-936772219" target="_blank" rel="noopener noreferrer" title="LinkedIn">in</a>
     <a class="social-btn wa-link" href="#" target="_blank" title="WhatsApp">💬</a>
   </div>
 </footer>
@@ -690,7 +691,9 @@ I really admire how you present complex things in so simple manner @TaxationUpda
     const name=document.getElementById('f-name').value.trim();
     const email=document.getElementById('f-email').value.trim();
     const msg=document.getElementById('f-msg').value.trim();
+    const emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if(!name||!email||!msg){ alert('Please fill in your name, email and message.'); return; }
+    if(!emailOk){ alert('Please enter a valid email address.'); return; }
     const purpose=document.getElementById('f-purpose').value||'General';
     const company=document.getElementById('f-company').value.trim();
     const text=encodeURIComponent(`Hello CA Mayur,\n\nName: ${name}\nEmail: ${email}${company?'\nCompany: '+company:''}\nPurpose: ${purpose}\n\n${msg}`);
