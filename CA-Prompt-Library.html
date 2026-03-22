@@ -178,7 +178,12 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 /* responsive */
 @media(max-width:760px){.sidebar{display:none}.grid{grid-template-columns:1fr}.hdr-logo-text{font-size:14px}.hbtn .lbl{display:none}.share-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.hbtn:not(.pri){display:none}.hdr-search{min-width:50px}}
+@media(max-width:480px){
+  .hdr{flex-wrap:wrap;height:auto;padding:8px 10px 8px;gap:6px}
+  .hdr-search{order:3;flex:0 0 100%;max-width:100%;min-width:0}
+  .hdr-right{gap:4px;flex-shrink:1}
+  .hbtn{padding:4px 7px;font-size:11px}
+}
 </style>
 </head>
 <body>
