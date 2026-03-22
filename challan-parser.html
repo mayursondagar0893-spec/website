@@ -117,6 +117,12 @@
   .empty-state .ei{font-size:40px;margin-bottom:12px;}
   .status-msg{font-size:12px;color:var(--text2);}
   .row-count{font-size:11px;color:var(--text2);}
+  footer{background:var(--surface);border-top:1px solid var(--border);padding:1.2rem 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;font-size:.8rem;color:var(--text2);}
+  footer a{color:var(--primary);text-decoration:none;}
+  footer a:hover{color:var(--accent);}
+  .footer-socials{display:flex;gap:8px;}
+  .social-btn{width:30px;height:30px;background:var(--primary-light);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--primary);text-decoration:none;transition:background .2s;}
+  .social-btn:hover{background:var(--primary);color:#fff;}
 </style>
 </head>
 <body>
@@ -593,5 +599,12 @@ function toggleTheme(){
   document.querySelector('.btn-dark').textContent=isDark?'🌙 Dark Mode':'☀️ Light Mode';
 }
 </script>
+<footer>
+  <span>© 2026 CA Mayur J Sondagar · <a href="/">taxationupdates.com</a></span>
+  <div class="footer-socials">
+    <a class="social-btn" href="https://twitter.com/TaxationUpdates" target="_blank" rel="noopener noreferrer" title="Twitter / X">𝕏</a>
+    <a class="social-btn" href="https://www.linkedin.com/in/taxation-updates-ca-mayur-j-sondagar-936772219" target="_blank" rel="noopener noreferrer" title="LinkedIn">in</a>
+  </div>
+</footer>
 </body>
 </html>
