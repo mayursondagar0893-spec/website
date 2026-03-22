@@ -101,22 +101,30 @@
        DARK MODE VARIABLES
     ══════════════════════════════════════ */
     [data-theme="dark"] {
-      --cream:        #1a1d0a;
-      --white:        #242810;
+      --cream:        #232810;
+      --white:        #2a2e12;
       --text:         #e8edbb;
       --text-mid:     #c5ce6e;
       --text-soft:    #9aaa2e;
       --glass:        rgba(140,154,26,0.12);
       --glass-border: rgba(140,154,26,0.3);
-      --nav-bg:       rgba(26,29,10,0.97);
-      --card-bg:      #2d3214;
-      --section-alt:  #161908;
-      --olive-bg:     #1f2209;
+      --nav-bg:       rgba(20,23,8,0.97);
+      --card-bg:      #2e3415;
+      --section-alt:  #0e1004;
+      --olive-bg:     #1a1e08;
       --olive-pale:   #2e3410;
-      --footer-bg:    #111405;
+      --footer-bg:    #080a02;
     }
+    /* Glowing gradient separator between sections in dark mode */
     [data-theme="dark"] section {
-      border-top: 1px solid rgba(140,154,26,0.22);
+      position: relative;
+    }
+    [data-theme="dark"] section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(140,154,26,0.6) 30%, rgba(181,196,34,0.85) 50%, rgba(140,154,26,0.6) 70%, transparent 100%);
     }
 
     /* ── Skip Navigation ── */
