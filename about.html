@@ -262,7 +262,10 @@
     /* ── Checklist ── */
     .check-list { list-style: none; display: flex; flex-direction: column; gap: .75rem; margin-top: .5rem; }
     .check-list li {
-      display: flex; align-items: flex-start; gap: .8rem;
+      display: grid;
+      grid-template-columns: 22px 165px 1fr;
+      gap: 0 .8rem;
+      align-items: start;
       font-size: .93rem; color: var(--text-mid); line-height: 1.6;
     }
     .check-list li::before {
@@ -272,6 +275,13 @@
       font-weight: 700; font-size: .7rem;
       display: flex; align-items: center; justify-content: center;
       margin-top: .15rem;
+    }
+    .check-label { font-weight: 600; color: var(--text); }
+    .check-desc  { color: var(--text-mid); }
+    @media (max-width: 600px) {
+      .check-list li { grid-template-columns: 22px 1fr; }
+      .check-label { grid-column: 2; }
+      .check-desc  { grid-column: 2; margin-top: .1rem; }
     }
 
     /* ── Timeline ── */
@@ -458,12 +468,12 @@
     <h2>💼 What I Do</h2>
     <div class="section-divider"></div>
     <ul class="check-list">
-      <li><strong>Income Tax Advisory:</strong> Tax planning for individuals, HUFs, partnership firms, and private limited companies under the new and old tax regimes.</li>
-      <li><strong>GST Compliance:</strong> GST registration, monthly/quarterly return filing (GSTR-1, GSTR-3B), reconciliation, and audit support.</li>
-      <li><strong>TDS / TCS Management:</strong> Deductee compliance, TDS return filing, lower deduction certificate applications, and challan management.</li>
-      <li><strong>ITR Filing:</strong> Accurate and timely filing of Income Tax Returns for salaried employees, business owners, freelancers, and NRIs.</li>
-      <li><strong>Tax Education Content:</strong> Daily posts, charts, and reference tables covering Budget updates, new tax law changes, and compliance deadlines.</li>
-      <li><strong>Brand Collaborations:</strong> Partnering with BFSI, fintech, and tax-software brands to reach a highly engaged, finance-aware audience of 120K+ followers.</li>
+      <li><span class="check-label">Income Tax Advisory:</span><span class="check-desc">Tax planning for individuals, HUFs, partnership firms, and private limited companies under the new and old tax regimes.</span></li>
+      <li><span class="check-label">GST Compliance:</span><span class="check-desc">GST registration, monthly/quarterly return filing (GSTR-1, GSTR-3B), reconciliation, and audit support.</span></li>
+      <li><span class="check-label">TDS / TCS Management:</span><span class="check-desc">Deductee compliance, TDS return filing, lower deduction certificate applications, and challan management.</span></li>
+      <li><span class="check-label">ITR Filing:</span><span class="check-desc">Accurate and timely filing of Income Tax Returns for salaried employees, business owners, freelancers, and NRIs.</span></li>
+      <li><span class="check-label">Tax Education Content:</span><span class="check-desc">Daily posts, charts, and reference tables covering Budget updates, new tax law changes, and compliance deadlines.</span></li>
+      <li><span class="check-label">Brand Collaborations:</span><span class="check-desc">Partnering with BFSI, fintech, and tax-software brands to reach a highly engaged, finance-aware audience of 120K+ followers.</span></li>
     </ul>
   </div>
 
