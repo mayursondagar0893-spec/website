@@ -1,9 +1,309 @@
 <!DOCTYPE html>
-<html>
-<head><title>Privacy Policy</title></head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy — Taxation Updates</title>
+  <meta name="description" content="Privacy Policy for taxationupdates.com — CA Mayur Sondagar's taxation resource website."/>
+  <link rel="canonical" href="https://taxationupdates.com/privacy-policy.html"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png"/>
+  <meta name="theme-color" content="#8c9a1a"/>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YC101DVMH7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-YC101DVMH7');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --olive:        #8c9a1a;
+      --olive-dark:   #6b760f;
+      --olive-deep:   #3d4408;
+      --olive-light:  #b5c422;
+      --olive-pale:   #e8edbb;
+      --olive-bg:     #f0f3d8;
+      --cream:        #fafbf0;
+      --white:        #ffffff;
+      --text:         #252a08;
+      --text-mid:     #4e570f;
+      --text-soft:    #7a8520;
+      --card-bg:      #ffffff;
+      --section-alt:  #f0f3d8;
+      --glass-border: rgba(140,154,26,0.18);
+      --footer-bg:    #3d4408;
+      --nav-bg:       rgba(250,251,240,0.88);
+    }
+    [data-theme="dark"] {
+      --cream:        #1a1d0a;
+      --white:        #242810;
+      --text:         #e8edbb;
+      --text-mid:     #c5ce6e;
+      --text-soft:    #9aaa2e;
+      --card-bg:      #242810;
+      --section-alt:  #1f2209;
+      --olive-bg:     #1f2209;
+      --olive-pale:   #2e3410;
+      --footer-bg:    #111405;
+      --glass-border: rgba(140,154,26,0.2);
+      --nav-bg:       rgba(26,29,10,0.92);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background .3s, color .3s;
+      line-height: 1.7;
+    }
+
+    /* ── Header ── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--nav-bg);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: .85rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background .3s;
+    }
+    .nav-logo { display: flex; align-items: center; gap: .7rem; text-decoration: none; }
+    .logo-box {
+      background: var(--olive); color: #fff;
+      font-family: 'Playfair Display', serif; font-weight: 900;
+      font-size: .82rem; line-height: 1.2;
+      padding: .4rem .7rem; border-radius: 8px;
+    }
+    .logo-box sup { font-size: .48rem; vertical-align: super; }
+    .logo-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--olive-deep); }
+    .logo-name span { color: var(--olive); }
+    [data-theme="dark"] .logo-name { color: var(--text); }
+
+    .header-right { display: flex; align-items: center; gap: 1rem; }
+    .back-link {
+      color: var(--text-mid); text-decoration: none; font-size: .88rem;
+      font-weight: 500; display: flex; align-items: center; gap: .3rem;
+      transition: color .2s;
+    }
+    .back-link:hover { color: var(--olive); }
+
+    .dark-toggle {
+      width: 42px; height: 24px; border-radius: 50px;
+      background: var(--olive-pale); border: 1.5px solid var(--glass-border);
+      cursor: pointer; position: relative; transition: background .3s;
+      flex-shrink: 0;
+    }
+    .dark-toggle::after {
+      content: '☀️'; position: absolute; left: 2px; top: 50%;
+      transform: translateY(-50%); font-size: .7rem;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--olive); display: flex; align-items: center; justify-content: center;
+      transition: left .3s, background .3s;
+    }
+    [data-theme="dark"] .dark-toggle { background: var(--olive-deep); }
+    [data-theme="dark"] .dark-toggle::after { content: '🌙'; left: 18px; background: var(--olive-light); }
+
+    /* ── Page Content ── */
+    main {
+      max-width: 780px;
+      margin: 3rem auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    .page-tag {
+      display: inline-block;
+      background: var(--olive-pale); color: var(--olive-dark);
+      font-size: .75rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; padding: .3rem .9rem; border-radius: 50px;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 900; color: var(--text);
+      line-height: 1.25; margin-bottom: .75rem;
+    }
+
+    .divider {
+      width: 56px; height: 4px;
+      background: linear-gradient(90deg, var(--olive), var(--olive-light));
+      border-radius: 2px; margin: 1rem 0 2rem;
+    }
+
+    .updated {
+      font-size: .85rem; color: var(--text-soft);
+      margin-bottom: 2.5rem;
+    }
+
+    .policy-section {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      padding: 1.75rem 2rem;
+      margin-bottom: 1.25rem;
+      transition: background .3s, border-color .3s;
+    }
+
+    .policy-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--olive-deep); margin-bottom: .75rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    [data-theme="dark"] .policy-section h2 { color: var(--olive-light); }
+
+    .policy-section p {
+      color: var(--text-mid); font-size: .93rem;
+      margin-bottom: .6rem;
+    }
+    .policy-section p:last-child { margin-bottom: 0; }
+
+    .policy-section ul {
+      list-style: none; padding: 0; margin: .5rem 0;
+    }
+    .policy-section ul li {
+      color: var(--text-mid); font-size: .93rem;
+      padding: .25rem 0 .25rem 1.4rem; position: relative;
+    }
+    .policy-section ul li::before {
+      content: '✓'; position: absolute; left: 0;
+      color: var(--olive); font-weight: 700;
+    }
+
+    a { color: var(--olive); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--footer-bg);
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-size: .85rem;
+    }
+    footer a { color: var(--olive-light); }
+    footer a:hover { color: #fff; }
+    .footer-logo-box {
+      background: var(--olive); color: #fff;
+      font-family: 'Playfair Display', serif; font-weight: 900;
+      font-size: .8rem; line-height: 1.2;
+      padding: .4rem .7rem; border-radius: 8px;
+      display: inline-block; margin-bottom: .75rem;
+    }
+  </style>
+</head>
 <body>
-<h1>Privacy Policy</h1>
-<p>This website (Taxation Updates) may use cookies and third-party ads like Google AdSense.</p>
-<p>We do not collect personal data without consent.</p>
+
+<!-- ── Header ── -->
+<header>
+  <a class="nav-logo" href="/">
+    <div class="logo-box">Taxation<sup>®</sup><br/>Updates</div>
+    <div class="logo-name">CA Mayur <span>Sondagar</span></div>
+  </a>
+  <div class="header-right">
+    <a class="back-link" href="/">← Back to Home</a>
+    <button class="dark-toggle" id="dark-toggle" aria-label="Toggle dark mode"></button>
+  </div>
+</header>
+
+<!-- ── Main Content ── -->
+<main>
+  <div class="page-tag">Legal</div>
+  <h1>Privacy Policy</h1>
+  <div class="divider"></div>
+  <p class="updated">Last updated: March 2026</p>
+
+  <div class="policy-section">
+    <h2>👋 Overview</h2>
+    <p>This Privacy Policy explains how <strong>taxationupdates.com</strong> ("the Website"), operated by CA Mayur J Sondagar, collects, uses, and protects information when you visit.</p>
+    <p>This is a static informational website. We do not operate a backend server, run a database, or process payments. Your privacy is important to us.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>📊 Analytics (Google Analytics)</h2>
+    <p>We use <strong>Google Analytics 4 (GA4)</strong> to understand how visitors use the website. This service collects anonymised data such as:</p>
+    <ul>
+      <li>Pages visited and time spent on each page</li>
+      <li>General geographic region (country/city level)</li>
+      <li>Device type, browser, and operating system</li>
+      <li>Referral source (how you arrived at the site)</li>
+    </ul>
+    <p>This data is aggregated and does not personally identify you. Google's data processing is governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a>.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>🍪 Cookies &amp; Local Storage</h2>
+    <p>The Website uses the following storage mechanisms:</p>
+    <ul>
+      <li><strong>Google Analytics cookies</strong> — used by GA4 for session tracking (see above)</li>
+      <li><strong>Theme preference</strong> — your light/dark mode choice is saved in <code>localStorage</code> so it persists across visits</li>
+      <li><strong>Bookmarks</strong> — in the CA Prompt Library tool, bookmarked prompts are saved to <code>localStorage</code> on your device only</li>
+    </ul>
+    <p>No personal data is stored in cookies or local storage. Local storage data never leaves your browser.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>📬 Contact Form</h2>
+    <p>The contact form on the homepage does not send data to any server. When you click "Send Message", the Website opens WhatsApp with your message pre-filled. The message is transmitted directly between you and CA Mayur Sondagar via WhatsApp's platform, subject to <a href="https://www.whatsapp.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">WhatsApp's Privacy Policy</a>.</p>
+    <p>We do not store or log any information you enter into the contact form.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>🔗 Third-Party Links</h2>
+    <p>The Website may contain links to external sites (Twitter/X, LinkedIn, Google Drive, WhatsApp). We are not responsible for the privacy practices of these third-party services. We encourage you to review their respective privacy policies.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>🛡️ Data Security</h2>
+    <p>Since we do not collect or store personal data on our servers, there is no personal data at risk from a server breach. All tool functionality (challan parsing, prompt library) runs entirely in your browser.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>👶 Children's Privacy</h2>
+    <p>This Website is not directed at children under 13 years of age. We do not knowingly collect personal information from children.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>✏️ Changes to This Policy</h2>
+    <p>We may update this Privacy Policy from time to time. The "Last updated" date at the top of this page will reflect any changes. Continued use of the Website after updates constitutes acceptance of the revised policy.</p>
+  </div>
+
+  <div class="policy-section">
+    <h2>📩 Contact</h2>
+    <p>If you have any questions about this Privacy Policy, you can reach CA Mayur Sondagar via:</p>
+    <ul>
+      <li>WhatsApp: available on the <a href="/#contact">Contact section</a> of the homepage</li>
+      <li>Twitter/X: <a href="https://twitter.com/TaxationUpdates" target="_blank" rel="noopener noreferrer">@TaxationUpdates</a></li>
+      <li>LinkedIn: <a href="https://www.linkedin.com/in/taxation-updates-ca-mayur-j-sondagar-936772219" target="_blank" rel="noopener noreferrer">Taxation Updates</a></li>
+    </ul>
+  </div>
+</main>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-logo-box">Taxation<sup>®</sup><br/>Updates</div>
+  <p>© 2026 CA Mayur J Sondagar · All rights reserved</p>
+  <p style="margin-top:.5rem;"><a href="/">← Back to Home</a></p>
+</footer>
+
+<script>
+  const toggleBtn = document.getElementById('dark-toggle');
+  const saved = localStorage.getItem('theme') || 'light';
+  if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  toggleBtn.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  });
+</script>
 </body>
 </html>
