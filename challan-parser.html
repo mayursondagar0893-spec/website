@@ -44,6 +44,9 @@
   .badge{background:var(--primary-light);color:var(--primary);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;}
   .btn-dark{background:var(--primary-light);border:1.5px solid var(--border);color:var(--primary);cursor:pointer;border-radius:50px;padding:6px 14px;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .2s;}
   .btn-dark:hover{background:var(--primary);color:#fff;border-color:var(--primary);}
+  .back-link{font-size:.82rem;color:var(--primary);text-decoration:none;font-weight:600;display:flex;align-items:center;gap:.3rem;transition:color .2s;}
+  .back-link:hover{color:var(--accent);}
+  @media(max-width:640px){.back-link span{display:none}}
 
   main{max-width:1200px;margin:0 auto;padding:24px 20px;}
 
@@ -145,6 +148,7 @@
     </div>
   </div>
   <div class="header-right">
+    <a href="/" class="back-link">← <span>Back to Home</span></a>
     <span class="badge">Bulk Upload</span>
     <button class="btn-dark" onclick="toggleTheme()">🌙 Dark Mode</button>
   </div>
