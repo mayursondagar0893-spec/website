@@ -16,6 +16,23 @@
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<!-- Schema.org: WebApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Income Tax Challan PDF to Excel",
+  "url": "https://taxationupdates.com/INCOME-TAX-CHALLAN-TO-EXCEL.html",
+  "description": "Free online Income Tax challan PDF parser. Upload ITNS 280/281/282/283 challans and export data to Excel instantly. 100% client-side.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+  "author": { "@type": "Person", "@id": "https://taxationupdates.com/#person", "name": "CA Mayur J Sondagar" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
 <style>
   /* ══════════════════════════════════════
@@ -501,9 +518,18 @@
     .page-hero { padding: 1.5rem 4%; }
     .back-link span { display: none; }
   }
+  .skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
+  .skip-nav:focus{position:fixed;top:0;left:0;width:auto;height:auto;padding:.5rem 1rem;background:var(--olive);color:#fff;font-weight:600;font-size:.85rem;z-index:9999;border-radius:0 0 8px 0;text-decoration:none;}
+  .tools-nav{background:var(--section-alt);border-bottom:1px solid var(--glass-border);padding:7px 1.5rem;display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;}
+  .tools-nav::-webkit-scrollbar{display:none;}
+  .tools-nav-label{font-size:10px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;flex-shrink:0;margin-right:4px;}
+  .tool-link{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:5px;font-size:11px;font-weight:600;text-decoration:none;white-space:nowrap;border:1px solid var(--glass-border);color:var(--text-mid);background:var(--card-bg);transition:all .15s;flex-shrink:0;}
+  .tool-link:hover{border-color:var(--olive);color:var(--olive);}
+  .tool-link.active{background:var(--olive-pale);border-color:var(--olive);color:var(--olive-deep);}
 </style>
 </head>
 <body>
+<a href="#main-content" class="skip-nav">Skip to main content</a>
 
 <!-- ══════════ HEADER ══════════ -->
 <header>
@@ -517,9 +543,18 @@
   <div class="header-right">
     <a href="index.html" class="back-link">← <span>Back to Home</span></a>
     <span class="badge">Bulk Upload</span>
-    <button class="dark-toggle" id="dark-toggle" title="Toggle dark mode"></button>
+    <button class="dark-toggle" id="dark-toggle" role="switch" aria-checked="false" aria-label="Toggle dark mode" title="Toggle dark mode"></button>
   </div>
 </header>
+
+<!-- TOOLS NAV BAR -->
+<nav class="tools-nav" aria-label="Other tools">
+  <span class="tools-nav-label">Tools:</span>
+  <a class="tool-link active" href="/INCOME-TAX-CHALLAN-TO-EXCEL.html">📊 Challan to Excel</a>
+  <a class="tool-link" href="/challan-parser.html">📄 Challan Parser</a>
+  <a class="tool-link" href="/TDS-SECTION-CODE.html">📋 TDS/TCS Codes</a>
+  <a class="tool-link" href="/CA-Prompt-Library.html">🤖 CA Prompt Library</a>
+</nav>
 
 <!-- ══════════ PAGE HERO ══════════ -->
 <div class="page-hero">
@@ -531,7 +566,7 @@
   </div>
 </div>
 
-<main>
+<main id="main-content">
   <!-- Drop Zone -->
   <div class="drop-zone" id="dropZone">
     <div class="drop-icon">📂</div>
@@ -678,11 +713,12 @@ let files=[], parsedData=[], filteredData=[], sortCol='', sortDir='asc';
 // ── Dark Mode ─────────────────────────────────────────────────
 const toggleBtn = document.getElementById('dark-toggle');
 const saved = localStorage.getItem('theme') || 'light';
-if(saved === 'dark') document.documentElement.setAttribute('data-theme','dark');
+if(saved === 'dark') { document.documentElement.setAttribute('data-theme','dark'); toggleBtn.setAttribute('aria-checked','true'); }
 toggleBtn.addEventListener('click', () => {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
   localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  toggleBtn.setAttribute('aria-checked', isDark ? 'false' : 'true');
 });
 
 // ── Back to top ───────────────────────────────────────────────

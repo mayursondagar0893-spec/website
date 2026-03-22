@@ -14,12 +14,37 @@
   gtag('js', new Date());
   gtag('config', 'G-YC101DVMH7');
 </script>
+<!-- Schema.org: WebApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "CA Prompt Library Pro",
+  "url": "https://taxationupdates.com/CA-Prompt-Library.html",
+  "description": "500+ curated AI prompts for Chartered Accountants covering GST, Income Tax, audit, compliance, client communication, and more.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+  "author": { "@type": "Person", "@id": "https://taxationupdates.com/#person", "name": "CA Mayur J Sondagar" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ── THEMES ── */
 :root{--bg:#fafbf0;--sur:#ffffff;--sur2:#f0f3d8;--sur3:#e8edbb;--bdr:rgba(140,154,26,0.22);--acc:#8c9a1a;--acc2:#b5c422;--accbg:rgba(140,154,26,0.07);--txt:#252a08;--txt2:#4e570f;--txt3:#7a8520;--green:#4ade80;--red:#f87171;--blue:#60a5fa;--teal:#2dd4bf;--radius:12px;--shadow:0 8px 32px rgba(140,154,26,0.18);--sideW:255px}
 [data-theme="dark"]{--bg:#1a1d0a;--sur:#242810;--sur2:#1f2209;--sur3:#2e3410;--bdr:rgba(140,154,26,0.3);--acc:#8c9a1a;--acc2:#b5c422;--accbg:rgba(140,154,26,0.12);--txt:#e8edbb;--txt2:#c5ce6e;--txt3:#9aaa2e;--shadow:0 8px 32px rgba(0,0,0,.5)}
 *{margin:0;padding:0;box-sizing:border-box}
+.skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
+.skip-nav:focus{position:fixed;top:0;left:0;width:auto;height:auto;padding:.5rem 1rem;background:var(--acc);color:#fff;font-weight:600;font-size:.85rem;z-index:9999;border-radius:0 0 8px 0;text-decoration:none;}
+.tools-nav{background:var(--sur2);border-bottom:1px solid var(--bdr);padding:6px 16px;display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap;}
+.tools-nav::-webkit-scrollbar{display:none;}
+.tools-nav-label{font-size:10px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;flex-shrink:0;margin-right:4px;}
+.tool-link{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:5px;font-size:11px;font-weight:600;text-decoration:none;white-space:nowrap;border:1px solid var(--bdr);color:var(--txt2);background:var(--sur);transition:all .15s;flex-shrink:0;}
+.tool-link:hover{border-color:var(--acc);color:var(--acc);}
+.tool-link.active{background:rgba(140,154,26,.1);border-color:var(--acc);color:var(--acc);}
 body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-height:100vh;transition:background .3s,color .3s}
 ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:99px}::-webkit-scrollbar-thumb:hover{background:var(--txt3)}
 
@@ -164,6 +189,9 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 </head>
 <body>
 
+<!-- Skip navigation for keyboard users -->
+<a href="#prompt-content" class="skip-nav">Skip to main content</a>
+
 <!-- HEADER -->
 <div class="hdr">
   <button class="sbtn" id="sideToggle" title="Toggle Sidebar">☰</button>
@@ -178,15 +206,24 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
   </div>
   <div class="hdr-right">
     <a href="/" class="back-link">← <span>Back to Home</span></a>
-    <button class="dark-toggle" id="darkToggle" title="Toggle dark mode" aria-label="Toggle dark mode"></button>
+    <button class="dark-toggle" id="darkToggle" role="switch" aria-checked="false" title="Toggle dark mode" aria-label="Toggle dark mode"></button>
     <button class="hbtn" onclick="showBM()">🔖 <span class="lbl">Saved (<span id="bmCount">0</span>)</span></button>
     <button class="hbtn" onclick="showExport()">📤 <span class="lbl">Export</span></button>
     <button class="hbtn pri" onclick="showAdd()">＋ <span class="lbl">Add Prompt</span></button>
   </div>
 </div>
 
+<!-- TOOLS NAV BAR -->
+<nav class="tools-nav" aria-label="Other tools">
+  <span class="tools-nav-label">Tools:</span>
+  <a class="tool-link active" href="/CA-Prompt-Library.html">🤖 CA Prompt Library</a>
+  <a class="tool-link" href="/TDS-SECTION-CODE.html">📋 TDS/TCS Codes</a>
+  <a class="tool-link" href="/challan-parser.html">📄 Challan Parser</a>
+  <a class="tool-link" href="/INCOME-TAX-CHALLAN-TO-EXCEL.html">📊 Challan to Excel</a>
+</nav>
+
 <!-- LAYOUT -->
-<div class="layout">
+<div class="layout" id="prompt-content">
   <!-- SIDEBAR -->
   <div class="sidebar" id="sidebar">
     <div class="sb-title">Browse Categories</div>
@@ -1528,11 +1565,13 @@ function toggleDarkMode() {
     document.documentElement.setAttribute('data-theme', 'dark');
     localStorage.setItem('cpl_theme', 'dark');
   }
+  document.getElementById('darkToggle').setAttribute('aria-checked', isDark ? 'false' : 'true');
 }
 function loadTheme() {
   const saved = localStorage.getItem('cpl_theme');
   if (saved === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('darkToggle').setAttribute('aria-checked', 'true');
   }
 }
 document.getElementById('darkToggle').addEventListener('click', toggleDarkMode);
