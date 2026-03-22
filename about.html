@@ -29,6 +29,32 @@
     gtag('config', 'G-YC101DVMH7');
   </script>
 
+  <!-- Schema.org: Person -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://taxationupdates.com/#person",
+    "name": "CA Mayur J Sondagar",
+    "jobTitle": "Chartered Accountant",
+    "description": "Mumbai-based Chartered Accountant simplifying Income Tax and GST for 120K+ followers across India.",
+    "url": "https://taxationupdates.com/about.html",
+    "sameAs": [
+      "https://twitter.com/TaxationUpdates",
+      "https://www.linkedin.com/in/taxation-updates-ca-mayur-j-sondagar-936772219"
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Mumbai",
+      "addressRegion": "Maharashtra",
+      "addressCountry": "IN"
+    },
+    "knowsAbout": ["Income Tax", "GST", "TDS", "TCS", "ITR Filing", "Tax Planning", "Chartered Accountancy"]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
 
   <style>
@@ -67,6 +93,10 @@
       --glass-border: rgba(140,154,26,0.22);
       --nav-bg:       rgba(26,29,10,0.92);
     }
+
+    /* ── Skip Navigation ── */
+    .skip-nav { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+    .skip-nav:focus { position: fixed; top: 0; left: 0; width: auto; height: auto; padding: .6rem 1.2rem; background: var(--olive); color: #fff; font-weight: 600; font-size: .9rem; z-index: 9999; border-radius: 0 0 8px 0; text-decoration: none; }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -390,6 +420,9 @@
 </head>
 <body>
 
+<!-- Skip navigation for keyboard users -->
+<a href="#main-content" class="skip-nav">Skip to main content</a>
+
 <!-- ── Header ── -->
 <header>
   <a class="nav-logo" href="/">
@@ -398,7 +431,7 @@
   </a>
   <div class="header-right">
     <a class="back-link" href="/">← Back to Home</a>
-    <button class="dark-toggle" id="dark-toggle" aria-label="Toggle dark mode"></button>
+    <button class="dark-toggle" id="dark-toggle" role="switch" aria-checked="false" aria-label="Toggle dark mode" title="Toggle dark mode"></button>
   </div>
 </header>
 
@@ -416,11 +449,11 @@
 </div>
 
 <!-- ── Main ── -->
-<main>
+<main id="main-content">
 
   <!-- Profile Card -->
   <div class="profile-card">
-    <div class="profile-avatar">MS</div>
+    <div class="profile-avatar" aria-hidden="true">MS</div>
     <div class="profile-info">
       <h2>CA Mayur J Sondagar</h2>
       <p>@TaxationUpdates · Mumbai, Maharashtra, India</p>
@@ -602,11 +635,12 @@
 <script>
   const toggleBtn = document.getElementById('dark-toggle');
   const saved = localStorage.getItem('theme') || 'light';
-  if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  if (saved === 'dark') { document.documentElement.setAttribute('data-theme', 'dark'); toggleBtn.setAttribute('aria-checked','true'); }
   toggleBtn.addEventListener('click', () => {
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
     localStorage.setItem('theme', isDark ? 'light' : 'dark');
+    toggleBtn.setAttribute('aria-checked', isDark ? 'false' : 'true');
   });
 </script>
 </body>

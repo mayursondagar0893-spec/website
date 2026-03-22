@@ -14,6 +14,23 @@
   gtag('js', new Date());
   gtag('config', 'G-YC101DVMH7');
 </script>
+<!-- Schema.org: WebApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Income Tax Challan PDF Parser",
+  "url": "https://taxationupdates.com/challan-parser.html",
+  "description": "Free online Income Tax challan PDF parser. Upload ITNS 280/281/282/283 challans and export data to Excel instantly. 100% client-side.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+  "author": { "@type": "Person", "@id": "https://taxationupdates.com/#person", "name": "CA Mayur J Sondagar" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -136,9 +153,12 @@
   .footer-socials{display:flex;gap:8px;}
   .social-btn{width:30px;height:30px;background:var(--primary-light);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--primary);text-decoration:none;transition:background .2s;}
   .social-btn:hover{background:var(--primary);color:#fff;}
+  .skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
+  .skip-nav:focus{position:fixed;top:0;left:0;width:auto;height:auto;padding:.5rem 1rem;background:var(--primary);color:#fff;font-weight:600;font-size:.85rem;z-index:9999;border-radius:0 0 8px 0;text-decoration:none;}
 </style>
 </head>
 <body>
+<a href="#main-content" class="skip-nav">Skip to main content</a>
 <header>
   <div class="logo">
     <div class="logo-icon">Taxation<sup>®</sup><br/>Updates</div>
@@ -150,11 +170,11 @@
   <div class="header-right">
     <a href="/" class="back-link">← <span>Back to Home</span></a>
     <span class="badge">Bulk Upload</span>
-    <button class="btn-dark" onclick="toggleTheme()">🌙 Dark Mode</button>
+    <button class="btn-dark" id="themeToggleBtn" role="switch" aria-checked="false" aria-label="Toggle dark mode" onclick="toggleTheme()">🌙 Dark Mode</button>
   </div>
 </header>
 
-<main>
+<main id="main-content">
   <!-- Drop Zone -->
   <div class="drop-zone" id="dropZone">
     <div class="drop-icon">📂</div>
@@ -610,7 +630,9 @@ function exportCSV(){
 function toggleTheme(){
   const d=document.documentElement,isDark=d.getAttribute('data-theme')==='dark';
   d.setAttribute('data-theme',isDark?'light':'dark');
-  document.querySelector('.btn-dark').textContent=isDark?'🌙 Dark Mode':'☀️ Light Mode';
+  const btn=document.getElementById('themeToggleBtn');
+  btn.textContent=isDark?'🌙 Dark Mode':'☀️ Light Mode';
+  btn.setAttribute('aria-checked',isDark?'false':'true');
 }
 </script>
 <footer>
