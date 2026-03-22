@@ -35,6 +35,9 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 .hdr-search input::placeholder{color:var(--txt3)}
 .hdr-clear{color:var(--txt3);cursor:pointer;font-size:12px;display:none;padding:2px 4px}
 .hdr-right{display:flex;align-items:center;gap:6px;margin-left:auto;flex-shrink:0}
+.back-link{font-size:.82rem;color:var(--acc);text-decoration:none;font-weight:600;display:flex;align-items:center;gap:.3rem;transition:color .2s;white-space:nowrap;}
+.back-link:hover{color:var(--acc2);}
+@media(max-width:480px){.back-link span{display:none}}
 /* dark mode toggle */
 .dark-toggle{width:42px;height:24px;border-radius:50px;background:var(--sur3);border:1.5px solid var(--bdr);cursor:pointer;position:relative;transition:background .3s;flex-shrink:0}
 .dark-toggle::after{content:'☀️';position:absolute;left:2px;top:50%;transform:translateY(-50%);font-size:.7rem;width:18px;height:18px;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;transition:left .3s,background .3s}
@@ -174,6 +177,7 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
     <span class="hdr-clear" id="searchClear" onclick="clearSearch()">✕</span>
   </div>
   <div class="hdr-right">
+    <a href="/" class="back-link">← <span>Back to Home</span></a>
     <button class="dark-toggle" id="darkToggle" title="Toggle dark mode" aria-label="Toggle dark mode"></button>
     <button class="hbtn" onclick="showBM()">🔖 <span class="lbl">Saved (<span id="bmCount">0</span>)</span></button>
     <button class="hbtn" onclick="showExport()">📤 <span class="lbl">Export</span></button>

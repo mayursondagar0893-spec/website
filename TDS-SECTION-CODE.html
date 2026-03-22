@@ -85,6 +85,9 @@ header{background:var(--hdr);border-bottom:1px solid var(--hbd);position:sticky;
 .at25{background:rgba(29,78,216,.1);border:1px solid rgba(29,78,216,.25);color:#1d4ed8}
 [data-theme="dark"] .at25{background:rgba(96,165,250,.15);border-color:rgba(96,165,250,.3);color:#93c5fd}
 .ha{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.back-link{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--hbd);background:transparent;color:var(--htx);text-decoration:none;transition:all var(--tr);white-space:nowrap}
+.back-link:hover{background:rgba(29,78,216,.08);border-color:var(--blue);color:var(--blue);}
+@media(max-width:640px){.back-link span{display:none}}
 .btn{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:var(--r);
   font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;cursor:pointer;border:none;transition:all var(--tr);white-space:nowrap}
 .bg{background:transparent;color:var(--htx);border:1px solid var(--hbd)}
@@ -592,6 +595,7 @@ body.grid-mode .tds-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px 
       </div>
     </div>
     <div class="ha">
+      <a href="/" class="back-link">← <span>Back to Home</span></a>
       <button class="btn-stats" id="statsBtn" onclick="toggleDash()">📊 Stats</button>
       <button class="btn bcalc" id="calcBtn">🧮 TDS/TCS Calculator</button>
       <button class="btn bg" id="printBtn">🖨️ Print</button>
