@@ -266,6 +266,7 @@
     .service-card h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: .5rem; color: var(--olive-deep); }
     [data-theme="dark"] .service-card h3 { color: var(--text); }
     .service-card p { font-size: .83rem; color: var(--text-mid); line-height: 1.65; }
+    .service-disclaimer { font-size: .74rem !important; color: var(--text-soft) !important; margin-top: .6rem !important; border-top: 1px solid var(--glass-border); padding-top: .5rem; font-style: italic; }
 
     /* ══════════════ PORTFOLIO ══════════════ */
     #portfolio { background: var(--card-bg); }
@@ -316,6 +317,7 @@
     [data-theme="dark"] .testi-name { color: var(--text); }
     .testi-role { font-size: .73rem; color: var(--text-soft); }
     .stars { color: var(--olive-light); font-size: .85rem; margin-bottom: .8rem; letter-spacing: .1em; }
+    .testi-caveat { font-size: .74rem; color: var(--text-soft); text-align: center; max-width: 720px; margin: 1.5rem auto 0; line-height: 1.6; font-style: italic; }
 
     /* ══════════════ CONTACT ══════════════ */
     #contact { background: var(--card-bg); }
@@ -504,7 +506,7 @@
     <p class="section-sub" style="margin:0 auto;">Beyond free content — professional guidance in taxation, GST, and compliance when you need it.</p>
   </div>
   <div class="services-grid">
-    <div class="service-card reveal"><div class="service-icon">📋</div><h3>Tax Consultancy</h3><p>Personal &amp; Business Tax Planning, ITR filing guidance, and GST compliance support from a qualified CA.</p></div>
+    <div class="service-card reveal"><div class="service-icon">📋</div><h3>Tax Consultancy</h3><p>Personal &amp; Business Tax Planning, ITR filing guidance, and GST compliance support from a qualified CA.</p><p class="service-disclaimer">Guidance is based on current law and facts provided. No specific tax outcomes, savings, or results are guaranteed.</p></div>
     <div class="service-card reveal"><div class="service-icon">🔔</div><h3>Taxation Updates</h3><p>Real-time tax law changes, budget highlights, and regulatory news — keeping followers always informed.</p></div>
   </div>
 </section>
@@ -630,6 +632,7 @@ I really admire how you present complex things in so simple manner @TaxationUpda
     </div>
 
   </div>
+  <p class="testi-caveat">* Testimonials reflect individual experiences and opinions. Results, savings, or outcomes mentioned are not representative and may vary based on individual circumstances. No specific financial result is implied or guaranteed.</p>
 </section>
 
 
@@ -656,6 +659,7 @@ I really admire how you present complex things in so simple manner @TaxationUpda
       <input  type="text"   id="f-company" placeholder="Company / Organisation (optional)"/>
       <select id="f-purpose">
         <option value="" disabled selected>Purpose of Enquiry</option>
+        <option>For Information Only</option>
         <option>Tax Consultation</option>
         <option>Media / Press</option>
         <option>Other</option>
