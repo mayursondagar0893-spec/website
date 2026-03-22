@@ -94,8 +94,8 @@
     .logo-name span { color: var(--olive); }
     [data-theme="dark"] .logo-name { color: var(--text); }
     .header-right { display: flex; align-items: center; gap: 1rem; }
-    .back-link { color: var(--text-mid); text-decoration: none; font-size: .88rem; font-weight: 500; display: flex; align-items: center; gap: .3rem; transition: color .2s; }
-    .back-link:hover { color: var(--olive); }
+    .back-link { color: var(--olive); text-decoration: none; font-size: .82rem; font-weight: 600; display: inline-flex; align-items: center; gap: .3rem; transition: all .2s; white-space: nowrap; padding: 5px 12px; border-radius: 8px; border: 1.5px solid var(--olive); background: transparent; }
+    .back-link:hover { color: var(--olive-dark); border-color: var(--olive-dark); background: var(--olive-pale); }
     .dark-toggle {
       width: 42px; height: 24px; border-radius: 50px;
       background: var(--olive-pale); border: 1.5px solid var(--glass-border);
@@ -215,6 +215,7 @@
       footer { flex-direction: column; text-align: center; gap: 1rem; }
       header { padding: .75rem 1rem; }
       main { padding: 1.5rem 1rem 3rem; }
+      .back-link { font-size: .72rem; padding: 4px 9px; }
     }
     @media (max-width: 400px) {
       .logo-name { display: none; }
