@@ -577,17 +577,9 @@ body.grid-mode .tds-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px 
 .skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
 .skip-nav:focus{position:fixed;top:0;left:0;width:auto;height:auto;padding:.5rem 1rem;background:var(--blue);color:#fff;font-weight:600;font-size:.85rem;z-index:9999;border-radius:0 0 8px 0;text-decoration:none;}
 
-/* ══ TOOLS NAV BAR ══ */
-.tools-nav{background:var(--s2);border-bottom:1px solid var(--bd);padding:7px 24px;display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap;}
-.tools-nav::-webkit-scrollbar{display:none;}
-.tools-nav-label{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;flex-shrink:0;margin-right:4px;}
-.tool-link{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:5px;font-size:11px;font-weight:600;text-decoration:none;white-space:nowrap;border:1px solid var(--bd);color:var(--t2);background:var(--sf);transition:all .15s;flex-shrink:0;}
-.tool-link:hover{background:var(--rh);border-color:var(--blue);color:var(--blue);}
-.tool-link.active{background:var(--codebg);border-color:var(--blue);color:var(--blue);}
-
 /* ══ ENHANCED PRINT STYLES ══ */
 @media print{
-  .skip-nav,.tools-nav,.disc,.ha,.sb,.mv-bar,.dash-panel,.cards-wrap,.btn-stats,.fav-btn,.card-star,.fav-td,.fav-th,#printBtn,#calcBtn,#copyBtn,#statsBtn,#themeBtn{display:none!important;}
+  .skip-nav,.disc,.ha,.sb,.mv-bar,.dash-panel,.cards-wrap,.btn-stats,.fav-btn,.card-star,.fav-td,.fav-th,#printBtn,#calcBtn,#copyBtn,#statsBtn,#themeBtn{display:none!important;}
   body.card-mode .main{display:block!important;}
   body,html{background:#fff!important;color:#000!important;font-size:10pt;}
   header{position:static!important;box-shadow:none!important;border-bottom:2px solid #000!important;}
@@ -677,15 +669,6 @@ body.grid-mode .tds-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px 
   </div>
 </div>
 </header>
-
-<!-- TOOLS NAV BAR -->
-<nav class="tools-nav" aria-label="Other tools">
-  <span class="tools-nav-label">Tools:</span>
-  <a class="tool-link active" href="/TDS-SECTION-CODE.html">📋 TDS/TCS Codes</a>
-  <a class="tool-link" href="/CA-Prompt-Library.html">🤖 CA Prompt Library</a>
-  <a class="tool-link" href="/challan-parser.html">📄 Challan Parser</a>
-  <a class="tool-link" href="/INCOME-TAX-CHALLAN-TO-EXCEL.html">📊 Challan to Excel</a>
-</nav>
 
 <!-- TOOLBAR -->
 <div class="toolbar">

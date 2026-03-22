@@ -155,12 +155,6 @@
   .social-btn:hover{background:var(--primary);color:#fff;}
   .skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
   .skip-nav:focus{position:fixed;top:0;left:0;width:auto;height:auto;padding:.5rem 1rem;background:var(--primary);color:#fff;font-weight:600;font-size:.85rem;z-index:9999;border-radius:0 0 8px 0;text-decoration:none;}
-  .tools-nav{background:var(--surface2);border-bottom:1px solid var(--border);padding:6px 24px;display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;}
-  .tools-nav::-webkit-scrollbar{display:none;}
-  .tools-nav-label{font-size:10px;font-weight:700;color:#7a8520;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;flex-shrink:0;margin-right:4px;}
-  .tool-link{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:5px;font-size:11px;font-weight:600;text-decoration:none;white-space:nowrap;border:1px solid var(--border);color:var(--text2);background:var(--surface);transition:all .15s;flex-shrink:0;}
-  .tool-link:hover{border-color:var(--primary);color:var(--primary);}
-  .tool-link.active{background:var(--primary-light);border-color:var(--primary);color:var(--accent);}
 </style>
 </head>
 <body>
@@ -179,14 +173,6 @@
     <button class="btn-dark" id="themeToggleBtn" role="switch" aria-checked="false" aria-label="Toggle dark mode" onclick="toggleTheme()">🌙 Dark Mode</button>
   </div>
 </header>
-
-<nav class="tools-nav" aria-label="Other tools">
-  <span class="tools-nav-label">Tools:</span>
-  <a class="tool-link active" href="/challan-parser.html">📄 Challan Parser</a>
-  <a class="tool-link" href="/INCOME-TAX-CHALLAN-TO-EXCEL.html">📊 Challan to Excel</a>
-  <a class="tool-link" href="/TDS-SECTION-CODE.html">📋 TDS/TCS Codes</a>
-  <a class="tool-link" href="/CA-Prompt-Library.html">🤖 CA Prompt Library</a>
-</nav>
 
 <main id="main-content">
   <!-- Drop Zone -->
