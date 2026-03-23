@@ -303,15 +303,16 @@ mark{background:rgba(140,154,26,.18);border-bottom:1.5px solid #8c9a1a;border-ra
 .cw12{width:58px;text-align:center}
 
 /* ══ CALCULATOR ══ */
-.calco{position:fixed;inset:0;z-index:990;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);
+.calco{position:fixed;inset:0;z-index:1001;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);
   opacity:0;pointer-events:none;transition:opacity .2s}
 .calco.open{opacity:1;pointer-events:all}
-.calcp{position:fixed;top:0;left:0;right:0;z-index:991;background:var(--sf);
+.calcp{position:fixed;top:0;left:0;right:0;z-index:1002;background:var(--sf);
   border-bottom:2px solid var(--blue);border-radius:0 0 16px 16px;padding:18px 28px 26px;
   transform:translateY(-100%);transition:transform .3s cubic-bezier(.4,0,.2,1);
-  box-shadow:0 8px 40px rgba(0,0,0,.18);max-height:90vh;overflow-y:auto;overflow-x:hidden}
+  box-shadow:0 8px 40px rgba(0,0,0,.18);max-height:90vh;overflow-y:auto;overflow-x:clip}
 .calcp.open{transform:translateY(0)}
-@media(max-width:600px){.calcp{padding:14px 14px 20px}}
+@media(max-width:768px){.calcp{padding:14px 14px 20px;border-radius:0 0 12px 12px}}
+@media(max-width:600px){.calcp{padding:12px 10px 18px}}
 .calch{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .calct{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:7px}
 .calcnote{font-size:10px;color:var(--t3);font-weight:400}
@@ -639,7 +640,7 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
 .fb-stitle{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
   color:var(--t3);margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .fb-stitle::after{content:'';flex:1;height:1px;background:var(--bd)}
-.fb-slab-tabs{display:flex;border-bottom:1px solid var(--bd);margin-bottom:10px}
+.fb-slab-tabs{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--bd);margin-bottom:10px}
 .fb-slab-tab{padding:5px 14px;border:none;background:transparent;font-family:'DM Sans',sans-serif;
   font-size:10.5px;font-weight:500;color:var(--t2);cursor:pointer;
   border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
@@ -1735,6 +1736,7 @@ document.getElementById('discClose').onclick=()=>{document.getElementById('discB
 
 /* ═══ CALCULATOR ═══ */
 function openCalc(){
+  closeMo();
   document.getElementById('calcp').classList.add('open');
   document.getElementById('calco').classList.add('open');
 }
