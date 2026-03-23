@@ -544,6 +544,41 @@ body.grid-mode .card-hint{display:none;}
 body.grid-mode .tds-card{cursor:pointer;}
 body.grid-mode .tds-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(15,23,42,.1);}
 [data-theme="dark"] body.grid-mode .tds-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.4);}
+/* Enhancement 6: TDS/TCS left border accent */
+.tds-card.card-tds{border-left:3px solid var(--tds);}
+.tds-card.card-tcs{border-left:3px solid var(--tcs);}
+/* Enhancement 7: hover glow matched to type */
+body.grid-mode .tds-card.card-tds:hover{box-shadow:0 6px 24px rgba(140,154,26,.22);transform:translateY(-2px);}
+body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22);transform:translateY(-2px);}
+[data-theme="dark"] body.grid-mode .tds-card.card-tds:hover{box-shadow:0 6px 24px rgba(181,196,34,.18);transform:translateY(-2px);}
+[data-theme="dark"] body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(251,146,60,.18);transform:translateY(-2px);}
+/* Enhancement 3: IT Act 2025 section tag in card header */
+.card-sec25-tag{display:inline-flex;font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:700;
+  padding:1px 5px;border-radius:3px;letter-spacing:.03em;white-space:nowrap;
+  background:rgba(140,154,26,.1);border:1px solid rgba(140,154,26,.25);color:#6b760f;}
+[data-theme="dark"] .card-sec25-tag{background:rgba(181,196,34,.12);border-color:rgba(181,196,34,.25);color:#b5c422;}
+/* Enhancement 4: compact FB 2026 tag */
+.card-fb-tag{display:inline-flex;align-items:center;gap:3px;margin-top:7px;
+  font-size:8.5px;font-weight:600;color:#92400e;
+  background:var(--amb-bg);border:1px solid var(--amb-bd);
+  border-radius:3px;padding:2px 7px;}
+[data-theme="dark"] .card-fb-tag{color:#fde68a;}
+/* Enhancement 1: rate badge on card */
+.card-rate{display:inline-flex;font-family:'JetBrains Mono',monospace;font-size:11px;
+  font-weight:700;padding:2px 7px;border-radius:4px;line-height:1.35;}
+.card-rate.nil{background:var(--s2);color:var(--t2);border:1px solid var(--bd);}
+.card-rate.low{background:#e8edbb;color:#3d4408;border:1px solid rgba(107,118,15,.4);}
+.card-rate.slab{background:#e8edbb;color:#3d4408;border:1px solid rgba(61,68,8,.4);font-style:italic;font-size:10px;}
+.card-rate.mid{background:rgba(234,179,8,.1);color:#92400e;border:1px solid rgba(234,179,8,.3);}
+.card-rate.high{background:rgba(220,38,38,.1);color:#b91c1c;border:1px solid rgba(220,38,38,.25);}
+[data-theme="dark"] .card-rate.nil{background:rgba(255,255,255,.05);color:var(--t3);border-color:var(--bd);}
+[data-theme="dark"] .card-rate.low{background:rgba(140,154,26,.18);color:#b5c422;border-color:rgba(181,196,34,.3);}
+[data-theme="dark"] .card-rate.slab{background:rgba(140,154,26,.12);color:#b5c422;border-color:rgba(181,196,34,.3);}
+[data-theme="dark"] .card-rate.mid{background:rgba(234,179,8,.15);color:#fcd34d;border-color:rgba(252,211,77,.3);}
+[data-theme="dark"] .card-rate.high{background:rgba(220,38,38,.18);color:#fca5a5;border-color:rgba(252,165,165,.3);}
+/* Enhancement 5: group header label */
+.grid-group-header .grlb{font-family:'Syne',sans-serif;font-size:9px;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;color:var(--grpt);opacity:.8;}
 .grid-group-header{grid-column:1/-1;display:flex;align-items:center;gap:8px;
   padding:6px 10px;background:var(--grpbg);border:1px solid var(--grpbd);
   border-radius:6px;font-family:'Syne',sans-serif;font-size:9.5px;font-weight:700;
@@ -2019,23 +2054,45 @@ function setView(v){
 function mkCardHtml(r,idx){
   const f=getFavs();
   const fo=f.indexOf(String(r[0]))>-1;
-  const tb=r[10]==='TDS'?'<span class="tbadge tb-tds">TDS</span>':'<span class="tbadge tb-tcs">TCS</span>';
-  return '<div class="tds-card'+(fo?' fav-card':'')+'" data-rcode="'+esc4a(r[0])+'" data-idx="'+idx+'" onclick="cardOpen('+idx+')">'
+  const isTDS=r[10]==='TDS';
+  const typeClass=isTDS?'card-tds':'card-tcs';
+  const tb=isTDS?'<span class="tbadge tb-tds">TDS</span>':'<span class="tbadge tb-tcs">TCS</span>';
+
+  /* Enhancement 1: colored rate badge */
+  const rc=rCls(r[5]);
+  const rateBadge='<span class="card-rate '+rc+'">'+esc(r[5]||'—')+'</span>';
+
+  /* Enhancement 2: payee type badge */
+  const pc=pCls(r[11]);
+  const payeeBadge=r[11]?'<span class="pc '+pc+'" style="font-size:9px;padding:1px 5px">'+esc(r[11])+'</span>':'';
+
+  /* Enhancement 3: IT Act 2025 section tag */
+  const sec25Tag=r[3]?'<span class="card-sec25-tag">'+esc(r[3])+'</span>':'';
+
+  /* Enhancement 4: compact FB 2026 tag */
+  const fbTag=r[8]?'<span class="card-fb-tag">📋 FB 2026 — tap for detail</span>':'';
+
+  return '<div class="tds-card '+typeClass+(fo?' fav-card':'')+'" data-rcode="'+esc4a(r[0])+'" data-idx="'+idx+'" onclick="cardOpen('+idx+')">'
     +'<div class="swipe-glow"></div>'
+    /* Header: code · TDS/TCS badge · 2025 section tag · star */
     +'<div class="card-hd">'
-      +'<span class="card-code">'+esc(r[0])+'</span>'+tb
-      +'<button class="card-star'+(fo?' fav-on':'')+'" data-code="'+esc4a(r[0])+'" onclick="event.stopPropagation();toggleFav(this.dataset.code)" title="'+(fo?'Remove':'Add')+'">'+(fo?'★':'☆')+'</button>'
+      +'<span class="card-code">'+esc(r[0])+'</span>'+tb+sec25Tag
+      +'<button class="card-star'+(fo?' fav-on':'')+'" data-code="'+esc4a(r[0])+'" onclick="event.stopPropagation();toggleFav(this.dataset.code)" title="'+(fo?'Remove from My Sections':'Add to My Sections')+'">'+(fo?'★':'☆')+'</button>'
     +'</div>'
     +'<div class="card-bd">'
       +'<div class="card-nature">'+esc(r[1])+'</div>'
       +'<div class="card-meta">'
-        +'<div class="card-field"><span class="card-fl">Base Rate</span><span class="card-fv is-rate">'+esc(r[5]||'—')+'</span></div>'
+        /* Enhancement 1: rate badge */
+        +'<div class="card-field"><span class="card-fl">Base Rate</span>'+rateBadge+'</div>'
         +'<div class="card-field"><span class="card-fl">Threshold</span><span class="card-fv is-thr">'+esc(r[6]||'—')+'</span></div>'
         +'<div class="card-field"><span class="card-fl">Old Section</span><span class="card-fv is-sec">'+esc(r[9]||'—')+'</span></div>'
         +'<div class="card-field"><span class="card-fl">Form</span><span class="card-fv" style="font-family:monospace;font-weight:700;color:#059669">'+esc(r[4]||'—')+'</span></div>'
+        /* Enhancement 2: payee type badge */
+        +(r[11]?'<div class="card-field card-full"><span class="card-fl">Payee Type</span>'+payeeBadge+'</div>':'')
         +(r[2]?'<div class="card-field card-full"><span class="card-fl">Deductor</span><span class="card-fv" style="color:var(--t2);font-size:11px">'+esc(r[2])+'</span></div>':'')
       +'</div>'
-      +(r[8]?'<div class="card-fb">📋 FB 2026: '+esc(r[8])+'</div>':'')
+      /* Enhancement 4: compact FB tag */
+      +fbTag
     +'</div>'
     +'<div class="card-hint">👆 Tap for details &nbsp;·&nbsp; ⟶ Swipe right for modal</div>'
     +'</div>';
@@ -2060,7 +2117,7 @@ function renderGridCards(){
     gOrder.forEach(gk=>{
       const items=groups[gk];
       const cnt=items.length;
-      html+='<div class="grid-group-header"><span class="grsc">'+esc(gk)+'</span><span class="grcnt">'+cnt+' code'+(cnt>1?'s':'')+'</span></div>';
+      html+='<div class="grid-group-header"><span class="grsc">'+esc(gk)+'</span><span class="grlb">'+esc(SEC_CODE_LABELS[gk]||gk)+'</span><span class="grcnt">'+cnt+' code'+(cnt>1?'s':'')+'</span></div>';
       items.forEach(({r,origIdx})=>{ html+=mkCardHtml(r,origIdx); });
     });
   } else {
