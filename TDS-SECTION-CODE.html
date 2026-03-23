@@ -627,7 +627,7 @@ body.grid-mode .tds-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px 
       <button class="btn-stats" id="statsBtn" onclick="toggleDash()">📊 Stats</button>
       <button class="btn bcalc" id="calcBtn">🧮 TDS/TCS Calculator</button>
       <button class="btn bg" id="printBtn">🖨️ Print</button>
-      <button class="btn bacc" id="copyBtn">📋 Copy CSV</button>
+      <button class="btn bacc" id="copyBtn">⬇️ Export CSV</button>
       <button class="tbtn" id="themeBtn" role="switch" aria-checked="false" aria-label="Toggle dark mode" title="Toggle dark / light mode">🌙</button>
     </div>
   </div>
@@ -1482,7 +1482,7 @@ function showCalc(amt,rate,thresh,rStr,tStr,txT,sc){
   }
 }
 
-/* ═══ COPY CSV ═══ */
+/* ═══ EXPORT CSV ═══ */
 function toCSV(rows){
   const h=['Code','Type','Nature','Deductor','Payee Type','Old Sec (1961)','New Sec (2025)',
            'Base Rate','Threshold','Form','TY 2026-27 Note'];
@@ -1492,13 +1492,15 @@ function toCSV(rows){
     .map(c=>'"'+String(c||'').replace(/"/g,'""')+'"').join(',')));
   return lines.join('\n');
 }
-document.getElementById('copyBtn').onclick=async()=>{
-  try{
-    await navigator.clipboard.writeText(toCSV(disp));
-    toast('📋',disp.length+' rows copied to clipboard');
-  }catch(e){
-    toast('⚠️','Clipboard access denied — try another browser');
-  }
+document.getElementById('copyBtn').onclick=()=>{
+  const csv=toCSV(disp);
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='TDS-TCS-Sections.csv';
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);
+  toast('⬇️',disp.length+' rows exported as CSV');
 };
 document.getElementById('printBtn').onclick=()=>window.print();
 
