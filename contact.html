@@ -455,16 +455,6 @@
     });
   });
 
-  /* ── WhatsApp Number (base64) ── */
-  const _w = atob('OTE5MTUyMDYyMDkw');
-
-  /* ── Wire WhatsApp links ── */
-  document.querySelectorAll('.wa-link').forEach(el => {
-    el.addEventListener('click', function(e) {
-      e.preventDefault();
-      window.open('https://wa.me/' + _w, '_blank');
-    });
-  });
 
   /* ── Contact Form → WhatsApp ── */
   document.getElementById('form-btn').addEventListener('click', () => {
@@ -490,5 +480,6 @@
     btn.disabled = true;
   });
 </script>
+<script src="/wa-init.js"></script>
 </body>
 </html>

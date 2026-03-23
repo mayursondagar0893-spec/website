@@ -747,16 +747,6 @@ I really admire how you present complex things in so simple manner @TaxationUpda
   ham.addEventListener('click',()=>toggle(!drawer.classList.contains('open')));
   document.querySelectorAll('.dl').forEach(a=>a.addEventListener('click',()=>toggle(false)));
 
-  /* ── WhatsApp Number Protection (base64 encoded) ── */
-  const _w = atob('OTE5MTUyMDYyMDkw');
-
-  /* ── Wire all .wa-link anchors dynamically ── */
-  document.querySelectorAll('.wa-link').forEach(el => {
-    el.addEventListener('click', function(e) {
-      e.preventDefault();
-      window.open('https://wa.me/' + _w, '_blank');
-    });
-  });
 
   /* ── Contact Form → WhatsApp ── */
   document.getElementById('form-btn').addEventListener('click',()=>{
@@ -784,5 +774,6 @@ I really admire how you present complex things in so simple manner @TaxationUpda
     });
   }
 </script>
+<script src="/wa-init.js"></script>
 </body>
 </html>
