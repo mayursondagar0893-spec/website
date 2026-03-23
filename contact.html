@@ -251,6 +251,8 @@
     }
     .purpose-btn.active,
     .purpose-btn:hover { border-color: var(--olive); background: var(--olive-pale); color: var(--olive-deep); }
+    [data-theme="dark"] .purpose-btn.active,
+    [data-theme="dark"] .purpose-btn:hover { color: var(--olive-light); }
     .purpose-btn .p-icon { font-size: 1.1rem; display: block; margin-bottom: .2rem; }
 
     /* ── Footer ── */
@@ -383,6 +385,9 @@
 
       <!-- Purpose selector -->
       <div class="purpose-grid" id="purpose-grid">
+        <button class="purpose-btn" data-purpose="For Information Only" type="button">
+          <span class="p-icon">ℹ️</span>For Information Only
+        </button>
         <button class="purpose-btn active" data-purpose="Tax Consultation" type="button">
           <span class="p-icon">📋</span>Tax Consultation
         </button>
