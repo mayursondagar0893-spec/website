@@ -586,6 +586,53 @@ body.grid-mode .tds-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px 
   .grp-hd{background:#e8f0fe!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   @page{margin:1.5cm;size:A4 landscape;}
 }
+/* ── SLAB RATE TABLE inside modal mFb (codes 1001/1002/1003/1032) ── */
+.fb-slab-wrap{margin-top:0}
+.fb-stitle{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--t3);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.fb-stitle::after{content:'';flex:1;height:1px;background:var(--bd)}
+.fb-slab-tabs{display:flex;border-bottom:1px solid var(--bd);margin-bottom:10px}
+.fb-slab-tab{padding:5px 14px;border:none;background:transparent;font-family:'DM Sans',sans-serif;
+  font-size:10.5px;font-weight:500;color:var(--t2);cursor:pointer;
+  border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.fb-slab-tab:hover{color:var(--tx);background:rgba(140,154,26,.05)}
+.fb-slab-tab.on{color:var(--tx);font-weight:700;border-bottom-color:var(--blue)}
+.fb-slab-panel{display:none}.fb-slab-panel.on{display:block}
+.fb-slab-compare{display:grid;grid-template-columns:1fr;gap:14px}
+.fb-stbl{width:100%;border-collapse:collapse;font-size:10.5px}
+.fb-stbl thead tr{background:var(--thd)}
+.fb-stbl th{color:rgba(255,255,255,.75);font-size:7.5px;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;padding:5px 9px;text-align:left;
+  border-right:1px solid rgba(255,255,255,.08)}
+.fb-stbl th:last-child{border-right:none}
+.fb-stbl th.tc{text-align:center}
+.fb-stbl td{padding:5px 9px;border-bottom:1px solid var(--bd);border-right:1px solid var(--bd);vertical-align:middle;white-space:normal;word-break:break-word}
+.fb-stbl td:last-child{border-right:none}
+.fb-stbl tbody tr:last-child td{border-bottom:none}
+.fb-stbl tbody tr:hover td{background:var(--rh)}
+.fb-slab-val{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:600;
+  color:var(--codec);background:var(--codebg);display:inline-flex;padding:1px 5px;
+  border-radius:3px;border:1px solid rgba(140,154,26,.18);white-space:nowrap}
+.fb-rate{display:inline-flex;font-family:'JetBrains Mono',monospace;font-size:10px;
+  font-weight:700;padding:1px 6px;border-radius:3px;min-width:36px;justify-content:center}
+.fbr-nil{background:var(--s2);color:var(--t3);border:1px solid var(--bd)}
+.fbr-5{background:rgba(5,150,105,.1);color:#047857;border:1px solid rgba(5,150,105,.25)}
+.fbr-10{background:rgba(234,179,8,.1);color:#92400e;border:1px solid rgba(234,179,8,.3)}
+.fbr-15{background:rgba(249,115,22,.1);color:#9a3412;border:1px solid rgba(249,115,22,.3)}
+.fbr-20{background:rgba(239,68,68,.1);color:#b91c1c;border:1px solid rgba(239,68,68,.25)}
+.fbr-25{background:rgba(168,85,247,.1);color:#7e22ce;border:1px solid rgba(168,85,247,.25)}
+.fbr-30{background:rgba(220,38,38,.18);color:#991b1b;border:1px solid rgba(220,38,38,.35);font-size:11px}
+[data-theme="dark"] .fbr-nil{background:rgba(255,255,255,.05);color:var(--t3);border-color:var(--bd)}
+[data-theme="dark"] .fbr-5{background:rgba(5,150,105,.18);color:#34d399;border-color:rgba(52,211,153,.3)}
+[data-theme="dark"] .fbr-10{background:rgba(234,179,8,.15);color:#fcd34d;border-color:rgba(252,211,77,.3)}
+[data-theme="dark"] .fbr-15{background:rgba(249,115,22,.15);color:#fdba74;border-color:rgba(253,186,116,.3)}
+[data-theme="dark"] .fbr-20{background:rgba(239,68,68,.18);color:#fca5a5;border-color:rgba(252,165,165,.3)}
+[data-theme="dark"] .fbr-25{background:rgba(168,85,247,.18);color:#d8b4fe;border-color:rgba(216,180,254,.3)}
+[data-theme="dark"] .fbr-30{background:rgba(220,38,38,.25);color:#fca5a5;border-color:rgba(252,165,165,.35)}
+.fb-slab-note{font-size:9.5px;color:var(--t2);margin-top:7px;line-height:1.65;
+  padding:6px 9px;background:var(--amb-bg);border:1px solid var(--amb-bd);border-radius:4px}
+.fb-compare-lbl{font-size:8.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--t3);margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -1269,6 +1316,213 @@ function doSort(idx){
   render();
 }
 
+/* ══ RATE / SCOPE TABLE BUILDERS (Groups A, B, C) ══ */
+function _rt(cls,txt){return '<span class="fb-rate fbr-'+cls+'">'+txt+'</span>';}
+function _rtHead(){return '<thead><tr style="background:var(--thd)"></tr></thead>';}
+
+/* shared mini-table shell */
+function _miniTbl(headers, rows, note){
+  const ths=headers.map(h=>'<th'+(h.center?' class="tc"':'')+' style="'+(h.w?'width:'+h.w:'')+'">'+h.t+'</th>').join('');
+  const trs=rows.map(cells=>'<tr>'+cells.map((c,i)=>'<td'+(headers[i]&&headers[i].center?' style="text-align:center"':'')+'>'+c+'</td>').join('')+'</tr>').join('');
+  return '<div style="overflow-x:auto">'+
+    '<table class="fb-stbl"><thead><tr>'+ths+'</tr></thead><tbody>'+trs+'</tbody></table></div>'+
+    (note?'<div class="fb-slab-note">'+note+'</div>':'');
+}
+
+/* Group A — 1047 / 1048 / 1049: rates in force, entity-type breakdown */
+function buildEntityRateTable(){
+  return '<div class="fb-slab-wrap">'+
+    '<div class="fb-stitle">📋 TY 2026-27 — Applicable TDS Rates (Rates in Force)</div>'+
+    _miniTbl(
+      [{t:'Deductee / Payee Type',w:'65%'},{t:'TDS Rate',center:true,w:'35%'}],
+      [
+        ['Non-resident individual',_rt('30','30%')],
+        ['Foreign company',        _rt('high','40%')]
+      ],
+      'First Schedule Part II, Finance Bill 2026. "Rates in force" as per S. 2(37A)(iii). DTAA rate applies where more beneficial. Surcharge + 4% H&amp;E cess additional.'
+    )+
+  '</div>';
+}
+
+/* Group A — 1057: S.195 multi-rate breakdown */
+function buildS195Table(){
+  return '<div class="fb-slab-wrap">'+
+    '<div class="fb-stitle">📋 TY 2026-27 — S. 195 Applicable TDS Rates (First Schedule Part II)</div>'+
+    _miniTbl(
+      [{t:'Nature of Income / Payment',w:'55%'},{t:'Recipient',w:'25%'},{t:'Rate',center:true,w:'20%'}],
+      [
+        ['Interest — Govt / Indian concern (foreign currency borrowing)',     'Non-Resident',         _rt('20','20%')],
+        ['Royalty (agreements on or after 1 Apr 1976)',                      'Non-Resident',         _rt('20','20%')],
+        ['Fees for technical services (agreements on or after 1 Apr 1976)',  'Non-Resident',         _rt('20','20%')],
+        ['Any other income chargeable under the Act',                        'NR Individual / HUF',  _rt('30','30%')],
+        ['Any other income chargeable under the Act',                        'Foreign Company',       _rt('high','40%')]
+      ],
+      'DTAA rate applies where beneficial to assessee. Surcharge + 4% H&amp;E cess additional. Certificate u/S. 197 / Form 15CA-15CB applicable as prescribed.'
+    )+
+  '</div>';
+}
+
+/* Group B — 1019: S.193 resident vs NR */
+function buildS193Table(){
+  return '<div class="fb-slab-wrap">'+
+    '<div class="fb-stitle">📋 TY 2026-27 — S. 193 TDS Rate by Deductee Status</div>'+
+    _miniTbl(
+      [{t:'Deductee Status',w:'35%'},{t:'Security Type',w:'45%'},{t:'Rate',center:true,w:'20%'}],
+      [
+        ['Resident',      'Interest on any securities',                               _rt('10','10%')],
+        ['Non-Resident',  'Listed debentures (recognised stock exchange)',             _rt('10','10%')],
+        ['Non-Resident',  'Other securities (not listed debentures)',  '<span style="font-size:9.5px;color:var(--t2);font-style:italic">Rates in force / DTAA</span>']
+      ],
+      'First Schedule Part II, Finance Bill 2026. Surcharge + 4% H&amp;E cess additional. Form 15G/15H available for eligible residents.'
+    )+
+  '</div>';
+}
+
+/* Group B — 1020 / 1021 / 1022: S.194A resident vs NR */
+function buildS194ATable(code){
+  const threshMap={
+    '1020':'₹ 1,00,000 (senior citizen — bank / cooperative / post office)',
+    '1021':'₹ 50,000 (others — bank / cooperative / post office)',
+    '1022':'₹ 10,000 (specified person other than bank / cooperative / post office)'
+  };
+  return '<div class="fb-slab-wrap">'+
+    '<div class="fb-stitle">📋 TY 2026-27 — S. 194A TDS Rate by Deductee Status</div>'+
+    _miniTbl(
+      [{t:'Deductee Status',w:'45%'},{t:'Rate',center:true,w:'25%'},{t:'Threshold (this sub-section)',w:'30%'}],
+      [
+        ['Resident',     _rt('10','10%'), threshMap[code]||'—'],
+        ['Non-Resident', _rt('20','20%'), threshMap[code]||'—']
+      ],
+      'First Schedule Part II, Finance Bill 2026. Form 15G / 15H available for eligible resident deductees. Surcharge + 4% H&amp;E cess additional.'
+    )+
+  '</div>';
+}
+
+/* Group C — 1025: S.194M scope table */
+function buildS194MTable(){
+  const tick='<span style="color:#059669;font-weight:700;font-size:12px">✓</span>';
+  const cross='<span style="color:#dc2626;font-weight:700;font-size:12px">✗</span>';
+  return '<div class="fb-slab-wrap">'+
+    '<div class="fb-stitle">📋 S. 194M — Coverage of Payment Types (Individual / HUF, Non-Designated Person)</div>'+
+    _miniTbl(
+      [{t:'Payment Type',w:'50%'},{t:'Covered?',center:true,w:'18%'},{t:'Rate',center:true,w:'15%'},{t:'Remarks',w:'17%'}],
+      [
+        ['Contract work',                                tick, _rt('5','2%'), 'S. 194M(a)'],
+        ['Fees for professional services',               tick, _rt('5','2%'), 'S. 194M(b)'],
+        ['Commission / brokerage (excl. insurance)',     tick, _rt('5','2%'), 'S. 194M(c)'],
+        ['Insurance commission',                         cross,'<span style="font-size:9px;color:var(--t3)">N/A</span>', '→ S. 194D']
+      ],
+      'Applies to individual / HUF who is <strong>not</strong> a designated person (i.e., not liable for tax audit under S. 44AB). Threshold: ₹50,00,000 in aggregate per tax year across all three payment types. Rate shown is 2%; higher of 20% or applicable rate if no PAN.'
+    )+
+  '</div>';
+}
+
+/* Group C — 1010: S.194-IA key rules */
+function buildS194IATable(){
+  return '<div class="fb-slab-wrap">'+
+    '<div class="fb-stitle">📋 S. 194-IA — Key Rules for TDS on Immovable Property Transfer</div>'+
+    _miniTbl(
+      [{t:'Rule / Parameter',w:'32%'},{t:'Detail',w:'68%'}],
+      [
+        ['Applicable Rate',
+          '<span class="fb-slab-val">1%</span> on <strong>higher</strong> of actual sale consideration <em>or</em> Stamp Duty Value (SDV)'],
+        ['Threshold',
+          'Aggregate consideration or SDV ≥ <span class="fb-slab-val">₹ 50,00,000</span> (sum of amounts paid by all transferees combined — Note 3 to Sl. No. 3)'],
+        ['Multiple Transferees',
+          'Each transferee deducts TDS on their share; threshold computed on aggregate of all transferees'],
+        ['Overlap with Sl. 3(ii)',
+          'Where both Sl. No. 3(i) and 3(ii) apply to same transaction → deduct under <strong>Sl. No. 3(ii) only</strong> (Note 2 to Sl. No. 3)'],
+        ['Form',
+          'Form 26QB — challan-cum-statement. Due within 30 days from end of month of deduction']
+      ],
+      'S. 393(1) [Table: Sl. No. 3(i)] · IT Act 2025 / S. 194-IA · IT Act 1961. Agricultural land excluded. No Form 15G/15H exemption available for this section.'
+    )+
+  '</div>';
+}
+
+/* ══ SLAB TABLE BUILDER (codes 1001/1002/1003/1032) ══ */
+function _fbRate(cls,txt){return '<span class="fb-rate fbr-'+cls+'">'+txt+'</span>';}
+function buildSlabTable(code){
+  const isSr=(code==='1032');
+  const oldRows=isSr?[
+    ['Up to ₹ 3,00,000',      null,  'nil','Nil',  'nil','Nil'],
+    ['₹ 3,00,001 – ₹ 5,00,000', null,'5','5%',    'nil','Nil'],
+    ['₹ 5,00,001 – ₹ 10,00,000',null,'20','20%',  '20','20%'],
+    ['Above ₹ 10,00,000',     null,  '30','30%',  '30','30%']
+  ]:[
+    ['Up to ₹ 2,50,000',       'nil','Nil', 'nil','Nil', 'nil','Nil'],
+    ['₹ 2,50,001 – ₹ 3,00,000','5','5%',   'nil','Nil', 'nil','Nil'],
+    ['₹ 3,00,001 – ₹ 5,00,000','5','5%',   '5','5%',   'nil','Nil'],
+    ['₹ 5,00,001 – ₹ 10,00,000','20','20%','20','20%',  '20','20%'],
+    ['Above ₹ 10,00,000',      '30','30%', '30','30%',  '30','30%']
+  ];
+  const newSlabs=[
+    ['Up to ₹ 4,00,000',        'nil','Nil'],
+    ['₹ 4,00,001 – ₹ 8,00,000', '5','5%'],
+    ['₹ 8,00,001 – ₹ 12,00,000','10','10%'],
+    ['₹ 12,00,001 – ₹ 16,00,000','15','15%'],
+    ['₹ 16,00,001 – ₹ 20,00,000','20','20%'],
+    ['₹ 20,00,001 – ₹ 24,00,000','25','25%'],
+    ['Above ₹ 24,00,000',        '30','30%']
+  ];
+  function mkOldTbl(){
+    const hdr=isSr?
+      '<th style="width:46%">Income Slab</th>'+
+      '<th class="tc" style="width:27%">Senior Citizen<br><span style="font-size:7px;opacity:.7">60–80 yrs</span></th>'+
+      '<th class="tc" style="width:27%">Super Senior<br><span style="font-size:7px;opacity:.7">80+ yrs</span></th>':
+      '<th style="width:40%">Income Slab</th>'+
+      '<th class="tc" style="width:20%">General<br><span style="font-size:7px;opacity:.7">&lt;60 yrs</span></th>'+
+      '<th class="tc" style="width:20%">Senior Citizen<br><span style="font-size:7px;opacity:.7">60–80 yrs</span></th>'+
+      '<th class="tc" style="width:20%">Super Senior<br><span style="font-size:7px;opacity:.7">80+ yrs</span></th>';
+    const rows=oldRows.map(r=>{
+      if(isSr){
+        return '<tr><td><span class="fb-slab-val">'+r[0]+'</span></td>'+
+          '<td style="text-align:center">'+_fbRate(r[2],r[3])+'</td>'+
+          '<td style="text-align:center">'+_fbRate(r[4],r[5])+'</td></tr>';
+      }
+      return '<tr><td><span class="fb-slab-val">'+r[0]+'</span></td>'+
+        '<td style="text-align:center">'+_fbRate(r[1],r[2])+'</td>'+
+        '<td style="text-align:center">'+_fbRate(r[3],r[4])+'</td>'+
+        '<td style="text-align:center">'+_fbRate(r[5],r[6])+'</td></tr>';
+    }).join('');
+    return '<div style="overflow-x:auto"><table class="fb-stbl"><thead><tr>'+hdr+'</tr></thead><tbody>'+rows+'</tbody></table></div>'+
+      '<div class="fb-slab-note">Finance Bill 2026 · First Schedule Part III. Rebate u/S. 87A (up to ₹12,500) for total income ≤ ₹5L. Surcharge + 4% H&amp;E cess additional.'+(isSr?' S. 194P takes precedence over all TDS provisions for specified senior citizens.':'')+'</div>';
+  }
+  function mkNewTbl(){
+    const rows=newSlabs.map(([s,c,t])=>'<tr><td><span class="fb-slab-val">'+s+'</span></td><td style="text-align:center">'+_fbRate(c,t)+'</td></tr>').join('');
+    return '<div style="overflow-x:auto"><table class="fb-stbl">'+
+      '<thead><tr><th style="width:65%">Income Slab</th>'+
+      '<th class="tc">Rate <span style="font-size:7px;opacity:.7">(All age groups identical)</span></th></tr></thead>'+
+      '<tbody>'+rows+'</tbody></table></div>'+
+      '<div class="fb-slab-note">S. 202 IT Act 2025 / S. 115BAC IT Act 1961 · Finance Act 2025 (no change by Finance Bill 2026). Rebate u/S. 87A — tax effectively Nil up to ₹12,00,000. No age-based distinction. Surcharge + 4% H&amp;E cess additional.</div>';
+  }
+  const uid='sb'+Date.now().toString(36);
+  return '<div class="fb-slab-wrap">'+
+    '<div class="fb-stitle">📋 TY 2026-27 — Income Tax Slab Rates (S. 192 Salary TDS)</div>'+
+    '<div class="fb-slab-tabs" id="'+uid+'T">'+
+      '<button class="fb-slab-tab on" onclick="fbTab(\''+uid+'\',\'new\',this)">🟢 New Regime</button>'+
+      '<button class="fb-slab-tab" onclick="fbTab(\''+uid+'\',\'old\',this)">🔴 Old Regime</button>'+
+      '<button class="fb-slab-tab" onclick="fbTab(\''+uid+'\',\'cmp\',this)">⇌ Compare Both</button>'+
+    '</div>'+
+    '<div class="fb-slab-panel on" id="'+uid+'new">'+mkNewTbl()+'</div>'+
+    '<div class="fb-slab-panel" id="'+uid+'old">'+mkOldTbl()+'</div>'+
+    '<div class="fb-slab-panel" id="'+uid+'cmp">'+
+      '<div class="fb-slab-compare">'+
+        '<div><div class="fb-compare-lbl">Old Regime · Finance Bill 2026</div>'+mkOldTbl()+'</div>'+
+        '<div><div class="fb-compare-lbl">New Regime · Finance Act 2025</div>'+mkNewTbl()+'</div>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
+}
+function fbTab(uid,panel,btn){
+  document.querySelectorAll('#'+uid+'T .fb-slab-tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  ['old','new','cmp'].forEach(p=>{
+    const el=document.getElementById(uid+p);
+    if(el)el.classList.toggle('on',p===panel);
+  });
+}
+
 /* ═══ MODAL ═══ */
 function openMo(i){mIdx=i;fillMo(i);moEl.classList.add('open');document.getElementById('mClose').focus();}
 function closeMo(){moEl.classList.remove('open');mIdx=-1;}
@@ -1294,8 +1548,35 @@ function fillMo(i){
 
 
   const fb=document.getElementById('mFb');
-  if(r[8]&&r[8].length>0){fb.style.display='block';fb.innerHTML='📋 <strong>Applicable for Tax Year 2026-27:</strong> '+esc(r[8]);}
-  else fb.style.display='none';
+  const _slabCodes=['1001','1002','1003','1032'];
+  const _entityCodes=['1047','1048','1049'];
+  if(_slabCodes.includes(r[0])){
+    fb.style.display='block';
+    fb.innerHTML=buildSlabTable(r[0]);
+  } else if(_entityCodes.includes(r[0])){
+    fb.style.display='block';
+    fb.innerHTML=buildEntityRateTable();
+  } else if(r[0]==='1057'){
+    fb.style.display='block';
+    fb.innerHTML=buildS195Table();
+  } else if(r[0]==='1019'){
+    fb.style.display='block';
+    fb.innerHTML=buildS193Table();
+  } else if(['1020','1021','1022'].includes(r[0])){
+    fb.style.display='block';
+    fb.innerHTML=buildS194ATable(r[0]);
+  } else if(r[0]==='1025'){
+    fb.style.display='block';
+    fb.innerHTML=buildS194MTable();
+  } else if(r[0]==='1010'){
+    fb.style.display='block';
+    fb.innerHTML=buildS194IATable();
+  } else if(r[8]&&r[8].length>0){
+    fb.style.display='block';
+    fb.innerHTML='📋 <strong>Applicable for Tax Year 2026-27:</strong> '+esc(r[8]);
+  } else {
+    fb.style.display='none';
+  }
 
   document.getElementById('mPrev').disabled=i===0;
   document.getElementById('mNext').disabled=i===disp.length-1;
