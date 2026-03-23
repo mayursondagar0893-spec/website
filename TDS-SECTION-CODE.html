@@ -1344,7 +1344,7 @@ function mkRow(row,i,lq){
     '<td class="cw8"><span class="crate '+rc+'">'+hl(row[5]||'—',lq)+'</span>'+
       (fb?'<span class="fbtag">📋 FB 2026</span>':'')+
     '</td>'+
-    '<td class="cw9"><span class="cthr">'+hl(row[6]||'—',lq)+'</span></td>'+
+    '<td class="cw9"><span class="cthr">'+hl(row[6]||'—',lq).replace(/₹ /g,'₹&nbsp;')+'</span></td>'+
 
     '<td class="cw12" style="text-align:center"><span class="cform">'+hl(row[4],lq)+'</span></td>';
   /* ★ Fav star cell */
@@ -1594,7 +1594,7 @@ function fillMo(i){
   document.getElementById('mS61').textContent=r[9]||'—';
   document.getElementById('mS25').textContent=r[3]||'—';
   document.getElementById('mRate').textContent=r[5]||'—';
-  document.getElementById('mThr').textContent=r[6]||'—';
+  document.getElementById('mThr').innerHTML=esc(r[6]||'—').replace(/₹ /g,'₹&nbsp;');
   document.getElementById('mForm').textContent=r[4];
   document.getElementById('mTypeD').textContent=r[10];
 
@@ -2098,7 +2098,7 @@ function mkCardHtml(r,idx){
       +'<div class="card-meta">'
         /* Enhancement 1: rate badge */
         +'<div class="card-field"><span class="card-fl">Base Rate</span>'+rateBadge+'</div>'
-        +'<div class="card-field"><span class="card-fl">Threshold</span><span class="card-fv is-thr">'+esc(r[6]||'—')+'</span></div>'
+        +'<div class="card-field"><span class="card-fl">Threshold</span><span class="card-fv is-thr">'+esc(r[6]||'—').replace(/₹ /g,'₹&nbsp;')+'</span></div>'
         +'<div class="card-field"><span class="card-fl">Old Section</span><span class="card-fv is-sec">'+esc(r[9]||'—')+'</span></div>'
         +'<div class="card-field"><span class="card-fl">Form</span><span class="card-fv" style="font-family:monospace;font-weight:700;color:#059669">'+esc(r[4]||'—')+'</span></div>'
         /* Enhancement 2: payee type badge */
