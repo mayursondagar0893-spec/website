@@ -319,8 +319,15 @@ mark{background:rgba(140,154,26,.18);border-bottom:1.5px solid #8c9a1a;border-ra
 .cc:hover{background:var(--tcs-bg);border-color:var(--tcs-bd);color:var(--tcs)}
 .calcb{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 @media(max-width:600px){.calcb{grid-template-columns:1fr}}
-.calcl{display:flex;flex-direction:column;gap:10px}
+.calcb.slab-mode{grid-template-columns:1fr}
 .calcr{background:var(--s2);border:1px solid var(--bd);border-radius:9px;padding:14px}
+.calcr.slab-mode{display:none}
+.calc-ref{display:none;margin-top:14px;background:var(--s2);border:1px solid var(--bd);border-radius:9px;padding:14px}
+.calc-ref.show{display:block}
+.calc-ref-hd{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--t2);
+  margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.calc-ref-note{font-size:9.5px;color:var(--t3);margin-top:8px;line-height:1.55;
+  padding:5px 9px;background:var(--pur-bg);border:1px solid var(--pur-bd);border-radius:4px}
 .fg{display:flex;flex-direction:column;gap:4px}
 .fl{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--t3)}
 .fi{padding:7px 10px;background:var(--sf);border:1.5px solid var(--bd);border-radius:var(--r);
@@ -971,7 +978,7 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
     <div class="calct">🧮 TDS / TCS Calculator</div>
     <button class="cc" id="calcClose">✕</button>
   </div>
-  <div class="calcb">
+  <div class="calcb" id="calcB">
     <div class="calcl">
       <div class="fg">
         <label class="fl">Section Code</label>
@@ -995,6 +1002,11 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
         <div class="cnote2" id="calcNote2"></div>
       </div>
     </div>
+  </div>
+  <div class="calc-ref" id="calcRef">
+    <div class="calc-ref-hd" id="calcRefHd"></div>
+    <div id="calcRefBody"></div>
+    <div class="calc-ref-note" id="calcRefNote"></div>
   </div>
 </div>
 
@@ -1723,6 +1735,9 @@ function openCalc(){
 function closeCalc(){
   document.getElementById('calcp').classList.remove('open');
   document.getElementById('calco').classList.remove('open');
+  document.getElementById('calcB').classList.remove('slab-mode');
+  document.getElementById('calcR').classList.remove('slab-mode');
+  document.getElementById('calcRef').classList.remove('show');
 }
 document.getElementById('calcBtn').onclick=openCalc;
 document.getElementById('calcClose').onclick=closeCalc;
@@ -1775,17 +1790,61 @@ function showCalc(amt,rate,thresh,rStr,tStr,txT,sc){
   document.getElementById('calcOut').style.display='block';
   const rEl=document.getElementById('calcRows');
   const nEl=document.getElementById('calcNote2');
+  const calcB=document.getElementById('calcB');
+  const calcR=document.getElementById('calcR');
+  const calcRef=document.getElementById('calcRef');
+  const calcRefHd=document.getElementById('calcRefHd');
+  const calcRefBody=document.getElementById('calcRefBody');
+  const calcRefNote=document.getElementById('calcRefNote');
+
   const below=thresh>0&&amt<=thresh;
   const tds=isNaN(rate)?NaN:amt*rate/100;
   const isTCS=txT==='TCS';
 
+  /* ── SLAB / VARIABLE RATE BRANCH ── */
   if(isNaN(rate)){
+    /* Summary rows */
     rEl.innerHTML=
       '<div class="crrow"><span>Gross Amount</span><span>'+fmtN(amt)+'</span></div>'+
-      '<div class="crrow"><span>Applicable Rate</span><span>'+esc(rStr||'Variable / Slab')+'</span></div>'+
-      '<div class="crrow tot"><span>'+txT+' Amount</span><span>As per slab / DTAA</span></div>';
-    nEl.textContent='This section uses slab rates or variable rates. Use income tax computation software.';
+      '<div class="crrow"><span>Applicable Rate</span><span style="font-style:italic;color:var(--t3)">'+esc(rStr||'Variable / Slab')+'</span></div>'+
+      '<div class="crrow tot"><span>TDS Amount</span><span style="font-style:italic;color:var(--t3)">As per slab / regime</span></div>';
+    nEl.innerHTML='';
+
+    /* Collapse right panel, go single column */
+    calcB.classList.add('slab-mode');
+    calcR.classList.add('slab-mode');
+
+    /* Show reference table below */
+    calcRef.classList.add('show');
+
+    /* Determine which table to show */
+    const slabSecs={'192':true,'194P':true};
+    if(slabSecs[sc]){
+      const codeMap={'192':'1001','194P':'1032'};
+      calcRefHd.innerHTML='📋 Applicable Slab Rates — TY 2026-27 <span style="font-size:9px;font-weight:400;color:var(--t3)">(S. '+sc+' · '+txT+')</span>';
+      calcRefBody.innerHTML=buildSlabTable(codeMap[sc]||'1001');
+      calcRefNote.innerHTML='TDS deducted at applicable slab rate based on regime opted by employee. Use payroll software or Form 16 workings for exact computation.';
+    } else if(sc==='195'){
+      calcRefHd.innerHTML='📋 S. 195 — Rate Reference by Income Type <span style="font-size:9px;font-weight:400;color:var(--t3)">(First Schedule Part II)</span>';
+      calcRefBody.innerHTML=buildS195Table();
+      calcRefNote.innerHTML='Apply DTAA rate where more beneficial. Form 15CA / 15CB required as applicable. Surcharge + 4% H&amp;E cess additional.';
+    } else if(sc==='193'){
+      calcRefHd.innerHTML='📋 S. 193 — Rate Reference by Deductee Status';
+      calcRefBody.innerHTML=buildS193Table();
+      calcRefNote.innerHTML='Surcharge + 4% H&amp;E cess additional. Form 15G/15H available for eligible residents.';
+    } else {
+      /* Generic fallback for any other variable-rate section */
+      calcRefHd.innerHTML='⚠️ Variable / DTAA Rate Section';
+      calcRefBody.innerHTML='';
+      calcRefNote.innerHTML='This section applies rates based on entity type, DTAA, or regime. Refer to the section detail (click the row in the table) for the applicable rate table.';
+    }
   } else {
+    /* ── FIXED RATE BRANCH (unchanged) ── */
+    calcB.classList.remove('slab-mode');
+    calcR.classList.remove('slab-mode');
+    calcRef.classList.remove('show');
+    calcRefBody.innerHTML='';
+
     rEl.innerHTML=
       '<div class="crrow"><span>Gross Amount</span><span>'+fmtN(amt)+'</span></div>'+
       '<div class="crrow"><span>Threshold Limit</span><span>'+(thresh>0?fmtN(thresh):'No threshold')+'</span></div>'+
@@ -1793,7 +1852,7 @@ function showCalc(amt,rate,thresh,rStr,tStr,txT,sc){
       '<div class="crrow"><span>Base '+txT+'</span><span>'+(below?fmtN(0)+' (below threshold)':fmtN(tds))+'</span></div>'+
       '<div class="crrow tot"><span>'+(below?('Amount Payable in Full — No '+txT+' (Below Threshold)'):(isTCS?'Total Collectible from Buyer (Sale + TCS)':'Net Amount to Deductee'))+'</span><span>'+(below?fmtN(amt):(isTCS?fmtN(amt+tds):fmtN(amt-tds)))+'</span></div>';
     if(below){
-      nEl.innerHTML='✅ Amount is <strong>below the threshold limit</strong>. No '+txT+' is deductible / collectible. '+(isTCS?'Receive the <strong>full sale amount</strong> of '+fmtN(amt)+' from buyer without any TCS.':'Pay the <strong>full amount</strong> of '+fmtN(amt)+' to deductee without any TDS.')+'';
+      nEl.innerHTML='✅ Amount is <strong>below the threshold limit</strong>. No '+txT+' is deductible / collectible. '+(isTCS?'Receive the <strong>full sale amount</strong> of '+fmtN(amt)+' from buyer without any TCS.':'Pay the <strong>full amount</strong> of '+fmtN(amt)+' to deductee without any TDS.');
     } else {
       nEl.innerHTML='';
     }
