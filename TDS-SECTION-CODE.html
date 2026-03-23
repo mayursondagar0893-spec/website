@@ -609,6 +609,9 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
   .sw-wrap{max-width:100%!important;flex:1!important;}
   .ha .btn:not(.btn-stats){font-size:9.5px;padding:4px 8px;}
   .shortcuts{display:none!important;}
+  /* Full-width card on mobile: remove border-radius clipping so horizontal scroll reaches all columns */
+  .card{border-radius:0!important;overflow:visible!important;}
+  .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;}
 }
 @media(max-width:480px){.tg h1{font-size:13px!important;}.tsub{font-size:9px!important;}}
 /* ══ SKIP NAV ══ */
@@ -833,7 +836,7 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
   <span class="mv-lbl">View:</span>
   <button class="mv-btn" id="mvTable" onclick="setView('table')">☰ Table</button>
   <button class="mv-btn mv-on" id="mvCards" onclick="setView('cards')">▦ Cards</button>
-  <span class="mv-hint">Tap card or swipe → for details</span>
+  <span class="mv-hint" id="mvHint">Tap card or swipe → for details</span>
 </div>
 
 <!-- MOBILE CARDS CONTAINER -->
@@ -2056,6 +2059,8 @@ function setView(v){
   curView=v;
   document.getElementById('mvTable').classList.toggle('mv-on',v==='table');
   document.getElementById('mvCards').classList.toggle('mv-on',v==='cards');
+  const hint=document.getElementById('mvHint');
+  if(hint)hint.textContent=v==='table'?'Scroll ← → to see all columns':'Tap card or swipe → for details';
   if(v==='cards'){document.body.classList.add('card-mode');document.body.classList.remove('grid-mode');renderCards();}
   else{document.body.classList.remove('card-mode');}
 }
