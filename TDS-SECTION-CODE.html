@@ -1735,26 +1735,25 @@ function openCalc(){
 function closeCalc(){
   document.getElementById('calcp').classList.remove('open');
   document.getElementById('calco').classList.remove('open');
-  document.getElementById('calcB').classList.remove('slab-mode');
-  document.getElementById('calcR').classList.remove('slab-mode');
-  document.getElementById('calcRef').classList.remove('show');
 }
 document.getElementById('calcBtn').onclick=openCalc;
 document.getElementById('calcClose').onclick=closeCalc;
 document.getElementById('calco').onclick=closeCalc;
 
-/* Populate calculator dropdown */
+/* Populate calculator dropdown — fixed-rate sections only */
 const calcSel=document.getElementById('calcSec');
 const seen=new Set();
 [...ALL_DATA].sort((a,b)=>parseInt(a[0])-parseInt(b[0])).forEach(r=>{
   const k=r[7];
+  /* Skip if rate is slab, variable, or non-numeric */
+  const hasNumericRate=/([\d.]+)%/.test(r[5]);
+  if(!hasNumericRate)return;
   if(!seen.has(k)){
     seen.add(k);
     const o=document.createElement('option');
     o.value=k;
     o.textContent=r[0]+' — '+(SEC_CODE_LABELS[k]||k)+' ('+r[10]+')';
     o.dataset.rate=r[5];
-
     o.dataset.thresh=r[6];
     o.dataset.type=r[10];
     calcSel.appendChild(o);
@@ -1790,72 +1789,20 @@ function showCalc(amt,rate,thresh,rStr,tStr,txT,sc){
   document.getElementById('calcOut').style.display='block';
   const rEl=document.getElementById('calcRows');
   const nEl=document.getElementById('calcNote2');
-  const calcB=document.getElementById('calcB');
-  const calcR=document.getElementById('calcR');
-  const calcRef=document.getElementById('calcRef');
-  const calcRefHd=document.getElementById('calcRefHd');
-  const calcRefBody=document.getElementById('calcRefBody');
-  const calcRefNote=document.getElementById('calcRefNote');
-
   const below=thresh>0&&amt<=thresh;
-  const tds=isNaN(rate)?NaN:amt*rate/100;
+  const tds=amt*rate/100;
   const isTCS=txT==='TCS';
 
-  /* ── SLAB / VARIABLE RATE BRANCH ── */
-  if(isNaN(rate)){
-    /* Summary rows */
-    rEl.innerHTML=
-      '<div class="crrow"><span>Gross Amount</span><span>'+fmtN(amt)+'</span></div>'+
-      '<div class="crrow"><span>Applicable Rate</span><span style="font-style:italic;color:var(--t3)">'+esc(rStr||'Variable / Slab')+'</span></div>'+
-      '<div class="crrow tot"><span>TDS Amount</span><span style="font-style:italic;color:var(--t3)">As per slab / regime</span></div>';
-    nEl.innerHTML='';
-
-    /* Collapse right panel, go single column */
-    calcB.classList.add('slab-mode');
-    calcR.classList.add('slab-mode');
-
-    /* Show reference table below */
-    calcRef.classList.add('show');
-
-    /* Determine which table to show */
-    const slabSecs={'192':true,'194P':true};
-    if(slabSecs[sc]){
-      const codeMap={'192':'1001','194P':'1032'};
-      calcRefHd.innerHTML='📋 Applicable Slab Rates — TY 2026-27 <span style="font-size:9px;font-weight:400;color:var(--t3)">(S. '+sc+' · '+txT+')</span>';
-      calcRefBody.innerHTML=buildSlabTable(codeMap[sc]||'1001');
-      calcRefNote.innerHTML='TDS deducted at applicable slab rate based on regime opted by employee. Use payroll software or Form 16 workings for exact computation.';
-    } else if(sc==='195'){
-      calcRefHd.innerHTML='📋 S. 195 — Rate Reference by Income Type <span style="font-size:9px;font-weight:400;color:var(--t3)">(First Schedule Part II)</span>';
-      calcRefBody.innerHTML=buildS195Table();
-      calcRefNote.innerHTML='Apply DTAA rate where more beneficial. Form 15CA / 15CB required as applicable. Surcharge + 4% H&amp;E cess additional.';
-    } else if(sc==='193'){
-      calcRefHd.innerHTML='📋 S. 193 — Rate Reference by Deductee Status';
-      calcRefBody.innerHTML=buildS193Table();
-      calcRefNote.innerHTML='Surcharge + 4% H&amp;E cess additional. Form 15G/15H available for eligible residents.';
-    } else {
-      /* Generic fallback for any other variable-rate section */
-      calcRefHd.innerHTML='⚠️ Variable / DTAA Rate Section';
-      calcRefBody.innerHTML='';
-      calcRefNote.innerHTML='This section applies rates based on entity type, DTAA, or regime. Refer to the section detail (click the row in the table) for the applicable rate table.';
-    }
+  rEl.innerHTML=
+    '<div class="crrow"><span>Gross Amount</span><span>'+fmtN(amt)+'</span></div>'+
+    '<div class="crrow"><span>Threshold Limit</span><span>'+(thresh>0?fmtN(thresh):'No threshold')+'</span></div>'+
+    '<div class="crrow"><span>Base Rate</span><span>'+rate.toFixed(2)+'%</span></div>'+
+    '<div class="crrow"><span>Base '+txT+'</span><span>'+(below?fmtN(0)+' (below threshold)':fmtN(tds))+'</span></div>'+
+    '<div class="crrow tot"><span>'+(below?('Amount Payable in Full — No '+txT+' (Below Threshold)'):(isTCS?'Total Collectible from Buyer (Sale + TCS)':'Net Amount to Deductee'))+'</span><span>'+(below?fmtN(amt):(isTCS?fmtN(amt+tds):fmtN(amt-tds)))+'</span></div>';
+  if(below){
+    nEl.innerHTML='✅ Amount is <strong>below the threshold limit</strong>. No '+txT+' is deductible / collectible. '+(isTCS?'Receive the <strong>full sale amount</strong> of '+fmtN(amt)+' from buyer without any TCS.':'Pay the <strong>full amount</strong> of '+fmtN(amt)+' to deductee without any TDS.');
   } else {
-    /* ── FIXED RATE BRANCH (unchanged) ── */
-    calcB.classList.remove('slab-mode');
-    calcR.classList.remove('slab-mode');
-    calcRef.classList.remove('show');
-    calcRefBody.innerHTML='';
-
-    rEl.innerHTML=
-      '<div class="crrow"><span>Gross Amount</span><span>'+fmtN(amt)+'</span></div>'+
-      '<div class="crrow"><span>Threshold Limit</span><span>'+(thresh>0?fmtN(thresh):'No threshold')+'</span></div>'+
-      '<div class="crrow"><span>Base Rate</span><span>'+rate.toFixed(2)+'%</span></div>'+
-      '<div class="crrow"><span>Base '+txT+'</span><span>'+(below?fmtN(0)+' (below threshold)':fmtN(tds))+'</span></div>'+
-      '<div class="crrow tot"><span>'+(below?('Amount Payable in Full — No '+txT+' (Below Threshold)'):(isTCS?'Total Collectible from Buyer (Sale + TCS)':'Net Amount to Deductee'))+'</span><span>'+(below?fmtN(amt):(isTCS?fmtN(amt+tds):fmtN(amt-tds)))+'</span></div>';
-    if(below){
-      nEl.innerHTML='✅ Amount is <strong>below the threshold limit</strong>. No '+txT+' is deductible / collectible. '+(isTCS?'Receive the <strong>full sale amount</strong> of '+fmtN(amt)+' from buyer without any TCS.':'Pay the <strong>full amount</strong> of '+fmtN(amt)+' to deductee without any TDS.');
-    } else {
-      nEl.innerHTML='';
-    }
+    nEl.innerHTML='';
   }
 }
 
