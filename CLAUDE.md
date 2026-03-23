@@ -204,15 +204,127 @@ There is no `npm install`, `npm run build`, or compilation step. All files are s
 
 ---
 
+## New Tool Workflow (Fully Automated)
+
+When the user provides HTML for a new tool — phrases like "add this tool", "integrate this", "here's my HTML", "add tool" — follow this exact sequence **automatically, without asking for confirmation at each step**:
+
+### Step-by-step (execute all steps, in order)
+
+1. **Receive the HTML** from the user (pasted content or existing file path).
+
+2. **Determine the filename.**
+   - Derive from the `<title>` tag using UPPER-KEBAB-CASE (e.g. title "GST Calculator" → `GST-CALCULATOR.html`).
+   - If ambiguous, ask once before proceeding.
+
+3. **Validate & auto-fix the HTML** — check every item below and patch any missing ones directly into the HTML before saving:
+
+   | Check | Required value |
+   |---|---|
+   | `lang` + `data-theme` on `<html>` | `lang="en" data-theme="light"` |
+   | `<meta charset>` | `UTF-8` |
+   | `<meta name="viewport">` | `width=device-width, initial-scale=1.0` |
+   | `<title>` format | ends with `– Taxation Updates` |
+   | `<link rel="stylesheet" href="/brand-icons.css"/>` | absolute path, present |
+   | `<link rel="manifest" href="/manifest.json"/>` | present |
+   | `<link rel="icon">` | points to `/icons/icon-192.png` |
+   | Google Analytics script | ID must be `G-YC101DVMH7` — never change |
+   | `og:title`, `og:description`, `og:type`, `og:url`, `og:image` | all 5 present |
+   | `twitter:card`, `twitter:site`, `twitter:title`, `twitter:description`, `twitter:image` | all 5 present |
+   | `<link rel="canonical">` | points to `https://taxationupdates.com/FILENAME.html` |
+   | `[data-theme="dark"] {}` CSS block | present in `<style>` |
+   | Dark mode JS: restore on load | `localStorage.getItem('theme')` pattern |
+   | Dark mode JS: save on toggle | `localStorage.setItem('theme', ...)` — key must be `'theme'` |
+   | No raw phone number | no 10-digit Indian mobile number in plaintext |
+   | WhatsApp links | use `.wa-link` class + `<script src="/wa-init.js" defer></script>` |
+
+4. **Save the file** to the repo root as `FILENAME.html`.
+
+5. **Run the integration script** (handles sw.js, sitemap.xml, index.html automatically):
+   ```bash
+   ./add-tool.sh FILENAME.html "Tool Name" "One-line description" "emoji"
+   ```
+   - Pick an appropriate emoji for the tool (e.g. 🧮 calculator, 📋 form, 📊 data, 🔍 lookup).
+   - The script will print a validation report — if any ❌ items appear, fix them in the HTML.
+
+6. **Confirm completion** — summarize the 4 files updated:
+   - `FILENAME.html` — new tool (saved + validated)
+   - `sw.js` — CACHE_NAME bumped, file added to PRECACHE_URLS
+   - `sitemap.xml` — new `<url>` entry added
+   - `index.html` — portfolio card added to `#portfolio` grid
+
+### Required `<head>` template (use when building from scratch)
+
+```html
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TOOL TITLE – Taxation Updates</title>
+  <meta name="description" content="TOOL DESCRIPTION — taxationupdates.com"/>
+  <meta property="og:title"       content="TOOL TITLE – Taxation Updates"/>
+  <meta property="og:description" content="TOOL DESCRIPTION"/>
+  <meta property="og:type"        content="website"/>
+  <meta property="og:url"         content="https://taxationupdates.com/FILENAME.html"/>
+  <meta property="og:image"       content="https://taxationupdates.com/og-cover.png"/>
+  <meta name="twitter:card"        content="summary_large_image"/>
+  <meta name="twitter:site"        content="@TaxationUpdates"/>
+  <meta name="twitter:title"       content="TOOL TITLE – Taxation Updates"/>
+  <meta name="twitter:description" content="TOOL DESCRIPTION"/>
+  <meta name="twitter:image"       content="https://taxationupdates.com/og-cover.png"/>
+  <link rel="canonical"            href="https://taxationupdates.com/FILENAME.html"/>
+  <link rel="stylesheet" href="/brand-icons.css"/>
+  <link rel="manifest" href="/manifest.json"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png"/>
+  <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192.png"/>
+  <meta name="theme-color" content="#8c9a1a"/>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YC101DVMH7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-YC101DVMH7');
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root { --primary: #8c9a1a; /* ... */ }
+    [data-theme="dark"] { /* ... */ }
+  </style>
+</head>
+```
+
+### Required dark mode JS (paste before `</body>`)
+
+```html
+<script>
+  // Restore theme on load
+  (function() {
+    const t = localStorage.getItem('theme');
+    if (t) document.documentElement.setAttribute('data-theme', t);
+  })();
+  // Toggle handler (wire to your toggle button)
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const next = isDark ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+</script>
+```
+
+---
+
 ## Common Tasks for AI Assistants
 
 | Task | Notes |
 |---|---|
+| Add a new standalone tool | Say "add this tool" + paste HTML → Claude runs the full New Tool Workflow above |
 | Add a new section to index.html | Follow existing section structure with `<section id="..." class="...">`, add nav link |
 | Add a new prompt category | Edit the JS data array in `CA-Prompt-Library.html`, add sidebar entry |
 | Update TDS rates/sections | Edit the table rows in `TDS-SECTION-CODE.html` |
 | Change brand colors | Update CSS custom properties in `:root` and `[data-theme="dark"]` blocks |
-| Add a new standalone tool | Create a new `.html` file following the self-contained pattern; link from `index.html`; add to `sw.js` precache list |
 | Add a WhatsApp link | Use class `.wa-link` on the element and include `<script src="/wa-init.js" defer></script>` |
 | Add social icon styles | Reference `brand-icons.css` — do not duplicate social color rules inline |
 | Update PWA icons | Replace files in `/icons/` directory; update `manifest.json` if sizes change |
