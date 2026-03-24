@@ -347,7 +347,34 @@ mark{background:rgba(140,154,26,.18);border-bottom:1.5px solid #8c9a1a;border-ra
 [data-theme="dark"] .fsel{background:var(--s2);border-color:var(--bd2)}
 .fsel:focus{border-color:var(--blue)}
 .calcb>div{min-width:0}
-/* ── Searchable section dropdown ── */
+/* ── Calculator Extra Inputs Panel ── */
+.calc-extras{margin-top:4px;padding:10px 12px;background:var(--amb-bg);
+  border:1.5px solid var(--amb-bd);border-radius:var(--r);animation:fadeSlide .2s ease both}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.calc-extras .fl{margin-bottom:5px}
+.cex-label{font-size:9.5px;color:var(--t2);line-height:1.5;margin-bottom:6px;
+  padding:4px 7px;background:var(--s2);border-radius:4px;border:1px solid var(--bd)}
+.cex-label strong{color:var(--tx)}
+/* Radio-button group */
+.cex-rgroup{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+.cex-rbtn{display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:20px;
+  border:1.5px solid var(--bd2);font-size:10.5px;cursor:pointer;color:var(--t2);
+  background:var(--sf);font-family:'DM Sans',sans-serif;font-weight:500;transition:all .15s;user-select:none}
+.cex-rbtn:hover{border-color:var(--blue);color:var(--blue)}
+.cex-rbtn.cex-on{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700}
+[data-theme="dark"] .cex-rbtn{background:var(--s2)}
+/* SDV input */
+.cex-sdv-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:end}
+.cex-sdv-row .fg{margin:0}
+.cex-higher-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;
+  background:rgba(220,38,38,.1);color:#761212;border:1px solid rgba(220,38,38,.24);display:inline-flex}
+[data-theme="dark"] .cex-higher-badge{background:rgba(220,38,38,.18);color:#df9191;border-color:rgba(252,165,165,.28)}
+/* S.195 select */
+.cex-select{width:100%;padding:7px 10px;background:var(--sf);border:1.5px solid var(--bd);
+  border-radius:var(--r);color:var(--tx);font-size:11px;font-family:'DM Sans',sans-serif;
+  outline:none;cursor:pointer;box-sizing:border-box;transition:border-color .15s}
+[data-theme="dark"] .cex-select{background:var(--s2);border-color:var(--bd2)}
+.cex-select:focus{border-color:var(--blue)}
 .sdrop{position:relative;width:100%}
 .sdrop-input{width:100%;padding:7px 30px 7px 10px;background:var(--sf);border:1.5px solid var(--bd);
   border-radius:var(--r);font-size:11.5px;font-family:'DM Sans',sans-serif;color:var(--tx);
@@ -1063,6 +1090,9 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
         <input class="fi" id="calcAmt" type="number" min="0" placeholder="e.g. 500000" step="1">
       </div>
 
+      <!-- Dynamic extra inputs injected here based on selected section code -->
+      <div id="calcExtrasWrap"></div>
+
       <button class="cbtn" id="calcGo">Calculate</button>
       <div style="font-size:9px;color:var(--t3);line-height:1.55">
 
@@ -1198,8 +1228,8 @@ const ALL_DATA = [
   ["1085", "TCS — Sale of horse for horse racing / polo exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 2,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
   ["1086", "TCS — LRS remittance for education or medical treatment", "Authorised dealer", "394(1) [Table: Sl. No. 7.D(a)]", "143", "2%", "₹ 10,00,000", "206C(1G)(a)", "Rate amended from 5% to 2% by Applicable for Tax Year 2026-27, Clause 73(e), w.e.f. 1-Apr-2026. Threshold as per S.394(1) Sl.No.7 is ₹10,00,000 (HTML previously showed ₹7,00,000 in error — that was old Act 1961 threshold).", "206C(1G)(a)", "TCS", "Remitter", "No — S. 197A exemption not available for TCS under this sub-section", "5%"],
   ["1087", "TCS — LRS remittance for purposes other than education / medical", "Authorised dealer", "394(1) [Table: Sl. No. 7.D(b)]", "143", "20%", "₹ 10,00,000", "206C(1G)(b)", "Threshold corrected to ₹10,00,000 as per S.394(1) Sl.No.7 (HTML previously showed ₹7,00,000 — old Act 1961 threshold). Rate of 20% unchanged by Applicable for Tax Year 2026-27.", "206C(1G)(b)", "TCS", "Remitter", "No — S. 197A exemption not available for TCS under this sub-section", "40%"],
-  ["1088", "TCS — Sale of overseas tour programme package — amount or aggregate up to ₹10,00,000", "Seller", "394(1) [Table: Sl. No. 8.D(a)]", "143", "2%", "₹ 10,00,000", "206C(1G)", "Rate amended from 5% to 2% by Applicable for Tax Year 2026-27, Clause 73(f), w.e.f. 1-Apr-2026. Threshold ₹10,00,000 as per S.394(1) Sl.No.8 (HTML previously showed ₹7,00,000 — old Act 1961 threshold).", "206C(1G)", "TCS", "Buyer", "No — S. 197A exemption not available for TCS under this sub-section", "5%"],
-  ["1089", "TCS — Sale of overseas tour programme package — amount or aggregate above ₹10,00,000", "Seller", "394(1) [Table: Sl. No. 8.D(b)]", "143", "2%", "₹ 10,00,000", "206C(1G)", "Rate amended from 20% to 2% by Applicable for Tax Year 2026-27, Clause 73(f), w.e.f. 1-Apr-2026. Threshold ₹10,00,000 as per S.394(1) Sl.No.8 (HTML previously showed ₹7,00,000 — old Act 1961 threshold).", "206C(1G)", "TCS", "Buyer", "No — S. 197A exemption not available for TCS under this sub-section", "5%"],
+  ["1088", "TCS — Sale of overseas tour programme package (any amount)", "Seller", "394(1) [Table: Sl. No. 8]", "143", "2%", "Nil", "206C(1G)", "Finance Bill 2026, Clause 73(f), w.e.f. 1-Apr-2026: Old two-tier structure [5% up to ₹10L / 20% above ₹10L] replaced by flat 2% on ALL amounts — no threshold exemption. TCS applies from Rupee 1. Code 1089 is retained for legacy reference but is now identical to 1088 post-amendment.", "206C(1G)", "TCS", "Buyer", "No — S. 197A exemption not available for TCS under this sub-section", "5%"],
+  ["1089", "TCS — Sale of overseas tour programme package (legacy: above ₹10,00,000 — merged into flat 2% by Finance Bill 2026)", "Seller", "394(1) [Table: Sl. No. 8]", "143", "2%", "Nil", "206C(1G)", "Finance Bill 2026, Clause 73(f), w.e.f. 1-Apr-2026: Previous rate of 20% for amounts above ₹10L is abolished. Flat 2% TCS applies on ALL overseas tour package sales irrespective of amount. No threshold exemption. See code 1088 for merged post-amendment entry.", "206C(1G)", "TCS", "Buyer", "No — S. 197A exemption not available for TCS under this sub-section", "5%"],
   ["1090", "TCS — Use of parking lot for business (excluding mineral oil mining)", "Seller / Licensor", "394(1) [Table: Sl. No. 9]", "143", "2%", "Nil", "206C(1C)", "", "206C(1C)", "TCS", "Buyer / Lessee", "Yes — Buyer files Form 27C declaration u/s 197A(1C) / 206C(1A) for nil TCS", "5%"],
   ["1091", "TCS — Use of toll plaza for business (excluding mineral oil mining)", "Seller / Licensor", "394(1) [Table: Sl. No. 9]", "143", "2%", "Nil", "206C(1C)", "", "206C(1C)", "TCS", "Buyer / Lessee", "Yes — Buyer files Form 27C declaration u/s 197A(1C) / 206C(1A) for nil TCS", "5%"],
   ["1092", "TCS — Use of mine or quarry for business (excluding mineral oil mining)", "Seller / Licensor", "394(1) [Table: Sl. No. 9]", "143", "2%", "Nil", "206C(1C)", "", "206C(1C)", "TCS", "Buyer / Lessee", "Yes — Buyer files Form 27C declaration u/s 197A(1C) / 206C(1A) for nil TCS", "5%"]
@@ -1825,20 +1855,18 @@ const sdropInput=document.getElementById('sdropInput');
 const sdropList=document.getElementById('sdropList');
 const sdropWrap=document.getElementById('sdropWrap');
 
-/* Build master list from data */
+/* Build master list from data — one entry per 4-digit section code (no deduplication on r[7]).
+   Previously the list was deduplicated on r[7] (internal section code), which silently dropped
+   all secondary codes sharing the same r[7] (e.g. 1015/1016 for 194LBA, 1021/1022 for 194A, etc.) */
 const calcItems=[];
-const seen=new Set();
 [...ALL_DATA].sort((a,b)=>parseInt(a[0])-parseInt(b[0])).forEach(r=>{
   const k=r[7];
   const hasNumericRate=/(\d+\.?\d*)%/.test(r[5]);
   if(!hasNumericRate)return;
-  if(!seen.has(k)){
-    seen.add(k);
-    calcItems.push({
-      value:k, code:r[0], sec:SEC_CODE_LABELS[k]||k,
-      nat:r[1], rate:r[5], thresh:r[6], type:r[10]
-    });
-  }
+  calcItems.push({
+    value:k, code:r[0], sec:SEC_CODE_LABELS[k]||k,
+    nat:r[1], rate:r[5], thresh:r[6], type:r[10]
+  });
 });
 
 function renderDropItems(q){
@@ -1880,9 +1908,14 @@ function selectItem(it){
   calcSec.dataset.rate=it.rate;
   calcSec.dataset.thresh=it.thresh;
   calcSec.dataset.type=it.type;
+  calcSec.dataset.code4=it.code;        /* store 4-digit code for CALC_EXTRAS lookup */
   sdropInput.value=it.code+' — '+it.sec+' ('+it.type+')';
   sdropInput.readOnly=true;
   closeSDrop();
+  renderExtras(it.code);               /* inject extra inputs if needed */
+  /* Reset output panel when new section is chosen */
+  document.getElementById('calcPh').style.display='';
+  document.getElementById('calcOut').style.display='none';
 }
 
 function openSDrop(){
@@ -1934,34 +1967,223 @@ const calcSel={
 
 
 
+/* ═══════════════════════════════════════════════════════════
+   CALC_EXTRAS — extra inputs config keyed on 4-digit section code
+   type:'resnr'     → Resident / Non-Resident radio selector
+   type:'nrentity'  → NR Individual / Foreign Company selector
+   type:'s195'      → S.393(2)[Sl.17] income-type dropdown (5 options)
+   type:'sdv'       → Stamp Duty Value field for code 1010 / 194-IA
+═══════════════════════════════════════════════════════════ */
+const CALC_EXTRAS = {
+  /* Group A: Resident vs Non-Resident — rate changes */
+  '1004':{ type:'resnr',
+    res:{ rate:10, note:'S. 392(7): 10% for resident deductee (aggregate ≥ ₹50,000)' },
+    nr:{ rate:20, note:'Finance Bill 2026 First Schedule Part II: 20% for non-resident deductee' } },
+  '1005':{ type:'resnr',
+    res:{ rate:2, note:'S. 393(1)[Sl. 1(i)]: 2% for resident — insurance commission (Part II rates in force)' },
+    nr:{ rate:20, note:'First Schedule Part II: 20% for non-resident' } },
+  '1019':{ type:'resnr',
+    res:{ rate:10, note:'S. 393(1)[Sl. 5(i)]: 10% for resident — interest on securities (Part II)' },
+    nr:{ rate:10, note:'First Schedule Part II: 10% for non-resident on listed debentures. Unlisted/other securities — verify DTAA.' } },
+  '1020':{ type:'resnr',
+    res:{ rate:10, note:'S. 393(1)[Sl. 5(ii).D(a)]: 10% for resident senior citizen (bank/co-op/PO)' },
+    nr:{ rate:20, note:'First Schedule Part II: 20% for non-resident' } },
+  '1021':{ type:'resnr',
+    res:{ rate:10, note:'S. 393(1)[Sl. 5(ii).D(b)]: 10% for resident (bank/co-op/PO, other deductee)' },
+    nr:{ rate:20, note:'First Schedule Part II: 20% for non-resident' } },
+  '1022':{ type:'resnr',
+    res:{ rate:10, note:'S. 393(1)[Sl. 5(iii)]: 10% for resident — interest (specified person)' },
+    nr:{ rate:20, note:'First Schedule Part II: 20% for non-resident' } },
+
+  /* Group B: NR Individual vs Foreign Company */
+  '1047':{ type:'nrentity',
+    ind:{ rate:30, note:'S. 393(2)[Sl. 7]: Rates in force — 30% for non-resident individual / AOP / BOI (Part II)' },
+    fco:{ rate:40, note:'S. 393(2)[Sl. 7]: Rates in force — 40% for foreign company (Part II)' } },
+  '1048':{ type:'nrentity',
+    ind:{ rate:30, note:'S. 393(2)[Sl. 8]: Rates in force — 30% for non-resident individual / AOP / BOI (Part II)' },
+    fco:{ rate:40, note:'S. 393(2)[Sl. 8]: Rates in force — 40% for foreign company (Part II)' } },
+  '1049':{ type:'nrentity',
+    ind:{ rate:30, note:'S. 393(2)[Sl. 9]: Rates in force — 30% for non-resident individual / AOP / BOI (Part II)' },
+    fco:{ rate:40, note:'S. 393(2)[Sl. 9]: Rates in force — 40% for foreign company (Part II)' } },
+
+  /* Group C: S.195 — income type determines rate */
+  '1057':{ type:'s195',
+    options:[
+      { id:'int_fc',  label:'Interest — Foreign Currency Borrowing / Indian concern',            rate:20, note:'First Schedule Part II: 20% on interest payable by Govt/Indian concern on foreign currency borrowing (S. 393(2)[Sl.17])' },
+      { id:'royalty', label:'Royalty — post 31 Mar 1976 agreement (Govt / Indian concern)',       rate:20, note:'First Schedule Part II: 20% on royalty payable by Govt/Indian concern under agreement made after 31 Mar 1976' },
+      { id:'fts',     label:'Fees for Technical Services — post 31 Mar 1976',                    rate:20, note:'First Schedule Part II: 20% on FTS payable by Govt/Indian concern under agreement after 31 Mar 1976' },
+      { id:'othnri',  label:'Other income — Non-Resident Individual / HUF / AOP / BOI',          rate:30, note:'First Schedule Part II: 30% on other income for non-resident individual / HUF / AOP / BOI' },
+      { id:'othfco',  label:'Other income — Foreign Company',                                     rate:40, note:'First Schedule Part II: 40% on other income for foreign company' },
+    ]
+  },
+
+  /* Group D: Immovable property — taxable base = max(consideration, SDV) */
+  '1010':{ type:'sdv',
+    note:'S. 393(1)[Sl. No. 3(i)] / S. 194-IA: TDS @ 1% on the HIGHER of (a) actual consideration or (b) stamp duty value. Both amounts required for accurate computation.' }
+};
+
+/* State store for current extra input values */
+let calcExtraState = {};
+
+/* Render extra inputs below Amount field when a code is selected */
+function renderExtras(code4){
+  const wrap = document.getElementById('calcExtrasWrap');
+  calcExtraState = {};
+  const cfg = CALC_EXTRAS[code4];
+  if(!cfg){ wrap.innerHTML=''; return; }
+
+  let html = '<div class="calc-extras">';
+
+  if(cfg.type==='resnr'){
+    html += '<div class="fl">Deductee / Payee Residency Status</div>';
+    html += '<div class="cex-label">Rate differs by residency. Select below to resolve the correct rate.</div>';
+    html += '<div class="cex-rgroup">';
+    html += '<button class="cex-rbtn cex-on" onclick="setCex(this,\'resnr\',\'res\')">🇮🇳 Resident</button>';
+    html += '<button class="cex-rbtn" onclick="setCex(this,\'resnr\',\'nr\')">🌐 Non-Resident</button>';
+    html += '</div>';
+    calcExtraState = { type:'resnr', val:'res', cfg };
+
+  } else if(cfg.type==='nrentity'){
+    html += '<div class="fl">Non-Resident Payee Type</div>';
+    html += '<div class="cex-label">Rate: <strong>30%</strong> for NR individual / AOP / BOI &nbsp;·&nbsp; <strong>40%</strong> for foreign company</div>';
+    html += '<div class="cex-rgroup">';
+    html += '<button class="cex-rbtn cex-on" onclick="setCex(this,\'nrentity\',\'ind\')">👤 NR Individual / AOP / BOI</button>';
+    html += '<button class="cex-rbtn" onclick="setCex(this,\'nrentity\',\'fco\')">🏢 Foreign Company</button>';
+    html += '</div>';
+    calcExtraState = { type:'nrentity', val:'ind', cfg };
+
+  } else if(cfg.type==='s195'){
+    html += '<div class="fl">Nature of Income — S. 393(2)[Sl. 17] / 195</div>';
+    html += '<div class="cex-label">Select nature to determine the correct rate under First Schedule Part II.</div>';
+    html += '<select class="cex-select" id="cexS195Sel" onchange="setCexS195(this.value)">';
+    cfg.options.forEach((o,i)=>{
+      html += '<option value="'+o.id+'"'+(i===0?' selected':'')+'>'+esc(o.label)+' — '+o.rate+'%</option>';
+    });
+    html += '</select>';
+    calcExtraState = { type:'s195', val:cfg.options[0].id, cfg };
+
+  } else if(cfg.type==='sdv'){
+    html += '<div class="fl">Stamp Duty Value (SDV) — Required for 194-IA</div>';
+    html += '<div class="cex-label"><strong>S. 393(1)[Sl. 3(i)]:</strong> TDS @ 1% on the <strong>higher</strong> of actual consideration or stamp duty value. Enter SDV to compute correctly.</div>';
+    html += '<div class="cex-sdv-row">';
+    html += '<div class="fg"><label class="fl">Stamp Duty Value (₹)</label>';
+    html += '<input class="fi" type="number" id="cexSdvInput" min="0" placeholder="e.g. 5500000" step="1" oninput="setCexSdv()"></div>';
+    html += '<div class="fg"><label class="fl">Taxable Base</label><div id="cexSdvBadge" style="font-size:11px;color:var(--t3);padding:7px 0">Enter SDV to compare</div></div>';
+    html += '</div>';
+    calcExtraState = { type:'sdv', sdv:0, cfg };
+  }
+
+  html += '</div>';
+  wrap.innerHTML = html;
+}
+
+/* Radio-button toggle for resnr / nrentity groups */
+function setCex(el, type, val){
+  el.closest('.cex-rgroup').querySelectorAll('.cex-rbtn').forEach(b=>b.classList.remove('cex-on'));
+  el.classList.add('cex-on');
+  calcExtraState.val = val;
+}
+
+/* S.195 select change */
+function setCexS195(val){ calcExtraState.val = val; }
+
+/* SDV live comparison badge */
+function setCexSdv(){
+  const v = parseFloat(document.getElementById('cexSdvInput').value)||0;
+  calcExtraState.sdv = v;
+  const consideration = parseFloat(document.getElementById('calcAmt').value)||0;
+  const badge = document.getElementById('cexSdvBadge');
+  if(!v){ badge.innerHTML='<span style="color:var(--t3)">Enter SDV to compare</span>'; return; }
+  if(v > consideration){
+    badge.innerHTML='<span class="cex-higher-badge">SDV is higher → TDS on SDV</span>';
+  } else if(consideration > v){
+    badge.innerHTML='<span class="cex-higher-badge" style="background:rgba(140,154,26,.1);color:#444c09;border-color:rgba(140,154,26,.3)">Consideration is higher → TDS on consideration</span>';
+  } else {
+    badge.innerHTML='<span style="color:var(--t3);font-size:10.5px">Both equal</span>';
+  }
+}
+
+/* Resolve the rate from current extra state */
+function resolveRateFromExtras(){
+  const s = calcExtraState;
+  if(!s || !s.type) return null;
+  if(s.type==='resnr'){
+    const pick = s.cfg[s.val]; return { rate:pick.rate, note:pick.note, label:s.val==='res'?'Resident':'Non-Resident' };
+  }
+  if(s.type==='nrentity'){
+    const pick = s.cfg[s.val]; return { rate:pick.rate, note:pick.note, label:s.val==='ind'?'NR Individual / AOP / BOI':'Foreign Company' };
+  }
+  if(s.type==='s195'){
+    const opt = s.cfg.options.find(o=>o.id===s.val);
+    return opt ? { rate:opt.rate, note:opt.note, label:opt.label } : null;
+  }
+  return null; // sdv handled separately
+}
+
 document.getElementById('calcGo').onclick=()=>{
-  const sc=calcSec.value;
-  const amt=parseFloat(document.getElementById('calcAmt').value)||0;
+  const sc   = calcSec.value;
+  const code4 = calcSec.dataset ? (calcSec.dataset.code4||'') : '';
+  const amt  = parseFloat(document.getElementById('calcAmt').value)||0;
 
   if(!sc){toast('⚠️','Please select a section code');return;}
   if(amt<=0){toast('⚠️','Please enter a valid amount > 0');return;}
 
-  const rStr=calcSec.dataset.rate;
-  const tStr=calcSec.dataset.thresh;
-  const txT=calcSec.dataset.type;
+  const rStr = calcSec.dataset.rate;
+  const tStr = calcSec.dataset.thresh;
+  const txT  = calcSec.dataset.type;
 
-  let rate=NaN;
-  if(rStr){const m=rStr.match(/([\d.]+)%/);if(m)rate=parseFloat(m[1]);}
+  /* ── SDV special case (code 1010 / 194-IA) ── */
+  if(calcExtraState.type==='sdv'){
+    const sdv = calcExtraState.sdv||0;
+    const taxableBase = Math.max(amt, sdv);
+    const tds = taxableBase * 1 / 100;
+    showCalcSDV(amt, sdv, taxableBase, tds);
+    return;
+  }
+
+  /* ── Resolve rate from extras if applicable ── */
+  let extraResolved = null;
+  if(calcExtraState && calcExtraState.type){
+    extraResolved = resolveRateFromExtras(rStr);
+  }
+
+  let rate = extraResolved ? extraResolved.rate : NaN;
+  if(isNaN(rate)){
+    if(rStr){const m=rStr.match(/([\d.]+)%/);if(m)rate=parseFloat(m[1]);}
+  }
 
   let thresh=0;
   if(tStr&&tStr!=='Nil'&&tStr!=='—'&&!/slab|as per/i.test(tStr)){
     thresh=parseFloat(tStr.replace(/[₹,\s]/g,'').replace(/per.*/i,''))||0;
   }
-  showCalc(amt,rate,thresh,rStr,tStr,txT,sc);
+  showCalc(amt,rate,thresh,rStr,tStr,txT,sc,extraResolved);
 };
 
-/* Sections where TDS/TCS applies only on AMOUNT EXCEEDING the threshold
-   (statutory note overrides the general "entire amount" rule):
-   194Q [S.393(1) Sl.No.8(ii) Note 1(b)]: "tax shall be deducted on the sum exceeding fifty lakh rupees"
-   Key = r[7] section code, which is what calcSel.value holds at runtime */
+/* SDV-specific output for code 1010 / 194-IA */
+function showCalcSDV(consideration, sdv, taxableBase, tds){
+  document.getElementById('calcPh').style.display='none';
+  document.getElementById('calcOut').style.display='block';
+  const rEl = document.getElementById('calcRows');
+  const nEl = document.getElementById('calcNote2');
+  const useSDV = sdv > consideration;
+  const netPayee = consideration - tds;
+
+  rEl.innerHTML=
+    '<div class="crrow"><span>Actual Consideration</span><span>'+fmtN(consideration)+'</span></div>'+
+    '<div class="crrow"><span>Stamp Duty Value (SDV)</span><span>'+(sdv>0?fmtN(sdv):'Not entered (assumed = consideration)')+'</span></div>'+
+    '<div class="crrow"><span>Taxable Base <small style="font-weight:400;font-size:10px">(higher of consideration / SDV)</small></span><span>'+fmtN(taxableBase)+'</span></div>'+
+    '<div class="crrow"><span>TDS Rate — S. 393(1)[Sl. No. 3(i)] / 194-IA</span><span>1.00%</span></div>'+
+    '<div class="crrow"><span>TDS Amount</span><span>'+fmtN(tds)+'</span></div>'+
+    '<div class="crrow tot"><span>Net Amount to Seller (Consideration − TDS)</span><span>'+fmtN(netPayee)+'</span></div>';
+
+  nEl.innerHTML='<strong>S. 393(1)[Sl. No. 3(i)] / 194-IA:</strong> TDS @ 1% on the <strong>'+(useSDV?'Stamp Duty Value':'Actual Consideration')+'</strong> as it is higher.'+(sdv<=0?' ⚠️ SDV not entered — result assumes SDV = consideration. Enter SDV above for accuracy.':'')
+    +'<br><span style="font-size:9px;opacity:.8">Form 26QB (challan-cum-statement) due within 30 days from end of month of deduction. No Form 15G/15H available for this section.</span>';
+}
+
+/* Sections where TDS applies only on AMOUNT EXCEEDING the threshold */
 const EXCESS_SECTIONS = {'194Q':true};
 
-function showCalc(amt,rate,thresh,rStr,tStr,txT,sc){
+function showCalc(amt,rate,thresh,rStr,tStr,txT,sc,extraResolved){
   document.getElementById('calcPh').style.display='none';
   document.getElementById('calcOut').style.display='block';
   const rEl=document.getElementById('calcRows');
@@ -1983,6 +2205,7 @@ function showCalc(amt,rate,thresh,rStr,tStr,txT,sc){
 
   let rows=
     '<div class="crrow"><span>Gross Amount</span><span>'+fmtN(amt)+'</span></div>'+
+    (extraResolved?'<div class="crrow"><span>Payee / Income Category</span><span style="font-size:10.5px;color:var(--t2)">'+esc(extraResolved.label)+'</span></div>':'')+
     '<div class="crrow"><span>Threshold Limit</span><span>'+(thresh>0?fmtN(thresh):'No threshold')+'</span></div>';
 
   if(isExcess&&!below){
@@ -1990,19 +2213,22 @@ function showCalc(amt,rate,thresh,rStr,tStr,txT,sc){
   }
 
   rows+=
-    '<div class="crrow"><span>Base Rate</span><span>'+rate.toFixed(2)+'%</span></div>'+
-    '<div class="crrow"><span>Base '+txT+'</span><span>'+(below?fmtN(0)+' (below threshold)':fmtN(tds))+'</span></div>'+
-    '<div class="crrow tot"><span>'+(below?('Amount Payable in Full — No '+txT+' (Below Threshold)'):(isTCS?'Total Collectible from Buyer (Sale + TCS)':'Net Amount to Deductee'))+'</span><span>'+(below?fmtN(amt):(isTCS?fmtN(amt+tds):fmtN(amt-tds)))+'</span></div>';
+    '<div class="crrow"><span>Applicable Rate</span><span>'+rate.toFixed(2)+'%</span></div>'+
+    '<div class="crrow"><span>'+txT+' Amount</span><span>'+(below?fmtN(0)+' (below threshold)':fmtN(tds))+'</span></div>'+
+    '<div class="crrow tot"><span>'+(below?('No '+txT+' — Amount Payable in Full'):(isTCS?'Gross Collectible from Buyer (Sale + TCS)':'Net Amount to Deductee'))+'</span><span>'+(below?fmtN(amt):(isTCS?fmtN(amt+tds):fmtN(amt-tds)))+'</span></div>';
 
   rEl.innerHTML=rows;
 
+  let noteHtml='';
   if(below){
-    nEl.innerHTML='✅ Amount is <strong>below the threshold limit</strong>. No '+txT+' is deductible / collectible. '+(isTCS?'Receive the <strong>full sale amount</strong> of '+fmtN(amt)+' from buyer without any TCS.':'Pay the <strong>full amount</strong> of '+fmtN(amt)+' to deductee without any TDS.');
+    noteHtml='✅ Amount is <strong>below the threshold limit</strong>. No '+txT+' applicable. '+(isTCS?'Receive the full sale amount of '+fmtN(amt)+'.':'Pay the full amount of '+fmtN(amt)+' to deductee.');
   } else if(isExcess){
-    nEl.innerHTML='ℹ️ <strong>S. 393(1) [Table: Sl. No. 8(ii)] Note 1(b):</strong> TDS deducted only on the amount <strong>exceeding ₹50,00,000</strong>. Gross amount is <strong>'+fmtN(amt)+'</strong>, taxable base is <strong>'+fmtN(taxableAmt)+'</strong>.';
-  } else {
-    nEl.innerHTML='';
+    noteHtml='ℹ️ <strong>S. 393(1) [Table: Sl. No. 8(ii)] Note 1(b):</strong> TDS deducted only on the amount <strong>exceeding ₹50,00,000</strong>. Taxable base: <strong>'+fmtN(taxableAmt)+'</strong>.';
   }
+  if(extraResolved && extraResolved.note){
+    noteHtml+=(noteHtml?'<br><br>':'')+'📌 <strong>Rate Basis:</strong> '+esc(extraResolved.note);
+  }
+  nEl.innerHTML=noteHtml;
 }
 
 /* ═══ EXPORT CSV ═══ */
