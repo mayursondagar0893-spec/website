@@ -1378,8 +1378,9 @@ function _rtHead(){return '<thead><tr style="background:var(--thd)"></tr></thead
 function _miniTbl(headers, rows, note){
   const ths=headers.map(h=>'<th'+(h.center?' class="tc"':'')+' style="'+(h.w?'width:'+h.w:'')+'">'+h.t+'</th>').join('');
   const trs=rows.map(cells=>'<tr>'+cells.map((c,i)=>'<td'+(headers[i]&&headers[i].center?' style="text-align:center"':'')+'>'+c+'</td>').join('')+'</tr>').join('');
-  return '<div style="overflow-x:auto">'+
-    '<table class="fb-stbl"><thead><tr>'+ths+'</tr></thead><tbody>'+trs+'</tbody></table></div>'+
+  var minW=headers.length>=4?'360px':headers.length===3?'300px':'240px';
+  return '<div style="overflow-x:auto;-webkit-overflow-scrolling:touch">'+
+    '<table class="fb-stbl" style="min-width:'+minW+'"><thead><tr>'+ths+'</tr></thead><tbody>'+trs+'</tbody></table></div>'+
     (note?'<div class="fb-slab-note">'+note+'</div>':'');
 }
 
@@ -1539,12 +1540,13 @@ function buildSlabTable(code){
         '<td style="text-align:center">'+_fbRate(r[3],r[4])+'</td>'+
         '<td style="text-align:center">'+_fbRate(r[5],r[6])+'</td></tr>';
     }).join('');
-    return '<div style="overflow-x:auto"><table class="fb-stbl"><thead><tr>'+hdr+'</tr></thead><tbody>'+rows+'</tbody></table></div>'+
+    var oldMinW=isSr?'260px':'370px';
+    return '<div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table class="fb-stbl" style="min-width:'+oldMinW+'"><thead><tr>'+hdr+'</tr></thead><tbody>'+rows+'</tbody></table></div>'+
       '<div class="fb-slab-note">Finance Bill 2026 · First Schedule Part III. Rebate u/S. 87A (up to ₹12,500) for total income ≤ ₹5L. Surcharge + 4% H&amp;E cess additional.'+(isSr?' S. 194P takes precedence over all TDS provisions for specified senior citizens.':'')+'</div>';
   }
   function mkNewTbl(){
     const rows=newSlabs.map(([s,c,t])=>'<tr><td><span class="fb-slab-val">'+s+'</span></td><td style="text-align:center">'+_fbRate(c,t)+'</td></tr>').join('');
-    return '<div style="overflow-x:auto"><table class="fb-stbl">'+
+    return '<div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table class="fb-stbl" style="min-width:260px">'+
       '<thead><tr><th style="width:65%">Income Slab</th>'+
       '<th class="tc">Rate <span style="font-size:7px;opacity:.7">(All age groups identical)</span></th></tr></thead>'+
       '<tbody>'+rows+'</tbody></table></div>'+
