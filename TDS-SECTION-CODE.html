@@ -341,6 +341,37 @@ mark{background:rgba(140,154,26,.18);border-bottom:1.5px solid #8c9a1a;border-ra
 [data-theme="dark"] .fsel{background:var(--s2);border-color:var(--bd2)}
 .fsel:focus{border-color:var(--blue)}
 .calcb>div{min-width:0}
+/* ── Searchable section dropdown ── */
+.sdrop{position:relative;width:100%}
+.sdrop-input{width:100%;padding:7px 30px 7px 10px;background:var(--sf);border:1.5px solid var(--bd);
+  border-radius:var(--r);font-size:11.5px;font-family:'DM Sans',sans-serif;color:var(--tx);
+  outline:none;cursor:text;box-sizing:border-box;transition:border-color .15s}
+[data-theme="dark"] .sdrop-input{background:var(--s2);border-color:var(--bd2);color:var(--tx)}
+.sdrop-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(140,154,26,.15)}
+.sdrop-arrow{position:absolute;right:9px;top:50%;transform:translateY(-50%);pointer-events:none;
+  font-size:10px;color:var(--t3);transition:transform .2s}
+.sdrop.open .sdrop-arrow{transform:translateY(-50%) rotate(180deg)}
+.sdrop-list{display:none;position:absolute;z-index:1200;top:calc(100% + 4px);left:0;right:0;
+  background:var(--sf);border:1.5px solid var(--blue);border-radius:var(--r);
+  max-height:220px;overflow-y:auto;box-shadow:0 8px 28px rgba(0,0,0,.18)}
+[data-theme="dark"] .sdrop-list{background:var(--s2);box-shadow:0 8px 28px rgba(0,0,0,.5)}
+.sdrop-list.open{display:block}
+.sdrop-item{padding:7px 11px;font-size:11px;color:var(--tx);cursor:pointer;
+  border-bottom:1px solid var(--bd);line-height:1.4}
+.sdrop-item:last-child{border-bottom:none}
+.sdrop-item:hover,.sdrop-item.sdrop-active{background:var(--rh)}
+.sdrop-item .sdi-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.sdi-code{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;
+  color:var(--blue);flex-shrink:0}
+.sdi-sec{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--t2);flex-shrink:0}
+.sdi-nat{font-size:11px;color:var(--tx);flex:1;min-width:0}
+.sdi-type{font-size:8.5px;font-weight:700;padding:1px 5px;border-radius:3px;flex-shrink:0}
+.sdi-type.tds{background:rgba(140,154,26,.12);color:#6b760f;border:1px solid rgba(140,154,26,.28)}
+.sdi-type.tcs{background:rgba(180,83,9,.1);color:#b45309;border:1px solid rgba(180,83,9,.28)}
+[data-theme="dark"] .sdi-type.tds{background:rgba(181,196,34,.15);color:#b5c422;border-color:rgba(181,196,34,.3)}
+[data-theme="dark"] .sdi-type.tcs{background:rgba(180,83,9,.18);color:#fb923c;border-color:rgba(251,146,60,.3)}
+.sdrop-empty{padding:14px 11px;font-size:11px;color:var(--t3);text-align:center}
+
 .cbtn{padding:9px 18px;background:linear-gradient(135deg,#6b760f,#8c9a1a);color:#fff;border:none;
   border-radius:var(--r);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all var(--tr);width:100%;box-sizing:border-box}
 .cbtn:hover{filter:brightness(1.08);transform:translateY(-1px)}
@@ -1006,7 +1037,13 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
     <div class="calcl">
       <div class="fg">
         <label class="fl">Section Code</label>
-        <select class="fsel" id="calcSec"><option value="">— Select a section —</option></select>
+        <div class="sdrop" id="sdropWrap">
+          <input class="sdrop-input" id="sdropInput" type="text" placeholder="Search by code, section, or nature…" autocomplete="off" readonly>
+          <span class="sdrop-arrow">▼</span>
+          <div class="sdrop-list" id="sdropList"></div>
+        </div>
+        <!-- hidden value holder -->
+        <input type="hidden" id="calcSec" value="">
       </div>
       <div class="fg">
         <label class="fl">Payment / Receipt Amount (₹)</label>
@@ -1769,39 +1806,131 @@ document.getElementById('calcBtn').onclick=openCalc;
 document.getElementById('calcClose').onclick=closeCalc;
 document.getElementById('calco').onclick=closeCalc;
 
-/* Populate calculator dropdown — fixed-rate sections only */
-const calcSel=document.getElementById('calcSec');
+/* Build searchable calculator dropdown */
+const calcSec=document.getElementById('calcSec');
+const sdropInput=document.getElementById('sdropInput');
+const sdropList=document.getElementById('sdropList');
+const sdropWrap=document.getElementById('sdropWrap');
+
+/* Build master list from data */
+const calcItems=[];
 const seen=new Set();
 [...ALL_DATA].sort((a,b)=>parseInt(a[0])-parseInt(b[0])).forEach(r=>{
   const k=r[7];
-  /* Skip if rate is slab, variable, or non-numeric */
-  const hasNumericRate=/([\d.]+)%/.test(r[5]);
+  const hasNumericRate=/(\d+\.?\d*)%/.test(r[5]);
   if(!hasNumericRate)return;
   if(!seen.has(k)){
     seen.add(k);
-    const o=document.createElement('option');
-    o.value=k;
-    o.textContent=r[0]+' — '+(SEC_CODE_LABELS[k]||k)+' ('+r[10]+')';
-    o.dataset.rate=r[5];
-    o.dataset.thresh=r[6];
-    o.dataset.type=r[10];
-    calcSel.appendChild(o);
+    calcItems.push({
+      value:k, code:r[0], sec:SEC_CODE_LABELS[k]||k,
+      nat:r[1], rate:r[5], thresh:r[6], type:r[10]
+    });
   }
 });
+
+function renderDropItems(q){
+  const lq=(q||'').toLowerCase().trim();
+  const filtered=lq?calcItems.filter(it=>
+    it.code.includes(lq)||it.value.toLowerCase().includes(lq)||
+    it.sec.toLowerCase().includes(lq)||it.nat.toLowerCase().includes(lq)||
+    it.type.toLowerCase().includes(lq)
+  ):calcItems;
+  sdropList.innerHTML='';
+  if(!filtered.length){
+    sdropList.innerHTML='<div class="sdrop-empty">No matching sections found</div>';
+    return;
+  }
+  filtered.forEach(it=>{
+    const d=document.createElement('div');
+    d.className='sdrop-item';
+    d.dataset.value=it.value;
+    d.dataset.rate=it.rate;
+    d.dataset.thresh=it.thresh;
+    d.dataset.type=it.type;
+    d.innerHTML=
+      '<div class="sdi-row">'+
+      '<span class="sdi-code">'+it.code+'</span>'+
+      '<span class="sdi-sec">'+it.value+'</span>'+
+      '<span class="sdi-nat">'+it.nat.replace(/^(TDS|TCS)\s*—?\s*/i,'')+'</span>'+
+      '<span class="sdi-type '+it.type.toLowerCase()+'">'+it.type+'</span>'+
+      '</div>';
+    d.addEventListener('mousedown',e=>{
+      e.preventDefault();
+      selectItem(it);
+    });
+    sdropList.appendChild(d);
+  });
+}
+
+function selectItem(it){
+  calcSec.value=it.value;
+  calcSec.dataset.rate=it.rate;
+  calcSec.dataset.thresh=it.thresh;
+  calcSec.dataset.type=it.type;
+  sdropInput.value=it.code+' — '+it.sec+' ('+it.type+')';
+  sdropInput.readOnly=true;
+  closeSDrop();
+}
+
+function openSDrop(){
+  sdropInput.readOnly=false;
+  sdropInput.select();
+  renderDropItems('');
+  sdropList.classList.add('open');
+  sdropWrap.classList.add('open');
+}
+function closeSDrop(){
+  sdropList.classList.remove('open');
+  sdropWrap.classList.remove('open');
+  sdropInput.readOnly=true;
+}
+
+sdropInput.addEventListener('focus',()=>openSDrop());
+sdropInput.addEventListener('click',()=>{if(!sdropList.classList.contains('open'))openSDrop();});
+sdropInput.addEventListener('input',()=>renderDropItems(sdropInput.value));
+sdropInput.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeSDrop();sdropInput.blur();}
+  if(e.key==='Enter'){
+    const active=sdropList.querySelector('.sdrop-active');
+    if(active)active.dispatchEvent(new Event('mousedown'));
+  }
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+    const items=[...sdropList.querySelectorAll('.sdrop-item')];
+    if(!items.length)return;
+    e.preventDefault();
+    let idx=items.findIndex(i=>i.classList.contains('sdrop-active'));
+    items.forEach(i=>i.classList.remove('sdrop-active'));
+    idx=e.key==='ArrowDown'?Math.min(idx+1,items.length-1):Math.max(idx-1,0);
+    if(idx<0)idx=0;
+    items[idx].classList.add('sdrop-active');
+    items[idx].scrollIntoView({block:'nearest'});
+  }
+});
+document.addEventListener('click',e=>{if(!sdropWrap.contains(e.target))closeSDrop();});
+
+/* Legacy calcSel reference used by showCalc — alias to calcSec */
+const calcSel={
+  value:null,
+  get value(){return calcSec.value},
+  querySelector(sel){
+    /* build a fake option-like object with dataset */
+    if(!calcSec.value)return null;
+    return{dataset:{rate:calcSec.dataset.rate,thresh:calcSec.dataset.thresh,type:calcSec.dataset.type}};
+  }
+};
 
 
 
 document.getElementById('calcGo').onclick=()=>{
-  const sc=calcSel.value;
+  const sc=calcSec.value;
   const amt=parseFloat(document.getElementById('calcAmt').value)||0;
 
   if(!sc){toast('⚠️','Please select a section code');return;}
   if(amt<=0){toast('⚠️','Please enter a valid amount > 0');return;}
 
-  const o=calcSel.querySelector('option[value="'+sc+'"]');
-  const rStr=o.dataset.rate;
-  const tStr=o.dataset.thresh;
-  const txT=o.dataset.type;
+  const rStr=calcSec.dataset.rate;
+  const tStr=calcSec.dataset.thresh;
+  const txT=calcSec.dataset.type;
 
   let rate=NaN;
   if(rStr){const m=rStr.match(/([\d.]+)%/);if(m)rate=parseFloat(m[1]);}
@@ -1813,23 +1942,51 @@ document.getElementById('calcGo').onclick=()=>{
   showCalc(amt,rate,thresh,rStr,tStr,txT,sc);
 };
 
+/* Sections where TDS/TCS applies only on AMOUNT EXCEEDING the threshold
+   (statutory note overrides the general "entire amount" rule):
+   194Q [S.393(1) Sl.No.8(ii) Note 1(b)]: "tax shall be deducted on the sum exceeding fifty lakh rupees"
+   Key = r[7] section code, which is what calcSel.value holds at runtime */
+const EXCESS_SECTIONS = {'194Q':true};
+
 function showCalc(amt,rate,thresh,rStr,tStr,txT,sc){
   document.getElementById('calcPh').style.display='none';
   document.getElementById('calcOut').style.display='block';
   const rEl=document.getElementById('calcRows');
   const nEl=document.getElementById('calcNote2');
   const below=thresh>0&&amt<=thresh;
-  const tds=amt*rate/100;
   const isTCS=txT==='TCS';
+  const isExcess=EXCESS_SECTIONS[sc]&&thresh>0;
+  const taxableAmt=isExcess?Math.max(0,amt-thresh):amt;
+  const tds=isNaN(rate)?NaN:taxableAmt*rate/100;
 
-  rEl.innerHTML=
+  if(isNaN(rate)){
+    rEl.innerHTML=
+      '<div class="crrow"><span>Gross Amount</span><span>'+fmtN(amt)+'</span></div>'+
+      '<div class="crrow"><span>Applicable Rate</span><span>'+esc(rStr||'Variable / Slab')+'</span></div>'+
+      '<div class="crrow tot"><span>'+txT+' Amount</span><span>As per slab / DTAA</span></div>';
+    nEl.textContent='This section uses slab rates or variable rates. Use income tax computation software.';
+    return;
+  }
+
+  let rows=
     '<div class="crrow"><span>Gross Amount</span><span>'+fmtN(amt)+'</span></div>'+
-    '<div class="crrow"><span>Threshold Limit</span><span>'+(thresh>0?fmtN(thresh):'No threshold')+'</span></div>'+
+    '<div class="crrow"><span>Threshold Limit</span><span>'+(thresh>0?fmtN(thresh):'No threshold')+'</span></div>';
+
+  if(isExcess&&!below){
+    rows+='<div class="crrow"><span>Taxable Amount (Excess over threshold)</span><span>'+fmtN(taxableAmt)+'</span></div>';
+  }
+
+  rows+=
     '<div class="crrow"><span>Base Rate</span><span>'+rate.toFixed(2)+'%</span></div>'+
     '<div class="crrow"><span>Base '+txT+'</span><span>'+(below?fmtN(0)+' (below threshold)':fmtN(tds))+'</span></div>'+
     '<div class="crrow tot"><span>'+(below?('Amount Payable in Full — No '+txT+' (Below Threshold)'):(isTCS?'Total Collectible from Buyer (Sale + TCS)':'Net Amount to Deductee'))+'</span><span>'+(below?fmtN(amt):(isTCS?fmtN(amt+tds):fmtN(amt-tds)))+'</span></div>';
+
+  rEl.innerHTML=rows;
+
   if(below){
     nEl.innerHTML='✅ Amount is <strong>below the threshold limit</strong>. No '+txT+' is deductible / collectible. '+(isTCS?'Receive the <strong>full sale amount</strong> of '+fmtN(amt)+' from buyer without any TCS.':'Pay the <strong>full amount</strong> of '+fmtN(amt)+' to deductee without any TDS.');
+  } else if(isExcess){
+    nEl.innerHTML='ℹ️ <strong>S. 393(1) [Table: Sl. No. 8(ii)] Note 1(b):</strong> TDS deducted only on the amount <strong>exceeding ₹50,00,000</strong>. Gross amount is <strong>'+fmtN(amt)+'</strong>, taxable base is <strong>'+fmtN(taxableAmt)+'</strong>.';
   } else {
     nEl.innerHTML='';
   }
