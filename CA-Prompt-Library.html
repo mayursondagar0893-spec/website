@@ -196,6 +196,7 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
   .back-link{font-size:.72rem;padding:4px 9px}
 }
 </style>
+<script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
 <body>
 
@@ -1561,15 +1562,15 @@ function toggleDarkMode() {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   if (isDark) {
     document.documentElement.removeAttribute('data-theme');
-    localStorage.setItem('cpl_theme', 'light');
+    localStorage.setItem('theme', 'light');
   } else {
     document.documentElement.setAttribute('data-theme', 'dark');
-    localStorage.setItem('cpl_theme', 'dark');
+    localStorage.setItem('theme', 'dark');
   }
   document.getElementById('darkToggle').setAttribute('aria-checked', isDark ? 'false' : 'true');
 }
 function loadTheme() {
-  const saved = localStorage.getItem('cpl_theme');
+  const saved = localStorage.getItem('theme');
   if (saved === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
     document.getElementById('darkToggle').setAttribute('aria-checked', 'true');
