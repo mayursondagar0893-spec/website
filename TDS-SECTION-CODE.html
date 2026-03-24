@@ -201,7 +201,7 @@ table{width:100%;border-collapse:collapse;font-size:11.5px;white-space:nowrap}
 thead tr{background:var(--thd);position:sticky;top:0;z-index:10}
 th{color:rgba(255,255,255,.7);font-family:'DM Sans',sans-serif;font-size:8.5px;font-weight:600;
   letter-spacing:.07em;text-transform:uppercase;padding:8px 10px;text-align:left;
-  border-right:1px solid rgba(255,255,255,.07);cursor:pointer;user-select:none;white-space:nowrap;transition:color var(--tr),background var(--tr)}
+  border-right:1px solid rgba(255,255,255,.18);cursor:pointer;user-select:none;white-space:nowrap;transition:color var(--tr),background var(--tr)}
 th:last-child{border-right:none}
 th:hover{color:#fff;background:rgba(255,255,255,.06)}
 th.asc,th.desc{color:#ca991c}
@@ -209,8 +209,12 @@ th.asc,th.desc{color:#ca991c}
 .sarr{font-size:8.5px;opacity:.3}
 th.asc .sarr,th.desc .sarr{opacity:1}
 .th-act{background:rgba(0,0,0,.25)!important;text-align:center!important;
-  border-bottom:2px solid rgba(255,255,255,.08)!important;pointer-events:none!important;cursor:default!important;padding:5px 8px!important}
+  border-left:2px solid rgba(255,255,255,.22)!important;border-right:2px solid rgba(255,255,255,.22)!important;
+  border-bottom:2px solid rgba(255,255,255,.1)!important;pointer-events:none!important;cursor:default!important;padding:5px 8px!important}
 .th-act:hover{background:rgba(0,0,0,.25)!important}
+/* column-group separators (Old Sec / New Sec bracket) */
+.col-grp-l{border-left:2px solid var(--bd2)!important}
+.col-grp-r{border-right:2px solid var(--bd2)!important}
 .act-badges{display:flex;align-items:center;justify-content:center;gap:5px}
 .ab{display:inline-flex;padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:700;letter-spacing:.04em;white-space:nowrap}
 .ab61{background:rgba(220,38,38,.25);border:1px solid rgba(220,38,38,.4);color:#cb8484}
@@ -934,10 +938,10 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
       <th class="fav-th" rowspan="2" title="Bookmarks"><span class="fav-th-inner">★</span></th>
     </tr>
     <tr>
-      <th class="cw6" data-idx="9" onclick="doSort(9)" style="border-top:1px solid rgba(220,38,38,.2)">
+      <th class="cw6" data-idx="9" onclick="doSort(9)" style="border-top:2px solid rgba(220,38,38,.45);border-left:2px solid rgba(255,255,255,.22)">
         <div class="thi" style="color:#cb8484;font-size:8px">Old Sec - 1961 <span class="sarr">↕</span></div>
       </th>
-      <th class="cw7" data-idx="3" onclick="doSort(3)" style="border-top:1px solid rgba(96,165,250,.2);border-right:2px solid rgba(29,78,216,.1)">
+      <th class="cw7" data-idx="3" onclick="doSort(3)" style="border-top:2px solid rgba(96,165,250,.45);border-right:2px solid rgba(255,255,255,.22)">
         <div class="thi" style="color:#99b0cc;font-size:8px">New Sec 2025 <span class="sarr">↕</span></div>
       </th>
     </tr>
@@ -1390,10 +1394,10 @@ function mkRow(row,i,lq){
     '<td class="cw3"><span class="nat">'+hl(row[1],lq)+'</span></td>'+
     '<td class="cw4"><span class="per">'+hl(row[2],lq)+'</span></td>'+
     '<td class="cw5"><span class="pc '+pc+'">'+hl(row[11]||'—',lq)+'</span></td>'+
-    '<td class="cw6" style="border-left:2px solid rgba(220,38,38,.1)">'+
+    '<td class="cw6 col-grp-l">'+
       '<span class="cs61">'+hl(row[9]||'—',lq)+'</span>'+
     '</td>'+
-    '<td class="cw7" style="border-right:2px solid rgba(29,78,216,.1)">'+
+    '<td class="cw7 col-grp-r">'+
       '<span class="cs25">'+hl(row[3]||'—',lq)+'</span>'+
     '</td>'+
     '<td class="cw8"><span class="crate '+rc+'">'+hl(row[5]||'—',lq)+'</span>'+
