@@ -615,6 +615,22 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
   .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;}
 }
 @media(max-width:480px){.tg h1{font-size:13px!important;}.tsub{font-size:9px!important;}}
+
+/* ══ MODAL RESPONSIVE — mobile ══ */
+@media(max-width:600px){
+  /* Collapse 4-column Rate & Compliance grid to 2×2 */
+  .mg4{grid-template-columns:1fr 1fr!important;}
+  /* Tighten modal header + body padding on narrow screens */
+  .mh{padding:10px 13px!important;}
+  .mb{padding:12px 13px!important;}
+  /* Tighten modal nav bar padding; shrink buttons slightly */
+  .mnav{padding:9px 13px!important;gap:5px!important;}
+  .mnav .btn{font-size:10px!important;padding:5px 9px!important;}
+  /* Reduce mfb inner padding so slab tables get max available width */
+  .mfb{padding:6px 7px!important;}
+  /* Modal outer padding from .mo */
+  .mo{padding:12px!important;}
+}
 /* ══ SKIP NAV ══ */
 .skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
 .skip-nav:focus{position:fixed;top:0;left:0;width:auto;height:auto;padding:.5rem 1rem;background:var(--blue);color:#fff;font-weight:600;font-size:.85rem;z-index:9999;border-radius:0 0 8px 0;text-decoration:none;}
