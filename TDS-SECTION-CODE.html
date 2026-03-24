@@ -615,6 +615,22 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
   .tw{overflow-x:auto;-webkit-overflow-scrolling:touch;}
 }
 @media(max-width:480px){.tg h1{font-size:13px!important;}.tsub{font-size:9px!important;}}
+
+/* ══ MODAL RESPONSIVE — mobile ══ */
+@media(max-width:600px){
+  /* Collapse 4-column Rate & Compliance grid to 2×2 */
+  .mg4{grid-template-columns:1fr 1fr!important;}
+  /* Tighten modal header + body padding on narrow screens */
+  .mh{padding:10px 13px!important;}
+  .mb{padding:12px 13px!important;}
+  /* Tighten modal nav bar padding; shrink buttons slightly */
+  .mnav{padding:9px 13px!important;gap:5px!important;}
+  .mnav .btn{font-size:10px!important;padding:5px 9px!important;}
+  /* Reduce mfb inner padding so slab tables get max available width */
+  .mfb{padding:6px 7px!important;}
+  /* Modal outer padding from .mo */
+  .mo{padding:12px!important;}
+}
 /* ══ SKIP NAV ══ */
 .skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
 .skip-nav:focus{position:fixed;top:0;left:0;width:auto;height:auto;padding:.5rem 1rem;background:var(--blue);color:#fff;font-weight:600;font-size:.85rem;z-index:9999;border-radius:0 0 8px 0;text-decoration:none;}
@@ -1378,8 +1394,9 @@ function _rtHead(){return '<thead><tr style="background:var(--thd)"></tr></thead
 function _miniTbl(headers, rows, note){
   const ths=headers.map(h=>'<th'+(h.center?' class="tc"':'')+' style="'+(h.w?'width:'+h.w:'')+'">'+h.t+'</th>').join('');
   const trs=rows.map(cells=>'<tr>'+cells.map((c,i)=>'<td'+(headers[i]&&headers[i].center?' style="text-align:center"':'')+'>'+c+'</td>').join('')+'</tr>').join('');
-  return '<div style="overflow-x:auto">'+
-    '<table class="fb-stbl"><thead><tr>'+ths+'</tr></thead><tbody>'+trs+'</tbody></table></div>'+
+  var minW=headers.length>=4?'360px':headers.length===3?'300px':'240px';
+  return '<div style="overflow-x:auto;-webkit-overflow-scrolling:touch">'+
+    '<table class="fb-stbl" style="min-width:'+minW+'"><thead><tr>'+ths+'</tr></thead><tbody>'+trs+'</tbody></table></div>'+
     (note?'<div class="fb-slab-note">'+note+'</div>':'');
 }
 
@@ -1539,12 +1556,13 @@ function buildSlabTable(code){
         '<td style="text-align:center">'+_fbRate(r[3],r[4])+'</td>'+
         '<td style="text-align:center">'+_fbRate(r[5],r[6])+'</td></tr>';
     }).join('');
-    return '<div style="overflow-x:auto"><table class="fb-stbl"><thead><tr>'+hdr+'</tr></thead><tbody>'+rows+'</tbody></table></div>'+
+    var oldMinW=isSr?'260px':'370px';
+    return '<div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table class="fb-stbl" style="min-width:'+oldMinW+'"><thead><tr>'+hdr+'</tr></thead><tbody>'+rows+'</tbody></table></div>'+
       '<div class="fb-slab-note">Finance Bill 2026 · First Schedule Part III. Rebate u/S. 87A (up to ₹12,500) for total income ≤ ₹5L. Surcharge + 4% H&amp;E cess additional.'+(isSr?' S. 194P takes precedence over all TDS provisions for specified senior citizens.':'')+'</div>';
   }
   function mkNewTbl(){
     const rows=newSlabs.map(([s,c,t])=>'<tr><td><span class="fb-slab-val">'+s+'</span></td><td style="text-align:center">'+_fbRate(c,t)+'</td></tr>').join('');
-    return '<div style="overflow-x:auto"><table class="fb-stbl">'+
+    return '<div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table class="fb-stbl" style="min-width:260px">'+
       '<thead><tr><th style="width:65%">Income Slab</th>'+
       '<th class="tc">Rate <span style="font-size:7px;opacity:.7">(All age groups identical)</span></th></tr></thead>'+
       '<tbody>'+rows+'</tbody></table></div>'+
