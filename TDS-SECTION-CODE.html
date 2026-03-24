@@ -55,11 +55,12 @@
 }
 [data-theme="light"]{
   --bg:#f0f3d8;--sf:#fff;--s2:#fafbf0;--s3:#dde3a8;
-  --bd:rgba(140,154,26,.26);--bd2:rgba(107,118,15,.36);--tx:#171a04;--t2:#323709;--t3:#4e5614;
+  --bd:rgba(140,154,26,.26);--bd2:rgba(107,118,15,.45);--tx:#171a04;--t2:#323709;--t3:#4e5614;
+  --tbd:rgba(107,118,15,.42);--col-bd:rgba(107,118,15,.58);
   --ra:#fafbf0;--rh:#e8edbb;
   --codebg:#e8edbb;--codec:#444c09;
   --formbg:#f0f3d8;--formc:#444c09;
-  --grpbg:#e8edbb;--grpbd:rgba(140,154,26,.48);--grpt:#262b04;
+  --grpbg:#e8edbb;--grpbd:rgba(140,154,26,.55);--grpt:#262b04;
   --hdr:#fafbf0;--thd:linear-gradient(135deg,#3d4408,#6b760f);
   --hbd:rgba(140,154,26,.26);--htx:#171a04;--hsb:#4e5614;
   --shd:0 1px 6px rgba(140,154,26,.1),0 4px 20px rgba(140,154,26,.07);
@@ -67,11 +68,12 @@
 }
 [data-theme="dark"]{
   --bg:#1a1d0a;--sf:#242810;--s2:#1f2209;--s3:#2e3410;
-  --bd:rgba(140,154,26,.28);--bd2:rgba(140,154,26,.39);--tx:#ced2a5;--t2:#aeb661;--t3:#889628;
+  --bd:rgba(140,154,26,.28);--bd2:rgba(140,154,26,.45);--tx:#ced2a5;--t2:#aeb661;--t3:#889628;
+  --tbd:rgba(140,154,26,.32);--col-bd:rgba(181,196,34,.52);
   --ra:#1f2209;--rh:#2e3410;
   --codebg:#1f2209;--codec:#a0ae1e;
   --formbg:#1f2209;--formc:#a0ae1e;
-  --grpbg:#1f2209;--grpbd:rgba(140,154,26,.33);--grpt:#a0ae1e;
+  --grpbg:#1f2209;--grpbd:rgba(140,154,26,.52);--grpt:#a0ae1e;
   --hdr:linear-gradient(150deg,#111405,#1f2209);
   --thd:linear-gradient(135deg,#111405,#3d4408);
   --hbd:rgba(140,154,26,.22);--htx:#ced2a5;--hsb:rgba(160,174,30,.5);
@@ -213,18 +215,18 @@ th.asc .sarr,th.desc .sarr{opacity:1}
   border-bottom:2px solid rgba(255,255,255,.1)!important;pointer-events:none!important;cursor:default!important;padding:5px 8px!important}
 .th-act:hover{background:rgba(0,0,0,.25)!important}
 /* column-group separators (Old Sec / New Sec bracket) */
-.col-grp-l{border-left:2px solid var(--bd2)!important}
-.col-grp-r{border-right:2px solid var(--bd2)!important}
+.col-grp-l{border-left:2px solid var(--col-bd)!important}
+.col-grp-r{border-right:2px solid var(--col-bd)!important}
 .act-badges{display:flex;align-items:center;justify-content:center;gap:5px}
 .ab{display:inline-flex;padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:700;letter-spacing:.04em;white-space:nowrap}
 .ab61{background:rgba(220,38,38,.25);border:1px solid rgba(220,38,38,.4);color:#cb8484}
 .ab25{background:rgba(181,196,34,.2);border:1px solid rgba(181,196,34,.35);color:#bbbf96}
 .abx{color:rgba(255,255,255,.2);font-size:9px}
-tbody tr{border-bottom:1px solid var(--bd);cursor:pointer;transition:background .1s}
+tbody tr{border-bottom:1px solid var(--tbd);cursor:pointer;transition:background .1s}
 tbody tr:nth-child(even){background:var(--ra)}
 tbody tr:hover{background:var(--rh)!important}
 tbody tr.kbf{outline:2px solid var(--blue);outline-offset:-2px;background:var(--rh)!important;position:relative;z-index:1}
-td{padding:7px 10px;vertical-align:middle;border-right:1px solid var(--bd)}
+td{padding:7px 10px;vertical-align:middle;border-right:1px solid var(--tbd)}
 td:last-child{border-right:none}
 /* GROUP ROW */
 tr.gr{background:var(--grpbg)!important;cursor:default!important}
