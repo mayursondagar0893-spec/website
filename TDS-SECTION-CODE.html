@@ -552,6 +552,13 @@ body.card-mode .main{display:none!important;}
 [data-theme="dark"] .card-fv.is-thr{color:#29aa7b;}
 .card-fv.is-sec{font-family:'JetBrains Mono',monospace;font-size:11px;color:#941616;}
 [data-theme="dark"] .card-fv.is-sec{color:#cb8484;}
+.card-fv.is-sec25{font-family:'JetBrains Mono',monospace;font-size:10px;color:#444c09;white-space:normal;word-break:break-word;line-height:1.45}
+[data-theme="dark"] .card-fv.is-sec25{color:#a0ae1e}
+/* Modal section reference accent colors — theme-aware */
+.mlbl-61{color:rgba(220,38,38,.85)!important}
+[data-theme="dark"] .mlbl-61{color:#df9191!important}
+.mlbl-25{color:#4e5614!important}
+[data-theme="dark"] .mlbl-25{color:#a0ae1e!important}
 .card-full{grid-column:1/-1;}
 .card-fb{margin-top:8px;font-size:9.5px;line-height:1.5;background:var(--amb-bg);
   border:1px solid var(--amb-bd);border-radius:4px;padding:5px 8px;color:#75330b;}
@@ -988,12 +995,12 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
       <div class="mst">📋 Section References</div>
       <div class="mg2">
         <div class="mf">
-          <div class="mlbl" style="color:#941616">IT Act, 1961 — Old Section</div>
-          <div class="mval mono" id="mS61" style="color:#941616;border-color:rgba(220,38,38,.2)">—</div>
+          <div class="mlbl mlbl-61">IT Act, 1961 — Old Section</div>
+          <div class="mval mono" id="mS61">—</div>
         </div>
         <div class="mf">
-          <div class="mlbl" style="color:#163eae">IT Act, 2025 — New Section</div>
-          <div class="mval mono" id="mS25" style="color:#163eae;border-color:rgba(29,78,216,.2)">—</div>
+          <div class="mlbl mlbl-25">IT Act, 2025 — New Section</div>
+          <div class="mval mono" id="mS25">—</div>
         </div>
       </div>
       <div class="mdiv"></div>
@@ -2283,8 +2290,9 @@ function mkCardHtml(r,idx){
         /* Enhancement 1: rate badge */
         +'<div class="card-field"><span class="card-fl">Base Rate</span>'+rateBadge+'</div>'
         +'<div class="card-field"><span class="card-fl">Threshold</span><span class="card-fv is-thr">'+esc(r[6]||'—').replace(/₹ /g,'₹&nbsp;')+'</span></div>'
-        +'<div class="card-field"><span class="card-fl">Old Section</span><span class="card-fv is-sec">'+esc(r[9]||'—')+'</span></div>'
-        +'<div class="card-field"><span class="card-fl">Form</span><span class="card-fv" style="font-family:monospace;font-weight:700;color:#037854">'+esc(r[4]||'—')+'</span></div>'
+        +'<div class="card-field"><span class="card-fl">Old Sec 1961</span><span class="card-fv is-sec">'+esc(r[9]||'—')+'</span></div>'
+        +'<div class="card-field"><span class="card-fl">New Sec 2025</span><span class="card-fv is-sec25">'+esc(r[3]||'—')+'</span></div>'
+        +'<div class="card-field card-full"><span class="card-fl">Form</span><span class="card-fv is-thr" style="font-family:monospace;font-weight:700">'+esc(r[4]||'—')+'</span></div>'
         /* Enhancement 2: payee type badge */
         +(r[11]?'<div class="card-field card-full"><span class="card-fl">Payee Type</span>'+payeeBadge+'</div>':'')
         +(r[2]?'<div class="card-field card-full"><span class="card-fl">Deductor</span><span class="card-fv" style="color:var(--t2);font-size:11px">'+esc(r[2])+'</span></div>':'')
