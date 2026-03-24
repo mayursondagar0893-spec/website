@@ -699,6 +699,7 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
 .fb-compare-lbl{font-size:8.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
   color:var(--t3);margin-bottom:6px}
 </style>
+<script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
 <body>
 
@@ -1691,9 +1692,11 @@ tbody.addEventListener('click',()=>{clearK();kRow=-1;});
 
 /* ═══ THEME ═══ */
 const _themeBtn=document.getElementById('themeBtn');
+(function(){const t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.dataset.theme='dark';_themeBtn.textContent='☀️';_themeBtn.setAttribute('aria-checked','true');}})();
 _themeBtn.onclick=()=>{
   const light=document.documentElement.dataset.theme==='light';
   document.documentElement.dataset.theme=light?'dark':'light';
+  localStorage.setItem('theme',light?'dark':'light');
   _themeBtn.textContent=light?'☀️':'🌙';
   _themeBtn.setAttribute('aria-checked',light?'true':'false');
 };
