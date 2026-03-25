@@ -27,11 +27,24 @@ This file provides context for AI assistants (Claude, Copilot, etc.) working on 
 ├── disclaimer.html                 # Disclaimer page
 ├── brand-icons.css                 # Shared CSS: social icon brand colors (used by all pages)
 ├── wa-init.js                      # Shared JS: WhatsApp link initializer (Base64-encoded number)
+├── challan-parser.js               # Shared JS: pure challan PDF parsing functions (browser + Node)
+├── contact-form.js                 # Shared JS: pure contact form validation/WA message helpers
+├── prompt-filter.js                # Shared JS: pure filter/sort/bookmark helpers for CA-Prompt-Library
 ├── sw.js                           # Service Worker — cache-first offline support for tool pages
 ├── manifest.json                   # PWA manifest (icons, theme color, display mode)
 ├── og-cover.svg                    # Open Graph cover image (SVG)
 ├── robots.txt                      # SEO: allow all, references sitemap
 ├── sitemap.xml                     # XML sitemap for SEO
+├── add-tool.sh                     # Integration script — registers a new tool in sw.js/sitemap/index
+├── package.json                    # Dev-only: Vitest + jsdom for the unit test suite
+├── vitest.config.js                # Vitest configuration (jsdom env for wa-init/dark-mode tests)
+├── tests/
+│   ├── challan-parser.test.js      # Unit tests for challan-parser.js
+│   ├── contact-form.test.js        # Unit tests for contact-form.js
+│   ├── prompt-filter.test.js       # Unit tests for prompt-filter.js
+│   ├── sw.test.js                  # Tests for sw.js constants and fetch-routing logic
+│   ├── wa-init.test.js             # Tests for wa-init.js (jsdom environment)
+│   └── dark-mode.test.js           # Tests for dark mode theme persistence (jsdom environment)
 ├── icons/
 │   ├── icon-192.png                # PWA icon 192×192
 │   └── icon-512.png                # PWA icon 512×512
@@ -39,7 +52,7 @@ This file provides context for AI assistants (Claude, Copilot, etc.) working on 
 └── README.md                       # Minimal readme
 ```
 
-No build system, no package manager, no backend — this is a **pure static site**.
+No backend, no build process — this is a **pure static site**. `package.json` exists solely for the dev-only Vitest test suite and is never deployed.
 
 ---
 
@@ -54,24 +67,33 @@ No build system, no package manager, no backend — this is a **pure static site
 | Analytics | Google Analytics (G-YC101DVMH7) |
 | Storage | `localStorage` only (no backend/database) |
 | PWA | `manifest.json` + `sw.js` service worker (offline caching) |
-| Shared Assets | `brand-icons.css` (social icon colors), `wa-init.js` (WhatsApp init) |
+| Shared Assets | `brand-icons.css`, `wa-init.js`, `challan-parser.js`, `contact-form.js`, `prompt-filter.js` |
+| Testing (dev-only) | Vitest `^2.1.0` + jsdom `^25.0.0` — run with `npm test` |
 
 ---
 
 ## Development Workflow
 
 ### No Build Process
-There is no `npm install`, `npm run build`, or compilation step. All files are served as-is.
+There is no `npm run build` or compilation step. All files are served as-is by GitHub Pages.
 
 ### Editing
 - Edit HTML files directly — changes are immediately visible in a browser.
 - All CSS is embedded in `<style>` tags within each HTML file, **except** shared styles in `brand-icons.css`.
-- All JavaScript is embedded in `<script>` tags within each HTML file, **except** shared logic in `wa-init.js`.
+- All JavaScript is embedded in `<script>` tags within each HTML file, **except** shared logic in:
+  - `wa-init.js` — WhatsApp link initializer
+  - `challan-parser.js` — challan PDF parsing functions
+  - `contact-form.js` — contact form validation and WA message helpers
+  - `prompt-filter.js` — CA-Prompt-Library filter/sort/bookmark helpers
 
 ### Testing
-- No automated test suite exists.
-- Manual browser testing is the only testing method.
+- **Automated unit tests** exist in the `tests/` directory — run with `npm test` (uses Vitest).
+  - Install dev dependencies once with `npm install` (never deployed; `.gitignore` handles `node_modules`).
+  - `npm test` runs `vitest run` (single pass); `npm run test:watch` for watch mode.
+  - Two tests use the jsdom environment (`wa-init.test.js`, `dark-mode.test.js`); the rest use Node.
+- **Manual browser testing** is still required for layout, animations, and PDF/Excel functionality.
 - Test across light/dark mode, mobile (≤768px), and desktop viewports.
+- **Always run `npm test` after editing any of the shared JS files.**
 
 ### Deployment
 - Push to `master` (or `main`) branch → GitHub Pages auto-deploys.
@@ -109,6 +131,14 @@ There is no `npm install`, `npm run build`, or compilation step. All files are s
 - **WhatsApp shared init:** `wa-init.js` handles `.wa-link` click events site-wide. Include via `<script src="/wa-init.js" defer></script>`.
 - **Performance:** Scroll event listeners use `{ passive: true }`.
 - **Service Worker:** `sw.js` caches tool pages for offline use — do not break cache URLs when renaming files.
+- **Dual module pattern** for shared JS files that are also unit-tested:
+  ```js
+  // Bottom of challan-parser.js / contact-form.js / prompt-filter.js
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { myFunction };
+  }
+  ```
+  In the browser these files are loaded as `<script>` tags and functions become globals. In Vitest they are `require()`'d as CommonJS modules. Never break this pattern when editing shared JS files.
 
 ### HTML
 
@@ -170,6 +200,32 @@ There is no `npm install`, `npm run build`, or compilation step. All files are s
 - Shared script: initializes all `.wa-link` elements with the Base64-encoded WhatsApp number.
 - Included via `<script src="/wa-init.js" defer></script>` on pages with WhatsApp links.
 - Do not expose the decoded number — always keep it Base64-encoded.
+- Covered by `tests/wa-init.test.js` (jsdom environment).
+
+### `challan-parser.js`
+- Shared JS: pure parsing functions for Income Tax challan PDFs (ITNS 280/281/282/283).
+- Functions: `clean`, `parseAmount`, `between`, `get`, `parseChallan`.
+- Used by `INCOME-TAX-CHALLAN-TO-EXCEL.html` (as globals) and testable via Node (CommonJS export).
+- `parseChallan(text, filename)` returns a structured record with `ok`, `itns`, `pan`, `tan`, amounts, dates, etc.
+- Covered by `tests/challan-parser.test.js`.
+
+### `contact-form.js`
+- Shared JS: pure helpers for the contact form in `index.html`.
+- Functions: `validateForm(name, email, msg)`, `buildWAMessage(opts)`, `buildWAUrl(waNumber, message)`.
+- Used by `index.html` (as globals) and testable via Node (CommonJS export).
+- Covered by `tests/contact-form.test.js`.
+
+### `prompt-filter.js`
+- Shared JS: pure filter, sort and bookmark helpers for `CA-Prompt-Library.html`.
+- Functions: `filterAndSort(prompts, opts)`, `toggleBookmark(bookmarks, id)`.
+- Used by `CA-Prompt-Library.html` (as globals) and testable via Node (CommonJS export).
+- Covered by `tests/prompt-filter.test.js`.
+
+### `add-tool.sh`
+- Bash + Python3 integration script that automates registering a new tool across 4 files.
+- Usage: `./add-tool.sh FILENAME.html "Tool Name" "Description" "emoji"`
+- Automatically: bumps `CACHE_NAME` version in `sw.js`, adds URL to `sitemap.xml`, inserts a portfolio card into `index.html`, and prints an HTML validation report.
+- Requires Python 3 to be available on `$PATH`.
 
 ### `sw.js`
 - Service Worker for PWA offline support.
@@ -184,14 +240,16 @@ There is no `npm install`, `npm run build`, or compilation step. All files are s
 
 ## Important Constraints
 
-1. **No dependencies to install.** Never add `npm`, `yarn`, or build steps unless explicitly requested.
-2. **Keep files self-contained.** Each HTML file embeds its own CSS and JS — do not split into separate files unless asked. Exceptions: `brand-icons.css` and `wa-init.js` are intentionally shared.
+1. **No production dependencies.** `package.json` exists only for the Vitest dev test suite — never add runtime `npm` dependencies or build steps that affect deployed files. `node_modules` is never deployed.
+2. **Keep files self-contained.** Each HTML file embeds its own CSS and JS — do not split into separate files unless asked. Exceptions: `brand-icons.css`, `wa-init.js`, `challan-parser.js`, `contact-form.js`, and `prompt-filter.js` are intentionally shared.
 3. **Preserve localStorage keys.** Existing keys (`theme`, `bookmarks`, etc.) are used by live users — renaming them breaks persistence.
 4. **WhatsApp number encoding.** Never expose the raw phone number in plaintext — always use `atob()` decoding pattern (see `wa-init.js`).
 5. **Google Analytics tag.** Do not remove or change the GA4 measurement ID `G-YC101DVMH7`.
 6. **CNAME file.** Do not delete or modify — it controls the custom domain on GitHub Pages.
 7. **Service Worker cache.** If you rename or move a cached file listed in `sw.js`, update the precache URL list and bump `CACHE_NAME` version.
 8. **brand-icons.css path.** All pages reference `/brand-icons.css` with an absolute path — do not rename or relocate this file.
+9. **Shared JS dual-module exports.** `challan-parser.js`, `contact-form.js`, and `prompt-filter.js` each end with a `if (typeof module !== 'undefined' && module.exports) { ... }` block so they work as both browser globals and Node/Vitest `require()` modules. Do not remove this block.
+10. **Run tests after editing shared JS.** Any change to `challan-parser.js`, `contact-form.js`, `prompt-filter.js`, `wa-init.js`, or `sw.js` must be followed by `npm test` to verify no regressions.
 
 ---
 
@@ -328,3 +386,8 @@ When the user provides HTML for a new tool — phrases like "add this tool", "in
 | Add a WhatsApp link | Use class `.wa-link` on the element and include `<script src="/wa-init.js" defer></script>` |
 | Add social icon styles | Reference `brand-icons.css` — do not duplicate social color rules inline |
 | Update PWA icons | Replace files in `/icons/` directory; update `manifest.json` if sizes change |
+| Run unit tests | `npm test` (requires `npm install` once) — covers challan parser, contact form, prompt filter, sw.js, wa-init |
+| Edit challan parsing logic | Edit `challan-parser.js`; run `npm test` after; HTML files pick up changes automatically |
+| Edit contact form logic | Edit `contact-form.js`; run `npm test` after |
+| Edit prompt filter/sort logic | Edit `prompt-filter.js`; run `npm test` after |
+| Add a test for a new shared function | Add to the relevant file in `tests/`; follow existing `describe`/`it` structure |
