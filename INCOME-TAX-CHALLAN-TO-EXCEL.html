@@ -362,6 +362,11 @@
   .stat.success .stat-val { color: var(--olive-dark); }
   .stat.error .stat-val { color: var(--error); }
   .stat.warn .stat-val { color: var(--warn); }
+  .stat.clickable { cursor: pointer; border: 1.5px solid transparent; transition: transform .2s, border-color .2s, box-shadow .2s; }
+  .stat.clickable:hover { border-color: var(--olive); box-shadow: 0 4px 18px rgba(140,154,26,0.22); }
+  .stat.clickable.active-filter { border-color: var(--olive); background: var(--olive-pale); }
+  [data-theme="dark"] .stat.clickable.active-filter { background: var(--olive-bg); }
+  .stat-hint { font-size: 9px; color: var(--text-soft); margin-top: 3px; opacity: .7; letter-spacing: .03em; }
 
   /* ══════════════ FILTER BAR ══════════════ */
   .filter-bar {
@@ -606,11 +611,29 @@
 
   <!-- Stats -->
   <div class="stat-bar" id="statBar" style="display:none">
-    <div class="stat">          <div class="stat-val" id="stTotal">0</div>  <div class="stat-label">Total Challans</div></div>
-    <div class="stat success">  <div class="stat-val" id="stParsed">0</div> <div class="stat-label">Parsed OK</div></div>
-    <div class="stat error">    <div class="stat-val" id="stFailed">0</div> <div class="stat-label">Needs Review</div></div>
-    <div class="stat warn">     <div class="stat-val" id="stAmount">₹0</div><div class="stat-label">Total Amount</div></div>
-    <div class="stat">          <div class="stat-val" id="stShowing">0</div><div class="stat-label">Showing (filtered)</div></div>
+    <div class="stat clickable" id="statAll" title="Click to show all challans" onclick="filterByStat('all')">
+      <div class="stat-val" id="stTotal">0</div>
+      <div class="stat-label">Total Challans</div>
+      <div class="stat-hint">Click to show all</div>
+    </div>
+    <div class="stat success clickable" id="statOK" title="Click to show only Parsed OK" onclick="filterByStat('ok')">
+      <div class="stat-val" id="stParsed">0</div>
+      <div class="stat-label">Parsed OK</div>
+      <div class="stat-hint">Click to filter</div>
+    </div>
+    <div class="stat error clickable" id="statErr" title="Click to show only Needs Review" onclick="filterByStat('err')">
+      <div class="stat-val" id="stFailed">0</div>
+      <div class="stat-label">Needs Review</div>
+      <div class="stat-hint">Click to filter</div>
+    </div>
+    <div class="stat warn">
+      <div class="stat-val" id="stAmount">₹0</div>
+      <div class="stat-label">Total Amount</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" id="stShowing">0</div>
+      <div class="stat-label">Showing (filtered)</div>
+    </div>
   </div>
 
   <!-- Filter Bar -->
@@ -813,6 +836,7 @@ function clearAll(){
   document.getElementById('statusMsg').textContent='';
   document.getElementById('fileInput').value='';
   sortCol='';sortDir='asc';
+  ['statAll','statOK','statErr'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active-filter');});
 }
 
 // ── PDF extraction ────────────────────────────────────────────
@@ -894,7 +918,14 @@ function applyFilters(){
     if(status==='ok'&&!r.ok)return false;
     if(status==='err'&&r.ok)return false;
     if(search){
-      const hay=[r.pan,r.name,r.cin,r.challanNo,r.bankRef,r.bsr,r.bank,r.major,r.minor,r.dod,r.tenderDate,r.file].join(' ').toLowerCase();
+      const hay=[
+        r.pan,r.tan,r.name,r.cin,r.challanNo,r.bankRef,r.bsr,r.bank,
+        r.major,r.minor,r.dod,r.tenderDate,r.file,
+        r.ay,r.fy,r.itns,r.mode,r.natureOfPayment,
+        r.ok?'ok parsed':'needs review check',
+        String(r.tax||''),String(r.surcharge||''),String(r.cess||''),
+        String(r.interest||''),String(r.penalty||''),String(r.others||''),String(r.total||'')
+      ].join(' ').toLowerCase();
       if(!hay.includes(search))return false;
     }
     return true;
@@ -906,8 +937,30 @@ function clearFilters(){
   ['searchInput'].forEach(id=>document.getElementById(id).value='');
   ['filterITNS','filterAY','filterPAN','filterStatus'].forEach(id=>document.getElementById(id).value='');
   filteredData=[...parsedData];
+  // reset active-filter highlight
+  ['statAll','statOK','statErr'].forEach(id=>document.getElementById(id).classList.remove('active-filter'));
   if(sortCol)doSort(sortCol,false);else renderTable();
   document.getElementById('stShowing').textContent=filteredData.length;
+}
+
+// ── Stat card quick-filter ─────────────────────────────────────
+function filterByStat(type){
+  // reset all active highlights
+  ['statAll','statOK','statErr'].forEach(id=>document.getElementById(id).classList.remove('active-filter'));
+  const statusEl=document.getElementById('filterStatus');
+  if(type==='all'){
+    statusEl.value='';
+    document.getElementById('statAll').classList.add('active-filter');
+  } else if(type==='ok'){
+    statusEl.value='ok';
+    document.getElementById('statOK').classList.add('active-filter');
+  } else if(type==='err'){
+    statusEl.value='err';
+    document.getElementById('statErr').classList.add('active-filter');
+  }
+  applyFilters();
+  // Scroll to filter bar smoothly
+  document.getElementById('filterBar').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 // ── Sorting ───────────────────────────────────────────────────
