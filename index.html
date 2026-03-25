@@ -750,17 +750,16 @@ I really admire how you present complex things in so simple manner @TaxationUpda
 
 
   /* ── Contact Form → WhatsApp ── */
+  // validateForm / buildWAMessage / buildWAUrl provided by /contact-form.js
   document.getElementById('form-btn').addEventListener('click',()=>{
     const name=document.getElementById('f-name').value.trim();
     const email=document.getElementById('f-email').value.trim();
     const msg=document.getElementById('f-msg').value.trim();
-    const emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if(!name||!email||!msg){ alert('Please fill in your name, email and message.'); return; }
-    if(!emailOk){ alert('Please enter a valid email address.'); return; }
+    const v=validateForm(name,email,msg);
+    if(!v.ok){ alert(v.error==='invalid_email'?'Please enter a valid email address.':'Please fill in your name, email and message.'); return; }
     const purpose=document.getElementById('f-purpose').value||'General';
     const company=document.getElementById('f-company').value.trim();
-    const text=encodeURIComponent(`Hello CA Mayur,\n\nName: ${name}\nEmail: ${email}${company?'\nCompany: '+company:''}\nPurpose: ${purpose}\n\n${msg}`);
-    window.open('https://wa.me/'+_w+'?text='+text,'_blank');
+    window.open(buildWAUrl(_w,buildWAMessage({name,email,company,purpose,msg})),'_blank');
     document.getElementById('form-ok').style.display='block';
     document.getElementById('form-btn').textContent='Sent ✓';
     document.getElementById('form-btn').disabled=true;
@@ -775,6 +774,7 @@ I really admire how you present complex things in so simple manner @TaxationUpda
     });
   }
 </script>
+<script src="/contact-form.js"></script>
 <script src="/wa-init.js"></script>
 </body>
 </html>

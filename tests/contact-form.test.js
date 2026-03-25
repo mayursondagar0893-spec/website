@@ -1,5 +1,5 @@
 /**
- * Tests for the contact form logic embedded in index.html.
+ * Tests for the contact form logic extracted to contact-form.js.
  *
  * Covers:
  *   - Email address validation regex
@@ -8,30 +8,10 @@
  *   - URL-encoding of the outgoing message
  */
 import { describe, it, expect } from 'vitest';
+import { createRequire } from 'module';
 
-// ─── Email validation ────────────────────────────────────────────────────────
-// Exact regex from index.html line 757
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-// ─── Form validation helper (mirrors index.html logic) ───────────────────────
-function validateForm(name, email, msg) {
-  if (!name || !email || !msg) return { ok: false, error: 'missing_fields' };
-  if (!EMAIL_RE.test(email)) return { ok: false, error: 'invalid_email' };
-  return { ok: true };
-}
-
-// ─── Message builder (mirrors index.html logic) ──────────────────────────────
-function buildWAMessage({ name, email, company = '', purpose = 'General', msg }) {
-  return (
-    `Hello CA Mayur,\n\nName: ${name}\nEmail: ${email}` +
-    (company ? `\nCompany: ${company}` : '') +
-    `\nPurpose: ${purpose}\n\n${msg}`
-  );
-}
-
-function buildWAUrl(waNumber, message) {
-  return `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
-}
+const require = createRequire(import.meta.url);
+const { EMAIL_RE, validateForm, buildWAMessage, buildWAUrl } = require('../contact-form.js');
 
 // ─── Tests ───────────────────────────────────────────────────────────────────
 

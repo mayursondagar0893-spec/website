@@ -1,15 +1,16 @@
 /**
- * Tests for the CA Prompt Library filter / sort / bookmark logic.
+ * Tests for the CA Prompt Library filter / sort / bookmark logic
+ * imported from prompt-filter.js.
  *
- * The functions in CA-Prompt-Library.html (getFiltered, toggleBM, etc.) depend
- * on global DOM state and can't be imported directly. Instead, this file
- * extracts the pure data-manipulation logic and tests it in isolation —
- * exactly what would need to be true for the UI to behave correctly.
- *
- * If you ever extract these functions to a shared module, replace the inline
- * implementations below with imports and delete this comment.
+ * Previously, these functions were re-implemented inline in the test file.
+ * They now import directly from the production module so that any change to
+ * filterAndSort or toggleBookmark is immediately caught by this suite.
  */
 import { describe, it, expect } from 'vitest';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+const { filterAndSort, toggleBookmark } = require('../prompt-filter.js');
 
 // ─── Category helpers (mirrors getCat in CA-Prompt-Library.html) ─────────────
 
@@ -25,50 +26,8 @@ function getCat(id) {
   return CATS.find(c => c.id === id) || { id, icon: '📄', label: id };
 }
 
-// ─── Pure filter + sort (mirrors getFiltered in CA-Prompt-Library.html) ──────
-
-function filterAndSort(prompts, {
-  bookmarks = [],
-  activeFilter = 'all',   // 'all' | 'bm' | 'mine'
-  activeCat   = 'all',
-  query       = '',
-  sort        = 'default', // 'az' | 'za' | 'cat'
-} = {}) {
-  let list = [...prompts];
-
-  // Filter by special filter (bookmarks / custom)
-  if (activeFilter === 'bm')   list = list.filter(p => bookmarks.includes(p.id));
-  if (activeFilter === 'mine') list = list.filter(p => p._custom);
-
-  // Filter by category
-  if (activeCat !== 'all') list = list.filter(p => p.cat === activeCat);
-
-  // Text search
-  const q = query.trim().toLowerCase();
-  if (q) {
-    list = list.filter(p =>
-      p.title.toLowerCase().includes(q) ||
-      p.prompt.toLowerCase().includes(q) ||
-      (p.tags || '').toLowerCase().includes(q) ||
-      getCat(p.cat).label.toLowerCase().includes(q)
-    );
-  }
-
-  // Sort
-  if (sort === 'az')  list.sort((a, b) => a.title.localeCompare(b.title));
-  if (sort === 'za')  list.sort((a, b) => b.title.localeCompare(a.title));
-  if (sort === 'cat') list.sort((a, b) => a.cat.localeCompare(b.cat));
-
-  return list;
-}
-
-// ─── Bookmark helpers ────────────────────────────────────────────────────────
-
-function toggleBookmark(bookmarks, id) {
-  return bookmarks.includes(id)
-    ? bookmarks.filter(b => b !== id)
-    : [...bookmarks, id];
-}
+// Convenience: pass getCatLabel so category-label search works as in the HTML.
+const withCatLabel = { getCatLabel: (id) => getCat(id).label };
 
 // ─── Fixture data ────────────────────────────────────────────────────────────
 
@@ -139,11 +98,12 @@ describe('filterAndSort — text search', () => {
     expect(result.some(p => p.id === 1)).toBe(true);
   });
 
-  it('matches prompts by category label', () => {
-    // "Finance & Advisory" contains "finance"
-    const result = filterAndSort(PROMPTS, { query: 'finance' });
-    // Should find prompts tagged finance OR in the Finance category
-    expect(result.length).toBeGreaterThan(0);
+  it('matches prompts by category label when getCatLabel is provided', () => {
+    // "Finance & Advisory" contains "advisory" — not in title/prompt/tags of id 8
+    // but IS in its category label
+    const withLabel = filterAndSort(PROMPTS, { query: 'Finance & Advisory', ...withCatLabel });
+    const withoutLabel = filterAndSort(PROMPTS, { query: 'Finance & Advisory' });
+    expect(withLabel.length).toBeGreaterThan(withoutLabel.length);
   });
 
   it('returns empty array when query matches nothing', () => {
