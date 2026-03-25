@@ -836,6 +836,9 @@ function clearAll(){
   document.getElementById('statusMsg').textContent='';
   document.getElementById('fileInput').value='';
   sortCol='';sortDir='asc';
+  // Clear all filter inputs so they don't carry over to the next parse
+  document.getElementById('searchInput').value='';
+  ['filterITNS','filterAY','filterPAN','filterStatus'].forEach(id=>document.getElementById(id).value='');
   ['statAll','statOK','statErr'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active-filter');});
 }
 
