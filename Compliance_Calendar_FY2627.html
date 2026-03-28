@@ -50,7 +50,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 <style>
 :root{
-  --bg:#f4f6fb;--surface:#fff;--surface2:#f0f2f7;--border:#b8c0d4;--border2:#9aa3bc;
+  --bg:#fafbf0;--surface:#fff;--surface2:#f0f2f7;--border:#b8c0d4;--border2:#9aa3bc;
   --text:#111827;--text2:#374151;--muted:#6b7280;--muted2:#9ca3af;
   --accent:#1a56db;--accent-h:#1e429f;--accent-bg:#ebf5ff;
   --hdr:#0f172a;--radius:10px;
@@ -245,6 +245,16 @@ td:last-child{border-right:none}
 .tbl-sep-toggle input[type=checkbox]{accent-color:var(--accent);cursor:pointer;width:14px;height:14px}
 .wa-settings-btn{background:rgba(37,211,102,.1);border:1px solid #25d366;color:#25d366;padding:3px 10px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;margin-left:auto;flex-shrink:0;transition:background .13s}
 .wa-settings-btn:hover{background:rgba(37,211,102,.2)}
+.tool-links{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.tool-link-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;text-decoration:none;border:1.5px solid;cursor:pointer;transition:all .15s;white-space:nowrap}
+.tool-link-btn.tds-list{background:rgba(26,86,219,.08);border-color:rgba(26,86,219,.35);color:#1a56db}
+.tool-link-btn.tds-list:hover{background:rgba(26,86,219,.15);border-color:#1a56db;transform:translateY(-1px);box-shadow:0 3px 10px rgba(26,86,219,.18)}
+.tool-link-btn.tds-calc{background:rgba(140,154,26,.1);border-color:rgba(140,154,26,.4);color:#6b760f}
+.tool-link-btn.tds-calc:hover{background:rgba(140,154,26,.18);border-color:#8c9a1a;transform:translateY(-1px);box-shadow:0 3px 10px rgba(140,154,26,.2)}
+[data-theme="dark"] .tool-link-btn.tds-list{background:rgba(68,147,248,.1);border-color:rgba(68,147,248,.35);color:#4493f8}
+[data-theme="dark"] .tool-link-btn.tds-list:hover{background:rgba(68,147,248,.2);border-color:#4493f8}
+[data-theme="dark"] .tool-link-btn.tds-calc{background:rgba(181,196,34,.1);border-color:rgba(181,196,34,.35);color:#b5c422}
+[data-theme="dark"] .tool-link-btn.tds-calc:hover{background:rgba(181,196,34,.2);border-color:#b5c422}
 
 /* ── CARD MONTH SECTION ── */
 .grid-month-section{margin-bottom:24px}
@@ -539,6 +549,12 @@ td:last-child{border-right:none}
 
   <!-- INSIGHT PANELS — always visible, updates with filters -->
   <div id="insightPanels"></div>
+
+  <!-- QUICK LINKS TO TDS TOOLS -->
+  <div class="tool-links">
+    <a class="tool-link-btn tds-list" href="/TDS-SECTION-CODE.html" target="_blank" rel="noopener noreferrer">📋 TDS/TCS Section List</a>
+    <a class="tool-link-btn tds-calc" href="/TDS-SECTION-CODE.html#calculator" target="_blank" rel="noopener noreferrer">🧮 TDS/TCS Calculator</a>
+  </div>
 
   <div class="toolbar">
     <div class="search-row">
