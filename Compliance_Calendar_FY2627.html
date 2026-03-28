@@ -245,8 +245,7 @@ td:last-child{border-right:none}
 .tbl-sep-toggle input[type=checkbox]{accent-color:var(--accent);cursor:pointer;width:14px;height:14px}
 .wa-settings-btn{background:rgba(37,211,102,.1);border:1px solid #25d366;color:#25d366;padding:3px 10px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;margin-left:auto;flex-shrink:0;transition:background .13s}
 .wa-settings-btn:hover{background:rgba(37,211,102,.2)}
-.tool-links{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
-.tool-link-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;text-decoration:none;border:1.5px solid;cursor:pointer;transition:all .15s;white-space:nowrap}
+.tool-link-btn{display:flex;align-items:center;gap:8px;padding:14px 20px;border-radius:10px;font-size:14px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;text-decoration:none;border:1.5px solid;cursor:pointer;transition:all .15s}
 .tool-link-btn.tds-list{background:rgba(26,86,219,.08);border-color:rgba(26,86,219,.35);color:#1a56db}
 .tool-link-btn.tds-list:hover{background:rgba(26,86,219,.15);border-color:#1a56db;transform:translateY(-1px);box-shadow:0 3px 10px rgba(26,86,219,.18)}
 .tool-link-btn.tds-calc{background:rgba(140,154,26,.1);border-color:rgba(140,154,26,.4);color:#6b760f}
@@ -549,12 +548,6 @@ td:last-child{border-right:none}
 
   <!-- INSIGHT PANELS — always visible, updates with filters -->
   <div id="insightPanels"></div>
-
-  <!-- QUICK LINKS TO TDS TOOLS -->
-  <div class="tool-links">
-    <a class="tool-link-btn tds-list" href="/TDS-SECTION-CODE.html" target="_blank" rel="noopener noreferrer">📋 TDS/TCS Section List</a>
-    <a class="tool-link-btn tds-calc" href="/TDS-SECTION-CODE.html#calculator" target="_blank" rel="noopener noreferrer">🧮 TDS/TCS Calculator</a>
-  </div>
 
   <div class="toolbar">
     <div class="search-row">
@@ -1513,6 +1506,13 @@ function renderInsightPanels(){
           ${state.cat!=='All'?`<text x="${cx}" y="140" text-anchor="middle" fill="${catColors[state.cat]||'#475569'}" font-size="9" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">${state.cat} ✓</text>`:''}
         </svg>
       </div>
+    </div>
+
+    <!-- TDS TOOL LINKS — fills empty 2/3 space beside the donut -->
+    <div class="dash-panel dash-two" style="display:flex;flex-direction:column;justify-content:center;gap:14px">
+      <div class="dash-panel-title">Quick Tools</div>
+      <a class="tool-link-btn tds-list" href="/TDS-SECTION-CODE.html" target="_blank" rel="noopener noreferrer">📋 TDS/TCS Section List</a>
+      <a class="tool-link-btn tds-calc" href="/TDS-SECTION-CODE.html#calculator" target="_blank" rel="noopener noreferrer">🧮 TDS/TCS Calculator</a>
     </div>
 
     <!-- MONTHLY BAR -->
