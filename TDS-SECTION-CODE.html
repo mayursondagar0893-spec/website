@@ -1848,6 +1848,8 @@ function closeCalc(){
 document.getElementById('calcBtn').onclick=openCalc;
 document.getElementById('calcClose').onclick=closeCalc;
 document.getElementById('calco').onclick=closeCalc;
+// Auto-open calculator if linked directly via #calculator hash
+if(location.hash==='#calculator'){openCalc();}
 
 /* Build searchable calculator dropdown */
 const calcSec=document.getElementById('calcSec');
