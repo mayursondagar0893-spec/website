@@ -105,6 +105,13 @@ a{color:var(--accent);text-decoration:none}
 .search-inp{width:100%;padding:8px 12px 8px 34px;border:1px solid var(--border2);border-radius:8px;background:var(--surface2);color:var(--text);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;transition:border-color .15s}
 .search-inp:focus{border-color:var(--accent)}
 .search-inp::placeholder{color:var(--muted2)}
+.search-clear{position:absolute;right:9px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted2);cursor:pointer;font-size:13px;padding:2px 4px;border-radius:4px;line-height:1;transition:color .12s,background .12s}
+.search-clear:hover{color:var(--text);background:var(--surface2)}
+
+/* ── SCROLL TO TOP ── */
+.scroll-top{position:fixed;bottom:68px;right:22px;z-index:500;background:var(--accent);color:#fff;border:none;border-radius:50%;width:38px;height:38px;font-size:16px;cursor:pointer;box-shadow:var(--shadow-md);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;display:flex;align-items:center;justify-content:center}
+.scroll-top.visible{opacity:1;pointer-events:auto}
+.scroll-top:hover{transform:translateY(-2px);background:var(--accent-h)}
 .add-btn{background:var(--accent);color:#fff;border:none;padding:5px 13px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;transition:background .13s;white-space:nowrap;flex-shrink:0}
 .add-btn:hover{background:var(--accent-h)}
 .view-btns{display:flex;border:1px solid var(--border2);border-radius:8px;overflow:hidden;flex-shrink:0}
@@ -226,6 +233,12 @@ td:last-child{border-right:none}
 .del-btn:hover{background:#fef2f2;border-color:#dc2626}
 [data-theme="dark"] .del-btn:hover{background:#2d0a12}
 
+/* ── COPY BUTTON ── */
+.copy-btn{background:transparent;border:1px solid var(--border2);color:var(--muted);padding:4px 8px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;transition:all .13s;white-space:nowrap}
+.copy-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
+.copy-btn.copied{border-color:#16a34a;color:#16a34a;background:#f0fdf4}
+[data-theme="dark"] .copy-btn.copied{background:#071811}
+
 .bar-wa-btn{width:18px;height:18px;display:flex;align-items:center;justify-content:center;color:#25d366;cursor:pointer;border-radius:50%;transition:background .12s;margin-top:2px}
 .bar-wa-btn svg{width:13px;height:13px}
 .bar-wa-btn:hover{background:rgba(37,211,102,.15)}
@@ -238,6 +251,11 @@ td:last-child{border-right:none}
 .month-exp-btn:hover{opacity:1;background:rgba(0,0,0,.06)}
 [data-theme="dark"] .month-exp-btn:hover{background:rgba(255,255,255,.1)}
 .month-sep td{background:var(--surface2)!important;padding:0;border-top:2px solid var(--border2);border-bottom:2px solid var(--border2)}
+/* AGM row highlight */
+.agm-row{background:color-mix(in srgb,#d97706 6%,var(--surface));border-top:1px dashed #d97706;overflow-x:hidden;flex-wrap:nowrap;gap:8px}
+[data-theme="dark"] .agm-row{background:color-mix(in srgb,#d97706 10%,var(--surface))}
+.agm-note{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
+@media(max-width:640px){.agm-note{display:none}}
 .month-sep-lbl{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;text-align:center}
 .month-sep-lbl::before,.month-sep-lbl::after{content:'';flex:1;height:1.5px;background:var(--border2)}
 .month-sep-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;display:inline-block}
@@ -553,7 +571,8 @@ td:last-child{border-right:none}
     <div class="search-row">
       <div class="search-wrap">
         <span class="search-ico">🔍</span>
-        <input class="search-inp" id="searchInp" placeholder="Search compliance, period, category..." oninput="applyFilters()" autocomplete="off"/>
+        <input class="search-inp" id="searchInp" placeholder="Search compliance, period, category..." oninput="applyFilters();toggleSearchClear()" autocomplete="off"/>
+        <button class="search-clear hide" id="searchClear" onclick="clearSearch()" title="Clear search">✕</button>
       </div>
       <button class="add-btn" onclick="openAddModal()">+ Add</button>
       <div class="view-btns">
@@ -570,6 +589,12 @@ td:last-child{border-right:none}
       <span class="filter-lbl">Category</span>
       <div class="pills" id="catPills"></div>
       <button class="wa-settings-btn" onclick="openWASettings()" title="Customise WhatsApp message">✎ WA Message</button>
+    </div>
+    <div class="filter-row agm-row hide" id="agmRow">
+      <span class="filter-lbl" style="color:#d97706;font-weight:700;white-space:nowrap;width:auto;min-width:unset;margin-right:10px">🏢 AGM Date</span>
+      <input type="date" id="agmDateInp" class="form-inp" style="width:150px;flex-shrink:0;padding:4px 10px;font-size:12px;font-family:'JetBrains Mono',monospace;font-weight:600;border-color:#d97706;color:var(--text)" onchange="onAgmChange(this.value)" title="AGM date — due dates for AOC-4, MGT-7, ADT-1 update automatically"/>
+      <span class="agm-note">AOC-4 / MGT-7 / ADT-1 auto-update · <em>(Corporate Entities only)</em></span>
+      <button class="pill" style="font-size:11px;border-color:#d97706;color:#d97706;flex-shrink:0;margin-left:auto" onclick="resetAgmDate()" title="Reset to 30 Sep 2026">↺ Reset</button>
     </div>
   </div>
 
@@ -590,6 +615,8 @@ td:last-child{border-right:none}
   <div id="viewGrid"      style="display:none"></div>
   <div id="viewCalendar"  style="display:none"></div>
 </div>
+
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
 
 <footer class="footer">
   <div class="footer-info">
@@ -645,7 +672,7 @@ td:last-child{border-right:none}
 
 <script>
 // ══════════════════════════════════════════════
-//  DATA — FY 2026-27 (136 DEADLINES)
+//  DATA — FY 2026-27 (148 DEADLINES)
 //  Source: Compliance Calendar April 2026 – March 2027
 //  Taxation Updates · CA Mayur J. Sondagar
 // ══════════════════════════════════════════════
@@ -743,25 +770,25 @@ const DATA = [
   {id:62,d:'2026-05-15',n:'TCS Return Q4',               p:'FY 2025-26',    c:'TDS/TCS'},
   {id:63,d:'2026-05-15',n:'PF / ESIC Payment',           p:'April 2026',    c:'PF/ESIC'},
   {id:64,d:'2026-06-15',n:'TDS Certificate Q4',          p:'FY 2025-26',    c:'TDS/TCS'},
-  {id:65,d:'2026-06-15',n:'Advance Tax 1st Instalment',  p:'TY 2026-27',    c:'Income Tax'},
+  {id:65,d:'2026-06-15',n:'Advance Tax 1st Instalment',  p:'TY 2026-27 · min. 15% of tax liability',    c:'Income Tax'},
   {id:66,d:'2026-06-15',n:'PF / ESIC Payment',           p:'May 2026',      c:'PF/ESIC'},
   {id:67,d:'2026-07-15',n:'TCS Return Q1',               p:'TY 2026-27',    c:'TDS/TCS'},
   {id:68,d:'2026-07-15',n:'PF / ESIC Payment',           p:'June 2026',     c:'PF/ESIC'},
   {id:69,d:'2026-08-15',n:'TDS Certificate Q1',          p:'TY 2026-27',    c:'TDS/TCS'},
   {id:70,d:'2026-08-15',n:'PF / ESIC Payment',           p:'July 2026',     c:'PF/ESIC'},
-  {id:71,d:'2026-09-15',n:'Advance Tax 2nd Instalment',  p:'TY 2026-27',    c:'Income Tax'},
+  {id:71,d:'2026-09-15',n:'Advance Tax 2nd Instalment',  p:'TY 2026-27 · cumulative 45% of tax liability',c:'Income Tax'},
   {id:72,d:'2026-09-15',n:'PF / ESIC Payment',           p:'August 2026',   c:'PF/ESIC'},
   {id:73,d:'2026-10-15',n:'TCS Return Q2',               p:'TY 2026-27',    c:'TDS/TCS'},
   {id:74,d:'2026-10-15',n:'PF / ESIC Payment',           p:'September 2026',c:'PF/ESIC'},
   {id:75,d:'2026-11-15',n:'TDS Certificate Q2',          p:'TY 2026-27',    c:'TDS/TCS'},
   {id:76,d:'2026-11-15',n:'PF / ESIC Payment',           p:'October 2026',  c:'PF/ESIC'},
-  {id:77,d:'2026-12-15',n:'Advance Tax 3rd Instalment',  p:'TY 2026-27',    c:'Income Tax'},
+  {id:77,d:'2026-12-15',n:'Advance Tax 3rd Instalment',  p:'TY 2026-27 · cumulative 75% of tax liability',c:'Income Tax'},
   {id:78,d:'2026-12-15',n:'PF / ESIC Payment',           p:'November 2026', c:'PF/ESIC'},
   {id:79,d:'2027-01-15',n:'TCS Return Q3',               p:'TY 2026-27',    c:'TDS/TCS'},
   {id:80,d:'2027-01-15',n:'PF / ESIC Payment',           p:'December 2026', c:'PF/ESIC'},
   {id:81,d:'2027-02-15',n:'TDS Certificate Q3',          p:'TY 2026-27',    c:'TDS/TCS'},
   {id:82,d:'2027-02-15',n:'PF / ESIC Payment',           p:'January 2027',  c:'PF/ESIC'},
-  {id:83,d:'2027-03-15',n:'Advance Tax 4th Instalment',  p:'TY 2026-27',    c:'Income Tax'},
+  {id:83,d:'2027-03-15',n:'Advance Tax 4th Instalment',  p:'TY 2026-27 · 100% of tax liability',          c:'Income Tax'},
   {id:84,d:'2027-03-15',n:'PF / ESIC Payment',           p:'February 2027', c:'PF/ESIC'},
   // ── DAY 18: GST CMP-08 ──
   {id:85,d:'2026-04-18',n:'GST CMP-08',p:'Q4 FY 2025-26',c:'GST'},
@@ -822,6 +849,21 @@ const DATA = [
   {id:134,d:'2026-12-31',n:'GSTR 9 / GSTR 9C',                p:'FY 2025-26',  c:'GST'},
   {id:135,d:'2027-01-31',n:'TDS Return Q3',                   p:'TY 2026-27',  c:'TDS/TCS'},
   {id:136,d:'2027-03-31',n:'Revised ITR',                     p:'AY 2026-27',  c:'Income Tax'},
+  // ── QRMP ELECTION WINDOW (1st to last day of 1st month of each quarter) ──
+  {id:137,d:'2026-04-30',n:'QRMP Election Window closes',     p:'Q1 FY 2026-27 (opt-in/out: 1–30 Apr)',  c:'GST'},
+  {id:138,d:'2026-07-31',n:'QRMP Election Window closes',     p:'Q2 FY 2026-27 (opt-in/out: 1–31 Jul)',  c:'GST'},
+  {id:139,d:'2026-10-31',n:'QRMP Election Window closes',     p:'Q3 FY 2026-27 (opt-in/out: 1–31 Oct)',  c:'GST'},
+  {id:140,d:'2027-01-31',n:'QRMP Election Window closes',     p:'Q4 FY 2026-27 (opt-in/out: 1–31 Jan)',  c:'GST'},
+  // ── COMPANY LAW — AGM-based (dates auto-computed from AGM date) ──
+  {id:141,d:'2026-09-30',n:'AGM',                             p:'FY 2025-26 (Listed & Unlisted)',         c:'Company Law', _agmBase:true, _agmOffset:0,   _agmAnchor:true},
+  {id:142,d:'2026-10-14',n:'ADT-1 – Auditor Appointment',    p:'Within 15 days of AGM',                 c:'Company Law', _agmBase:true, _agmOffset:15},
+  {id:143,d:'2026-10-29',n:'AOC-4 – Financial Statements',   p:'Within 30 days of AGM',                 c:'Company Law', _agmBase:true, _agmOffset:30},
+  {id:144,d:'2026-11-29',n:'MGT-7 / 7A – Annual Return',     p:'Within 60 days of AGM',                 c:'Company Law', _agmBase:true, _agmOffset:60},
+  // ── COMPANY LAW — Fixed dates ──
+  {id:145,d:'2026-10-31',n:'MSME Form I (Half-Yearly)',       p:'Apr–Sep 2026 outstanding payments',     c:'Company Law'},
+  {id:146,d:'2026-04-30',n:'MSME Form I (Half-Yearly)',       p:'Oct 2025–Mar 2026 outstanding payments',c:'Company Law'},
+  {id:147,d:'2026-05-30',n:'LLP Form 11 – Annual Return',    p:'FY 2025-26',                            c:'Company Law'},
+  {id:148,d:'2026-10-30',n:'LLP Form 8 – Accounts & Solvency',p:'FY 2025-26',                          c:'Company Law'},
 ];
 
 // ══════════════════════════════════════════════
@@ -861,6 +903,21 @@ function matchMonth(ds, mf){
 function localDateStr(d){
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
+
+// ── AGM DATE (default: 30 Sep 2026) ──
+const AGM_KEY='cc_agm_date';
+let agmDateStr = localStorage.getItem(AGM_KEY) || '2026-09-30';
+function getAgmDate(){ return new Date(agmDateStr); }
+function addDays(dateStr, n){
+  const d=new Date(dateStr); d.setDate(d.getDate()+n);
+  return localDateStr(d);
+}
+function recomputeAgmDates(){
+  DATA.forEach(row=>{
+    if(!row._agmBase) return;
+    row.d = addDays(agmDateStr, row._agmOffset||0);
+  });
+}
 let state={monthIdx:null,cat:'All',search:'',statusF:'all',view:'table'};
 let isDark=localStorage.getItem('theme')==='dark';
 if(isDark){document.documentElement.setAttribute('data-theme','dark');}
@@ -898,19 +955,44 @@ function init(){
     const b=document.createElement('button');
     b.className='pill'+(idx===state.monthIdx?' on':'');
     b.textContent=lbl+(y===2027?"'27":"'26");
-    b.onclick=()=>{state.monthIdx=idx;state.statusF='all';refreshPills('monthPills',b);clearStatActive();applyFilters()};
+    b.onclick=()=>{
+      if(state.monthIdx===idx){
+        // re-tap → reset to All
+        state.monthIdx=null;state.statusF='all';
+        refreshPills('monthPills',allPill);clearStatActive();
+      } else {
+        state.monthIdx=idx;state.statusF='all';
+        refreshPills('monthPills',b);clearStatActive();
+      }
+      applyFilters();
+    };
     mp.appendChild(b);
   });
 
   // Category pills
   const cp=document.getElementById('catPills');
+  let allCatPill;
   ['All','GST','TDS/TCS','PF/ESIC','Income Tax','Company Law','Other'].forEach(cat=>{
     const b=document.createElement('button');
     b.className='pill'+(cat==='All'?' on':'');
     b.textContent=cat;
-    b.onclick=()=>{state.cat=cat;state.statusF='all';refreshPills('catPills',b);clearStatActive();applyFilters()};
+    if(cat==='All') allCatPill=b;
+    b.onclick=()=>{
+      const isActive=state.cat===cat && cat!=='All';
+      const next=isActive?'All':cat;
+      state.cat=next;state.statusF='all';
+      refreshPills('catPills', isActive?allCatPill:b);
+      clearStatActive();
+      toggleAgmRow(next==='Company Law');
+      applyFilters();
+    };
     cp.appendChild(b);
   });
+
+  // Initialise AGM date input
+  const agmInp=document.getElementById('agmDateInp');
+  if(agmInp) agmInp.value=agmDateStr;
+  toggleAgmRow(state.cat==='Company Law');
 
   applyFilters();
 }
@@ -920,6 +1002,34 @@ function refreshPills(id,btn){
   btn.classList.add('on');
 }
 function clearStatActive(){document.querySelectorAll('.stat').forEach(x=>x.classList.remove('active'))}
+
+// ── AGM DATE PICKER LOGIC ──
+function toggleAgmRow(show){
+  const row=document.getElementById('agmRow');
+  if(!row) return;
+  row.classList.toggle('hide',!show);
+  if(show){
+    const inp=document.getElementById('agmDateInp');
+    if(inp) inp.value=agmDateStr;
+  }
+}
+function onAgmChange(val){
+  if(!val) return;
+  agmDateStr=val;
+  localStorage.setItem(AGM_KEY, val);
+  recomputeAgmDates();
+  renderStats();
+  applyFilters();
+}
+function resetAgmDate(){
+  agmDateStr='2026-09-30';
+  localStorage.setItem(AGM_KEY,'2026-09-30');
+  const inp=document.getElementById('agmDateInp');
+  if(inp) inp.value='2026-09-30';
+  recomputeAgmDates();
+  renderStats();
+  applyFilters();
+}
 
 // ══════════════════════════════════════════════
 //  DARK MODE
@@ -962,6 +1072,7 @@ function filterByStatus(k,el){
   document.querySelectorAll('#catPills .pill').forEach((x,i)=>x.classList.toggle('on',i===0));
   clearStatActive();
   if(state.statusF!=='all') el.classList.add('active');
+  toggleAgmRow(false);
   applyFilters();
 }
 
@@ -1038,7 +1149,7 @@ function renderTable(){
   if(!filteredRows.length){el.innerHTML=emptyHTML();return}
   const useSep=document.getElementById('sepToggle')?.checked!==false;
   const hasCustom=filteredRows.some(r=>r.id>=10000);
-  const cols=hasCustom?7:6;
+  const cols=hasCustom?8:7;
   let rows='';
   let lastMonth='';
   filteredRows.forEach(r=>{
@@ -1065,13 +1176,14 @@ function renderTable(){
       <td><div class="td-n">${r.n}${isC?'<span class="custom-tag">CUSTOM</span>':''}</div></td>
       <td><div class="td-p">${r.p}</div></td>
       <td><span class="cbadge ${CB[r.c]||'cb-ot'}">${r.c}</span></td>
+      <td><button class="copy-btn" id="cpbtn-${r.id}" onclick="copyRow(${r.id},this)" title="Copy to clipboard">⎘</button></td>
       <td><button class="wa-btn" onclick="sendWA(${r.id})">${waIcon()}WA</button></td>
       ${hasCustom?`<td>${isC?`<button class="del-btn" onclick="deleteCustom(${r.id})">✕</button>`:''}</td>`:''}
     </tr>`;
   });
   el.innerHTML=`<div class="tbl-wrap"><div class="tbl-scroll"><table>
     <thead><tr>
-      <th>Due Date</th><th>Status</th><th>Compliance</th><th>Period</th><th>Category</th><th>WhatsApp</th>
+      <th>Due Date</th><th>Status</th><th>Compliance</th><th>Period</th><th>Category</th><th>Copy</th><th>WhatsApp</th>
       ${hasCustom?'<th></th>':''}
     </tr></thead>
     <tbody>${rows}</tbody>
@@ -1121,6 +1233,7 @@ function renderGrid(){
           <div class="card-footer">
             <span class="cbadge ${CB[r.c]||'cb-ot'}">${r.c}</span>
             <div style="display:flex;gap:5px">
+              <button class="copy-btn" onclick="copyRow(${r.id},this)" title="Copy to clipboard">⎘</button>
               <button class="wa-btn" onclick="sendWA(${r.id})">${waIcon()}WA</button>
               ${isC?`<button class="del-btn" onclick="deleteCustom(${r.id})">✕</button>`:''}
             </div>
@@ -1289,6 +1402,7 @@ function calEventClick(el, id){
     </div>
     <div style="padding:8px 14px;display:flex;gap:8px;align-items:center">
       <span class="sbadge ${SB[getStatus(dl)]}" style="font-size:10px">${statusLabel(getStatus(dl),dl)}</span>
+      <button class="copy-btn" onclick="copyRow(${r.id},this)" style="font-size:11px;padding:4px 8px" title="Copy to clipboard">⎘ Copy</button>
       <button class="wa-btn" onclick="sendWA(${r.id});document.querySelectorAll('.cal-popover').forEach(p=>p.remove())" style="font-size:11px;padding:4px 10px 4px 8px">${waIcon()}WA</button>
     </div>`;
   document.body.appendChild(pop);
@@ -1303,6 +1417,7 @@ function showMore(el,items){
   pop.innerHTML=items.map(item=>`
     <div class="cal-popover-item" style="display:flex;justify-content:space-between;align-items:center;gap:8px">
       <span style="flex:1;font-size:11px">${item.n} <span style="color:var(--muted2)">(${item.p})</span></span>
+      <button class="copy-btn" onclick="copyRow(${item.id},this)" style="font-size:10px;padding:3px 7px;flex-shrink:0" title="Copy to clipboard">⎘</button>
       <button class="wa-btn" onclick="sendWA(${item.id});document.querySelectorAll('.cal-popover').forEach(p=>p.remove())" style="font-size:10px;padding:3px 8px 3px 6px;flex-shrink:0">${waIcon()}WA</button>
     </div>`).join('');
   document.body.appendChild(pop);
@@ -1541,6 +1656,7 @@ function resetMonthFilter(){
   state.monthIdx=null; state.statusF='all';
   document.querySelectorAll('#monthPills .pill').forEach((x,i)=>x.classList.toggle('on',i===0));
   clearStatActive();
+  toggleAgmRow(state.cat==='Company Law');
   applyFilters();
 }
 
@@ -1553,6 +1669,7 @@ function filterByCategory(cat){
     x.classList.toggle('on', state.cat==='All'?x.textContent==='All':x.textContent===state.cat);
   });
   clearStatActive();
+  toggleAgmRow(state.cat==='Company Law');
   applyFilters();
 }
 
@@ -1759,18 +1876,16 @@ function jumpToMonth(fyIdx){
   document.querySelectorAll('#monthPills .pill').forEach((x,i)=>x.classList.toggle('on',i===fyIdx+1));
   document.querySelectorAll('#catPills .pill').forEach((x,i)=>x.classList.toggle('on',i===0));
   document.querySelectorAll('.stat').forEach(x=>x.classList.remove('active'));
-  // Always sync calendar month/year so calendar view jumps correctly
   const [,m,y]=FY_MONTHS[fyIdx];
   calMonth=m-1; calYear=y;
+  toggleAgmRow(false);
   applyFilters();
   setTimeout(()=>window.scrollTo({top:0,behavior:'smooth'}),80);
 }
 
 function drillDown(statusKey){
-  // Preserve current monthIdx — user selected a month, drillDown should respect it
   state.statusF=statusKey; state.cat='All'; state.search='';
   document.getElementById('searchInp').value='';
-  // Sync month pills: keep current monthIdx active
   document.querySelectorAll('#monthPills .pill').forEach((x,i)=>{
     const isAll=(state.monthIdx===null && i===0);
     const isMonth=(state.monthIdx!==null && i===state.monthIdx+1);
@@ -1778,6 +1893,7 @@ function drillDown(statusKey){
   });
   document.querySelectorAll('#catPills .pill').forEach((x,i)=>x.classList.toggle('on',i===0));
   document.querySelectorAll('.stat').forEach(x=>x.classList.remove('active'));
+  toggleAgmRow(false);
   setView('table');
   setTimeout(()=>{
     const el=document.getElementById('viewTable');
@@ -1789,6 +1905,72 @@ function emptyHTML(){
   return`<div class="tbl-wrap"><div class="empty"><div class="empty-icon">📋</div><div class="empty-txt">No deadlines match your current filters</div></div></div>`;
 }
 
+// ══════════════════════════════════════════════
+//  COPY ROW TO CLIPBOARD
+// ══════════════════════════════════════════════
+function copyRow(id, btn){
+  const r=allRows().find(x=>x.id===id);
+  if(!r) return;
+  const dueFmt=new Date(r.d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+  const dl=daysLeft(r.d);
+  const statusTxt=dl>=0?`Due in ${dl} days`:`Overdue by ${Math.abs(dl)} days`;
+  const text=`${r.n} | ${r.p} | Due Date: ${dueFmt} | ${r.c} | ${statusTxt}`;
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent='✓';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='⎘';btn.classList.remove('copied');},1800);
+  }).catch(()=>{
+    // Fallback for older browsers
+    const ta=document.createElement('textarea');
+    ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent='✓';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='⎘';btn.classList.remove('copied');},1800);
+  });
+}
+
+// ══════════════════════════════════════════════
+//  SEARCH CLEAR BUTTON
+// ══════════════════════════════════════════════
+function toggleSearchClear(){
+  const val=document.getElementById('searchInp').value;
+  const btn=document.getElementById('searchClear');
+  if(btn) btn.classList.toggle('hide',!val);
+}
+function clearSearch(){
+  document.getElementById('searchInp').value='';
+  const btn=document.getElementById('searchClear');
+  if(btn) btn.classList.add('hide');
+  applyFilters();
+}
+
+// ══════════════════════════════════════════════
+//  KEYBOARD SHORTCUTS
+// ══════════════════════════════════════════════
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    // Close any open modal/popover
+    document.querySelectorAll('.cal-popover').forEach(p=>p.remove());
+    document.querySelectorAll('.wa-menu').forEach(m=>m.remove());
+    if(!document.getElementById('addOverlay').classList.contains('hide')) closeAddModal();
+    if(!document.getElementById('waSettingsOverlay').classList.contains('hide')) closeWASettings();
+  }
+  // Ctrl/Cmd+F → focus search
+  if((e.ctrlKey||e.metaKey) && e.key==='f'){
+    const inp=document.getElementById('searchInp');
+    if(inp && document.activeElement!==inp){e.preventDefault();inp.focus();inp.select();}
+  }
+});
+
+// ══════════════════════════════════════════════
+//  SCROLL-TO-TOP
+// ══════════════════════════════════════════════
+window.addEventListener('scroll',function(){
+  const btn=document.getElementById('scrollTopBtn');
+  if(btn) btn.classList.toggle('visible', window.scrollY>300);
+},{ passive:true });
+
+recomputeAgmDates();
 init();
 </script>
 <!-- WA MESSAGE SETTINGS MODAL -->
