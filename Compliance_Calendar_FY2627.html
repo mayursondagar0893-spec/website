@@ -205,6 +205,8 @@ td:last-child{border-right:none}
 .month-sep-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;display:inline-block}
 .tbl-sep-toggle{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);font-weight:500;cursor:pointer;user-select:none}
 .tbl-sep-toggle input[type=checkbox]{accent-color:var(--accent);cursor:pointer;width:14px;height:14px}
+.wa-settings-btn{background:rgba(37,211,102,.1);border:1px solid #25d366;color:#25d366;padding:3px 10px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;margin-left:auto;flex-shrink:0;transition:background .13s}
+.wa-settings-btn:hover{background:rgba(37,211,102,.2)}
 
 /* ── CARD MONTH SECTION ── */
 .grid-month-section{margin-bottom:24px}
@@ -508,6 +510,7 @@ td:last-child{border-right:none}
     <div class="filter-row">
       <span class="filter-lbl">Category</span>
       <div class="pills" id="catPills"></div>
+      <button class="wa-settings-btn" onclick="openWASettings()" title="Customise WhatsApp message">✎ WA Message</button>
     </div>
   </div>
 
@@ -1254,7 +1257,8 @@ function sendWA(id){
   const dl=daysLeft(r.d);
   const dueFmt=new Date(r.d).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});
   const status=dl>=0?`Due in *${dl} days*`:`*OVERDUE by ${Math.abs(dl)} days*`;
-  const msg=`Dear Client,
+  const s={...WA_DEFAULTS,...getWASettings()};
+  const msg=`${s.greeting}
 
 This is a gentle reminder for the following compliance:
 
@@ -1263,10 +1267,9 @@ Period: ${r.p}
 Due Date: *${dueFmt}*
 Status: ${status}
 
-Kindly ensure timely compliance.
+${s.closing}
 
-CA Mayur J. Sondagar
-Taxation Updates`;
+${s.signature}`;
   window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
 }
 
@@ -1702,5 +1705,80 @@ function emptyHTML(){
 
 init();
 </script>
+<!-- WA MESSAGE SETTINGS MODAL -->
+<div class="add-overlay hide" id="waSettingsOverlay" onclick="if(event.target===this)closeWASettings()">
+  <div class="add-modal" style="max-width:500px">
+    <h3>✎ Customise WhatsApp Message</h3>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.5">Edit the opening and closing of your WhatsApp reminder. The compliance name, period, due date and status are inserted automatically.</p>
+    <div class="form-grid" style="grid-template-columns:1fr">
+      <div class="form-group">
+        <label class="form-label">Opening Line</label>
+        <input class="form-inp" id="wa-greeting" placeholder="Dear Client," autocomplete="off"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Closing Line</label>
+        <input class="form-inp" id="wa-closing" placeholder="Kindly ensure timely compliance." autocomplete="off"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Signature</label>
+        <textarea class="form-inp" id="wa-signature" rows="3" placeholder="CA Mayur J. Sondagar&#10;Taxation Updates" style="resize:vertical;font-family:inherit"></textarea>
+      </div>
+    </div>
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px;margin-top:12px;font-size:11.5px;color:var(--muted);line-height:1.7" id="waPreview"></div>
+    <div class="form-footer">
+      <button class="btn-cancel" onclick="resetWASettings()">↺ Reset to Default</button>
+      <button class="btn-cancel" onclick="closeWASettings()">Cancel</button>
+      <button class="btn-save" onclick="saveWASettings()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── WA MESSAGE SETTINGS ──
+const WA_SETTINGS_KEY='cc_wa_settings';
+function getWASettings(){
+  try{ return JSON.parse(localStorage.getItem(WA_SETTINGS_KEY))||{}; }catch(e){ return{}; }
+}
+const WA_DEFAULTS={
+  greeting:'Dear Client,',
+  closing:'Kindly ensure timely compliance.',
+  signature:'CA Mayur J. Sondagar\nTaxation Updates'
+};
+function openWASettings(){
+  const s={...WA_DEFAULTS,...getWASettings()};
+  document.getElementById('wa-greeting').value=s.greeting;
+  document.getElementById('wa-closing').value=s.closing;
+  document.getElementById('wa-signature').value=s.signature;
+  updateWAPreview();
+  document.getElementById('waSettingsOverlay').classList.remove('hide');
+}
+function closeWASettings(){document.getElementById('waSettingsOverlay').classList.add('hide')}
+function saveWASettings(){
+  localStorage.setItem(WA_SETTINGS_KEY,JSON.stringify({
+    greeting:document.getElementById('wa-greeting').value.trim()||WA_DEFAULTS.greeting,
+    closing:document.getElementById('wa-closing').value.trim()||WA_DEFAULTS.closing,
+    signature:document.getElementById('wa-signature').value.trim()||WA_DEFAULTS.signature
+  }));
+  closeWASettings();
+}
+function resetWASettings(){
+  document.getElementById('wa-greeting').value=WA_DEFAULTS.greeting;
+  document.getElementById('wa-closing').value=WA_DEFAULTS.closing;
+  document.getElementById('wa-signature').value=WA_DEFAULTS.signature;
+  localStorage.removeItem(WA_SETTINGS_KEY);
+  updateWAPreview();
+}
+function updateWAPreview(){
+  const g=document.getElementById('wa-greeting').value||WA_DEFAULTS.greeting;
+  const c=document.getElementById('wa-closing').value||WA_DEFAULTS.closing;
+  const s=document.getElementById('wa-signature').value||WA_DEFAULTS.signature;
+  document.getElementById('waPreview').innerHTML=
+    `<strong>Preview:</strong><br>${g}<br><br>This is a gentle reminder for the following compliance:<br><br><strong>[Compliance Name]</strong><br>Period: [Period]<br>Due Date: <strong>[Date]</strong><br>Status: [Status]<br><br>${c}<br><br>${s.replace(/\n/g,'<br>')}`;
+}
+['wa-greeting','wa-closing','wa-signature'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input',updateWAPreview);
+});
+</script>
+
 </body>
 </html>
