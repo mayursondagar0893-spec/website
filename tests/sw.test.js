@@ -83,6 +83,7 @@ describe('PRECACHE_URLS — required pages', () => {
     '/contact.html',
     '/disclaimer.html',
     '/privacy-policy.html',
+    '/Compliance_Calendar_FY2627.html',
   ];
 
   REQUIRED.forEach(url => {

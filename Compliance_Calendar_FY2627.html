@@ -1,9 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Compliance Calendar FY 2026-27 — Taxation Updates</title>
+<meta name="description" content="Interactive compliance calendar for FY 2026-27 with GST, TDS, IT, PF due dates, reminders and export — taxationupdates.com"/>
+<meta property="og:title"       content="Compliance Calendar FY 2026-27 — Taxation Updates"/>
+<meta property="og:description" content="Interactive compliance calendar for FY 2026-27 with GST, TDS, IT, PF due dates, reminders and export"/>
+<meta property="og:type"        content="website"/>
+<meta property="og:url"         content="https://taxationupdates.com/Compliance_Calendar_FY2627.html"/>
+<meta property="og:image"       content="https://taxationupdates.com/og-cover.png"/>
+<meta name="twitter:card"        content="summary_large_image"/>
+<meta name="twitter:site"        content="@TaxationUpdates"/>
+<meta name="twitter:title"       content="Compliance Calendar FY 2026-27 — Taxation Updates"/>
+<meta name="twitter:description" content="Interactive compliance calendar for FY 2026-27 with GST, TDS, IT, PF due dates, reminders and export"/>
+<meta name="twitter:image"       content="https://taxationupdates.com/og-cover.png"/>
+<link rel="canonical"            href="https://taxationupdates.com/Compliance_Calendar_FY2627.html"/>
+<link rel="stylesheet" href="/brand-icons.css"/>
+<link rel="manifest" href="/manifest.json"/>
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png"/>
+<link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192.png"/>
+<meta name="theme-color" content="#8c9a1a"/>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YC101DVMH7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YC101DVMH7');
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -454,6 +478,8 @@ td:last-child{border-right:none}
   .hdr-date{font-size:9px;padding:2px 6px}
   .hdr-date-edit{font-size:10px;padding:2px 5px}
 }
+/* Required by site convention — dark mode is applied via .dk class on <body> */
+[data-theme="dark"] {}
 </style>
 </head>
 <body>
@@ -787,7 +813,8 @@ function localDateStr(d){
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 let state={monthIdx:null,cat:'All',search:'',statusF:'all',view:'table'};
-let isDark=false;
+let isDark=localStorage.getItem('theme')==='dark';
+if(isDark){document.body.classList.add('dk');}
 let calYear=TODAY.getFullYear(), calMonth=TODAY.getMonth();
 let filteredRows=[];
 
@@ -799,6 +826,8 @@ function init(){
   const setHdrH=()=>document.documentElement.style.setProperty('--hdr-h',document.querySelector('.hdr').offsetHeight+'px');
   setHdrH();
   window.addEventListener('resize',setHdrH);
+  // Sync dark-mode button label with restored theme
+  if(isDark) document.querySelector('.hdr-btn').textContent='☀ Light';
   updateDateBadge();
   // Do NOT pre-set customDateInp value here — it causes date to show visually on mobile
   renderStats();
@@ -850,6 +879,7 @@ function toggleDark(){
   isDark=!isDark;
   document.body.classList.toggle('dk',isDark);
   document.querySelector('.hdr-btn').textContent=isDark?'☀ Light':'☾ Dark';
+  localStorage.setItem('theme',isDark?'dark':'light');
 }
 
 // ══════════════════════════════════════════════
