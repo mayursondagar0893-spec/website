@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Compliance Calendar FY 2026-27 — Taxation Updates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<style>
+:root{
+  --bg:#f4f6fb;--surface:#fff;--surface2:#f0f2f7;--border:#b8c0d4;--border2:#9aa3bc;
+  --text:#111827;--text2:#374151;--muted:#6b7280;--muted2:#9ca3af;
+  --accent:#1a56db;--accent-h:#1e429f;--accent-bg:#ebf5ff;
+  --hdr:#0f172a;--radius:10px;
+  --shadow:0 1px 3px rgba(0,0,0,.10),0 1px 2px rgba(0,0,0,.06);
+  --shadow-md:0 4px 16px rgba(0,0,0,.12),0 1px 3px rgba(0,0,0,.07);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.16),0 2px 8px rgba(0,0,0,.08);
+}
+.dk{
+  --bg:#0d1117;--surface:#161b22;--surface2:#1c2128;--border:#4a5568;--border2:#606878;
+  --text:#e6edf3;--text2:#c9d1d9;--muted:#9ca3af;--muted2:#7d8590;
+  --accent:#4493f8;--accent-h:#58a6ff;--accent-bg:#0c1a40;
+  --hdr:#010409;--shadow:0 1px 3px rgba(0,0,0,.35);
+  --shadow-md:0 4px 16px rgba(0,0,0,.4);--shadow-lg:0 8px 32px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;transition:background .25s,color .25s;line-height:1.5}
+a{color:var(--accent);text-decoration:none}
+
+/* ── HEADER ── */
+.hdr{background:var(--hdr);min-height:62px;padding:10px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:200;border-bottom:1px solid rgba(255,255,255,.05)}
+.hdr-l{display:flex;align-items:center;gap:13px;flex-shrink:0}
+.hdr-icon{width:34px;height:34px;background:#1a56db;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.hdr-brand{font-size:14px;font-weight:700;color:#f0f6fc;letter-spacing:-.2px;white-space:nowrap}
+.hdr-fy{display:inline-block;background:rgba(26,86,219,.3);border:1px solid rgba(26,86,219,.5);color:#93c5fd;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;margin-left:6px;letter-spacing:.4px;font-family:'JetBrains Mono',monospace}
+.hdr-sub{font-size:10px;color:#6e7681;margin-top:1px;font-weight:500;white-space:nowrap}
+.hdr-r{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.hdr-date{background:rgba(26,86,219,.2);border:1px solid rgba(26,86,219,.35);color:#79c0ff;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;font-family:'JetBrains Mono',monospace;white-space:nowrap}
+.hdr-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#c9d1d9;padding:5px 10px;border-radius:7px;cursor:pointer;font-size:12px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;transition:background .15s;white-space:nowrap}
+.hdr-btn:hover{background:rgba(255,255,255,.14)}
+
+/* ── MAIN ── */
+.main{max-width:1380px;margin:0 auto;padding:22px 28px}
+/* FY/TY/AY explanation banner */
+.fy-banner{background:var(--accent-bg);border-bottom:1px solid var(--border);padding:6px 28px;font-size:11.5px;color:var(--accent);font-weight:600;letter-spacing:.2px;display:flex;flex-wrap:wrap;gap:4px 16px;position:sticky;top:var(--hdr-h,62px);z-index:199}
+.fy-banner span{color:var(--text2);font-weight:400}
+
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--sc,#1a56db);border-radius:3px 3px 0 0}
+.stat:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.stat.active{border-color:var(--sc,#1a56db);box-shadow:0 0 0 3px color-mix(in srgb,var(--sc) 15%,transparent)}
+.stat-num{font-size:28px;font-weight:800;color:var(--sc,#1a56db);line-height:1.1;font-family:'JetBrains Mono',monospace;letter-spacing:-1px}
+.stat-lbl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:4px}
+.stat-hint{font-size:11px;color:var(--muted2);margin-top:2px}
+
+/* ── TOOLBAR ── */
+.toolbar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;box-shadow:var(--shadow)}
+.search-row{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center}
+.search-wrap{position:relative;flex:1}
+.search-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted2);pointer-events:none;font-size:14px}
+.search-inp{width:100%;padding:8px 12px 8px 34px;border:1px solid var(--border2);border-radius:8px;background:var(--surface2);color:var(--text);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;transition:border-color .15s}
+.search-inp:focus{border-color:var(--accent)}
+.search-inp::placeholder{color:var(--muted2)}
+.add-btn{background:var(--accent);color:#fff;border:none;padding:5px 13px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;transition:background .13s;white-space:nowrap;flex-shrink:0}
+.add-btn:hover{background:var(--accent-h)}
+.view-btns{display:flex;border:1px solid var(--border2);border-radius:8px;overflow:hidden;flex-shrink:0}
+.vbtn{padding:7px 13px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:13px;transition:background .13s,color .13s;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;border-right:1px solid var(--border2);white-space:nowrap}
+.vbtn:last-child{border-right:none}
+.vbtn:hover{background:var(--surface2);color:var(--text)}
+.vbtn.on{background:var(--accent);color:#fff}
+.filter-row{padding:9px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.filter-row:last-child{border-bottom:none}
+.filter-lbl{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;width:60px;flex-shrink:0}
+.pills{display:flex;flex-wrap:wrap;gap:4px}
+.pill{padding:3px 10px;border-radius:20px;border:1px solid var(--border2);cursor:pointer;font-size:12px;font-weight:500;font-family:'Plus Jakarta Sans',sans-serif;background:transparent;color:var(--text2);transition:all .12s;white-space:nowrap}
+.pill:hover{border-color:var(--accent);color:var(--accent)}
+.pill.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ── RESULTS BAR ── */
+.res-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;min-height:20px;flex-wrap:wrap;gap:8px}
+.res-count{font-size:12.5px;color:var(--muted);font-weight:500}
+.res-count strong{color:var(--text);font-weight:700}
+.res-tags{font-size:11.5px;color:var(--muted2)}
+.exp-row{display:flex;gap:8px;align-items:center}
+.exp-btn{background:var(--surface);border:1px solid var(--border2);color:var(--text2);padding:5px 12px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;transition:background .12s,border-color .12s;white-space:nowrap}
+.exp-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
+.exp-btn.pdf{border-color:#e11d48;color:#e11d48}
+.exp-btn.pdf:hover{background:#fff1f2}
+.dk .exp-btn.pdf:hover{background:#2d0a12}
+
+/* ── TABLE VIEW ── */
+.tbl-wrap{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.tbl-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead tr{background:var(--surface2);border-bottom:2px solid var(--border2)}
+th{padding:10px 14px;text-align:left;font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;white-space:nowrap;border-right:1px solid var(--border2)}
+th:last-child{border-right:none}
+tbody tr{border-bottom:1px solid var(--border2);transition:background .1s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--surface2)}
+td{padding:10px 14px;vertical-align:middle;border-right:1px solid var(--border)}
+td:last-child{border-right:none}
+.td-d{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600}
+.td-dy{font-size:10.5px;color:var(--muted2);margin-top:1px}
+.td-n{font-size:13px;font-weight:600}
+.td-p{font-size:12.5px;color:var(--muted)}
+
+/* ── CARD GRID VIEW ── */
+.grid-view{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);transition:all .15s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--cc,#1a56db)}
+.card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.card-name{font-size:13.5px;font-weight:700;line-height:1.35;flex:1;padding-right:8px}
+.card-meta{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;align-items:center}
+.card-date{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:var(--text2);background:var(--surface2);border:1px solid var(--border);padding:2px 8px;border-radius:5px}
+.card-period{font-size:12px;color:var(--muted)}
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+
+/* ── CALENDAR VIEW ── */
+.cal-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.cal-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--surface2)}
+.cal-month-lbl{font-size:15px;font-weight:700}
+.cal-nav{display:flex;gap:6px}
+.cal-nav-btn{background:none;border:1px solid var(--border2);color:var(--text);padding:5px 12px;border-radius:7px;cursor:pointer;font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;transition:background .12s}
+.cal-nav-btn:hover{background:var(--surface2)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr)}
+.cal-dow{text-align:center;padding:8px 4px;font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);border-right:1px solid var(--border)}
+.cal-dow:last-child{border-right:none}
+.cal-cell{min-height:90px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:6px;position:relative;transition:background .1s}
+.cal-cell:nth-child(7n){border-right:none}
+.cal-cell:hover{background:var(--surface2)}
+.cal-cell.empty{background:var(--surface2);opacity:.4}
+.cal-cell.today{background:var(--accent-bg)}
+.cal-cell.today .cal-day-num{background:var(--accent);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.cal-day-num{font-size:11.5px;font-weight:600;color:var(--text2);margin-bottom:4px;width:22px;height:22px;display:flex;align-items:center;justify-content:center}
+.cal-event{font-size:10px;font-weight:600;padding:2px 5px;border-radius:4px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.4;cursor:default}
+.cal-more{font-size:10px;color:var(--muted);font-weight:600;cursor:pointer;padding:1px 4px;border-radius:3px;transition:background .12s}
+.cal-more:hover{background:var(--border);color:var(--accent)}
+.cal-popover{position:absolute;z-index:300;background:var(--surface);border:1px solid var(--border2);border-radius:8px;box-shadow:var(--shadow-md);padding:8px 0;min-width:200px;max-width:260px;left:0;top:100%}
+.cal-popover-item{padding:5px 12px;font-size:11.5px;color:var(--text2);line-height:1.4;border-bottom:1px solid var(--border)}
+.cal-popover-item:last-child{border-bottom:none}
+
+/* ── STATUS BADGES ── */
+.sbadge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace;white-space:nowrap;border:1px solid transparent}
+.sb-ov{background:#fef2f2;color:#b91c1c;border-color:#fecaca}
+.sb-cr{background:#fef2f2;color:#dc2626;border-color:#fca5a5;animation:blink 1.4s ease-in-out infinite}
+.sb-ur{background:#fffbeb;color:#b45309;border-color:#fde68a}
+.sb-up{background:#fefce8;color:#854d0e;border-color:#fef08a}
+.sb-ok{background:#f0fdf4;color:#15803d;border-color:#bbf7d0}
+.dk .sb-ov{background:#1f0808;color:#fca5a5;border-color:#7f1d1d}
+.dk .sb-cr{background:#1f0808;color:#fca5a5;border-color:#991b1b}
+.dk .sb-ur{background:#1c1208;color:#fcd34d;border-color:#78350f}
+.dk .sb-up{background:#1a1600;color:#fde047;border-color:#713f12}
+.dk .sb-ok{background:#071811;color:#86efac;border-color:#14532d}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.55}}
+
+/* ── CATEGORY BADGES ── */
+.cbadge{display:inline-block;padding:2px 9px;border-radius:5px;font-size:11px;font-weight:600;white-space:nowrap}
+.cb-gst{background:#ecfdf5;color:#065f46}.dk .cb-gst{background:#052e16;color:#6ee7b7}
+.cb-tds{background:#eff6ff;color:#1e40af}.dk .cb-tds{background:#0c1a40;color:#93c5fd}
+.cb-pf {background:#f5f3ff;color:#4c1d95}.dk .cb-pf {background:#1e0a40;color:#c4b5fd}
+.cb-it {background:#fff1f2;color:#9f1239}.dk .cb-it {background:#2d0a12;color:#fda4af}
+.cb-co {background:#fefce8;color:#713f12}.dk .cb-co {background:#1c1208;color:#fcd34d}
+.cb-ot {background:#f8fafc;color:#475569;border:1px solid #e2e8f0}.dk .cb-ot{background:#1e293b;color:#94a3b8;border-color:#334155}
+
+/* ── CALENDAR EVENT COLORS ── */
+.ev-gst{background:#dcfce7;color:#166534}.dk .ev-gst{background:#052e16;color:#6ee7b7}
+.ev-tds{background:#dbeafe;color:#1e40af}.dk .ev-tds{background:#0c1a40;color:#93c5fd}
+.ev-pf {background:#ede9fe;color:#5b21b6}.dk .ev-pf {background:#1e0a40;color:#c4b5fd}
+.ev-it {background:#fee2e2;color:#991b1b}.dk .ev-it {background:#2d0a12;color:#fda4af}
+.ev-co {background:#fef3c7;color:#92400e}.dk .ev-co {background:#1c1208;color:#fcd34d}
+.ev-ot {background:#f1f5f9;color:#475569}.dk .ev-ot{background:#1e293b;color:#94a3b8}
+
+/* ── ACTION BUTTONS ── */
+/* WhatsApp button — larger, real icon */
+.wa-btn{background:#25d366;color:#fff;border:none;padding:6px 13px 6px 10px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;transition:background .13s,transform .1s,box-shadow .13s;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;box-shadow:0 1px 4px rgba(37,211,102,.35)}
+.wa-btn svg{width:16px;height:16px;flex-shrink:0}
+.wa-btn:hover{background:#1ebe5d;transform:translateY(-1px);box-shadow:0 3px 10px rgba(37,211,102,.45)}
+.wa-btn:active{transform:none}
+.del-btn{background:transparent;border:1px solid #fecaca;color:#dc2626;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;transition:all .13s;white-space:nowrap}
+.del-btn:hover{background:#fef2f2;border-color:#dc2626}
+.dk .del-btn:hover{background:#2d0a12}
+
+.bar-wa-btn{width:18px;height:18px;display:flex;align-items:center;justify-content:center;color:#25d366;cursor:pointer;border-radius:50%;transition:background .12s;margin-top:2px}
+.bar-wa-btn svg{width:13px;height:13px}
+.bar-wa-btn:hover{background:rgba(37,211,102,.15)}
+.wa-menu{position:fixed;z-index:9999;background:var(--surface);border:1px solid var(--border2);border-radius:10px;box-shadow:var(--shadow-lg);padding:6px 0;min-width:170px}
+.wa-menu-item{padding:8px 16px;font-size:12.5px;font-weight:600;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:8px;font-family:'Plus Jakarta Sans',sans-serif;transition:background .12s}
+.wa-menu-item:hover{background:var(--surface2);color:var(--accent)}
+.wa-menu-title{padding:6px 16px 4px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);margin-bottom:2px}
+.month-exp-btn{background:transparent;border:1px solid currentColor;border-radius:5px;cursor:pointer;font-size:11.5px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;padding:3px 9px;opacity:.75;transition:opacity .13s,background .13s;white-space:nowrap;line-height:1.4;flex-shrink:0}
+.month-exp-btn svg{width:14px;height:14px}
+.month-exp-btn:hover{opacity:1;background:rgba(0,0,0,.06)}
+.dk .month-exp-btn:hover{background:rgba(255,255,255,.1)}
+.month-sep td{background:var(--surface2)!important;padding:0;border-top:2px solid var(--border2);border-bottom:2px solid var(--border2)}
+.month-sep-lbl{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;text-align:center}
+.month-sep-lbl::before,.month-sep-lbl::after{content:'';flex:1;height:1.5px;background:var(--border2)}
+.month-sep-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;display:inline-block}
+.tbl-sep-toggle{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);font-weight:500;cursor:pointer;user-select:none}
+.tbl-sep-toggle input[type=checkbox]{accent-color:var(--accent);cursor:pointer;width:14px;height:14px}
+
+/* ── CARD MONTH SECTION ── */
+.grid-month-section{margin-bottom:24px}
+.grid-month-header{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px;padding:9px 16px;border-radius:8px;border:2px solid var(--mc,#1a56db);background:color-mix(in srgb,var(--mc,#1a56db) 8%,var(--surface))}
+.grid-month-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.9px;color:var(--mc,#1a56db);text-align:center}
+.grid-month-count{font-size:11px;font-weight:600;color:var(--muted);background:var(--surface2);border:1px solid var(--border);padding:1px 8px;border-radius:10px}
+
+/* ── ENHANCED CALENDAR ── */
+.cal-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-md)}
+.cal-hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);background:var(--hdr)}
+.cal-month-lbl{font-size:17px;font-weight:800;color:#f0f6fc;letter-spacing:-.3px}
+.cal-month-sub{font-size:12.5px;color:#94a3b8;margin-top:4px;font-weight:500}
+.cal-hdr-left{display:flex;flex-direction:column}
+.cal-nav{display:flex;gap:6px;align-items:center}
+.cal-nav-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e2e8f0;padding:6px 14px;border-radius:7px;cursor:pointer;font-size:12.5px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;transition:background .12s}
+.cal-nav-btn:hover{background:rgba(255,255,255,.18)}
+.cal-nav-btn.today-btn{background:rgba(26,86,219,.4);border-color:rgba(26,86,219,.6);color:#93c5fd}
+.cal-nav-btn.today-btn:hover{background:rgba(26,86,219,.6)}
+.cal-legend{display:flex;gap:10px;flex-wrap:wrap;padding:8px 20px;border-bottom:1px solid var(--border);background:var(--surface2)}
+.cal-legend-item{display:flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;color:var(--muted)}
+.cal-legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr)}
+.cal-dow{text-align:center;padding:10px 4px;font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;border-bottom:2px solid var(--border);border-right:1px solid var(--border);background:var(--surface2)}
+.cal-dow:last-child{border-right:none}
+.cal-dow.weekend{color:var(--accent)}
+.cal-cell{min-height:110px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:7px 6px;position:relative;transition:background .12s}
+.cal-cell:nth-child(7n){border-right:none}
+.cal-cell:hover{background:color-mix(in srgb,var(--accent) 4%,var(--surface))}
+.cal-cell.empty{background:var(--surface2);opacity:.35;pointer-events:none}
+.cal-cell.weekend-cell{background:color-mix(in srgb,var(--accent) 2%,var(--surface))}
+.cal-cell.today{background:color-mix(in srgb,var(--accent) 8%,var(--surface));box-shadow:inset 2px 0 0 var(--accent)}
+.cal-day-num{font-size:12px;font-weight:700;color:var(--text2);margin-bottom:5px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background .12s}
+.cal-cell.today .cal-day-num{background:var(--accent);color:#fff}
+.cal-cell.weekend-cell .cal-day-num{color:var(--accent)}
+.cal-event{font-size:9.5px;font-weight:600;padding:2px 6px;border-radius:4px;margin-bottom:2px;white-space:normal;overflow:visible;word-break:break-word;line-height:1.4;cursor:pointer;border-left:2px solid transparent}
+.cal-event.ev-gst{border-left-color:#16a34a}
+.cal-event.ev-tds{border-left-color:#1a56db}
+.cal-event.ev-pf{border-left-color:#7c3aed}
+.cal-event.ev-it{border-left-color:#dc2626}
+.cal-event.ev-co{border-left-color:#d97706}
+.cal-event.ev-ot{border-left-color:#475569}
+.cal-more{font-size:10px;color:var(--accent);font-weight:700;cursor:pointer;padding:2px 6px;border-radius:4px;background:var(--accent-bg);border:1px solid rgba(26,86,219,.2);display:inline-block;margin-top:1px;transition:background .12s}
+.cal-more:hover{background:var(--accent);color:#fff}
+.cal-popover{position:fixed;z-index:9999;background:var(--surface);border:1px solid var(--border2);border-radius:10px;box-shadow:var(--shadow-lg);padding:10px 0;min-width:230px;max-width:280px}
+.cal-popover-item{padding:6px 14px;font-size:11.5px;color:var(--text2);line-height:1.4;border-bottom:1px solid var(--border)}
+.cal-popover-item:last-child{border-bottom:none}
+.cal-deadlines-bar{display:flex;gap:2px;margin-top:4px;flex-wrap:wrap}
+.cal-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+/* ── CUSTOM DATE IN HEADER ── */
+.hdr-date-wrap{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.hdr-date-edit{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);cursor:pointer;color:#c9d1d9;font-size:11px;padding:4px 10px;border-radius:6px;transition:color .13s,background .13s;line-height:1;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;white-space:nowrap}
+.hdr-date-edit:hover{color:#93c5fd;background:rgba(255,255,255,.16)}
+.date-picker-inp{background:rgba(26,86,219,.2);border:1px solid rgba(26,86,219,.5);color:#93c5fd;padding:4px 8px;border-radius:6px;font-size:11px;font-weight:600;font-family:'JetBrains Mono',monospace;outline:none;cursor:pointer;width:130px;color-scheme:dark}
+.hdr-date-reset{background:none;border:none;cursor:pointer;color:#6e7681;font-size:10px;padding:2px 6px;border-radius:4px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;transition:all .13s;white-space:nowrap}
+.hdr-date-reset:hover{color:#fca5a5;background:rgba(220,38,38,.15)}
+
+/* ── CUSTOM TAG ── */
+.custom-tag{display:inline-block;font-size:9px;font-weight:700;background:#fef3c7;color:#92400e;border:1px solid #fde68a;border-radius:4px;padding:1px 5px;vertical-align:middle;margin-left:4px;letter-spacing:.3px}
+.dk .custom-tag{background:#422006;color:#fcd34d;border-color:#78350f}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:56px 20px;color:var(--muted)}
+.empty-icon{font-size:34px;margin-bottom:12px}
+.empty-txt{font-size:14px;font-weight:500}
+
+/* ── ADD MODAL ── */
+.add-overlay{position:fixed;inset:0;background:rgba(0,0,0,.52);display:flex;align-items:center;justify-content:center;z-index:600;padding:16px;backdrop-filter:blur(4px)}
+.add-overlay.hide{display:none}
+.add-modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;width:100%;max-width:460px;box-shadow:var(--shadow-lg);animation:pop .18s ease}
+@keyframes pop{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.add-modal h3{font-size:15px;font-weight:700;margin-bottom:16px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-grid .full{grid-column:1/-1}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.form-inp,.form-sel{padding:8px 11px;border:1px solid var(--border2);border-radius:7px;background:var(--surface2);color:var(--text);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;transition:border-color .15s;width:100%}
+.form-inp:focus,.form-sel:focus{border-color:var(--accent)}
+.form-err{font-size:11px;color:#dc2626;margin-top:8px;min-height:16px}
+.form-footer{display:flex;gap:8px;margin-top:16px;justify-content:flex-end}
+.btn-cancel{background:transparent;border:1px solid var(--border2);color:var(--text2);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;font-family:'Plus Jakarta Sans',sans-serif}
+.btn-cancel:hover{background:var(--surface2)}
+.btn-save{background:var(--accent);color:#fff;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;transition:background .13s}
+.btn-save:hover{background:var(--accent-h)}
+
+/* ── DASHBOARD ── */
+.dash{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.dash-full{grid-column:1/-1}
+.dash-half{grid-column:span 1}
+.dash-two{grid-column:span 2}
+.dash-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.dash-panel-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.dash-panel-title::before{content:'';width:3px;height:14px;border-radius:2px;background:var(--accent);display:inline-block}
+/* Category donut */
+.donut-wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.donut-svg{flex-shrink:0}
+.donut-legend{display:flex;flex-direction:column;gap:6px}
+.donut-item{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500}
+.donut-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.donut-val{font-weight:700;margin-left:auto;padding-left:12px;font-family:'JetBrains Mono',monospace;font-size:12px}
+/* Monthly bar */
+.bar-chart{display:flex;align-items:flex-end;gap:3px;height:110px;padding-top:24px;overflow:visible}
+.bar-col{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;cursor:pointer;border-radius:4px;padding:2px;transition:background .13s;overflow:visible}
+.bar-col:hover{background:var(--accent-bg)}
+.bar-fill{border-radius:3px 3px 0 0;width:100%;transition:opacity .13s,transform .1s;min-width:0}
+.bar-col:hover .bar-fill{opacity:.8;transform:scaleY(1.04);transform-origin:bottom}
+.bar-lbl{font-size:8.5px;font-weight:700;color:var(--muted);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%}
+.bar-num{font-size:10px;font-weight:800;color:var(--text);font-family:'JetBrains Mono',monospace;line-height:1;margin-bottom:1px}
+/* Upcoming list */
+.upcoming-list{display:flex;flex-direction:column;gap:0}
+.upcoming-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.upcoming-row:last-child{border-bottom:none}
+.upcoming-date{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--accent);white-space:nowrap;min-width:52px}
+.upcoming-name{font-size:12.5px;font-weight:600;flex:1}
+.upcoming-days{font-size:11px;font-weight:700;white-space:nowrap;font-family:'JetBrains Mono',monospace}
+/* Status ring */
+.status-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.status-tile{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;text-align:center;cursor:pointer;transition:all .15s}
+.status-tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--border2)}
+.status-tile-num{font-size:24px;font-weight:800;font-family:'JetBrains Mono',monospace;letter-spacing:-1px;line-height:1}
+.status-tile-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-top:3px}
+/* Progress bar */
+.prog-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.prog-row:last-child{margin-bottom:0}
+.prog-lbl{font-size:11.5px;font-weight:600;min-width:80px;color:var(--text2)}
+.prog-bar{flex:1;height:6px;background:var(--surface2);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.prog-fill{height:100%;border-radius:4px;transition:width .4s ease}
+.prog-pct{font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace;min-width:30px;text-align:right}
+@media(max-width:768px){.dash{grid-template-columns:1fr}.dash-two{grid-column:1/-1}}
+
+/* ── FOOTER ── */
+.footer{text-align:center;padding:28px;color:var(--muted2);font-size:12px}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE — MOBILE
+   ══════════════════════════════════════════════ */
+@media(max-width:640px){
+
+  /* Header — strict 2-row, no overlap */
+  .hdr{padding:6px 12px;flex-direction:column;align-items:stretch;gap:0;min-height:unset}
+  .hdr-l{gap:8px;padding:2px 0}
+  .hdr-icon{width:26px;height:26px;font-size:12px;border-radius:6px;flex-shrink:0}
+  .hdr-brand{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hdr-fy{font-size:9px;padding:1px 5px;margin-left:4px}
+  .hdr-sub{display:none}
+  /* Row 2: all controls */
+  .hdr-r{width:100%;display:flex;flex-wrap:nowrap;align-items:center;gap:5px;padding:5px 0 2px 0;border-top:1px solid rgba(255,255,255,.08);margin-top:4px}
+  .hdr-date-wrap{display:flex;align-items:center;gap:4px;flex:1;min-width:0}
+  .hdr-date{font-size:10px;padding:3px 7px;flex-shrink:0}
+  .hdr-date-edit{font-size:10px;padding:3px 7px;flex-shrink:0}
+  .hdr-btn{font-size:10.5px;padding:3px 8px;flex-shrink:0;margin-left:auto}
+  .hdr-date-reset{font-size:10px;padding:2px 6px;flex-shrink:0}
+
+  /* FY banner */
+  .fy-banner{padding:5px 12px;font-size:10.5px;gap:2px 10px}
+
+  /* Main padding */
+  .main{padding:10px 10px}
+
+  /* Stats — 2 cols */
+  .stats{grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
+  .stat{padding:12px 12px}
+  .stat-num{font-size:22px}
+  .stat-lbl{font-size:10px;letter-spacing:.3px}
+  .stat-hint{font-size:10px}
+
+  /* Insight panels */
+  .dash{gap:10px;margin-bottom:12px}
+  .dash-panel{padding:14px 12px}
+  .dash-panel-title{font-size:11px;margin-bottom:10px}
+  .bar-chart{height:100px;gap:2px;padding-top:16px}
+  .bar-lbl{font-size:7.5px}
+  .bar-num{font-size:9px}
+
+  /* Toolbar */
+  .toolbar{margin-bottom:10px}
+  .search-row{padding:8px 10px;gap:6px;flex-wrap:wrap}
+  .search-inp{font-size:12px;padding:7px 10px 7px 30px}
+  .add-btn{font-size:11px;padding:4px 10px}
+  .view-btns{width:100%;justify-content:stretch}
+  .vbtn{flex:1;padding:7px 6px;font-size:11.5px;text-align:center}
+  .filter-row{padding:7px 10px;gap:4px}
+  .filter-lbl{font-size:9px;width:52px}
+  .pill{font-size:11px;padding:2px 8px}
+
+  /* Results bar */
+  .res-bar{flex-direction:column;align-items:flex-start;gap:6px;margin-bottom:8px}
+  .exp-row{width:100%;flex-wrap:wrap;gap:6px}
+  .exp-btn{font-size:11px;padding:5px 10px;flex:1;text-align:center}
+  .res-count{font-size:11.5px}
+  .res-tags{font-size:10.5px}
+  .tbl-sep-toggle{font-size:10.5px}
+
+  /* Table */
+  .tbl-wrap{border-radius:8px}
+  table{font-size:12px}
+  th{padding:8px 8px;font-size:9.5px;letter-spacing:.4px}
+  td{padding:8px 8px;font-size:12px}
+  .td-d{font-size:11.5px}
+  .td-dy{font-size:9.5px}
+  .td-n{font-size:12px}
+  .td-p{font-size:11px}
+  .wa-btn{font-size:10.5px;padding:4px 8px 4px 6px}
+  .wa-btn svg{width:13px;height:13px}
+  .sbadge{font-size:10px;padding:2px 7px}
+  .cbadge{font-size:10px;padding:2px 6px}
+  .del-btn{padding:3px 6px;font-size:10px}
+  .month-sep-lbl{font-size:10.5px;padding:6px 10px;letter-spacing:.8px}
+
+  /* Cards */
+  .grid-view{grid-template-columns:1fr;gap:10px}
+  .card{padding:13px}
+  .card-name{font-size:12.5px}
+  .card-date{font-size:11px}
+  .card-period{font-size:11px}
+  .grid-month-title{font-size:11.5px}
+  .grid-month-header{padding:7px 12px}
+
+  /* Calendar */
+  .cal-hdr{padding:12px 14px}
+  .cal-month-lbl{font-size:14px}
+  .cal-month-sub{font-size:10px}
+  .cal-nav-btn{padding:4px 10px;font-size:11px}
+  .cal-legend{padding:6px 12px;gap:6px}
+  .cal-legend-item{font-size:9.5px}
+  .cal-dow{padding:7px 2px;font-size:8.5px}
+  .cal-cell{min-height:52px;padding:4px 3px}
+  .cal-day-num{font-size:10px;width:18px;height:18px}
+  .cal-event{font-size:8px;padding:1px 4px;line-height:1.3}
+  .cal-more{font-size:9px;padding:1px 4px}
+
+  /* Add modal */
+  .add-modal{padding:18px;border-radius:12px}
+  .form-grid{grid-template-columns:1fr}
+  .form-grid .full{grid-column:1}
+
+  /* Popover */
+  .cal-popover{min-width:190px;max-width:calc(100vw - 24px)}
+}
+
+@media(max-width:380px){
+  .stats{grid-template-columns:1fr 1fr}
+  .stat-num{font-size:20px}
+  .vbtn{font-size:10.5px;padding:6px 4px}
+  .hdr-date{font-size:9px;padding:2px 6px}
+  .hdr-date-edit{font-size:10px;padding:2px 5px}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-l">
+    <div class="hdr-icon">⚡</div>
+    <div>
+      <div class="hdr-brand">Compliance Calendar<span class="hdr-fy">FY 2026-27</span></div>
+      <div class="hdr-sub">Taxation Updates · CA Mayur J. Sondagar · April 2026 – March 2027</div>
+    </div>
+  </div>
+  <div class="hdr-r">
+    <div class="hdr-date-wrap">
+      <span class="hdr-date" id="todayBadge"></span>
+      <button class="hdr-date-edit" id="dateEditBtn" onclick="toggleDatePicker()" title="Set custom reference date">Edit Date</button>
+      <input class="date-picker-inp" type="date" id="customDateInp" style="display:none;visibility:hidden" onchange="applyCustomDate()" title="Custom reference date"/>
+      <button class="hdr-date-reset" id="dateResetBtn" style="display:none" onclick="resetDate()" title="Reset to today">↺ Reset</button>
+    </div>
+    <button class="hdr-btn" onclick="toggleDark()">☾ Dark</button>
+  </div>
+</header>
+
+<!-- FY / TY / AY LEGEND BANNER -->
+<div class="fy-banner">
+  <div>FY <span>= Financial Year (Apr–Mar)</span></div>
+  <div>AY <span>= Assessment Year (follows FY)</span></div>
+  <div>TY <span>= Tax Year (IT Act 2025, replaces AY for current year)</span></div>
+</div>
+
+<div class="main">
+  <div class="stats" id="statsGrid"></div>
+
+  <!-- INSIGHT PANELS — always visible, updates with filters -->
+  <div id="insightPanels"></div>
+
+  <div class="toolbar">
+    <div class="search-row">
+      <div class="search-wrap">
+        <span class="search-ico">🔍</span>
+        <input class="search-inp" id="searchInp" placeholder="Search compliance, period, category..." oninput="applyFilters()" autocomplete="off"/>
+      </div>
+      <button class="add-btn" onclick="openAddModal()">+ Add</button>
+      <div class="view-btns">
+        <button class="vbtn on" id="vbtn-table"    onclick="setView('table')">☰ Table</button>
+        <button class="vbtn"    id="vbtn-grid"     onclick="setView('grid')">⊞ Cards</button>
+        <button class="vbtn"    id="vbtn-calendar" onclick="setView('calendar')">⊡ Calendar</button>
+      </div>
+    </div>
+    <div class="filter-row">
+      <span class="filter-lbl">Month</span>
+      <div class="pills" id="monthPills"></div>
+    </div>
+    <div class="filter-row">
+      <span class="filter-lbl">Category</span>
+      <div class="pills" id="catPills"></div>
+    </div>
+  </div>
+
+  <div class="res-bar">
+    <div class="res-count" id="resCount"></div>
+    <div class="exp-row">
+      <span class="res-tags" id="resTags"></span>
+      <label class="tbl-sep-toggle" id="sepToggleWrap" title="Toggle month separators in table view">
+        <input type="checkbox" id="sepToggle" checked onchange="renderCurrentView()"/>
+        Month separators
+      </label>
+      <button class="exp-btn" onclick="exportExcel()">⬇ Excel</button>
+      <button class="exp-btn pdf" onclick="exportPDF()">⬇ PDF</button>
+    </div>
+  </div>
+
+  <div id="viewTable"></div>
+  <div id="viewGrid"      style="display:none"></div>
+  <div id="viewCalendar"  style="display:none"></div>
+</div>
+
+<div class="footer">Taxation Updates &nbsp;·&nbsp; CA Mayur J. Sondagar</div>
+
+<!-- ADD MODAL -->
+<div class="add-overlay hide" id="addOverlay" onclick="addBgClose(event)">
+  <div class="add-modal">
+    <h3>+ Add Compliance</h3>
+    <div class="form-grid">
+      <div class="form-group full">
+        <label class="form-label">Compliance Name *</label>
+        <input class="form-inp" id="f-name" placeholder="e.g. GST Annual Return" autocomplete="off"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Due Date *</label>
+        <input class="form-inp" id="f-date" type="date"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Category *</label>
+        <select class="form-sel" id="f-cat">
+          <option value="">-- Select --</option>
+          <option>GST</option><option>TDS/TCS</option><option>PF/ESIC</option>
+          <option>Income Tax</option><option>Company Law</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label class="form-label">Period / Remarks</label>
+        <input class="form-inp" id="f-period" placeholder="e.g. Q1 FY 26-27 or Client: ABC Ltd" autocomplete="off"/>
+      </div>
+    </div>
+    <div class="form-err" id="f-err"></div>
+    <div class="form-footer">
+      <button class="btn-cancel" onclick="closeAddModal()">Cancel</button>
+      <button class="btn-save" onclick="saveCustom()">Save Compliance</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  DATA — FY 2026-27 (136 DEADLINES)
+//  Source: Compliance Calendar April 2026 – March 2027
+//  Taxation Updates · CA Mayur J. Sondagar
+// ══════════════════════════════════════════════
+const TODAY = new Date(); TODAY.setHours(0,0,0,0);
+let REFERENCE_DATE = new Date(TODAY); // can be changed by user
+
+// 12 distinct colours for Apr–Mar FY months
+const MONTH_COLORS=[
+  '#f97316', // Jan
+  '#ec4899', // Feb
+  '#14b8a6', // Mar (end of FY)
+  '#6366f1', // Apr (start of FY)
+  '#10b981', // May
+  '#f59e0b', // Jun
+  '#3b82f6', // Jul
+  '#ef4444', // Aug
+  '#8b5cf6', // Sep
+  '#06b6d4', // Oct
+  '#84cc16', // Nov
+  '#f43f5e', // Dec
+];
+
+const CUSTOM_KEY = 'cc_fy2627_custom';
+let customEntries = JSON.parse(localStorage.getItem(CUSTOM_KEY)||'[]');
+function saveCustomEntries(){ localStorage.setItem(CUSTOM_KEY,JSON.stringify(customEntries)) }
+function allRows(){ return [...DATA,...customEntries] }
+
+const DATA = [
+  // ── DAY 7: TDS/TCS Payment ──
+  {id:1, d:'2026-04-07',n:'TCS Payment',            p:'March 2026',    c:'TDS/TCS'},
+  {id:2, d:'2026-05-07',n:'TDS/TCS Payment',        p:'April 2026',    c:'TDS/TCS'},
+  {id:3, d:'2026-06-07',n:'TDS/TCS Payment',        p:'May 2026',      c:'TDS/TCS'},
+  {id:4, d:'2026-07-07',n:'TDS/TCS Payment',        p:'June 2026',     c:'TDS/TCS'},
+  {id:5, d:'2026-08-07',n:'TDS/TCS Payment',        p:'July 2026',     c:'TDS/TCS'},
+  {id:6, d:'2026-09-07',n:'TDS/TCS Payment',        p:'August 2026',   c:'TDS/TCS'},
+  {id:7, d:'2026-10-07',n:'TDS/TCS Payment',        p:'September 2026',c:'TDS/TCS'},
+  {id:8, d:'2026-11-07',n:'TDS/TCS Payment',        p:'October 2026',  c:'TDS/TCS'},
+  {id:9, d:'2026-12-07',n:'TDS/TCS Payment',        p:'November 2026', c:'TDS/TCS'},
+  {id:10,d:'2027-01-07',n:'TDS/TCS Payment',        p:'December 2026', c:'TDS/TCS'},
+  {id:11,d:'2027-02-07',n:'TDS/TCS Payment',        p:'January 2027',  c:'TDS/TCS'},
+  {id:12,d:'2027-03-07',n:'TDS/TCS Payment',        p:'February 2027', c:'TDS/TCS'},
+  // ── DAY 10: GSTR 7 / GSTR 8 ──
+  {id:13,d:'2026-04-10',n:'GSTR 7 / GSTR 8',        p:'March 2026',    c:'GST'},
+  {id:14,d:'2026-05-10',n:'GSTR 7 / GSTR 8',        p:'April 2026',    c:'GST'},
+  {id:15,d:'2026-06-10',n:'GSTR 7 / GSTR 8',        p:'May 2026',      c:'GST'},
+  {id:16,d:'2026-07-10',n:'GSTR 7 / GSTR 8',        p:'June 2026',     c:'GST'},
+  {id:17,d:'2026-08-10',n:'GSTR 7 / GSTR 8',        p:'July 2026',     c:'GST'},
+  {id:18,d:'2026-09-10',n:'GSTR 7 / GSTR 8',        p:'August 2026',   c:'GST'},
+  {id:19,d:'2026-10-10',n:'GSTR 7 / GSTR 8',        p:'September 2026',c:'GST'},
+  {id:20,d:'2026-11-10',n:'GSTR 7 / GSTR 8',        p:'October 2026',  c:'GST'},
+  {id:21,d:'2026-12-10',n:'GSTR 7 / GSTR 8',        p:'November 2026', c:'GST'},
+  {id:22,d:'2027-01-10',n:'GSTR 7 / GSTR 8',        p:'December 2026', c:'GST'},
+  {id:23,d:'2027-02-10',n:'GSTR 7 / GSTR 8',        p:'January 2027',  c:'GST'},
+  {id:24,d:'2027-03-10',n:'GSTR 7 / GSTR 8',        p:'February 2027', c:'GST'},
+  // ── DAY 11: GSTR 1 Monthly ──
+  {id:25,d:'2026-04-11',n:'GSTR 1 (Monthly)',        p:'March 2026',    c:'GST'},
+  {id:26,d:'2026-05-11',n:'GSTR 1 (Monthly)',        p:'April 2026',    c:'GST'},
+  {id:27,d:'2026-06-11',n:'GSTR 1 (Monthly)',        p:'May 2026',      c:'GST'},
+  {id:28,d:'2026-07-11',n:'GSTR 1 (Monthly)',        p:'June 2026',     c:'GST'},
+  {id:29,d:'2026-08-11',n:'GSTR 1 (Monthly)',        p:'July 2026',     c:'GST'},
+  {id:30,d:'2026-09-11',n:'GSTR 1 (Monthly)',        p:'August 2026',   c:'GST'},
+  {id:31,d:'2026-10-11',n:'GSTR 1 (Monthly)',        p:'September 2026',c:'GST'},
+  {id:32,d:'2026-11-11',n:'GSTR 1 (Monthly)',        p:'October 2026',  c:'GST'},
+  {id:33,d:'2026-12-11',n:'GSTR 1 (Monthly)',        p:'November 2026', c:'GST'},
+  {id:34,d:'2027-01-11',n:'GSTR 1 (Monthly)',        p:'December 2026', c:'GST'},
+  {id:35,d:'2027-02-11',n:'GSTR 1 (Monthly)',        p:'January 2027',  c:'GST'},
+  {id:36,d:'2027-03-11',n:'GSTR 1 (Monthly)',        p:'February 2027', c:'GST'},
+  // ── DAY 13: QRMP / IFF / GSTR 5/6 ──
+  {id:37,d:'2026-04-13',n:'GSTR 1 Q4 FY 25-26 (QRMP)',p:'Jan–Mar 2026', c:'GST'},
+  {id:38,d:'2026-04-13',n:'GSTR 5 / GSTR 6',          p:'March 2026',   c:'GST'},
+  {id:39,d:'2026-05-13',n:'IFF (QRMP)',                p:'April 2026',   c:'GST'},
+  {id:40,d:'2026-05-13',n:'GSTR 5 / GSTR 6',          p:'April 2026',   c:'GST'},
+  {id:41,d:'2026-06-13',n:'IFF (QRMP)',                p:'May 2026',     c:'GST'},
+  {id:42,d:'2026-06-13',n:'GSTR 5 / GSTR 6',          p:'May 2026',     c:'GST'},
+  {id:43,d:'2026-07-13',n:'GSTR 1 Q1 FY 26-27 (QRMP)',p:'Apr–Jun 2026', c:'GST'},
+  {id:44,d:'2026-07-13',n:'GSTR 5 / GSTR 6',          p:'June 2026',    c:'GST'},
+  {id:45,d:'2026-08-13',n:'IFF (QRMP)',                p:'July 2026',    c:'GST'},
+  {id:46,d:'2026-08-13',n:'GSTR 5 / GSTR 6',          p:'July 2026',    c:'GST'},
+  {id:47,d:'2026-09-13',n:'IFF (QRMP)',                p:'August 2026',  c:'GST'},
+  {id:48,d:'2026-09-13',n:'GSTR 5 / GSTR 6',          p:'August 2026',  c:'GST'},
+  {id:49,d:'2026-10-13',n:'GSTR 1 Q2 FY 26-27 (QRMP)',p:'Jul–Sep 2026', c:'GST'},
+  {id:50,d:'2026-10-13',n:'GSTR 5 / GSTR 6',          p:'September 2026',c:'GST'},
+  {id:51,d:'2026-11-13',n:'IFF (QRMP)',                p:'October 2026', c:'GST'},
+  {id:52,d:'2026-11-13',n:'GSTR 5 / GSTR 6',          p:'October 2026', c:'GST'},
+  {id:53,d:'2026-12-13',n:'IFF (QRMP)',                p:'November 2026',c:'GST'},
+  {id:54,d:'2026-12-13',n:'GSTR 5 / GSTR 6',          p:'November 2026',c:'GST'},
+  {id:55,d:'2027-01-13',n:'GSTR 1 Q3 FY 26-27 (QRMP)',p:'Oct–Dec 2026', c:'GST'},
+  {id:56,d:'2027-01-13',n:'GSTR 5 / GSTR 6',          p:'December 2026',c:'GST'},
+  {id:57,d:'2027-02-13',n:'IFF (QRMP)',                p:'January 2027', c:'GST'},
+  {id:58,d:'2027-02-13',n:'GSTR 5 / GSTR 6',          p:'January 2027', c:'GST'},
+  {id:59,d:'2027-03-13',n:'IFF (QRMP)',                p:'February 2027',c:'GST'},
+  {id:60,d:'2027-03-13',n:'GSTR 5 / GSTR 6',          p:'February 2027',c:'GST'},
+  // ── DAY 15 ──
+  {id:61,d:'2026-04-15',n:'PF / ESIC Payment',          p:'March 2026',    c:'PF/ESIC'},
+  {id:62,d:'2026-05-15',n:'TCS Return Q4',               p:'FY 2025-26',    c:'TDS/TCS'},
+  {id:63,d:'2026-05-15',n:'PF / ESIC Payment',           p:'April 2026',    c:'PF/ESIC'},
+  {id:64,d:'2026-06-15',n:'TDS Certificate Q4',          p:'FY 2025-26',    c:'TDS/TCS'},
+  {id:65,d:'2026-06-15',n:'Advance Tax 1st Instalment',  p:'TY 2026-27',    c:'Income Tax'},
+  {id:66,d:'2026-06-15',n:'PF / ESIC Payment',           p:'May 2026',      c:'PF/ESIC'},
+  {id:67,d:'2026-07-15',n:'TCS Return Q1',               p:'TY 2026-27',    c:'TDS/TCS'},
+  {id:68,d:'2026-07-15',n:'PF / ESIC Payment',           p:'June 2026',     c:'PF/ESIC'},
+  {id:69,d:'2026-08-15',n:'TDS Certificate Q1',          p:'TY 2026-27',    c:'TDS/TCS'},
+  {id:70,d:'2026-08-15',n:'PF / ESIC Payment',           p:'July 2026',     c:'PF/ESIC'},
+  {id:71,d:'2026-09-15',n:'Advance Tax 2nd Instalment',  p:'TY 2026-27',    c:'Income Tax'},
+  {id:72,d:'2026-09-15',n:'PF / ESIC Payment',           p:'August 2026',   c:'PF/ESIC'},
+  {id:73,d:'2026-10-15',n:'TCS Return Q2',               p:'TY 2026-27',    c:'TDS/TCS'},
+  {id:74,d:'2026-10-15',n:'PF / ESIC Payment',           p:'September 2026',c:'PF/ESIC'},
+  {id:75,d:'2026-11-15',n:'TDS Certificate Q2',          p:'TY 2026-27',    c:'TDS/TCS'},
+  {id:76,d:'2026-11-15',n:'PF / ESIC Payment',           p:'October 2026',  c:'PF/ESIC'},
+  {id:77,d:'2026-12-15',n:'Advance Tax 3rd Instalment',  p:'TY 2026-27',    c:'Income Tax'},
+  {id:78,d:'2026-12-15',n:'PF / ESIC Payment',           p:'November 2026', c:'PF/ESIC'},
+  {id:79,d:'2027-01-15',n:'TCS Return Q3',               p:'TY 2026-27',    c:'TDS/TCS'},
+  {id:80,d:'2027-01-15',n:'PF / ESIC Payment',           p:'December 2026', c:'PF/ESIC'},
+  {id:81,d:'2027-02-15',n:'TDS Certificate Q3',          p:'TY 2026-27',    c:'TDS/TCS'},
+  {id:82,d:'2027-02-15',n:'PF / ESIC Payment',           p:'January 2027',  c:'PF/ESIC'},
+  {id:83,d:'2027-03-15',n:'Advance Tax 4th Instalment',  p:'TY 2026-27',    c:'Income Tax'},
+  {id:84,d:'2027-03-15',n:'PF / ESIC Payment',           p:'February 2027', c:'PF/ESIC'},
+  // ── DAY 18: GST CMP-08 ──
+  {id:85,d:'2026-04-18',n:'GST CMP-08',p:'Q4 FY 2025-26',c:'GST'},
+  {id:86,d:'2026-07-18',n:'GST CMP-08',p:'Q1 FY 2026-27',c:'GST'},
+  {id:87,d:'2026-10-18',n:'GST CMP-08',p:'Q2 FY 2026-27',c:'GST'},
+  {id:88,d:'2027-01-18',n:'GST CMP-08',p:'Q3 FY 2026-27',c:'GST'},
+  // ── DAY 20: GSTR 3B / 5A Monthly ──
+  {id:89, d:'2026-04-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'March 2026',    c:'GST'},
+  {id:90, d:'2026-05-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'April 2026',    c:'GST'},
+  {id:91, d:'2026-06-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'May 2026',      c:'GST'},
+  {id:92, d:'2026-07-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'June 2026',     c:'GST'},
+  {id:93, d:'2026-08-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'July 2026',     c:'GST'},
+  {id:94, d:'2026-09-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'August 2026',   c:'GST'},
+  {id:95, d:'2026-10-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'September 2026',c:'GST'},
+  {id:96, d:'2026-11-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'October 2026',  c:'GST'},
+  {id:97, d:'2026-12-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'November 2026', c:'GST'},
+  {id:98, d:'2027-01-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'December 2026', c:'GST'},
+  {id:99, d:'2027-02-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'January 2027',  c:'GST'},
+  {id:100,d:'2027-03-20',n:'GSTR 3B / GSTR 5A (Monthly)',p:'February 2027', c:'GST'},
+  // ── DAY 22: GSTR 3B QRMP Group A ──
+  {id:101,d:'2026-04-22',n:'GSTR 3B Q4 FY 25-26 (QRMP Grp A)',p:'Q4 FY 2025-26',c:'GST'},
+  {id:102,d:'2026-07-22',n:'GSTR 3B Q1 FY 26-27 (QRMP Grp A)',p:'Q1 FY 2026-27',c:'GST'},
+  {id:103,d:'2026-10-22',n:'GSTR 3B Q2 FY 26-27 (QRMP Grp A)',p:'Q2 FY 2026-27',c:'GST'},
+  {id:104,d:'2027-01-22',n:'GSTR 3B Q3 FY 26-27 (QRMP Grp A)',p:'Q3 FY 2026-27',c:'GST'},
+  // ── DAY 24: GSTR 3B QRMP Group B ──
+  {id:105,d:'2026-04-24',n:'GSTR 3B Q4 FY 25-26 (QRMP Grp B)',p:'Q4 FY 2025-26',c:'GST'},
+  {id:106,d:'2026-07-24',n:'GSTR 3B Q1 FY 26-27 (QRMP Grp B)',p:'Q1 FY 2026-27',c:'GST'},
+  {id:107,d:'2026-10-24',n:'GSTR 3B Q2 FY 26-27 (QRMP Grp B)',p:'Q2 FY 2026-27',c:'GST'},
+  {id:108,d:'2027-01-24',n:'GSTR 3B Q3 FY 26-27 (QRMP Grp B)',p:'Q3 FY 2026-27',c:'GST'},
+  // ── DAY 25: GST PMT-06 QRMP ──
+  {id:109,d:'2026-05-25',n:'GST PMT-06 (QRMP)',p:'April 2026',   c:'GST'},
+  {id:110,d:'2026-06-25',n:'GST PMT-06 (QRMP)',p:'May 2026',     c:'GST'},
+  {id:111,d:'2026-08-25',n:'GST PMT-06 (QRMP)',p:'July 2026',    c:'GST'},
+  {id:112,d:'2026-09-25',n:'GST PMT-06 (QRMP)',p:'August 2026',  c:'GST'},
+  {id:113,d:'2026-11-25',n:'GST PMT-06 (QRMP)',p:'October 2026', c:'GST'},
+  {id:114,d:'2026-12-25',n:'GST PMT-06 (QRMP)',p:'November 2026',c:'GST'},
+  {id:115,d:'2027-02-25',n:'GST PMT-06 (QRMP)',p:'January 2027', c:'GST'},
+  {id:116,d:'2027-03-25',n:'GST PMT-06 (QRMP)',p:'February 2027',c:'GST'},
+  // ── DAY 30 ──
+  {id:117,d:'2026-04-30',n:'TDS Payment (March)',              p:'March 2026',  c:'TDS/TCS'},
+  {id:118,d:'2026-05-30',n:'TCS Certificate Q4',              p:'FY 2025-26',  c:'TDS/TCS'},
+  {id:119,d:'2026-06-30',n:'Equalisation Levy Statement',     p:'FY 2025-26',  c:'Other'},
+  {id:120,d:'2026-06-30',n:'GSTR 4',                          p:'FY 2025-26',  c:'GST'},
+  {id:121,d:'2026-07-30',n:'TCS Certificate Q1',              p:'TY 2026-27',  c:'TDS/TCS'},
+  {id:122,d:'2026-09-30',n:'Tax Audit Report',                p:'AY 2026-27',  c:'Income Tax'},
+  {id:123,d:'2026-10-30',n:'TCS Certificate Q2',              p:'TY 2026-27',  c:'TDS/TCS'},
+  {id:124,d:'2026-11-30',n:'ITR – Transfer Pricing Cases (S. 92E)',p:'AY 2026-27',c:'Income Tax'},
+  {id:125,d:'2027-01-30',n:'TCS Certificate Q3',              p:'TY 2026-27',  c:'TDS/TCS'},
+  // ── DAY 31 ──
+  {id:126,d:'2026-05-31',n:'TDS Return Q4',                   p:'FY 2025-26',  c:'TDS/TCS'},
+  {id:127,d:'2026-07-31',n:'TDS Return Q1',                   p:'TY 2026-27',  c:'TDS/TCS'},
+  {id:128,d:'2026-07-31',n:'ITR Filing — Non-Audit (ITR 1 & ITR 2)',p:'AY 2026-27',c:'Income Tax'},
+  {id:129,d:'2026-08-31',n:'ITR Filing — Non-Audit (ITR 3 & ITR 4)',p:'AY 2026-27',c:'Income Tax'},
+  {id:130,d:'2026-10-31',n:'TDS Return Q2',                   p:'TY 2026-27',  c:'TDS/TCS'},
+  {id:131,d:'2026-10-31',n:'ITR Filing (Audit Cases)',         p:'AY 2026-27',  c:'Income Tax'},
+  {id:132,d:'2026-10-31',n:'Transfer Pricing Audit',           p:'AY 2026-27',  c:'Income Tax'},
+  {id:133,d:'2026-12-31',n:'Belated ITR',                      p:'AY 2026-27',  c:'Income Tax'},
+  {id:134,d:'2026-12-31',n:'GSTR 9 / GSTR 9C',                p:'FY 2025-26',  c:'GST'},
+  {id:135,d:'2027-01-31',n:'TDS Return Q3',                   p:'TY 2026-27',  c:'TDS/TCS'},
+  {id:136,d:'2027-03-31',n:'Revised ITR',                     p:'AY 2026-27',  c:'Income Tax'},
+];
+
+// ══════════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════════
+// FY months in order: Apr=4...Mar=3 (next year)
+const FY_MONTHS=[
+  ['Apr',4,2026],['May',5,2026],['Jun',6,2026],['Jul',7,2026],
+  ['Aug',8,2026],['Sep',9,2026],['Oct',10,2026],['Nov',11,2026],
+  ['Dec',12,2026],['Jan',1,2027],['Feb',2,2027],['Mar',3,2027]
+];
+const MO_FULL=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MO_SHORT=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function daysLeft(ds){const d=new Date(ds);d.setHours(0,0,0,0);return Math.ceil((d-REFERENCE_DATE)/86400000)}
+function getStatus(n){return n<0?'ov':n<=3?'cr':n<=7?'ur':n<=30?'up':'ok'}
+function statusLabel(s,n){
+  if(s==='ov')return`${Math.abs(n)}d overdue`;
+  if(s==='cr'||s==='ur')return`${n}d left`;
+  if(s==='up')return`${n}d left`;
+  return`${n}d`;
+}
+const SB={ov:'sb-ov',cr:'sb-cr',ur:'sb-ur',up:'sb-up',ok:'sb-ok'};
+const CB={'GST':'cb-gst','TDS/TCS':'cb-tds','PF/ESIC':'cb-pf','Income Tax':'cb-it','Company Law':'cb-co','Other':'cb-ot'};
+const EV={'GST':'ev-gst','TDS/TCS':'ev-tds','PF/ESIC':'ev-pf','Income Tax':'ev-it','Company Law':'ev-co','Other':'ev-ot'};
+const CC={'GST':'#16a34a','TDS/TCS':'#1a56db','PF/ESIC':'#7c3aed','Income Tax':'#dc2626','Company Law':'#d97706','Other':'#475569'};
+function fmtDate(ds){const d=new Date(ds);return{s:`${String(d.getDate()).padStart(2,'0')} ${MO_SHORT[d.getMonth()]}`,y:d.getFullYear()}}
+
+// ── match month filter: [mon_num, year] ──
+function matchMonth(ds, mf){
+  if(!mf) return true;
+  const d=new Date(ds);
+  return d.getMonth()+1===mf[1] && d.getFullYear()===mf[2];
+}
+
+// Safe local date string — avoids UTC timezone offset shifting the date
+function localDateStr(d){
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+let state={monthIdx:null,cat:'All',search:'',statusF:'all',view:'table'};
+let isDark=false;
+let calYear=TODAY.getFullYear(), calMonth=TODAY.getMonth();
+let filteredRows=[];
+
+// ══════════════════════════════════════════════
+//  INIT — default to current month in FY
+// ══════════════════════════════════════════════
+function init(){
+  // Set sticky banner offset to match actual header height
+  const setHdrH=()=>document.documentElement.style.setProperty('--hdr-h',document.querySelector('.hdr').offsetHeight+'px');
+  setHdrH();
+  window.addEventListener('resize',setHdrH);
+  updateDateBadge();
+  // Do NOT pre-set customDateInp value here — it causes date to show visually on mobile
+  renderStats();
+
+  // Find current month in FY_MONTHS
+  const cm=REFERENCE_DATE.getMonth()+1, cy=REFERENCE_DATE.getFullYear();
+  const defIdx=FY_MONTHS.findIndex(([,m,y])=>m===cm&&y===cy);
+  state.monthIdx = defIdx>=0 ? defIdx : null;
+
+  // Month pills
+  const mp=document.getElementById('monthPills');
+  const allPill=document.createElement('button');
+  allPill.className='pill'+(state.monthIdx===null?' on':'');
+  allPill.textContent='All';
+  allPill.onclick=()=>{state.monthIdx=null;state.statusF='all';refreshPills('monthPills',allPill);clearStatActive();applyFilters()};
+  mp.appendChild(allPill);
+
+  FY_MONTHS.forEach(([lbl,m,y],idx)=>{
+    const b=document.createElement('button');
+    b.className='pill'+(idx===state.monthIdx?' on':'');
+    b.textContent=lbl+(y===2027?"'27":"'26");
+    b.onclick=()=>{state.monthIdx=idx;state.statusF='all';refreshPills('monthPills',b);clearStatActive();applyFilters()};
+    mp.appendChild(b);
+  });
+
+  // Category pills
+  const cp=document.getElementById('catPills');
+  ['All','GST','TDS/TCS','PF/ESIC','Income Tax','Company Law','Other'].forEach(cat=>{
+    const b=document.createElement('button');
+    b.className='pill'+(cat==='All'?' on':'');
+    b.textContent=cat;
+    b.onclick=()=>{state.cat=cat;state.statusF='all';refreshPills('catPills',b);clearStatActive();applyFilters()};
+    cp.appendChild(b);
+  });
+
+  applyFilters();
+}
+
+function refreshPills(id,btn){
+  document.querySelectorAll('#'+id+' .pill').forEach(x=>x.classList.remove('on'));
+  btn.classList.add('on');
+}
+function clearStatActive(){document.querySelectorAll('.stat').forEach(x=>x.classList.remove('active'))}
+
+// ══════════════════════════════════════════════
+//  DARK MODE
+// ══════════════════════════════════════════════
+function toggleDark(){
+  isDark=!isDark;
+  document.body.classList.toggle('dk',isDark);
+  document.querySelector('.hdr-btn').textContent=isDark?'☀ Light':'☾ Dark';
+}
+
+// ══════════════════════════════════════════════
+//  STATS
+// ══════════════════════════════════════════════
+function renderStats(){
+  const rows=allRows().map(x=>{const d=daysLeft(x.d);return{...x,_dl:d,_st:getStatus(d)}});
+  const ov=rows.filter(x=>x._st==='ov').length;
+  const cr=rows.filter(x=>x._st==='cr').length;
+  const ur=rows.filter(x=>x._st==='ur').length;
+  const up=rows.filter(x=>x._st==='up').length;
+  const cards=[
+    {k:'all',     num:rows.length, lbl:'Total Deadlines',   hint:'Apr 2026 – Mar 2027',   col:'#1a56db'},
+    {k:'overdue', num:ov,          lbl:'Overdue',            hint:'Past due date',          col:'#dc2626'},
+    {k:'urgent',  num:cr+ur,       lbl:'Due in 7 Days',      hint:'Needs immediate action', col:'#d97706'},
+    {k:'upcoming',num:up,          lbl:'Upcoming (30d)',     hint:'Due within 30 days',     col:'#16a34a'},
+  ];
+  document.getElementById('statsGrid').innerHTML=cards.map(c=>`
+    <div class="stat" style="--sc:${c.col}" onclick="filterByStatus('${c.k}',this)">
+      <div class="stat-num">${c.num}</div>
+      <div class="stat-lbl">${c.lbl}</div>
+      <div class="stat-hint">${c.hint}</div>
+    </div>`).join('');
+}
+
+function filterByStatus(k,el){
+  state.statusF=(state.statusF===k)?'all':k;
+  state.monthIdx=null; state.cat='All'; state.search='';
+  document.getElementById('searchInp').value='';
+  document.querySelectorAll('#monthPills .pill').forEach((x,i)=>x.classList.toggle('on',i===0));
+  document.querySelectorAll('#catPills .pill').forEach((x,i)=>x.classList.toggle('on',i===0));
+  clearStatActive();
+  if(state.statusF!=='all') el.classList.add('active');
+  applyFilters();
+}
+
+// ══════════════════════════════════════════════
+//  VIEW SWITCHER
+// ══════════════════════════════════════════════
+function setView(v){
+  state.view=v;
+  ['table','grid','calendar'].forEach(x=>{
+    const el=document.getElementById('view'+x.charAt(0).toUpperCase()+x.slice(1));
+    if(el) el.style.display=x===v?'block':'none';
+    const btn=document.getElementById('vbtn-'+x);
+    if(btn) btn.classList.toggle('on',x===v);
+  });
+  const sw=document.getElementById('sepToggleWrap');
+  if(sw) sw.style.display=v==='table'?'flex':'none';
+  if(v==='calendar' && state.monthIdx!==null){
+    const [,m,y]=FY_MONTHS[state.monthIdx];
+    calMonth=m-1; calYear=y;
+  }
+  renderCurrentView();
+}
+
+// ══════════════════════════════════════════════
+//  FILTER
+// ══════════════════════════════════════════════
+function applyFilters(){
+  state.search=document.getElementById('searchInp').value.toLowerCase().trim();
+  const mf = state.monthIdx!==null ? FY_MONTHS[state.monthIdx] : null;
+  filteredRows=allRows()
+    .map(x=>{const d=daysLeft(x.d);return{...x,_dl:d,_st:getStatus(d)}})
+    .filter(x=>{
+      if(mf && !matchMonth(x.d,mf)) return false;
+      if(state.cat!=='All' && x.c!==state.cat) return false;
+      if(state.search && !x.n.toLowerCase().includes(state.search)&&!x.p.toLowerCase().includes(state.search)&&!x.c.toLowerCase().includes(state.search)) return false;
+      if(state.statusF==='overdue' && x._st!=='ov') return false;
+      if(state.statusF==='urgent'  && x._st!=='cr'&&x._st!=='ur') return false;
+      if(state.statusF==='upcoming'&& x._st!=='cr'&&x._st!=='ur'&&x._st!=='up') return false;
+      return true;
+    })
+    .sort((a,b)=>new Date(a.d)-new Date(b.d));
+
+  document.getElementById('resCount').innerHTML=
+    `Showing <strong>${filteredRows.length}</strong> of <strong>${allRows().length}</strong> deadlines`+
+    (customEntries.length?` <span style="color:var(--muted2);font-size:11px">(+${customEntries.length} custom)</span>`:'');
+
+  const statusLabels={'overdue':'Overdue','urgent':'Due in 7 Days','upcoming':'Upcoming 30d'};
+  const tags=[];
+  if(state.statusF!=='all') tags.push(statusLabels[state.statusF]||state.statusF);
+  if(mf) tags.push(`${mf[0]} ${mf[2]}`);
+  if(state.cat!=='All') tags.push(state.cat);
+  if(state.search) tags.push(`"${state.search}"`);
+  document.getElementById('resTags').textContent=tags.length?'↳ '+tags.join(' · '):'';
+
+  renderInsightPanels();
+  renderCurrentView();
+}
+
+function renderCurrentView(){
+  if(state.view==='table')         renderTable();
+  else if(state.view==='grid')     renderGrid();
+  else if(state.view==='calendar') renderCalendar();
+}
+
+// ══════════════════════════════════════════════
+//  TABLE VIEW — with month separators
+// ══════════════════════════════════════════════
+function waIcon(){
+  return`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.556 4.122 1.528 5.853L0 24l6.304-1.504A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.893 0-3.677-.508-5.218-1.394l-.374-.222-3.746.894.911-3.64-.243-.388A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>`;
+}
+
+function renderTable(){
+  const el=document.getElementById('viewTable');
+  if(!filteredRows.length){el.innerHTML=emptyHTML();return}
+  const useSep=document.getElementById('sepToggle')?.checked!==false;
+  const hasCustom=filteredRows.some(r=>r.id>=10000);
+  const cols=hasCustom?7:6;
+  let rows='';
+  let lastMonth='';
+  filteredRows.forEach(r=>{
+    const{s,y}=fmtDate(r.d);
+    const isC=r.id>=10000;
+    const d=new Date(r.d);
+    const mKey=`${d.getFullYear()}-${d.getMonth()}`;
+    const mLabel=`${MO_FULL[d.getMonth()]} ${d.getFullYear()}`;
+    const mColor=MONTH_COLORS[d.getMonth()];
+    if(useSep && mKey!==lastMonth){
+      lastMonth=mKey;
+      rows+=`<tr class="month-sep"><td colspan="${cols}"><div class="month-sep-lbl" style="color:${mColor}">
+        <span class="month-sep-dot" style="background:${mColor}"></span>
+        ${mLabel}
+        <span class="month-sep-dot" style="background:${mColor}"></span>
+        <button class="month-exp-btn" style="color:${mColor}" onclick="exportMonthPDF('${mKey}','${mLabel}')" title="Export ${mLabel} as PDF">⬇ PDF</button>
+        <button class="month-exp-btn" style="color:${mColor}" onclick="exportMonthImage('${mKey}','${mLabel}')" title="Export ${mLabel} as Image">📷 Image</button>
+        <button class="month-exp-btn" style="color:#25d366;border-color:#25d366;padding:2px 5px;display:inline-flex;align-items:center" onclick="showBarWAMenu(this,'${mKey}','${mLabel}')" title="Send ${mLabel} on WhatsApp">${waIcon()}</button>
+      </div></td></tr>`;
+    }
+    rows+=`<tr>
+      <td><div class="td-d">${s}</div><div class="td-dy">${y}</div></td>
+      <td><span class="sbadge ${SB[r._st]}">${statusLabel(r._st,r._dl)}</span></td>
+      <td><div class="td-n">${r.n}${isC?'<span class="custom-tag">CUSTOM</span>':''}</div></td>
+      <td><div class="td-p">${r.p}</div></td>
+      <td><span class="cbadge ${CB[r.c]||'cb-ot'}">${r.c}</span></td>
+      <td><button class="wa-btn" onclick="sendWA(${r.id})">${waIcon()}WA</button></td>
+      ${hasCustom?`<td>${isC?`<button class="del-btn" onclick="deleteCustom(${r.id})">✕</button>`:''}</td>`:''}
+    </tr>`;
+  });
+  el.innerHTML=`<div class="tbl-wrap"><div class="tbl-scroll"><table>
+    <thead><tr>
+      <th>Due Date</th><th>Status</th><th>Compliance</th><th>Period</th><th>Category</th><th>WhatsApp</th>
+      ${hasCustom?'<th></th>':''}
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table></div></div>`;
+}
+
+// ══════════════════════════════════════════════
+//  CARD GRID VIEW — month colour sections
+// ══════════════════════════════════════════════
+function renderGrid(){
+  const el=document.getElementById('viewGrid');
+  if(!filteredRows.length){el.innerHTML=emptyHTML();return}
+  // Group by month
+  const groups={};
+  const groupOrder=[];
+  filteredRows.forEach(r=>{
+    const d=new Date(r.d);
+    const key=`${d.getFullYear()}-${String(d.getMonth()).padStart(2,'0')}`;
+    if(!groups[key]){groups[key]={label:`${MO_FULL[d.getMonth()]} ${d.getFullYear()}`,color:MONTH_COLORS[d.getMonth()],rows:[]};groupOrder.push(key);}
+    groups[key].rows.push(r);
+  });
+  el.innerHTML=groupOrder.map(key=>{
+    const g=groups[key];
+    const mc=g.color;
+    return`<div class="grid-month-section">
+      <div class="grid-month-header" style="background:${mc}18;--mc:${mc}">
+        <span class="month-sep-dot" style="background:${mc}"></span>
+        <div class="grid-month-title" style="color:${mc}">${g.label}</div>
+        <span class="month-sep-dot" style="background:${mc}"></span>
+        <div class="grid-month-count">${g.rows.length} deadline${g.rows.length!==1?'s':''}</div>
+        <button class="month-exp-btn" style="color:${mc};margin-left:auto" onclick="exportMonthPDF('${key}','${g.label}')" title="Export ${g.label} as PDF">⬇ PDF</button>
+        <button class="month-exp-btn" style="color:${mc}" onclick="exportMonthImage('${key}','${g.label}')" title="Export ${g.label} as Image">📷 Image</button>
+        <button class="month-exp-btn" style="color:#25d366;border-color:#25d366;padding:2px 5px;display:inline-flex;align-items:center" onclick="showBarWAMenu(this,'${key}','${g.label}')" title="Send ${g.label} on WhatsApp">${waIcon()}</button>
+      </div>
+      <div class="grid-view">${g.rows.map(r=>{
+        const{s,y}=fmtDate(r.d);
+        const isC=r.id>=10000;
+        return`<div class="card" style="--cc:${mc};border-top:3px solid ${mc}">
+          <div class="card-top">
+            <div class="card-name">${r.n}${isC?'<span class="custom-tag">CUSTOM</span>':''}</div>
+            <span class="sbadge ${SB[r._st]}" style="flex-shrink:0">${statusLabel(r._st,r._dl)}</span>
+          </div>
+          <div class="card-meta">
+            <span class="card-date" style="border-color:${mc}40;color:${mc}">${s} ${y}</span>
+            <span class="card-period">${r.p}</span>
+          </div>
+          <div class="card-footer">
+            <span class="cbadge ${CB[r.c]||'cb-ot'}">${r.c}</span>
+            <div style="display:flex;gap:5px">
+              <button class="wa-btn" onclick="sendWA(${r.id})">${waIcon()}WA</button>
+              ${isC?`<button class="del-btn" onclick="deleteCustom(${r.id})">✕</button>`:''}
+            </div>
+          </div>
+        </div>`;
+      }).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+//  CALENDAR VIEW — enhanced
+// ══════════════════════════════════════════════
+function renderCalendar(){
+  const el=document.getElementById('viewCalendar');
+  const map={};
+  filteredRows.forEach(r=>{
+    if(!map[r.d]) map[r.d]=[];
+    map[r.d].push(r);
+  });
+  const year=calYear, month=calMonth;
+  const firstDay=new Date(year,month,1).getDay();
+  const daysInMonth=new Date(year,month+1,0).getDate();
+  const refD=REFERENCE_DATE;
+  const refStr=`${refD.getFullYear()}-${String(refD.getMonth()+1).padStart(2,'0')}-${String(refD.getDate()).padStart(2,'0')}`;
+  const dows=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const totalDeadlines=filteredRows.filter(r=>{
+    const d=new Date(r.d);
+    return d.getMonth()===month && d.getFullYear()===year;
+  }).length;
+  let cells='';
+  for(let i=0;i<firstDay;i++) cells+=`<div class="cal-cell empty"></div>`;
+  for(let day=1;day<=daysInMonth;day++){
+    const ds=`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const items=map[ds]||[];
+    const isRef=ds===refStr;
+    const dow=new Date(year,month,day).getDay();
+    const isWeekend=dow===0||dow===6;
+    const show=items.slice(0,3), more=items.length-3;
+    const dots=items.slice(0,6).map(r=>`<div class="cal-dot" style="background:${CC[r.c]||'#475569'}" title="${r.n}"></div>`).join('');
+    cells+=`<div class="cal-cell${isRef?' today':''}${isWeekend?' weekend-cell':''}">
+      <div class="cal-day-num">${day}</div>
+      ${show.map(r=>`<div class="cal-event ${EV[r.c]||'ev-ot'}" onclick="calEventClick(this,${r.id})" style="cursor:pointer">${r.n}</div>`).join('')}
+      ${more>0?`<div class="cal-more" onclick="showMore(this,${JSON.stringify(items.slice(3).map(r=>({n:r.n,p:r.p,id:r.id}))).replace(/"/g,'&quot;')})">+${more} more</div>`:''}
+      ${items.length>0&&items.length<=3?`<div class="cal-deadlines-bar">${dots}</div>`:''}
+    </div>`;
+  }
+  const trailing=(7-(firstDay+daysInMonth)%7)%7;
+  for(let i=0;i<trailing;i++) cells+=`<div class="cal-cell empty"></div>`;
+
+  const legendItems=[
+    {cls:'ev-gst',col:'#16a34a',lbl:'GST'},
+    {cls:'ev-tds',col:'#1a56db',lbl:'TDS/TCS'},
+    {cls:'ev-pf', col:'#7c3aed',lbl:'PF/ESIC'},
+    {cls:'ev-it', col:'#dc2626',lbl:'Income Tax'},
+    {cls:'ev-co', col:'#d97706',lbl:'Co. Law'},
+    {cls:'ev-ot', col:'#475569',lbl:'Other'},
+  ];
+
+  el.innerHTML=`<div class="cal-wrap">
+    <div class="cal-hdr">
+      <div class="cal-hdr-left">
+        <div class="cal-month-lbl">${MO_FULL[month]} ${year}</div>
+        <div class="cal-month-sub">
+          <span>${totalDeadlines} deadline${totalDeadlines!==1?'s':''} this month</span>
+        </div>
+      </div>
+      <div class="cal-nav">
+        <button class="cal-nav-btn today-btn" onclick="jumpToday()">↻ Today</button>
+        <button class="cal-nav-btn" onclick="calNav(-1)">← Prev</button>
+        <button class="cal-nav-btn" onclick="calNav(1)">Next →</button>
+      </div>
+    </div>
+    <div class="cal-legend">
+      ${legendItems.map(l=>`<div class="cal-legend-item"><div class="cal-legend-dot" style="background:${l.col}"></div>${l.lbl}</div>`).join('')}
+    </div>
+    <div class="cal-grid">
+      ${dows.map((d,i)=>`<div class="cal-dow${i===0||i===6?' weekend':''}">${d}</div>`).join('')}
+      ${cells}
+    </div>
+  </div>`;
+}
+
+function calNav(dir){
+  calMonth+=dir;
+  if(calMonth<0){calMonth=11;calYear--}
+  if(calMonth>11){calMonth=0;calYear++}
+  renderCalendar();
+}
+function jumpToday(){
+  calYear=REFERENCE_DATE.getFullYear(); calMonth=REFERENCE_DATE.getMonth(); renderCalendar();
+}
+
+// ══════════════════════════════════════════════
+//  CUSTOM REFERENCE DATE
+// ══════════════════════════════════════════════
+function syncDefaultMonth(){
+  const cm=REFERENCE_DATE.getMonth()+1, cy=REFERENCE_DATE.getFullYear();
+  const idx=FY_MONTHS.findIndex(([,m,y])=>m===cm&&y===cy);
+  state.monthIdx=idx>=0?idx:null;
+  document.querySelectorAll('#monthPills .pill').forEach((x,i)=>{
+    x.classList.toggle('on', idx>=0?(i===idx+1):(i===0));
+  });
+}
+
+function updateDateBadge(){
+  const isCustom=REFERENCE_DATE.toDateString()!==TODAY.toDateString();
+  const badge=document.getElementById('todayBadge');
+  badge.textContent=REFERENCE_DATE.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+  badge.style.background=isCustom?'rgba(234,179,8,.2)':'rgba(26,86,219,.2)';
+  badge.style.borderColor=isCustom?'rgba(234,179,8,.4)':'rgba(26,86,219,.35)';
+  badge.style.color=isCustom?'#fcd34d':'#79c0ff';
+  const resetBtn=document.getElementById('dateResetBtn');
+  if(resetBtn) resetBtn.style.display=isCustom?'inline':'none';
+}
+function toggleDatePicker(){
+  const inp=document.getElementById('customDateInp');
+  const isHidden=inp.style.display==='none'||inp.style.display===''||inp.style.visibility==='hidden';
+  if(isHidden){
+    inp.style.display='inline-block';
+    inp.style.visibility='visible';
+    inp.value=localDateStr(TODAY);
+    inp.focus();
+  } else {
+    inp.style.display='none';
+    inp.style.visibility='hidden';
+  }
+}
+function applyCustomDate(){
+  const val=document.getElementById('customDateInp').value;
+  if(!val) return;
+  const [y,m,d]=val.split('-').map(Number);
+  REFERENCE_DATE=new Date(y,m-1,d);
+  REFERENCE_DATE.setHours(0,0,0,0);
+  // Sync calendar view to the new date's month
+  calYear=REFERENCE_DATE.getFullYear();
+  calMonth=REFERENCE_DATE.getMonth();
+  const ci=document.getElementById('customDateInp');
+  ci.style.display='none'; ci.style.visibility='hidden';
+  updateDateBadge();
+  syncDefaultMonth();
+  renderStats(); applyFilters();
+}
+function resetDate(){
+  REFERENCE_DATE=new Date(TODAY);
+  calYear=TODAY.getFullYear();
+  calMonth=TODAY.getMonth();
+  const ri=document.getElementById('customDateInp');
+  ri.value=localDateStr(TODAY); ri.style.display='none'; ri.style.visibility='hidden';
+  updateDateBadge();
+  syncDefaultMonth();
+  renderStats(); applyFilters();
+}
+function calEventClick(el, id){
+  document.querySelectorAll('.cal-popover').forEach(p=>p.remove());
+  const r=allRows().find(x=>x.id===id);
+  if(!r) return;
+  const{s,y}=fmtDate(r.d);
+  const dl=daysLeft(r.d);
+  const pop=document.createElement('div');
+  pop.className='cal-popover';
+  pop.innerHTML=`
+    <div style="padding:10px 14px;border-bottom:1px solid var(--border)">
+      <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px">${r.n}</div>
+      <div style="font-size:11px;color:var(--muted)">${r.p} · ${s} ${y}</div>
+    </div>
+    <div style="padding:8px 14px;display:flex;gap:8px;align-items:center">
+      <span class="sbadge ${SB[getStatus(dl)]}" style="font-size:10px">${statusLabel(getStatus(dl),dl)}</span>
+      <button class="wa-btn" onclick="sendWA(${r.id});document.querySelectorAll('.cal-popover').forEach(p=>p.remove())" style="font-size:11px;padding:4px 10px 4px 8px">${waIcon()}WA</button>
+    </div>`;
+  document.body.appendChild(pop);
+  positionPopover(pop, el);
+  setTimeout(()=>document.addEventListener('click',function h(){pop.remove();document.removeEventListener('click',h);}),80);
+}
+
+function showMore(el,items){
+  document.querySelectorAll('.cal-popover').forEach(p=>p.remove());
+  const pop=document.createElement('div');
+  pop.className='cal-popover';
+  pop.innerHTML=items.map(item=>`
+    <div class="cal-popover-item" style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+      <span style="flex:1;font-size:11px">${item.n} <span style="color:var(--muted2)">(${item.p})</span></span>
+      <button class="wa-btn" onclick="sendWA(${item.id});document.querySelectorAll('.cal-popover').forEach(p=>p.remove())" style="font-size:10px;padding:3px 8px 3px 6px;flex-shrink:0">${waIcon()}WA</button>
+    </div>`).join('');
+  document.body.appendChild(pop);
+  positionPopover(pop, el);
+  setTimeout(()=>document.addEventListener('click',function h(){pop.remove();document.removeEventListener('click',h);}),80);
+}
+
+// Smart viewport-aware popover positioning
+function positionPopover(pop, anchor){
+  const rect=anchor.getBoundingClientRect();
+  // Get measured dimensions after appending to DOM
+  const pw=Math.max(pop.offsetWidth,240);
+  const ph=Math.max(pop.offsetHeight,80);
+  const vw=window.innerWidth, vh=window.innerHeight;
+  // Horizontal: align to anchor left, clamp to viewport edges
+  let left=Math.min(rect.left, vw-pw-8);
+  left=Math.max(8, left);
+  // Vertical: prefer below, flip above if not enough space below
+  let top=rect.bottom+6;
+  if(top+ph>vh-8) top=Math.max(8, rect.top-ph-6);
+  pop.style.left=left+'px';
+  pop.style.top=top+'px';
+}
+
+// ══════════════════════════════════════════════
+//  WHATSAPP
+// ══════════════════════════════════════════════
+function sendWA(id){
+  const r=allRows().find(x=>x.id===id);
+  if(!r) return;
+  const dl=daysLeft(r.d);
+  const dueFmt=new Date(r.d).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});
+  const status=dl>=0?`Due in *${dl} days*`:`*OVERDUE by ${Math.abs(dl)} days*`;
+  const msg=`Dear Client,
+
+This is a gentle reminder for the following compliance:
+
+*${r.n}*
+Period: ${r.p}
+Due Date: *${dueFmt}*
+Status: ${status}
+
+Kindly ensure timely compliance.
+
+CA Mayur J. Sondagar
+Taxation Updates`;
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+
+// ══════════════════════════════════════════════
+//  ADD / DELETE CUSTOM
+// ══════════════════════════════════════════════
+function openAddModal(){
+  ['f-name','f-date','f-period'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-cat').value='';
+  document.getElementById('f-err').textContent='';
+  document.getElementById('addOverlay').classList.remove('hide');
+  setTimeout(()=>document.getElementById('f-name').focus(),80);
+}
+function closeAddModal(){document.getElementById('addOverlay').classList.add('hide')}
+function addBgClose(e){if(e.target===document.getElementById('addOverlay'))closeAddModal()}
+
+function saveCustom(){
+  const n=document.getElementById('f-name').value.trim();
+  const d=document.getElementById('f-date').value;
+  const c=document.getElementById('f-cat').value;
+  const p=document.getElementById('f-period').value.trim();
+  const err=document.getElementById('f-err');
+  if(!n){err.textContent='Compliance name is required.';return}
+  if(!d){err.textContent='Due date is required.';return}
+  if(!c){err.textContent='Please select a category.';return}
+  err.textContent='';
+  customEntries.push({id:10000+Date.now()%1000000,d,n,p:p||'—',c});
+  saveCustomEntries(); closeAddModal(); renderStats(); applyFilters();
+}
+
+function deleteCustom(id){
+  if(!confirm('Delete this custom entry?')) return;
+  customEntries=customEntries.filter(x=>x.id!==id);
+  saveCustomEntries(); renderStats(); applyFilters();
+}
+
+// ══════════════════════════════════════════════
+//  EXPORT
+// ══════════════════════════════════════════════
+function exportExcel(){
+  const rows=filteredRows.map(r=>{
+    const d=new Date(r.d);
+    const dd=String(d.getDate()).padStart(2,'0');
+    const mm=String(d.getMonth()+1).padStart(2,'0');
+    const yyyy=d.getFullYear();
+    return{
+      'Due Date':`${dd}/${mm}/${yyyy}`,'Compliance':r.n,'Period':r.p,
+      'Category':r.c,'Status':statusLabel(r._st,r._dl)
+    };
+  });
+  const ws=XLSX.utils.json_to_sheet(rows);
+  ws['!cols']=[{wch:12},{wch:42},{wch:22},{wch:14},{wch:14}];
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Compliance FY 2026-27');
+  XLSX.writeFile(wb,'Compliance_Calendar_FY2026-27.xlsx');
+}
+
+function fmtDDMMYYYY(ds){
+  const d=new Date(ds);
+  return`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+}
+
+function exportPDF(){
+  const{jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+  // Header
+  doc.setFillColor(26,86,219);
+  doc.rect(0,0,297,18,'F');
+  doc.setFontSize(13);doc.setFont('helvetica','bold');doc.setTextColor(255,255,255);
+  doc.text('Compliance Calendar FY 2026-27',14,12);
+  doc.setFontSize(8);doc.setFont('helvetica','normal');
+  doc.text(`Taxation Updates  ·  CA Mayur J. Sondagar  ·  Generated: ${new Date().toLocaleDateString('en-IN')}  ·  ${filteredRows.length} of ${allRows().length} deadlines`,160,12);
+  doc.setTextColor(0,0,0);
+  doc.autoTable({
+    startY:22,
+    head:[['Due Date','Compliance','Period','Category','Status']],
+    body:filteredRows.map(r=>[
+      fmtDDMMYYYY(r.d),r.n,r.p,r.c,statusLabel(r._st,r._dl)
+    ]),
+    styles:{fontSize:8,cellPadding:3,lineColor:[180,192,212],lineWidth:0.2},
+    headStyles:{fillColor:[26,86,219],textColor:255,fontStyle:'bold',fontSize:8.5,cellPadding:4},
+    alternateRowStyles:{fillColor:[244,246,251]},
+    columnStyles:{
+      0:{cellWidth:24,fontStyle:'bold'},
+      1:{cellWidth:90},
+      2:{cellWidth:36},
+      3:{cellWidth:28},
+      4:{cellWidth:26}
+    },
+    margin:{left:14,right:14},
+    didDrawPage:(data)=>{
+      // Footer
+      doc.setFontSize(7);doc.setTextColor(150,150,150);
+      doc.text(`TaxationUpdates.com  ·  Page ${data.pageNumber}`,14,doc.internal.pageSize.height-6);
+    }
+  });
+  doc.save('Compliance_Calendar_FY2026-27.pdf');
+}
+
+// ══════════════════════════════════════════════
+//  INSIGHT PANELS — always visible on main page
+// ══════════════════════════════════════════════
+function renderInsightPanels(){
+  const el=document.getElementById('insightPanels');
+  if(!el) return;
+  // Donut + completion use filteredRows so they reflect active filters
+  const rows=filteredRows.length ? filteredRows : allRows().map(r=>{const dl=daysLeft(r.d);return{...r,_dl:dl,_st:getStatus(dl)}});
+  const total=rows.length;
+  const catColors={'GST':'#16a34a','TDS/TCS':'#1a56db','PF/ESIC':'#7c3aed','Income Tax':'#dc2626','Company Law':'#d97706','Other':'#475569'};
+  const catMap={};
+  rows.forEach(r=>{catMap[r.c]=(catMap[r.c]||0)+1});
+  const catEntries=Object.entries(catMap).sort((a,b)=>b[1]-a[1]);
+  // Bar chart always uses allRows() — bars must never disappear when a month is filtered
+  const allEnriched=allRows().map(r=>{const dl=daysLeft(r.d);return{...r,_dl:dl,_st:getStatus(dl)}});
+  const monthCounts=FY_MONTHS.map(([lbl,m,y])=>{
+    const cnt=allEnriched.filter(r=>{const d=new Date(r.d);return d.getMonth()+1===m&&d.getFullYear()===y}).length;
+    return{lbl:lbl+(y===2027?"'27":"'26"),cnt};
+  });
+  const maxCnt=Math.max(...monthCounts.map(x=>x.cnt),1);
+
+  // Build donut — bigger, labels ON segments, no external legend
+  const R=90,cx=112,cy=112,strokeW=34,circ=2*Math.PI*R;
+  const catShort={'GST':'GST','TDS/TCS':'TDS/TCS','PF/ESIC':'PF/ESIC','Income Tax':'Inc.Tax','Company Law':'Co.Law','Other':'Other'};
+  let sliceOffset=0;
+  const donutSlices=catEntries.map(([cat,cnt])=>{
+    const pct=cnt/total;
+    const dash=pct*circ;
+    const startAngle=-Math.PI/2+(sliceOffset/circ)*2*Math.PI;
+    const midAngle=startAngle+(pct*Math.PI);
+    const isActiveCat=state.cat===cat;
+    const sw=isActiveCat?strokeW+6:strokeW;
+    // Label position: centre of arc stroke
+    const lx=cx+R*Math.cos(midAngle);
+    const ly=cy+R*Math.sin(midAngle);
+    const showLabel=pct>=0.05; // only label if >= 5%
+    const slice=`<g onclick="filterByCategory('${cat}')" style="cursor:pointer" title="${cat} (${cnt})">
+      <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${catColors[cat]||'#475569'}" stroke-width="${sw}" stroke-dasharray="${dash} ${circ-dash}" stroke-dashoffset="${-sliceOffset}" style="transform:rotate(-90deg);transform-origin:${cx}px ${cy}px;transition:stroke-width .15s"/>
+      ${showLabel?`<text x="${lx}" y="${ly-4}" text-anchor="middle" fill="#fff" font-size="7" font-weight="700" font-family="Plus Jakarta Sans,sans-serif" pointer-events="none">${catShort[cat]||cat}</text>
+      <text x="${lx}" y="${ly+7}" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="800" font-family="JetBrains Mono,monospace" pointer-events="none">${cnt}</text>`:''}
+    </g>`;
+    sliceOffset+=dash; return slice;
+  }).join('');
+
+  el.innerHTML=`<div class="dash" style="margin-bottom:16px">
+
+    <!-- CATEGORY DONUT — labels on ring, no separate legend -->
+    <div class="dash-panel dash-half">
+      <div class="dash-panel-title">By Category <span style="font-size:10px;color:var(--muted2);font-weight:400;margin-left:6px">— click to filter</span></div>
+      <div style="display:flex;justify-content:center;align-items:center">
+        <svg width="224" height="224" viewBox="0 0 224 224">
+          <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="var(--surface2)" stroke-width="${strokeW}"/>
+          ${donutSlices}
+          <text x="${cx}" y="107" text-anchor="middle" fill="var(--text)" font-size="24" font-weight="800" font-family="JetBrains Mono,monospace">${total}</text>
+          <text x="${cx}" y="124" text-anchor="middle" fill="var(--muted)" font-size="11" font-weight="600" font-family="Plus Jakarta Sans,sans-serif">TOTAL</text>
+          ${state.cat!=='All'?`<text x="${cx}" y="140" text-anchor="middle" fill="${catColors[state.cat]||'#475569'}" font-size="9" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">${state.cat} ✓</text>`:''}
+        </svg>
+      </div>
+    </div>
+
+    <!-- MONTHLY BAR -->
+    <div class="dash-panel dash-full">
+      <div class="dash-panel-title">Deadlines by Month — click bar · double-click to reset</div>
+      <div class="bar-chart">
+        ${monthCounts.map(({lbl,cnt},idx)=>{
+          const isActive=state.monthIdx===idx;
+          const fyKey=`${FY_MONTHS[idx][2]}-${FY_MONTHS[idx][1]-1}`;
+          return`<div class="bar-col"
+            onclick="${cnt?(isActive?`resetMonthFilter()`:`jumpToMonth(${idx})`):'void(0)'}"
+            title="${cnt?(isActive?`Click to reset filter`:`Click: view ${lbl}`):'No deadlines'}"
+            style="${isActive?'background:var(--accent-bg);border-radius:4px;':''}">
+            <div class="bar-num" style="color:${cnt?'var(--text)':'var(--muted2)'}">${cnt||''}</div>
+            <div class="bar-fill" style="height:${cnt?Math.round(cnt/maxCnt*70)+10:2}px;background:${cnt?MONTH_COLORS[FY_MONTHS[idx][1]-1]:'var(--border)'};outline:${isActive?'2px solid var(--accent)':'none'};outline-offset:1px"></div>
+            <div class="bar-lbl" style="color:${isActive?'var(--accent)':'var(--muted)'};font-weight:${isActive?'800':'700'}">${lbl}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+
+  </div>`;
+}
+
+function resetMonthFilter(){
+  state.monthIdx=null; state.statusF='all';
+  document.querySelectorAll('#monthPills .pill').forEach((x,i)=>x.classList.toggle('on',i===0));
+  clearStatActive();
+  applyFilters();
+}
+
+function filterByCategory(cat){
+  // Toggle: second click on same category resets to All
+  state.cat=(state.cat===cat)?'All':cat;
+  state.statusF='all'; state.search='';
+  document.getElementById('searchInp').value='';
+  document.querySelectorAll('#catPills .pill').forEach(x=>{
+    x.classList.toggle('on', state.cat==='All'?x.textContent==='All':x.textContent===state.cat);
+  });
+  clearStatActive();
+  applyFilters();
+}
+
+function getMonthRows(mKey){
+  // mKey = "YYYY-monthIndex" (0-based), e.g. "2026-3" = April 2026
+  const [yr,mo]=mKey.split('-').map(Number);
+  return filteredRows.filter(r=>{const d=new Date(r.d);return d.getFullYear()===yr&&d.getMonth()===mo;});
+}
+
+// ── shared visual builder for month image/PDF ──
+// ── Calendar exports — direct DOM capture ──
+function captureElement(el, callback){
+  if(!el||typeof html2canvas==='undefined'){alert('Capture library not loaded.');return}
+  const bg=isDark?'#161b22':'#ffffff';
+  html2canvas(el,{
+    backgroundColor:bg,
+    scale:1.5,
+    useCORS:true,
+    logging:false,
+    imageTimeout:0
+  }).then(canvas=>{
+    try{ callback(canvas); }
+    catch(e){ console.error('Capture error:',e); alert('Export failed: '+e.message); }
+  }).catch(e=>{ alert('Capture failed: '+e.message); });
+}
+
+function exportCalendarImage(){
+  captureElement(document.getElementById('viewCalendar'),canvas=>{
+    const link=document.createElement('a');
+    link.download=`Calendar_${MO_FULL[calMonth]}_${calYear}.jpg`;
+    link.href=canvas.toDataURL('image/jpeg',0.88);
+    document.body.appendChild(link);link.click();document.body.removeChild(link);
+  });
+}
+
+function exportCalendarPDF(){
+  if(!window.jspdf){alert('PDF library not loaded.');return}
+  captureElement(document.getElementById('viewCalendar'),canvas=>{
+    const{jsPDF}=window.jspdf;
+    const mmW=canvas.width/1.5*0.2646, mmH=canvas.height/1.5*0.2646;
+    const doc=new jsPDF({orientation:mmW>mmH?'landscape':'portrait',unit:'mm',format:[mmW,mmH]});
+    doc.addImage(canvas.toDataURL('image/jpeg',0.88),'JPEG',0,0,mmW,mmH);
+    doc.save(`Calendar_${MO_FULL[calMonth]}_${calYear}.pdf`);
+  });
+}
+
+function exportCalendarWA(){
+  const mLabel=`${MO_FULL[calMonth]} ${calYear}`;
+  const cnt=filteredRows.filter(r=>{const d=new Date(r.d);return d.getMonth()===calMonth&&d.getFullYear()===calYear;}).length;
+  // Open WA first (synchronous user gesture)
+  const msg=`*Compliance Calendar — ${mLabel}*\n\n${cnt} deadline${cnt!==1?'s':''} for ${mLabel}.\nPlease find the attached calendar.\n\nCA Mayur J. Sondagar\nTaxationUpdates.com`;
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+  // Then download image
+  exportCalendarImage();
+}
+
+function buildMonthCanvas(mKey, mLabel, callback){
+  if(typeof html2canvas==='undefined'){alert('html2canvas not loaded.');return}
+  const rows=getMonthRows(mKey);
+  if(!rows.length){alert('No deadlines for '+mLabel);return}
+
+  // Temporarily filter to this month
+  const savedFiltered=[...filteredRows];
+  const [yr,mo]=mKey.split('-').map(Number);
+  filteredRows=allRows()
+    .map(r=>{const dl=daysLeft(r.d);return{...r,_dl:dl,_st:getStatus(dl)}})
+    .filter(r=>{const d=new Date(r.d);return d.getFullYear()===yr&&d.getMonth()===mo;})
+    .sort((a,b)=>new Date(a.d)-new Date(b.d));
+
+  const bgSurface=isDark?'#161b22':'#fff';
+  const bgSurface2=isDark?'#1c2128':'#f0f2f7';
+  const border=isDark?'#4a5568':'#b8c0d4';
+  const textCol=isDark?'#e6edf3':'#111827';
+  const mutedCol=isDark?'#9ca3af':'#6b7280';
+
+  let bodyHTML='';
+  if(state.view==='grid'){
+    bodyHTML=`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+      ${filteredRows.map(r=>{
+        const{s,y}=fmtDate(r.d);
+        const mc=MONTH_COLORS[new Date(r.d).getMonth()];
+        return`<div style="background:${bgSurface};border:1px solid ${border};border-radius:10px;padding:14px;border-top:3px solid ${mc}">
+          <div style="font-size:12px;font-weight:700;color:${textCol};margin-bottom:6px">${r.n}</div>
+          <div style="font-size:10px;color:${mc};font-family:monospace;margin-bottom:4px">${s} ${y}</div>
+          <div style="font-size:10px;color:${mutedCol};margin-bottom:6px">${r.p}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:10px;font-weight:600;background:${mc}20;color:${mc};padding:2px 7px;border-radius:4px">${r.c}</span>
+            <span style="font-size:10px;font-weight:700;color:${mutedCol}">${statusLabel(r._st,r._dl)}</span>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  } else {
+    const statusColor=s=>s==='ov'?'#dc2626':s==='cr'||s==='ur'?'#d97706':s==='up'?'#16a34a':'#6b7280';
+    bodyHTML=`<table style="width:100%;border-collapse:collapse;font-size:11px">
+      <thead><tr style="background:#2563eb;color:#ffffff">
+        <th style="padding:8px 10px;text-align:left;color:#ffffff">Due Date</th>
+        <th style="padding:8px 10px;text-align:left;color:#ffffff">Status</th>
+        <th style="padding:8px 10px;text-align:left;color:#ffffff">Compliance</th>
+        <th style="padding:8px 10px;text-align:left;color:#ffffff">Period</th>
+        <th style="padding:8px 10px;text-align:left;color:#ffffff">Category</th>
+      </tr></thead>
+      <tbody>${filteredRows.map((r,i)=>`<tr style="background:${i%2?bgSurface2:bgSurface};border-bottom:1px solid ${border}">
+        <td style="padding:7px 10px;font-family:monospace;color:${textCol}">${r.d}</td>
+        <td style="padding:7px 10px;font-weight:700;color:${statusColor(r._st)}">${statusLabel(r._st,r._dl)}</td>
+        <td style="padding:7px 10px;font-weight:600;color:${textCol}">${r.n}</td>
+        <td style="padding:7px 10px;color:${mutedCol}">${r.p}</td>
+        <td style="padding:7px 10px;color:${textCol}">${r.c}</td>
+      </tr>`).join('')}</tbody>
+    </table>`;
+  }
+
+  const clone=document.createElement('div');
+  clone.style.cssText=`position:fixed;left:-9999px;top:0;width:900px;background:${bgSurface};padding:20px;font-family:Plus Jakarta Sans,sans-serif`;
+  clone.innerHTML=`
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid #1a56db">
+      <div style="width:32px;height:32px;background:#1a56db;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px">⚡</div>
+      <div>
+        <div style="font-size:15px;font-weight:800;color:${textCol}">Compliance Calendar — ${mLabel}</div>
+        <div style="font-size:10px;color:${mutedCol}">Taxation Updates · CA Mayur J. Sondagar · ${filteredRows.length} deadlines</div>
+      </div>
+    </div>
+    ${bodyHTML}
+    <div style="font-size:10px;color:${mutedCol};margin-top:12px;text-align:right">TaxationUpdates.com · Generated ${new Date().toLocaleDateString('en-IN')}</div>`;
+  document.body.appendChild(clone);
+
+  html2canvas(clone,{backgroundColor:bgSurface,scale:1.5,logging:false}).then(canvas=>{
+    document.body.removeChild(clone);
+    filteredRows=savedFiltered;
+    callback(canvas, filteredRows.length||rows.length);
+  });
+}
+
+function exportMonthImage(mKey, mLabel){
+  buildMonthCanvas(mKey, mLabel, (canvas)=>{
+    const link=document.createElement('a');
+    link.download=`Compliance_${mLabel.replace(/ /g,'_')}.jpg`;
+    link.href=canvas.toDataURL('image/jpeg',0.88);
+    link.click();
+  });
+}
+
+function exportMonthPDF(mKey, mLabel){
+  buildMonthCanvas(mKey, mLabel, (canvas)=>{
+    const{jsPDF}=window.jspdf;
+    const imgData=canvas.toDataURL('image/jpeg',0.88);
+    const mmW=canvas.width/1.5*0.2646, mmH=canvas.height/1.5*0.2646;
+    const orientation=mmW>mmH?'landscape':'portrait';
+    const doc=new jsPDF({orientation,unit:'mm',format:[Math.max(mmW,100),Math.max(mmH,50)]});
+    doc.addImage(imgData,'JPEG',0,0,mmW,mmH);
+    doc.save(`Compliance_${mLabel.replace(/ /g,'_')}.pdf`);
+  });
+}
+
+function showBarWAMenu(anchor, mKey, mLabel){
+  document.querySelectorAll('.wa-menu').forEach(m=>m.remove());
+  const menu=document.createElement('div');
+  menu.className='wa-menu';
+  menu.innerHTML=`
+    <div class="wa-menu-title">${mLabel}</div>
+    <div class="wa-menu-item" onclick="sendMonthWA('${mKey}','${mLabel}','image')">📷 Send as Image</div>
+    <div class="wa-menu-item" onclick="sendMonthWA('${mKey}','${mLabel}','pdf')">📄 Send as PDF</div>`;
+  document.body.appendChild(menu);
+  const rect=anchor.getBoundingClientRect();
+  const mw=menu.offsetWidth||175;
+  let left=Math.min(rect.left,window.innerWidth-mw-8);
+  left=Math.max(8,left);
+  let top=rect.bottom+4;
+  if(top+150>window.innerHeight) top=rect.top-154;
+  menu.style.left=left+'px'; menu.style.top=top+'px';
+  setTimeout(()=>document.addEventListener('click',function h(){menu.remove();document.removeEventListener('click',h);}),80);
+}
+
+function sendMonthWA(mKey, mLabel, type){
+  document.querySelectorAll('.wa-menu').forEach(m=>m.remove());
+  // Open WhatsApp FIRST synchronously (user gesture) — prevents mobile popup blocker
+  const count=getMonthRows(mKey).length;
+  sendMonthWAText(mLabel, count);
+  // Then generate file async (download happens in background)
+  if(type==='image') exportMonthImage(mKey, mLabel);
+  else exportMonthPDF(mKey, mLabel);
+}
+
+function sendMonthWAText(mLabel, count){
+  const msg=`*Compliance Calendar — ${mLabel}*\n\n${count} deadline${count!==1?'s':''} for ${mLabel}.\nPlease find the attached file.\n\nCA Mayur J. Sondagar\nTaxationUpdates.com`;
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+
+function exportImage(){
+  const panel=document.getElementById('insightPanels');
+  if(!panel){alert('No panels to capture.');return}
+  if(typeof html2canvas==='undefined'){alert('html2canvas not loaded.');return}
+  html2canvas(panel,{backgroundColor:isDark?'#0d1117':'#f4f6fb',scale:2,useCORS:true,logging:false}).then(canvas=>{
+    const link=document.createElement('a');
+    link.download='Compliance-Calendar-FY2026-27.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+
+function jumpToMonth(fyIdx){
+  state.monthIdx=fyIdx; state.statusF='all'; state.cat='All'; state.search='';
+  document.getElementById('searchInp').value='';
+  document.querySelectorAll('#monthPills .pill').forEach((x,i)=>x.classList.toggle('on',i===fyIdx+1));
+  document.querySelectorAll('#catPills .pill').forEach((x,i)=>x.classList.toggle('on',i===0));
+  document.querySelectorAll('.stat').forEach(x=>x.classList.remove('active'));
+  // Always sync calendar month/year so calendar view jumps correctly
+  const [,m,y]=FY_MONTHS[fyIdx];
+  calMonth=m-1; calYear=y;
+  applyFilters();
+  setTimeout(()=>window.scrollTo({top:0,behavior:'smooth'}),80);
+}
+
+function drillDown(statusKey){
+  // Preserve current monthIdx — user selected a month, drillDown should respect it
+  state.statusF=statusKey; state.cat='All'; state.search='';
+  document.getElementById('searchInp').value='';
+  // Sync month pills: keep current monthIdx active
+  document.querySelectorAll('#monthPills .pill').forEach((x,i)=>{
+    const isAll=(state.monthIdx===null && i===0);
+    const isMonth=(state.monthIdx!==null && i===state.monthIdx+1);
+    x.classList.toggle('on', isAll||isMonth);
+  });
+  document.querySelectorAll('#catPills .pill').forEach((x,i)=>x.classList.toggle('on',i===0));
+  document.querySelectorAll('.stat').forEach(x=>x.classList.remove('active'));
+  setView('table');
+  setTimeout(()=>{
+    const el=document.getElementById('viewTable');
+    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  },100);
+}
+
+function emptyHTML(){
+  return`<div class="tbl-wrap"><div class="empty"><div class="empty-icon">📋</div><div class="empty-txt">No deadlines match your current filters</div></div></div>`;
+}
+
+init();
+</script>
+</body>
+</html>
