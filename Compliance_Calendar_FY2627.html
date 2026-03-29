@@ -153,6 +153,7 @@ td:last-child{border-right:none}
 .td-d{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600}
 .td-dy{font-size:10.5px;color:var(--muted2);margin-top:1px}
 .td-n{font-size:13px;font-weight:600}
+.name-sub{display:block;font-weight:inherit}
 .td-p{font-size:12.5px;color:var(--text2)}
 
 /* ── CARD GRID VIEW ── */
@@ -886,6 +887,7 @@ const CB={'GST':'cb-gst','TDS/TCS':'cb-tds','PF/ESIC':'cb-pf','Income Tax':'cb-i
 const EV={'GST':'ev-gst','TDS/TCS':'ev-tds','PF/ESIC':'ev-pf','Income Tax':'ev-it','Company Law':'ev-co','Other':'ev-ot'};
 const CC={'GST':'#16a34a','TDS/TCS':'#1a56db','PF/ESIC':'#7c3aed','Income Tax':'#dc2626','Company Law':'#d97706','Other':'#475569'};
 function fmtDate(ds){const d=new Date(ds);return{s:`${String(d.getDate()).padStart(2,'0')} ${MO_SHORT[d.getMonth()]}`,y:d.getFullYear()}}
+function fmtDisplayName(n){const i=n.lastIndexOf(' (');if(i<15)return n;return n.slice(0,i)+'<span class="name-sub">'+n.slice(i+1)+'</span>';}
 
 // ── match month filter: [mon_num, year] ──
 function matchMonth(ds, mf){
@@ -1169,7 +1171,7 @@ function renderTable(){
     rows+=`<tr>
       <td><div class="td-d">${s}</div><div class="td-dy">${y}</div></td>
       <td><span class="sbadge ${SB[r._st]}">${statusLabel(r._st,r._dl)}</span></td>
-      <td><div class="td-n">${r.n}${isC?'<span class="custom-tag">CUSTOM</span>':''}</div></td>
+      <td><div class="td-n">${fmtDisplayName(r.n)}${isC?'<span class="custom-tag">CUSTOM</span>':''}</div></td>
       <td><div class="td-p">${r.p}</div></td>
       <td><span class="cbadge ${CB[r.c]||'cb-ot'}">${r.c}</span></td>
       <td><button class="copy-btn" id="cpbtn-${r.id}" onclick="copyRow(${r.id},this)" title="Copy to clipboard">⎘</button></td>
@@ -1219,7 +1221,7 @@ function renderGrid(){
         const isC=r.id>=10000;
         return`<div class="card" style="--cc:${mc};border-top:3px solid ${mc}">
           <div class="card-top">
-            <div class="card-name">${r.n}${isC?'<span class="custom-tag">CUSTOM</span>':''}</div>
+            <div class="card-name">${fmtDisplayName(r.n)}${isC?'<span class="custom-tag">CUSTOM</span>':''}</div>
             <span class="sbadge ${SB[r._st]}" style="flex-shrink:0">${statusLabel(r._st,r._dl)}</span>
           </div>
           <div class="card-meta">
