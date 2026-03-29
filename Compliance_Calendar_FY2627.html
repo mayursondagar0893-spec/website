@@ -1156,6 +1156,10 @@ function applyFilters(){
   if(state.search) tags.push(`"${state.search}"`);
   document.getElementById('resTags').textContent=tags.length?'↳ '+tags.join(' · '):'';
 
+  // When in calendar view and a month filter is active, sync the displayed month
+  if(state.view==='calendar' && mf){
+    calMonth=mf[1]-1; calYear=mf[2];
+  }
   renderInsightPanels();
   renderCurrentView();
 }
@@ -1431,10 +1435,11 @@ function calEventClick(el, id){
       <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px">${r.n}</div>
       <div style="font-size:11px;color:var(--muted)">${r.p} · ${s} ${y}</div>
     </div>
-    <div style="padding:8px 14px;display:flex;gap:8px;align-items:center">
+    <div style="padding:8px 14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
       <span class="sbadge ${SB[getStatus(dl)]}" style="font-size:10px">${statusLabel(getStatus(dl),dl)}</span>
       <button class="copy-btn" onclick="copyRow(${r.id},this)" style="font-size:11px;padding:4px 8px" title="Copy to clipboard">⎘ Copy</button>
       <button class="wa-btn" onclick="sendWA(${r.id});document.querySelectorAll('.cal-popover').forEach(p=>p.remove())" style="font-size:11px;padding:4px 10px 4px 8px">${waIcon()}WA</button>
+      <button class="gcal-btn" onclick="addToGCal(${r.id});document.querySelectorAll('.cal-popover').forEach(p=>p.remove())" style="font-size:11px;padding:4px 8px" title="Add to Google Calendar">${gcalIcon()}&nbsp;GCal</button>
     </div>`;
   document.body.appendChild(pop);
   positionPopover(pop, el);
@@ -1450,6 +1455,7 @@ function showMore(el,items){
       <span style="flex:1;font-size:11px">${item.n} <span style="color:var(--muted2)">(${item.p})</span></span>
       <button class="copy-btn" onclick="copyRow(${item.id},this)" style="font-size:10px;padding:3px 7px;flex-shrink:0" title="Copy to clipboard">⎘</button>
       <button class="wa-btn" onclick="sendWA(${item.id});document.querySelectorAll('.cal-popover').forEach(p=>p.remove())" style="font-size:10px;padding:3px 8px 3px 6px;flex-shrink:0">${waIcon()}WA</button>
+      <button class="gcal-btn" onclick="addToGCal(${item.id});document.querySelectorAll('.cal-popover').forEach(p=>p.remove())" style="font-size:10px;padding:3px 7px;flex-shrink:0" title="Add to Google Calendar">${gcalIcon()}</button>
     </div>`).join('');
   document.body.appendChild(pop);
   positionPopover(pop, el);
