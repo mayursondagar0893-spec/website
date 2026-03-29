@@ -1185,6 +1185,9 @@ function renderTable(){
   const cols=hasCustom?9:8;
   let rows='';
   let lastMonth='';
+  // Pre-compute per-month counts for the badge
+  const mCounts={};
+  filteredRows.forEach(r=>{const d=new Date(r.d);const k=`${d.getFullYear()}-${d.getMonth()}`;mCounts[k]=(mCounts[k]||0)+1;});
   filteredRows.forEach(r=>{
     const{s,y}=fmtDate(r.d);
     const isC=r.id>=10000;
@@ -1192,11 +1195,13 @@ function renderTable(){
     const mKey=`${d.getFullYear()}-${d.getMonth()}`;
     const mLabel=`${MO_FULL[d.getMonth()]} ${d.getFullYear()}`;
     const mColor=MONTH_COLORS[d.getMonth()];
+    const mCount=mCounts[mKey]||0;
     if(useSep && mKey!==lastMonth){
       lastMonth=mKey;
       rows+=`<tr class="month-sep"><td colspan="${cols}"><div class="month-sep-lbl" style="color:${mColor}">
         <span class="month-sep-dot" style="background:${mColor}"></span>
         ${mLabel}
+        <span class="grid-month-count" style="background:${mColor}18;border-color:${mColor}40;color:${mColor};font-size:10.5px;padding:1px 9px;border-radius:10px;border:1px solid;font-weight:700;font-family:'JetBrains Mono',monospace;white-space:nowrap">${mCount} deadline${mCount!==1?'s':''}</span>
         <span class="month-sep-dot" style="background:${mColor}"></span>
         <button class="month-exp-btn" style="color:${mColor}" onclick="exportMonthPDF('${mKey}','${mLabel}')" title="Export ${mLabel} as PDF">⬇ PDF</button>
         <button class="month-exp-btn" style="color:${mColor}" onclick="exportMonthImage('${mKey}','${mLabel}')" title="Export ${mLabel} as Image">📷 Image</button>
