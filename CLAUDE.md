@@ -22,7 +22,7 @@ This file provides context for AI assistants (Claude, Copilot, etc.) working on 
 ├── CA-Prompt-Library.html          # Searchable AI prompt library for CAs (500+ prompts)
 ├── TDS-SECTION-CODE.html           # Interactive TDS/TCS section code reference
 ├── INCOME-TAX-CHALLAN-TO-EXCEL.html# Income Tax challan PDF to Excel parser (ITNS 280/281/282/283)
-├── challan-parser.html             # PDF/Excel challan parser tool (older/general)
+├── Compliance_Calendar_FY2627.html # Interactive compliance calendar FY 2026-27 (GST/TDS/IT/PF due dates)
 ├── privacy-policy.html             # Privacy policy page
 ├── disclaimer.html                 # Disclaimer page
 ├── brand-icons.css                 # Shared CSS: social icon brand colors (used by all pages)
@@ -62,8 +62,8 @@ No backend, no build process — this is a **pure static site**. `package.json` 
 |---|---|
 | Languages | HTML5, CSS3, Vanilla JavaScript (ES6+) |
 | Hosting | GitHub Pages |
-| External Libraries | PDF.js (challan parser), XLSX.js (Excel export) |
-| Fonts | Google Fonts (Inter, Poppins) |
+| External Libraries | PDF.js (challan parser), XLSX.js (Excel export), html2canvas + jsPDF + jsPDF-autotable (compliance calendar export) |
+| Fonts | Google Fonts (Playfair Display, DM Sans) — new tools; older pages may use Inter/Poppins |
 | Analytics | Google Analytics (G-YC101DVMH7) |
 | Storage | `localStorage` only (no backend/database) |
 | PWA | `manifest.json` + `sw.js` service worker (offline caching) |
@@ -186,10 +186,15 @@ There is no `npm run build` or compilation step. All files are served as-is by G
 - Exports parsed data to Excel using XLSX.js (CDN).
 - Uses PDF.js (CDN) for PDF parsing.
 
-### `challan-parser.html`
-- Drag-and-drop or click-to-upload PDF/Excel files (general challan parser).
-- Parses challans using PDF.js (CDN).
-- Exports data to Excel using XLSX.js (CDN).
+### `Compliance_Calendar_FY2627.html`
+- Interactive compliance calendar for FY 2026-27 covering GST, TDS, Income Tax, PF/ESI due dates.
+- Month-by-month view with category filters (GST, TDS, IT, PF, ROC, etc.).
+- Export to Excel (XLSX.js), PDF (jsPDF + jsPDF-autotable), and screenshot (html2canvas) — all client-side.
+- LocalStorage-backed reminders/bookmarks for individual deadlines.
+- Light/dark mode toggle; responsive layout.
+- Uses additional CDN libraries: html2canvas, jsPDF, jsPDF-autotable, XLSX.js.
+- Schema.org `WebApplication` JSON-LD structured data for SEO.
+- **Note:** `challan-parser.html` was previously part of this site but has been removed. Its URL (`/challan-parser.html`) remains a stale entry in `sw.js` PRECACHE_URLS — this should be cleaned up if the service worker cache is bumped.
 
 ### `brand-icons.css`
 - Shared stylesheet for social icon brand colors (X/Twitter, LinkedIn, WhatsApp, Instagram, YouTube, etc.).
@@ -231,6 +236,7 @@ There is no `npm run build` or compilation step. All files are served as-is by G
 - Service Worker for PWA offline support.
 - Cache-first strategy for static assets; network-first for HTML pages.
 - Update `CACHE_NAME` version when making breaking changes to cached files.
+- **Known stale entry:** `PRECACHE_URLS` still lists `/challan-parser.html` which no longer exists. Remove it and bump `CACHE_NAME` if you update this file.
 
 ### `manifest.json`
 - PWA manifest: app name, icons, theme color (`#8c9a1a`), display mode.
@@ -382,6 +388,7 @@ When the user provides HTML for a new tool — phrases like "add this tool", "in
 | Add a new section to index.html | Follow existing section structure with `<section id="..." class="...">`, add nav link |
 | Add a new prompt category | Edit the JS data array in `CA-Prompt-Library.html`, add sidebar entry |
 | Update TDS rates/sections | Edit the table rows in `TDS-SECTION-CODE.html` |
+| Update compliance due dates | Edit the JS data array in `Compliance_Calendar_FY2627.html` |
 | Change brand colors | Update CSS custom properties in `:root` and `[data-theme="dark"]` blocks |
 | Add a WhatsApp link | Use class `.wa-link` on the element and include `<script src="/wa-init.js" defer></script>` |
 | Add social icon styles | Reference `brand-icons.css` — do not duplicate social color rules inline |
