@@ -43,7 +43,7 @@
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -51,22 +51,22 @@
 <style>
 :root{
   --bg:#fafbf0;--surface:#fff;--surface2:#f0f2f7;--border:#b8c0d4;--border2:#9aa3bc;
-  --text:#111827;--text2:#374151;--muted:#6b7280;--muted2:#9ca3af;
+  --text:#0f1623;--text2:#323b49;--muted:#606773;--muted2:#8c939e;
   --accent:#1a56db;--accent-h:#1e429f;--accent-bg:#ebf5ff;
   --hdr:#0f172a;--radius:10px;
-  --shadow:0 1px 3px rgba(0,0,0,.10),0 1px 2px rgba(0,0,0,.06);
-  --shadow-md:0 4px 16px rgba(0,0,0,.12),0 1px 3px rgba(0,0,0,.07);
-  --shadow-lg:0 8px 32px rgba(0,0,0,.16),0 2px 8px rgba(0,0,0,.08);
+  --shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.08);
+  --shadow-md:0 4px 16px rgba(0,0,0,.15),0 1px 3px rgba(0,0,0,.09);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.20),0 2px 8px rgba(0,0,0,.10);
 }
 [data-theme="dark"]{
   --bg:#0d1117;--surface:#161b22;--surface2:#1c2128;--border:#4a5568;--border2:#606878;
-  --text:#e6edf3;--text2:#c9d1d9;--muted:#9ca3af;--muted2:#7d8590;
+  --text:#f5f9fc;--text2:#dde6ef;--muted:#acb3c1;--muted2:#8a929e;
   --accent:#4493f8;--accent-h:#58a6ff;--accent-bg:#0c1a40;
   --hdr:#010409;--shadow:0 1px 3px rgba(0,0,0,.35);
   --shadow-md:0 4px 16px rgba(0,0,0,.4);--shadow-lg:0 8px 32px rgba(0,0,0,.6);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;transition:background .25s,color .25s;line-height:1.5}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh;transition:background .25s,color .25s;line-height:1.5;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;font-synthesis:none}
 a{color:var(--accent);text-decoration:none}
 
 /* ── HEADER ── */
@@ -74,6 +74,8 @@ a{color:var(--accent);text-decoration:none}
 .hdr-l{display:flex;align-items:center;gap:13px;flex-shrink:0}
 .hdr-icon{width:34px;height:34px;background:#1a56db;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
 .hdr-brand{font-size:14px;font-weight:700;color:#f0f6fc;letter-spacing:-.2px;white-space:nowrap}
+.hdr-logo-box{background:#8c9a1a;color:#fff;font-family:'Playfair Display',serif;font-weight:900;font-size:.82rem;line-height:1.2;padding:.38rem .72rem;border-radius:8px;white-space:nowrap;display:inline-flex;align-items:baseline;gap:0;letter-spacing:-.2px}
+.hdr-logo-box sup{font-size:.48em;vertical-align:super;font-family:'Playfair Display',serif}
 .hdr-fy{display:inline-block;background:rgba(26,86,219,.3);border:1px solid rgba(26,86,219,.5);color:#93c5fd;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;margin-left:6px;letter-spacing:.4px;font-family:'JetBrains Mono',monospace}
 .hdr-sub{font-size:10px;color:#6e7681;margin-top:1px;font-weight:500;white-space:nowrap}
 .hdr-r{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
@@ -424,6 +426,7 @@ td:last-child{border-right:none}
   .hdr{padding:6px 12px;flex-direction:column;align-items:stretch;gap:0;min-height:unset}
   .hdr-l{gap:8px;padding:2px 0}
   .hdr-icon{width:26px;height:26px;font-size:12px;border-radius:6px;flex-shrink:0}
+  .hdr-logo-box{font-size:.72rem;padding:.3rem .55rem;border-radius:6px}
   .hdr-brand{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .hdr-fy{font-size:9px;padding:1px 5px;margin-left:4px}
   .hdr-sub{display:none}
@@ -536,10 +539,10 @@ td:last-child{border-right:none}
 
 <header class="hdr">
   <div class="hdr-l">
-    <div class="hdr-icon">⚡</div>
+    <div class="hdr-logo-box">Taxation Updates <sup>®</sup></div>
     <div>
       <div class="hdr-brand">Compliance Calendar<span class="hdr-fy">FY 2026-27</span></div>
-      <div class="hdr-sub">Taxation Updates · CA Mayur J. Sondagar · April 2026 – March 2027</div>
+      <div class="hdr-sub">CA Mayur J. Sondagar · April 2026 – March 2027</div>
     </div>
   </div>
   <div class="hdr-r">
