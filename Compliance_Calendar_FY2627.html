@@ -72,16 +72,13 @@ a{color:var(--accent);text-decoration:none}
 /* ── HEADER ── */
 .hdr{background:var(--hdr);min-height:62px;padding:10px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:200;border-bottom:1px solid rgba(255,255,255,.05)}
 .hdr-l{display:flex;align-items:center;gap:13px;flex-shrink:0}
-.hdr-icon{width:34px;height:34px;background:#1a56db;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.hdr-brand{font-size:14px;font-weight:700;color:#f0f6fc;letter-spacing:-.2px;white-space:nowrap}
+.hdr-brand{font-size:14px;font-weight:800;color:#fff;letter-spacing:-.3px;white-space:nowrap}
 .hdr-logo-box{background:#8c9a1a;color:#fff;font-family:'Playfair Display',serif;font-weight:900;font-size:.82rem;line-height:1.2;padding:.38rem .72rem;border-radius:8px;white-space:nowrap;display:inline-block;letter-spacing:-.2px}
 .hdr-logo-box sup{font-size:.46em;vertical-align:super;font-family:'Playfair Display',serif;line-height:0}
-.hdr-fy{display:inline-block;background:rgba(26,86,219,.3);border:1px solid rgba(26,86,219,.5);color:#93c5fd;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;margin-left:6px;letter-spacing:.4px;font-family:'JetBrains Mono',monospace}
-.hdr-sub{font-size:10px;color:#6e7681;margin-top:1px;font-weight:500;white-space:nowrap}
+.hdr-fy{display:inline-block;background:rgba(26,86,219,.3);border:1px solid rgba(26,86,219,.5);color:#bfdbfe;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;margin-left:6px;letter-spacing:.4px;font-family:'JetBrains Mono',monospace}
+.hdr-sub{font-size:10px;color:#8d9baa;margin-top:1px;font-weight:600;white-space:nowrap}
 .hdr-r{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .hdr-date{background:rgba(26,86,219,.2);border:1px solid rgba(26,86,219,.35);color:#79c0ff;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;font-family:'JetBrains Mono',monospace;white-space:nowrap}
-.hdr-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#c9d1d9;padding:5px 10px;border-radius:7px;cursor:pointer;font-size:12px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;transition:background .15s;white-space:nowrap}
-.hdr-btn:hover{background:rgba(255,255,255,.14)}
 
 /* ── MAIN ── */
 .main{max-width:1380px;margin:0 auto;padding:22px 28px}
@@ -284,8 +281,8 @@ td:last-child{border-right:none}
 /* ── ENHANCED CALENDAR ── */
 .cal-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-md)}
 .cal-hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);background:var(--hdr)}
-.cal-month-lbl{font-size:17px;font-weight:800;color:#f0f6fc;letter-spacing:-.3px}
-.cal-month-sub{font-size:12.5px;color:#94a3b8;margin-top:4px;font-weight:500}
+.cal-month-lbl{font-size:17px;font-weight:800;color:#fff;letter-spacing:-.3px}
+.cal-month-sub{font-size:12.5px;color:#b4c6d8;margin-top:4px;font-weight:600}
 .cal-hdr-left{display:flex;flex-direction:column}
 .cal-nav{display:flex;gap:6px;align-items:center}
 .cal-nav-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e2e8f0;padding:6px 14px;border-radius:7px;cursor:pointer;font-size:12.5px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;transition:background .12s}
@@ -328,7 +325,7 @@ td:last-child{border-right:none}
 .hdr-date-edit{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);cursor:pointer;color:#c9d1d9;font-size:11px;padding:4px 10px;border-radius:6px;transition:color .13s,background .13s;line-height:1;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;white-space:nowrap}
 .hdr-date-edit:hover{color:#93c5fd;background:rgba(255,255,255,.16)}
 .date-picker-inp{background:rgba(26,86,219,.2);border:1px solid rgba(26,86,219,.5);color:#93c5fd;padding:4px 8px;border-radius:6px;font-size:11px;font-weight:600;font-family:'JetBrains Mono',monospace;outline:none;cursor:pointer;width:130px;color-scheme:dark}
-.hdr-date-reset{background:none;border:none;cursor:pointer;color:#6e7681;font-size:10px;padding:2px 6px;border-radius:4px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;transition:all .13s;white-space:nowrap}
+.hdr-date-reset{background:none;border:none;cursor:pointer;color:#8d9baa;font-size:10px;padding:2px 6px;border-radius:4px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;transition:all .13s;white-space:nowrap}
 .hdr-date-reset:hover{color:#fca5a5;background:rgba(220,38,38,.15)}
 
 /* ── CUSTOM TAG ── */
@@ -405,7 +402,7 @@ td:last-child{border-right:none}
 @media(max-width:768px){.dash{grid-template-columns:1fr}.dash-two{grid-column:1/-1}}
 
 /* ── BACK LINK ── */
-.back-link{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.18);background:transparent;color:#c9d1d9;text-decoration:none;transition:all .15s;white-space:nowrap}
+.back-link{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.18);background:transparent;color:#c9d1d9;text-decoration:none;transition:all .15s;white-space:nowrap;line-height:1}
 .back-link:hover{background:rgba(140,154,26,.15);border-color:#8c9a1a;color:#b5c422}
 /* ── DARK TOGGLE (round icon button) ── */
 .tbtn{width:30px;height:30px;border-radius:50%;background:transparent;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.7);display:grid;place-items:center;cursor:pointer;font-size:13px;transition:all .15s;flex-shrink:0}
@@ -414,7 +411,7 @@ td:last-child{border-right:none}
 /* ── FOOTER ── */
 .footer{background:var(--hdr);border-top:1px solid rgba(255,255,255,.07);padding:18px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--muted2)}
 .footer-info{display:flex;flex-direction:column;gap:3px}
-.footer-brand{font-size:13px;font-weight:600;color:#c9d1d9}
+.footer-brand{font-size:13px;font-weight:700;color:#e2e8f0}
 .footer-socials{display:flex;gap:8px;align-items:center}
 .social-btn{width:30px;height:30px;background:rgba(140,154,26,.15);border:1px solid rgba(140,154,26,.36);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted2);text-decoration:none;transition:background .2s}
 .social-btn:hover{background:#8c9a1a;color:#fff}
@@ -427,9 +424,8 @@ td:last-child{border-right:none}
   /* Header — strict 2-row, no overlap */
   .hdr{padding:6px 12px;flex-direction:column;align-items:stretch;gap:0;min-height:unset}
   .hdr-l{gap:8px;padding:2px 0}
-  .hdr-icon{width:26px;height:26px;font-size:12px;border-radius:6px;flex-shrink:0}
   .hdr-logo-box{font-size:.72rem;padding:.3rem .55rem;border-radius:6px}
-  .hdr-brand{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hdr-brand{font-size:12.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .hdr-fy{font-size:9px;padding:1px 5px;margin-left:4px}
   .hdr-sub{display:none}
   /* Row 2: all controls */
@@ -554,7 +550,7 @@ td:last-child{border-right:none}
       <input class="date-picker-inp" type="date" id="customDateInp" style="display:none;visibility:hidden" onchange="applyCustomDate()" title="Custom reference date"/>
       <button class="hdr-date-reset" id="dateResetBtn" style="display:none" onclick="resetDate()" title="Reset to today">↺ Reset</button>
     </div>
-    <a href="/" class="back-link">← Home</a>
+    <a href="/" class="back-link"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> Home</a>
     <button class="tbtn" id="themeBtn" onclick="toggleDark()" aria-label="Toggle dark mode" title="Toggle dark / light mode">🌙</button>
   </div>
 </header>
