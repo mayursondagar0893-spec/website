@@ -557,9 +557,9 @@ td:last-child{border-right:none}
 
 <!-- FY / TY / AY LEGEND BANNER -->
 <div class="fy-banner">
-  <div>FY <span>= Financial Year (Apr–Mar)</span></div>
+  <div>FY <span>= Financial Year (Aprril – March)</span></div>
   <div>AY <span>= Assessment Year (follows FY)</span></div>
-  <div>TY <span>= Tax Year (IT Act 2025, replaces AY for current year)</span></div>
+  <div>TY <span>= Tax Year (April - March) (IT Act 2025)</span></div>
 </div>
 
 <div class="main">
@@ -594,7 +594,7 @@ td:last-child{border-right:none}
     <div class="filter-row agm-row hide" id="agmRow">
       <span class="filter-lbl" style="color:#d97706;font-weight:700;white-space:nowrap;width:auto;min-width:unset;margin-right:10px">🏢 AGM Date</span>
       <input type="date" id="agmDateInp" class="form-inp" style="width:150px;flex-shrink:0;padding:4px 10px;font-size:12px;font-family:'JetBrains Mono',monospace;font-weight:600;border-color:#d97706;color:var(--text)" onchange="onAgmChange(this.value)" title="AGM date — due dates for AOC-4, MGT-7, ADT-1 update automatically"/>
-      <span class="agm-note">AOC-4 / MGT-7 / ADT-1 auto-update · <em>(Corporate Entities only)</em></span>
+      <span class="agm-note">AOC-4 / MGT-7 / ADT-1 auto-update · <em>(Applicable for Corporate Entities only)</em></span>
       <button class="pill" style="font-size:11px;border-color:#d97706;color:#d97706;flex-shrink:0;margin-left:auto" onclick="resetAgmDate()" title="Reset to 30 Sep 2026">↺ Reset</button>
     </div>
   </div>
@@ -765,7 +765,7 @@ const DATA = [
   {id:62,d:'2026-05-15',n:'TCS Return Q4',               p:'FY 2025-26',    c:'TDS/TCS'},
   {id:63,d:'2026-05-15',n:'PF / ESIC Payment',           p:'April 2026',    c:'PF/ESIC'},
   {id:64,d:'2026-06-15',n:'TDS Certificate Q4',          p:'FY 2025-26',    c:'TDS/TCS'},
-  {id:65,d:'2026-06-15',n:'Advance Tax 1st Instalment',  p:'TY 2026-27 · min. 15% of tax liability',    c:'Income Tax'},
+  {id:65,d:'2026-06-15',n:'Advance Tax 1st Instalment',  p:'TY 2026-27 · minimum 15% of tax liability',    c:'Income Tax'},
   {id:66,d:'2026-06-15',n:'PF / ESIC Payment',           p:'May 2026',      c:'PF/ESIC'},
   {id:67,d:'2026-07-15',n:'TCS Return Q1',               p:'TY 2026-27',    c:'TDS/TCS'},
   {id:68,d:'2026-07-15',n:'PF / ESIC Payment',           p:'June 2026',     c:'PF/ESIC'},
@@ -836,7 +836,7 @@ const DATA = [
   {id:126,d:'2026-05-31',n:'TDS Return Q4',                   p:'FY 2025-26',  c:'TDS/TCS'},
   {id:127,d:'2026-07-31',n:'TDS Return Q1',                   p:'TY 2026-27',  c:'TDS/TCS'},
   {id:128,d:'2026-07-31',n:'ITR Filing — Non-Audit (ITR 1 & ITR 2)',p:'AY 2026-27',c:'Income Tax'},
-  {id:129,d:'2026-08-31',n:'ITR Filing — Non-Audit (ITR 3 & ITR 4)',p:'AY 2026-27',c:'Income Tax'},
+  {id:129,d:'2026-08-31',n:'ITR Filing — Non-Audit (ITR 3, ITR 4 & ITR 5)',p:'AY 2026-27',c:'Income Tax'},
   {id:130,d:'2026-10-31',n:'TDS Return Q2',                   p:'TY 2026-27',  c:'TDS/TCS'},
   {id:131,d:'2026-10-31',n:'ITR Filing (Audit Cases)',         p:'AY 2026-27',  c:'Income Tax'},
   {id:132,d:'2026-10-31',n:'Transfer Pricing Audit',           p:'AY 2026-27',  c:'Income Tax'},
