@@ -874,7 +874,8 @@ async function parseAll(){
       parsedData.push(rec);
       if(rec.ok){ok++;totalAmt+=rec.total;}else fail++;
     }catch(e){
-      parsedData.push({ok:false,file:files[i].name,pan:'',tan:'',name:'',ay:'',fy:'',itns:'?',major:'',minor:'',natureOfPayment:'',cin:'',mode:'',bank:'',bankRef:'',dod:'',bsr:'',challanNo:'',tenderDate:'',tax:0,surcharge:0,cess:0,interest:0,penalty:0,others:0,total:0});
+      console.warn('Challan parse error for '+files[i].name+':', e);
+      parsedData.push({ok:false,file:files[i].name,pan:'',tan:'',name:'',ay:'',fy:'',itns:'?',major:'',minor:'',natureOfPayment:'',cin:'',mode:'',bank:'',bankRef:'',dod:'',bsr:'',challanNo:'',tenderDate:'',tax:0,surcharge:0,cess:0,interest:0,penalty:0,others:0,total:0,parseError:e&&e.message||String(e)});
       fail++;
     }
   }
@@ -1017,7 +1018,7 @@ function renderTable(){
     if(!r.ok)tr.className='error-row';
     tr.innerHTML=`
       <td>${i+1}</td>
-      <td><span class="chip ${r.ok?'chip-ok':'chip-err'}">${r.ok?'✓ OK':'⚠ Check'}</span></td>
+      <td><span class="chip ${r.ok?'chip-ok':'chip-err'}" ${!r.ok&&r.parseError?`title="${esc(r.parseError)}"`:''}>${r.ok?'✓ OK':'⚠ Check'}</span></td>
       <td><span class="chip chip-${esc(r.itns||'280')}">${esc(r.itns||'?')}</span></td>
       <td><strong>${hl(r.pan||r.tan,term)}</strong><span style="font-size:9px;color:var(--text-soft);margin-left:3px">${r.pan?'PAN':r.tan?'TAN':''}</span></td>
       <td title="${esc(r.name)}">${hl(trunc(r.name,34),term)}</td>
