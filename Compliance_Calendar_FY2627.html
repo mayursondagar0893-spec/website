@@ -137,6 +137,33 @@ a{color:var(--accent);text-decoration:none}
 .exp-btn.pdf{border-color:#e11d48;color:#e11d48}
 .exp-btn.pdf:hover{background:#fff1f2}
 [data-theme="dark"] .exp-btn.pdf:hover{background:#2d0a12}
+.exp-btn.ics{border-color:#0f9d58;color:#0f9d58}
+.exp-btn.ics:hover{background:#e6f4ea;border-color:#0a8a4a}
+[data-theme="dark"] .exp-btn.ics:hover{background:#052e16}
+.exp-btn.cal-gear{border-color:var(--border2);color:var(--muted2);padding:5px 9px}
+.exp-btn.cal-gear:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
+/* GCal per-row button */
+.gcal-btn{background:transparent;border:1px solid #4285f4;color:#4285f4;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;transition:all .13s;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
+.gcal-btn svg{width:13px;height:13px;flex-shrink:0}
+.gcal-btn:hover{background:#e8f0fe;border-color:#1a73e8}
+[data-theme="dark"] .gcal-btn:hover{background:#0c1a40;border-color:#4493f8;color:#4493f8}
+/* Toggle switch */
+.toggle-row{display:flex;align-items:center;gap:10px;padding:10px 0}
+.toggle-switch{position:relative;width:40px;height:22px;flex-shrink:0}
+.toggle-switch input{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;background:#cbd5e1;border-radius:22px;transition:.2s}
+.toggle-slider:before{content:'';position:absolute;height:16px;width:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.toggle-switch input:checked+.toggle-slider{background:var(--accent)}
+.toggle-switch input:checked+.toggle-slider:before{transform:translateX(18px)}
+[data-theme="dark"] .toggle-slider{background:#374151}
+.toggle-lbl{font-size:12.5px;font-weight:600;color:var(--text2)}
+/* Quick-day pills in cal settings */
+.day-pills{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
+.day-pill{padding:3px 11px;border-radius:20px;border:1px solid var(--border2);cursor:pointer;font-size:12px;font-weight:700;font-family:'JetBrains Mono',monospace;background:transparent;color:var(--text2);transition:all .12s}
+.day-pill:hover{border-color:var(--accent);color:var(--accent)}
+.day-pill.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+/* Cal settings info box */
+.cal-info-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 13px;font-size:11.5px;color:var(--muted);line-height:1.65;margin-top:14px}
 
 /* ── TABLE VIEW ── */
 .tbl-wrap{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
@@ -488,6 +515,8 @@ td:last-child{border-right:none}
   .td-p{font-size:11px}
   .wa-btn{font-size:10.5px;padding:4px 8px 4px 6px}
   .wa-btn svg{width:13px;height:13px}
+  .gcal-btn{font-size:10px;padding:3px 7px}
+  .gcal-btn svg{width:11px;height:11px}
   .sbadge{font-size:10px;padding:2px 7px}
   .cbadge{font-size:10px;padding:2px 6px}
   .del-btn{padding:3px 6px;font-size:10px}
@@ -610,6 +639,8 @@ td:last-child{border-right:none}
       </label>
       <button class="exp-btn" onclick="exportExcel()">⬇ Excel</button>
       <button class="exp-btn pdf" onclick="exportPDF()">⬇ PDF</button>
+      <button class="exp-btn ics" onclick="exportICS()" title="Export all filtered deadlines as .ics — import into Google Calendar, Outlook, Apple Calendar">📅 .ics</button>
+      <button class="exp-btn cal-gear" onclick="openCalSettings()" title="Calendar reminder settings">⚙</button>
     </div>
   </div>
 
@@ -1147,7 +1178,7 @@ function renderTable(){
   if(!filteredRows.length){el.innerHTML=emptyHTML();return}
   const useSep=document.getElementById('sepToggle')?.checked!==false;
   const hasCustom=filteredRows.some(r=>r.id>=10000);
-  const cols=hasCustom?8:7;
+  const cols=hasCustom?9:8;
   let rows='';
   let lastMonth='';
   filteredRows.forEach(r=>{
@@ -1176,12 +1207,13 @@ function renderTable(){
       <td><span class="cbadge ${CB[r.c]||'cb-ot'}">${r.c}</span></td>
       <td><button class="copy-btn" id="cpbtn-${r.id}" onclick="copyRow(${r.id},this)" title="Copy to clipboard">⎘</button></td>
       <td><button class="wa-btn" onclick="sendWA(${r.id})">${waIcon()}WA</button></td>
+      <td><button class="gcal-btn" onclick="addToGCal(${r.id})" title="Add to Google Calendar">${gcalIcon()}</button></td>
       ${hasCustom?`<td>${isC?`<button class="del-btn" onclick="deleteCustom(${r.id})">✕</button>`:''}</td>`:''}
     </tr>`;
   });
   el.innerHTML=`<div class="tbl-wrap"><div class="tbl-scroll"><table>
     <thead><tr>
-      <th>Due Date</th><th>Status</th><th>Compliance</th><th>Period</th><th>Category</th><th>Copy</th><th>WhatsApp</th>
+      <th>Due Date</th><th>Status</th><th>Compliance</th><th>Period</th><th>Category</th><th>Copy</th><th>WhatsApp</th><th>GCal</th>
       ${hasCustom?'<th></th>':''}
     </tr></thead>
     <tbody>${rows}</tbody>
@@ -1230,9 +1262,10 @@ function renderGrid(){
           </div>
           <div class="card-footer">
             <span class="cbadge ${CB[r.c]||'cb-ot'}">${r.c}</span>
-            <div style="display:flex;gap:5px">
+            <div style="display:flex;gap:5px;flex-wrap:wrap">
               <button class="copy-btn" onclick="copyRow(${r.id},this)" title="Copy to clipboard">⎘</button>
               <button class="wa-btn" onclick="sendWA(${r.id})">${waIcon()}WA</button>
+              <button class="gcal-btn" onclick="addToGCal(${r.id})" title="Add to Google Calendar">${gcalIcon()}</button>
               ${isC?`<button class="del-btn" onclick="deleteCustom(${r.id})">✕</button>`:''}
             </div>
           </div>
@@ -1559,6 +1592,95 @@ function exportPDF(){
     }
   });
   doc.save('Compliance_Calendar_FY2026-27.pdf');
+}
+
+// ══════════════════════════════════════════════
+//  GOOGLE CALENDAR — ICON + INDIVIDUAL ADD
+// ══════════════════════════════════════════════
+function gcalIcon(){
+  return`<svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="1" y="2" width="16" height="15" rx="2" fill="#fff" stroke="#4285f4" stroke-width="1.2"/>
+    <rect x="1" y="2" width="16" height="5" rx="2" fill="#4285f4"/>
+    <rect x="1" y="5" width="16" height="2" fill="#4285f4"/>
+    <line x1="5" y1="1" x2="5" y2="4" stroke="#4285f4" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="13" y1="1" x2="13" y2="4" stroke="#4285f4" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="9" y="14.5" text-anchor="middle" fill="#4285f4" font-size="6" font-weight="800" font-family="Arial,sans-serif">G</text>
+  </svg>`;
+}
+
+function addToGCal(id){
+  const r=allRows().find(x=>x.id===id);
+  if(!r) return;
+  const d=new Date(r.d);
+  const pad=n=>String(n).padStart(2,'0');
+  const dtstart=`${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`;
+  const nd=new Date(d); nd.setDate(nd.getDate()+1);
+  const dtend=`${nd.getFullYear()}${pad(nd.getMonth()+1)}${pad(nd.getDate())}`;
+  const text=encodeURIComponent(`${r.n} [${r.c}]`);
+  const details=encodeURIComponent(`Period: ${r.p}\nCategory: ${r.c}\nSource: TaxationUpdates.com`);
+  const url=`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${dtstart}/${dtend}&details=${details}`;
+  window.open(url,'_blank','noopener');
+}
+
+// ══════════════════════════════════════════════
+//  ICS EXPORT
+// ══════════════════════════════════════════════
+function icsDateStr(ds){
+  const d=new Date(ds);
+  const pad=n=>String(n).padStart(2,'0');
+  return`${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`;
+}
+
+function icsEscape(s){
+  return String(s).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n');
+}
+
+function exportICS(){
+  if(!filteredRows.length){alert('No deadlines to export.');return}
+  const cs=getCalSettings();
+  const lines=[
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//TaxationUpdates//Compliance Calendar FY 2026-27//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'X-WR-CALNAME:Compliance Calendar FY 2026-27',
+    'X-WR-CALDESC:Tax compliance deadlines - TaxationUpdates.com',
+    'X-WR-TIMEZONE:Asia/Kolkata',
+  ];
+  const now=new Date();
+  const stamp=`${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}T${String(now.getHours()).padStart(2,'0')}${String(now.getMinutes()).padStart(2,'0')}${String(now.getSeconds()).padStart(2,'0')}Z`;
+
+  filteredRows.forEach(r=>{
+    const dtstart=icsDateStr(r.d);
+    const nd=new Date(r.d); nd.setDate(nd.getDate()+1);
+    const dtend=`${nd.getFullYear()}${String(nd.getMonth()+1).padStart(2,'0')}${String(nd.getDate()).padStart(2,'0')}`;
+    lines.push('BEGIN:VEVENT');
+    lines.push(`UID:cc-fy2627-${r.id}@taxationupdates.com`);
+    lines.push(`DTSTAMP:${stamp}`);
+    lines.push(`DTSTART;VALUE=DATE:${dtstart}`);
+    lines.push(`DTEND;VALUE=DATE:${dtend}`);
+    lines.push(`SUMMARY:${icsEscape(r.n+' ['+r.c+']')}`);
+    lines.push(`DESCRIPTION:${icsEscape('Period: '+r.p+'\nCategory: '+r.c+'\nSource: TaxationUpdates.com')}`);
+    lines.push(`URL:https://taxationupdates.com/Compliance_Calendar_FY2627.html`);
+    lines.push(`CATEGORIES:${icsEscape(r.c)}`);
+    if(cs.reminderOn && cs.reminderDays>0){
+      lines.push('BEGIN:VALARM');
+      lines.push('ACTION:DISPLAY');
+      lines.push(`DESCRIPTION:Reminder: ${icsEscape(r.n)}`);
+      lines.push(`TRIGGER:-P${cs.reminderDays}D`);
+      lines.push('END:VALARM');
+    }
+    lines.push('END:VEVENT');
+  });
+  lines.push('END:VCALENDAR');
+
+  const blob=new Blob([lines.join('\r\n')],{type:'text/calendar;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='Compliance_Calendar_FY2026-27.ics';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
 }
 
 // ══════════════════════════════════════════════
@@ -2046,5 +2168,140 @@ function updateWAPreview(){
 });
 </script>
 <script src="/wa-init.js" defer></script>
+
+<!-- CALENDAR SETTINGS MODAL -->
+<div class="add-overlay hide" id="calSettingsOverlay" onclick="if(event.target===this)closeCalSettings()">
+  <div class="add-modal" style="max-width:460px">
+    <h3>📅 Calendar Export Settings</h3>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6">
+      Controls the reminder alert added to your <strong>.ics</strong> file when exported to Google Calendar, Apple Calendar, or Outlook.
+    </p>
+    <div class="form-grid" style="grid-template-columns:1fr">
+      <div class="form-group">
+        <label class="form-label">Reminder Alert</label>
+        <div class="toggle-row">
+          <label class="toggle-switch">
+            <input type="checkbox" id="cal-reminder-on" onchange="onCalReminderToggle()"/>
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="toggle-lbl" id="calReminderLbl">Off — no reminder added</span>
+        </div>
+      </div>
+      <div class="form-group" id="calDaysGroup" style="display:none">
+        <label class="form-label">Days Before Deadline</label>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:6px">
+          <input class="form-inp" type="number" id="cal-reminder-days" min="1" max="30" value="2"
+            style="width:74px;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:16px;padding:6px 8px"
+            oninput="updateCalPreview()"/>
+          <span style="font-size:12px;color:var(--muted)">days before due date</span>
+        </div>
+        <div class="day-pills" id="calDayPills">
+          <button class="day-pill" onclick="setCalDay(1)">1d</button>
+          <button class="day-pill" onclick="setCalDay(2)">2d</button>
+          <button class="day-pill" onclick="setCalDay(3)">3d</button>
+          <button class="day-pill" onclick="setCalDay(5)">5d</button>
+          <button class="day-pill" onclick="setCalDay(7)">7d</button>
+          <button class="day-pill" onclick="setCalDay(14)">14d</button>
+        </div>
+      </div>
+    </div>
+    <div class="cal-info-box" id="calSettingsPreview"></div>
+    <div style="margin-top:12px;font-size:11px;color:var(--muted2);line-height:1.6">
+      ℹ️ The reminder setting applies to the <strong>.ics export only</strong>. The individual Google Calendar button (📅 G) always opens Google Calendar with its own default reminders.
+    </div>
+    <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:11px 13px;margin-top:10px;font-size:11.5px;color:#92400e;line-height:1.7">
+      💡 <strong>Tip — Easy Removal Later:</strong><br>
+      Before importing, create a <strong>separate Google Calendar</strong> named <em>"Compliance FY 2026-27"</em> and import the .ics into that calendar.<br>
+      To remove all events later → just <strong>delete that calendar</strong> — all 148 events gone in one click. No manual deletion needed.
+      <div style="margin-top:8px;font-size:10.5px;color:#a16207;border-top:1px solid #fde68a;padding-top:7px">
+        <strong>How to create a separate calendar:</strong><br>
+        Google Calendar → left sidebar → Other calendars → <strong>+</strong> → Create new calendar → name it → then import .ics into it.
+      </div>
+    </div>
+    <div class="form-footer">
+      <button class="btn-cancel" onclick="resetCalSettings()">↺ Reset</button>
+      <button class="btn-cancel" onclick="closeCalSettings()">Cancel</button>
+      <button class="btn-save" onclick="saveCalSettings()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CALENDAR REMINDER SETTINGS ──
+const CAL_SETTINGS_KEY='cc_cal_settings';
+const CAL_DEFAULTS={reminderOn:true,reminderDays:2};
+
+function getCalSettings(){
+  try{ return{...CAL_DEFAULTS,...JSON.parse(localStorage.getItem(CAL_SETTINGS_KEY)||'{}')}; }
+  catch(e){ return{...CAL_DEFAULTS}; }
+}
+
+function openCalSettings(){
+  const s=getCalSettings();
+  const cb=document.getElementById('cal-reminder-on');
+  cb.checked=s.reminderOn;
+  document.getElementById('cal-reminder-days').value=s.reminderDays;
+  syncCalDaysGroup(s.reminderOn);
+  syncCalDayPills(s.reminderDays);
+  updateCalPreview();
+  document.getElementById('calSettingsOverlay').classList.remove('hide');
+}
+
+function closeCalSettings(){
+  document.getElementById('calSettingsOverlay').classList.add('hide');
+}
+
+function onCalReminderToggle(){
+  const on=document.getElementById('cal-reminder-on').checked;
+  syncCalDaysGroup(on);
+  updateCalPreview();
+}
+
+function syncCalDaysGroup(on){
+  document.getElementById('calDaysGroup').style.display=on?'':'none';
+  document.getElementById('calReminderLbl').textContent=on?'On — reminder enabled':'Off — no reminder added';
+}
+
+function setCalDay(n){
+  document.getElementById('cal-reminder-days').value=n;
+  syncCalDayPills(n);
+  updateCalPreview();
+}
+
+function syncCalDayPills(n){
+  document.querySelectorAll('#calDayPills .day-pill').forEach(p=>{
+    p.classList.toggle('on',parseInt(p.textContent)===n);
+  });
+}
+
+function updateCalPreview(){
+  const on=document.getElementById('cal-reminder-on').checked;
+  const days=parseInt(document.getElementById('cal-reminder-days').value)||2;
+  const count=filteredRows.length||allRows().length;
+  let msg='';
+  if(on){
+    msg=`✅ <strong>${count}</strong> event${count!==1?'s':''} will be exported with a <strong>${days}-day reminder</strong> before each deadline.`;
+  } else {
+    msg=`📅 <strong>${count}</strong> event${count!==1?'s':''} will be exported <strong>without reminders</strong>. You can add reminders manually in your calendar app after import.`;
+  }
+  document.getElementById('calSettingsPreview').innerHTML=msg;
+  if(on) syncCalDayPills(days);
+}
+
+function saveCalSettings(){
+  const on=document.getElementById('cal-reminder-on').checked;
+  const days=Math.min(30,Math.max(1,parseInt(document.getElementById('cal-reminder-days').value)||2));
+  localStorage.setItem(CAL_SETTINGS_KEY,JSON.stringify({reminderOn:on,reminderDays:days}));
+  closeCalSettings();
+}
+
+function resetCalSettings(){
+  document.getElementById('cal-reminder-on').checked=CAL_DEFAULTS.reminderOn;
+  document.getElementById('cal-reminder-days').value=CAL_DEFAULTS.reminderDays;
+  syncCalDaysGroup(CAL_DEFAULTS.reminderOn);
+  syncCalDayPills(CAL_DEFAULTS.reminderDays);
+  updateCalPreview();
+}
+</script>
 </body>
 </html>
