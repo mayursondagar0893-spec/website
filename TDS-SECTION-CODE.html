@@ -104,9 +104,14 @@ header{background:var(--hdr);border-bottom:1px solid var(--hbd);position:sticky;
 .hi{padding:11px 24px 9px}
 .hr1{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:11px}
-.logo{width:38px;height:38px;background:linear-gradient(135deg,#3d4408,#8c9a1a);border-radius:9px;
-  display:grid;place-items:center;font-family:'Playfair Display',serif;font-weight:900;font-size:12px;
-  color:#fff;flex-shrink:0;box-shadow:0 3px 12px rgba(140,154,26,.35)}
+.logo{background:linear-gradient(135deg,#3d4408,#8c9a1a);border-radius:9px;
+  display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-weight:900;font-size:11px;line-height:1.2;
+  color:#fff;flex-shrink:0;box-shadow:0 3px 12px rgba(140,154,26,.35);
+  padding:.38rem .6rem;text-decoration:none;text-align:center;cursor:pointer;
+  transition:filter var(--tr),transform var(--tr)}
+.logo:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.logo sup{font-size:.5em;vertical-align:super}
 .tg h1{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--htx);letter-spacing:-.01em;line-height:1.15}
 .tsub{font-size:10px;color:var(--hsb);margin-top:2px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 .atag{display:inline-flex;padding:1px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.05em;white-space:nowrap}
@@ -791,7 +796,7 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
 <div class="hi">
   <div class="hr1">
     <div class="brand">
-      <div class="logo">IT</div>
+      <a href="/" class="logo" title="Back to Home – Taxation Updates" aria-label="Back to Home – Taxation Updates">Taxation<sup>®</sup><br/>Updates</a>
       <div class="tg">
         <h1>TDS / TCS Section Code Master Table</h1>
         <div class="tsub">
