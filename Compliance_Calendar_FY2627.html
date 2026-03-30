@@ -83,8 +83,63 @@ a{color:var(--accent);text-decoration:none}
 /* ── MAIN ── */
 .main{max-width:1380px;margin:0 auto;padding:22px 28px}
 /* FY/TY/AY explanation banner */
-.fy-banner{background:var(--accent-bg);border-bottom:1px solid var(--border);padding:6px 28px;font-size:11.5px;color:var(--accent);font-weight:600;letter-spacing:.2px;display:flex;flex-wrap:wrap;gap:4px 16px;position:sticky;top:var(--hdr-h,62px);z-index:199}
+.fy-banner{background:var(--accent-bg);border-bottom:1px solid var(--border);padding:6px 28px;font-size:11.5px;color:var(--accent);font-weight:600;letter-spacing:.2px;display:flex;flex-wrap:wrap;gap:4px 16px;position:sticky;top:var(--hdr-h,62px);z-index:199;align-items:center}
 .fy-banner span{color:var(--text2);font-weight:400}
+.fy-banner-terms{display:flex;flex-wrap:wrap;gap:4px 16px;flex:1}
+.help-trigger-btn{margin-left:auto;flex-shrink:0;display:inline-flex;align-items:center;gap:5px;background:var(--accent);color:#fff;border:none;padding:3px 11px;border-radius:20px;cursor:pointer;font-size:11px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;transition:background .13s;letter-spacing:.2px}
+.help-trigger-btn:hover{background:var(--accent-h)}
+.help-trigger-btn svg{width:13px;height:13px;flex-shrink:0}
+
+/* ── HELP MODAL ── */
+.help-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:800;padding:16px;backdrop-filter:blur(4px)}
+.help-overlay.hide{display:none}
+.help-body.hide{display:none}
+.hide{display:none!important}
+.help-modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;width:100%;max-width:720px;max-height:88vh;display:flex;flex-direction:column;box-shadow:var(--shadow-lg);animation:pop .18s ease;overflow:hidden}
+.help-modal-hdr{padding:18px 22px 0;border-bottom:1px solid var(--border);flex-shrink:0}
+.help-modal-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.help-modal-title h2{font-size:16px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px}
+.help-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:18px;line-height:1;padding:2px 6px;border-radius:6px;transition:color .13s,background .13s}
+.help-close:hover{color:var(--text);background:var(--surface2)}
+.help-tabs{display:flex;gap:0;border-bottom:none}
+.help-tab{padding:8px 20px;border:none;background:transparent;font-size:13px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:color .13s,border-color .13s;white-space:nowrap}
+.help-tab:hover{color:var(--text)}
+.help-tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+.help-body{overflow-y:auto;padding:20px 22px;flex:1;scroll-behavior:smooth}
+.help-body::-webkit-scrollbar{width:5px}
+.help-body::-webkit-scrollbar-track{background:transparent}
+.help-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:10px}
+
+/* ── HELP CONTENT STYLES ── */
+.help-section{margin-bottom:22px}
+.help-section:last-child{margin-bottom:0}
+.help-section-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:6px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.help-section-title::before{content:'';width:3px;height:14px;background:var(--accent);border-radius:2px;display:inline-block;flex-shrink:0}
+.help-item{display:flex;gap:10px;margin-bottom:9px;align-items:flex-start}
+.help-item:last-child{margin-bottom:0}
+.help-item-icon{font-size:14px;flex-shrink:0;width:20px;text-align:center;margin-top:1px}
+.help-item-body{flex:1}
+.help-item-label{font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:2px}
+.help-item-desc{font-size:12px;color:var(--text2);line-height:1.6}
+.help-item-desc strong{color:var(--text);font-weight:700}
+.help-item-desc code{background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:0px 5px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent)}
+.help-badge{display:inline-flex;align-items:center;gap:3px;background:var(--surface2);border:1px solid var(--border2);border-radius:5px;padding:1px 7px;font-size:11px;font-weight:600;font-family:'JetBrains Mono',monospace;color:var(--text2);white-space:nowrap;vertical-align:middle;margin:0 2px}
+.help-limit-box{background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:11px 14px;margin-top:12px}
+[data-theme="dark"] .help-limit-box{background:#1c1208;border-color:#78350f}
+.help-limit-box-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#c2410c;margin-bottom:8px;display:flex;align-items:center;gap:5px}
+[data-theme="dark"] .help-limit-box-title{color:#fb923c}
+.help-limit-item{font-size:11.5px;color:#7c2d12;line-height:1.6;margin-bottom:4px;padding-left:14px;position:relative}
+[data-theme="dark"] .help-limit-item{color:#fdba74}
+.help-limit-item::before{content:'•';position:absolute;left:2px;color:#ea580c}
+.help-feat-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start}
+.help-feat-card:last-child{margin-bottom:0}
+.help-feat-icon{font-size:18px;flex-shrink:0;width:28px;text-align:center}
+.help-feat-body{flex:1}
+.help-feat-title{font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:3px}
+.help-feat-desc{font-size:11.5px;color:var(--text2);line-height:1.6}
+.help-feat-benefit{display:inline-block;margin-top:4px;font-size:10.5px;font-weight:600;color:#0f9d58;background:#ecfdf5;border:1px solid #bbf7d0;border-radius:4px;padding:1px 7px}
+[data-theme="dark"] .help-feat-benefit{color:#86efac;background:#052e16;border-color:#14532d}
+.help-kbd{display:inline-flex;align-items:center;gap:3px;background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:1px 6px;font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text2);box-shadow:0 1px 2px rgba(0,0,0,.08)}
 
 /* ── STATS ── */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
@@ -140,8 +195,8 @@ a{color:var(--accent);text-decoration:none}
 .exp-btn.ics{border-color:#0f9d58;color:#0f9d58}
 .exp-btn.ics:hover{background:#e6f4ea;border-color:#0a8a4a}
 [data-theme="dark"] .exp-btn.ics:hover{background:#052e16}
-.exp-btn.cal-gear{border-color:var(--border2);color:var(--muted2);padding:5px 9px}
-.exp-btn.cal-gear:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
+.ics-gear-badge{font-size:10px;opacity:.75;margin-left:1px;vertical-align:middle;display:inline-block}
+.exp-btn.ics-settings-btn{display:inline-flex;align-items:center;gap:3px}
 /* GCal per-row button */
 .gcal-btn{background:transparent;border:1px solid #4285f4;color:#4285f4;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;transition:all .13s;white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
 .gcal-btn svg{width:13px;height:13px;flex-shrink:0}
@@ -384,6 +439,8 @@ td:last-child{border-right:none}
 .btn-cancel:hover{background:var(--surface2)}
 .btn-save{background:var(--accent);color:#fff;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;transition:background .13s}
 .btn-save:hover{background:var(--accent-h)}
+.btn-ics-download{background:#0f9d58!important;border:none}
+.btn-ics-download:hover{background:#0a8a4a!important}
 
 /* ── DASHBOARD ── */
 .dash{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
@@ -588,9 +645,15 @@ td:last-child{border-right:none}
 
 <!-- FY / TY / AY LEGEND BANNER -->
 <div class="fy-banner">
-  <div>FY <span>= Financial Year (April – March)</span></div>
-  <div>AY <span>= Assessment Year (follows FY)</span></div>
-  <div>TY <span>= Tax Year (April - March) (IT Act 2025)</span></div>
+  <div class="fy-banner-terms">
+    <div>FY <span>= Financial Year (April – March)</span></div>
+    <div>AY <span>= Assessment Year (follows FY)</span></div>
+    <div>TY <span>= Tax Year (April - March) (IT Act 2025)</span></div>
+  </div>
+  <button class="help-trigger-btn" onclick="openHelp()" title="Help — How to Use &amp; Features">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    Help
+  </button>
 </div>
 
 <div class="main">
@@ -622,7 +685,7 @@ td:last-child{border-right:none}
       <div class="pills" id="catPills"></div>
       <button class="wa-settings-btn" onclick="openWASettings()" title="Customise WhatsApp message">✎ WA Message</button>
     </div>
-    <div class="filter-row agm-row hide" id="agmRow">
+    <div class="filter-row agm-row" id="agmRow">
       <span class="filter-lbl" style="color:#d97706;font-weight:700;white-space:nowrap;width:auto;min-width:unset;margin-right:10px">🏢 AGM Date</span>
       <input type="date" id="agmDateInp" class="form-inp" style="width:150px;flex-shrink:0;padding:4px 10px;font-size:12px;font-family:'JetBrains Mono',monospace;font-weight:600;border-color:#d97706;color:var(--text)" onchange="onAgmChange(this.value)" title="AGM date — due dates for AOC-4, MGT-7, ADT-1 update automatically"/>
       <span class="agm-note">AOC-4 / MGT-7 / ADT-1 auto-update · <em>(Applicable for Corporate Entities only)</em></span>
@@ -640,8 +703,7 @@ td:last-child{border-right:none}
       </label>
       <button class="exp-btn" onclick="exportExcel()">⬇ Excel</button>
       <button class="exp-btn pdf" onclick="exportPDF()">⬇ PDF</button>
-      <button class="exp-btn ics" onclick="exportICS()" title="Export all filtered deadlines as .ics — import into Google Calendar, Outlook, Apple Calendar">📅 .ics</button>
-      <button class="exp-btn cal-gear" onclick="openCalSettings()" title="Calendar reminder settings">⚙</button>
+      <button class="exp-btn ics ics-settings-btn" onclick="openCalSettings()" title="Configure reminder settings &amp; download .ics — import into Google Calendar, Outlook, Apple Calendar">📅 .ics <span class="ics-gear-badge">⚙</span></button>
     </div>
   </div>
 
@@ -1012,7 +1074,7 @@ function init(){
       state.cat=next;state.statusF='all';
       refreshPills('catPills', isActive?allCatPill:b);
       clearStatActive();
-      toggleAgmRow(next==='Company Law');
+      
       applyFilters();
     };
     cp.appendChild(b);
@@ -1021,7 +1083,7 @@ function init(){
   // Initialise AGM date input
   const agmInp=document.getElementById('agmDateInp');
   if(agmInp) agmInp.value=agmDateStr;
-  toggleAgmRow(state.cat==='Company Law');
+  
 
   applyFilters();
 }
@@ -1033,15 +1095,6 @@ function refreshPills(id,btn){
 function clearStatActive(){document.querySelectorAll('.stat').forEach(x=>x.classList.remove('active'))}
 
 // ── AGM DATE PICKER LOGIC ──
-function toggleAgmRow(show){
-  const row=document.getElementById('agmRow');
-  if(!row) return;
-  row.classList.toggle('hide',!show);
-  if(show){
-    const inp=document.getElementById('agmDateInp');
-    if(inp) inp.value=agmDateStr;
-  }
-}
 function onAgmChange(val){
   if(!val) return;
   agmDateStr=val;
@@ -1102,7 +1155,7 @@ function filterByStatus(k,el){
   document.querySelectorAll('#catPills .pill').forEach((x,i)=>x.classList.toggle('on',i===0));
   clearStatActive();
   if(state.statusF!=='all') el.classList.add('active');
-  toggleAgmRow(false);
+  
   applyFilters();
 }
 
@@ -1572,35 +1625,50 @@ function fmtDDMMYYYY(ds){
 function exportPDF(){
   const{jsPDF}=window.jspdf;
   const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
-  // Header
+  const PW=297,ML=12,MR=12,usable=PW-ML-MR; // 273mm usable
+
+  // ── Header bar ──
   doc.setFillColor(26,86,219);
-  doc.rect(0,0,297,18,'F');
-  doc.setFontSize(13);doc.setFont('helvetica','bold');doc.setTextColor(255,255,255);
-  doc.text('Compliance Calendar FY 2026-27',14,12);
-  doc.setFontSize(8);doc.setFont('helvetica','normal');
-  doc.text(`Taxation Updates  ·  CA Mayur J. Sondagar  ·  Generated: ${new Date().toLocaleDateString('en-IN')}  ·  ${filteredRows.length} of ${allRows().length} deadlines`,160,12);
+  doc.rect(0,0,PW,16,'F');
+  doc.setFontSize(12);doc.setFont('helvetica','bold');doc.setTextColor(255,255,255);
+  doc.text('Compliance Calendar FY 2026-27',ML,10.5);
+  doc.setFontSize(7);doc.setFont('helvetica','normal');
+  const meta=`Taxation Updates  ·  CA Mayur J. Sondagar  ·  ${new Date().toLocaleDateString('en-IN')}  ·  ${filteredRows.length} deadlines`;
+  doc.text(meta,PW-MR,10.5,{align:'right'});
   doc.setTextColor(0,0,0);
+
+  // ── Column widths fill full usable width 273mm ──
+  // Due Date:25 | Compliance:128 | Period:52 | Category:38 | Status:30 = 273
   doc.autoTable({
-    startY:22,
-    head:[['Due Date','Compliance','Period','Category','Status']],
+    startY:20,
+    head:[['Due Date','Compliance / Description','Period','Category','Status']],
     body:filteredRows.map(r=>[
       fmtDDMMYYYY(r.d),r.n,r.p,r.c,statusLabel(r._st,r._dl)
     ]),
-    styles:{fontSize:8,cellPadding:3,lineColor:[180,192,212],lineWidth:0.2},
-    headStyles:{fillColor:[26,86,219],textColor:255,fontStyle:'bold',fontSize:8.5,cellPadding:4},
+    styles:{fontSize:7.5,cellPadding:2,lineColor:[180,192,212],lineWidth:0.18,overflow:'linebreak'},
+    headStyles:{fillColor:[26,86,219],textColor:255,fontStyle:'bold',fontSize:7.5,cellPadding:2.5},
     alternateRowStyles:{fillColor:[244,246,251]},
     columnStyles:{
-      0:{cellWidth:24,fontStyle:'bold'},
-      1:{cellWidth:90},
-      2:{cellWidth:36},
-      3:{cellWidth:28},
-      4:{cellWidth:26}
+      0:{cellWidth:25,fontStyle:'bold'},
+      1:{cellWidth:100},
+      2:{cellWidth:78},
+      3:{cellWidth:38},
+      4:{cellWidth:32}
     },
-    margin:{left:14,right:14},
+    tableWidth:usable,
+    margin:{left:ML,right:MR},
     didDrawPage:(data)=>{
-      // Footer
-      doc.setFontSize(7);doc.setTextColor(150,150,150);
-      doc.text(`TaxationUpdates.com  ·  Page ${data.pageNumber}`,14,doc.internal.pageSize.height-6);
+      if(data.pageNumber>1){
+        doc.setFillColor(26,86,219);
+        doc.rect(0,0,PW,12,'F');
+        doc.setFontSize(9);doc.setFont('helvetica','bold');doc.setTextColor(255,255,255);
+        doc.text('Compliance Calendar FY 2026-27 (contd.)',ML,8.5);
+        doc.setFontSize(6.5);doc.setFont('helvetica','normal');
+        doc.text(meta,PW-MR,8.5,{align:'right'});
+        doc.setTextColor(0,0,0);
+      }
+      doc.setFontSize(6.5);doc.setTextColor(150,150,150);
+      doc.text(`TaxationUpdates.com  ·  Page ${data.pageNumber}`,ML,doc.internal.pageSize.height-4);
     }
   });
   doc.save('Compliance_Calendar_FY2026-27.pdf');
@@ -1788,7 +1856,7 @@ function resetMonthFilter(){
   state.monthIdx=null; state.statusF='all';
   document.querySelectorAll('#monthPills .pill').forEach((x,i)=>x.classList.toggle('on',i===0));
   clearStatActive();
-  toggleAgmRow(state.cat==='Company Law');
+  
   applyFilters();
 }
 
@@ -1801,7 +1869,7 @@ function filterByCategory(cat){
     x.classList.toggle('on', state.cat==='All'?x.textContent==='All':x.textContent===state.cat);
   });
   clearStatActive();
-  toggleAgmRow(state.cat==='Company Law');
+  
   applyFilters();
 }
 
@@ -2010,7 +2078,7 @@ function jumpToMonth(fyIdx){
   document.querySelectorAll('.stat').forEach(x=>x.classList.remove('active'));
   const [,m,y]=FY_MONTHS[fyIdx];
   calMonth=m-1; calYear=y;
-  toggleAgmRow(false);
+  
   applyFilters();
   setTimeout(()=>window.scrollTo({top:0,behavior:'smooth'}),80);
 }
@@ -2025,7 +2093,7 @@ function drillDown(statusKey){
   });
   document.querySelectorAll('#catPills .pill').forEach((x,i)=>x.classList.toggle('on',i===0));
   document.querySelectorAll('.stat').forEach(x=>x.classList.remove('active'));
-  toggleAgmRow(false);
+  
   setView('table');
   setTimeout(()=>{
     const el=document.getElementById('viewTable');
@@ -2086,11 +2154,14 @@ document.addEventListener('keydown',function(e){
     document.querySelectorAll('.wa-menu').forEach(m=>m.remove());
     if(!document.getElementById('addOverlay').classList.contains('hide')) closeAddModal();
     if(!document.getElementById('waSettingsOverlay').classList.contains('hide')) closeWASettings();
+    if(!document.getElementById('calSettingsOverlay').classList.contains('hide')) closeCalSettings();
+    if(!document.getElementById('helpOverlay').classList.contains('hide')) closeHelp();
   }
-  // Ctrl/Cmd+F → focus search
-  if((e.ctrlKey||e.metaKey) && e.key==='f'){
+  // Ctrl/Cmd+F → focus page search box (prevent browser find bar)
+  if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='f'){
+    e.preventDefault();
     const inp=document.getElementById('searchInp');
-    if(inp && document.activeElement!==inp){e.preventDefault();inp.focus();inp.select();}
+    if(inp){inp.focus();inp.select();}
   }
 });
 
@@ -2184,9 +2255,9 @@ function updateWAPreview(){
 <!-- CALENDAR SETTINGS MODAL -->
 <div class="add-overlay hide" id="calSettingsOverlay" onclick="if(event.target===this)closeCalSettings()">
   <div class="add-modal" style="max-width:460px">
-    <h3>📅 Calendar Export Settings</h3>
+    <h3>📅 .ics Export — Calendar Settings</h3>
     <p style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6">
-      Controls the reminder alert added to your <strong>.ics</strong> file when exported to Google Calendar, Apple Calendar, or Outlook.
+      Configure the reminder alert for your <strong>.ics</strong> file, then click <strong>Download .ics</strong> to export. Imports into Google Calendar, Apple Calendar, or Outlook.
     </p>
     <div class="form-grid" style="grid-template-columns:1fr">
       <div class="form-group">
@@ -2224,7 +2295,7 @@ function updateWAPreview(){
     <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:11px 13px;margin-top:10px;font-size:11.5px;color:#92400e;line-height:1.7">
       💡 <strong>Tip — Easy Removal Later:</strong><br>
       Before importing, create a <strong>separate Google Calendar</strong> named <em>"Compliance FY 2026-27"</em> and import the .ics into that calendar.<br>
-      To remove all events later → just <strong>delete that calendar</strong> — all 148 events gone in one click. No manual deletion needed.
+      To remove all events later → just <strong>delete that calendar</strong> — all <span class="helpTotalCount">148</span> events gone in one click. No manual deletion needed.
       <div style="margin-top:8px;font-size:10.5px;color:#a16207;border-top:1px solid #fde68a;padding-top:7px">
         <strong>How to create a separate calendar:</strong><br>
         Google Calendar → left sidebar → Other calendars → <strong>+</strong> → Create new calendar → name it → then import .ics into it.
@@ -2233,7 +2304,8 @@ function updateWAPreview(){
     <div class="form-footer">
       <button class="btn-cancel" onclick="resetCalSettings()">↺ Reset</button>
       <button class="btn-cancel" onclick="closeCalSettings()">Cancel</button>
-      <button class="btn-save" onclick="saveCalSettings()">Save</button>
+      <button class="btn-save" onclick="saveCalSettings()">Save Settings</button>
+      <button class="btn-save btn-ics-download" onclick="saveAndDownloadICS()" title="Save settings and download .ics file">⬇ Download .ics</button>
     </div>
   </div>
 </div>
@@ -2256,6 +2328,8 @@ function openCalSettings(){
   syncCalDaysGroup(s.reminderOn);
   syncCalDayPills(s.reminderDays);
   updateCalPreview();
+  // Update live count in the tip text
+  document.querySelectorAll('.helpTotalCount').forEach(el=>el.textContent=allRows().length);
   document.getElementById('calSettingsOverlay').classList.remove('hide');
 }
 
@@ -2314,6 +2388,482 @@ function resetCalSettings(){
   syncCalDayPills(CAL_DEFAULTS.reminderDays);
   updateCalPreview();
 }
+
+function saveAndDownloadICS(){
+  // Save current settings first
+  const on=document.getElementById('cal-reminder-on').checked;
+  const days=Math.min(30,Math.max(1,parseInt(document.getElementById('cal-reminder-days').value)||2));
+  localStorage.setItem(CAL_SETTINGS_KEY,JSON.stringify({reminderOn:on,reminderDays:days}));
+  closeCalSettings();
+  // Then trigger the download using the freshly saved settings
+  exportICS();
+}
 </script>
-</body>
-</html>
+<!-- ══════════════════════════════════════════════
+     HELP MODAL
+     ══════════════════════════════════════════════ -->
+<div class="help-overlay hide" id="helpOverlay" onclick="if(event.target===this)closeHelp()">
+  <div class="help-modal">
+    <div class="help-modal-hdr">
+      <div class="help-modal-title">
+        <h2>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Compliance Calendar — Help Guide
+        </h2>
+        <button class="help-close" onclick="closeHelp()" title="Close">✕</button>
+      </div>
+      <div class="help-tabs">
+        <button class="help-tab on" id="htab-use" onclick="switchHelpTab('use')">📖 How to Use</button>
+        <button class="help-tab" id="htab-feat" onclick="switchHelpTab('feat')">⚡ Features</button>
+      </div>
+    </div>
+
+    <!-- ── TAB: HOW TO USE ── -->
+    <div class="help-body" id="hpanel-use">
+
+      <div class="help-section">
+        <div class="help-section-title">Getting Started</div>
+        <div class="help-item">
+          <div class="help-item-icon">📅</div>
+          <div class="help-item-body">
+            <div class="help-item-label">What is this tool?</div>
+            <div class="help-item-desc">This is a <strong>free, browser-based compliance calendar</strong> covering <strong><span id="helpTotalCount" class="helpTotalCount">148</span> statutory deadlines</strong> for FY 2026-27 (April 2026 – March 2027) across GST, TDS/TCS, PF/ESIC, Income Tax, Company Law, and Other categories. No login, no install, no internet required after the page loads.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">🟢</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Status Colour Logic</div>
+            <div class="help-item-desc"><span class="help-badge" style="color:#dc2626;border-color:#fca5a5">Overdue</span> = past due date &nbsp;·&nbsp; <span class="help-badge" style="color:#dc2626;border-color:#fca5a5">Critical</span> = due within 3 days &nbsp;·&nbsp; <span class="help-badge" style="color:#b45309;border-color:#fde68a">Urgent</span> = due in 4–7 days &nbsp;·&nbsp; <span class="help-badge" style="color:#854d0e;border-color:#fef08a">Upcoming</span> = due in 8–30 days &nbsp;·&nbsp; <span class="help-badge" style="color:#15803d;border-color:#bbf7d0">OK</span> = more than 30 days away. Statuses update automatically based on today's date.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-section-title">Filters &amp; Search</div>
+        <div class="help-item">
+          <div class="help-item-icon">🔢</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Status Cards (top tiles)</div>
+            <div class="help-item-desc">Click any of the 4 tiles — <strong>Total, Overdue, Due in 7 Days, Upcoming</strong> — to instantly filter the list to that status group. Click the same tile again to deselect (reset). Only one status filter is active at a time.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">📆</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Month Filter (pills)</div>
+            <div class="help-item-desc">Click any month pill (Apr 2026 to Mar 2027) to see deadlines for that month only. Click <strong>All</strong> to reset to all months. You can also click a bar in the monthly bar chart to jump to that month.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">🏷️</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Category Filter (pills)</div>
+            <div class="help-item-desc">Click a category pill — GST, TDS/TCS, PF/ESIC, Income Tax, Company Law, Other — to narrow the list. Clicking <strong>Company Law</strong> also reveals the <strong>AGM Date</strong> input row. Clicking the donut chart segment achieves the same effect.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">🔍</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Search</div>
+            <div class="help-item-desc">Type any keyword in the search box — it matches against the <strong>compliance name, period, and category</strong> simultaneously. Press <span class="help-kbd">Ctrl+F</span> (or <span class="help-kbd">⌘+F</span> on Mac) to focus the search box instantly. Click the <strong>✕</strong> icon to clear.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">🏢</div>
+          <div class="help-item-body">
+            <div class="help-item-label">AGM Date (Company Law)</div>
+            <div class="help-item-desc">Select <strong>Company Law</strong> category to reveal the AGM Date field. Enter your company's AGM date — the tool will automatically recalculate due dates for <strong>AOC-4, MGT-7, and ADT-1</strong> based on that date. Default is 30 Sep 2026. Click <strong>↺ Reset</strong> to restore the default. <em>Applicable for corporate entities only.</em></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-section-title">Views</div>
+        <div class="help-item">
+          <div class="help-item-icon">☰</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Table View (default)</div>
+            <div class="help-item-desc">Shows all filtered deadlines in a sortable table with columns: Due Date, Status, Compliance, Period, Category, Copy, WhatsApp, GCal. Toggle <strong>Month separators</strong> (checkbox in results bar) to show/hide coloured month-group dividers. Each month divider has its own <strong>⬇ PDF</strong>, <strong>📷 Image</strong>, and <strong>WhatsApp</strong> export buttons.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">⊞</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Cards View</div>
+            <div class="help-item-desc">Displays deadlines as colour-coded cards grouped by month. Each card shows the compliance name, due date, period, category badge, and status. Each month group also has PDF, Image, and WhatsApp export buttons. Ideal for quick visual scanning.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">⊡</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Calendar View</div>
+            <div class="help-item-desc">Displays deadlines on a monthly calendar grid. Events are colour-coded by category. <strong>Click any event</strong> to open a popover with actions (Copy, WhatsApp, GCal). If a day has more than 3 deadlines, a <strong>+N more</strong> link shows the remaining ones. Use <strong>← Prev / Next →</strong> to navigate months, and <strong>↻ Today</strong> to jump back to the current/reference month.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-section-title">Per-Row Actions</div>
+        <div class="help-item">
+          <div class="help-item-icon">⎘</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Copy to Clipboard</div>
+            <div class="help-item-desc">Click the <span class="help-badge">⎘</span> button on any row to copy a formatted text summary — compliance name, period, due date, category, and days remaining/overdue — to your clipboard in one click.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">💬</div>
+          <div class="help-item-body">
+            <div class="help-item-label">WhatsApp Reminder</div>
+            <div class="help-item-desc">Click <span class="help-badge" style="color:#25d366">WA</span> on any row to open WhatsApp Web (or the app on mobile) with a pre-filled reminder message. The message includes your customised greeting, closing, and signature. <strong>You must select a contact manually</strong> in WhatsApp — this tool cannot auto-send.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">📅</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Add to Google Calendar</div>
+            <div class="help-item-desc">Click the <span class="help-badge" style="color:#4285f4">G</span> button on any row to open Google Calendar's "create event" page pre-filled with the compliance name, date, and description. You must be logged into a Google account. The event is added to <em>your</em> calendar only.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-section-title">Exports</div>
+        <div class="help-item">
+          <div class="help-item-icon">📊</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Export to Excel</div>
+            <div class="help-item-desc">Click <span class="help-badge">⬇ Excel</span> to download the <strong>currently filtered rows</strong> as an <code>.xlsx</code> file. Columns: Due Date, Compliance, Period, Category, Status. Apply month/category/search filters first to export only what you need.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">📄</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Export to PDF</div>
+            <div class="help-item-desc">Click <span class="help-badge">⬇ PDF</span> to download the <strong>currently filtered rows</strong> as a landscape A4 PDF. The PDF includes a header, all rows, and a footer with page numbers. Filter first if you only need a specific month or category.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">📅</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Export to .ics (Calendar File)</div>
+            <div class="help-item-desc">Click <span class="help-badge" style="color:#0f9d58">📅 .ics ⚙</span> to open the calendar export settings popup. Toggle the reminder on/off and choose how many days before each deadline the alert should fire (1d / 2d / 3d / 5d / 7d / 14d). Click <strong>Save Settings</strong> to save your preference, or <strong>⬇ Download .ics</strong> to save settings and immediately download the file. Import the <code>.ics</code> into Google Calendar, Apple Calendar, or Outlook.<br><br><strong>Tip:</strong> Create a separate calendar named <em>"Compliance FY 2026-27"</em> before importing — this lets you delete all <span class="helpTotalCount">148</span> events at once later by simply deleting that calendar.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">📷</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Month Image / PDF Export</div>
+            <div class="help-item-desc">In <strong>Table</strong> and <strong>Cards</strong> views, each month header row has <span class="help-badge">⬇ PDF</span> and <span class="help-badge">📷 Image</span> buttons. These export <em>only that month's deadlines</em> as a formatted PDF or JPEG image — useful for sharing monthly compliance summaries with clients or teams.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">💬</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Month WhatsApp Share</div>
+            <div class="help-item-desc">The WhatsApp icon in each month header sends a text summary of that month's deadline count, along with an image or PDF attachment (downloaded separately). Opens WhatsApp Web — contact selection is manual.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-section-title">Settings &amp; Customisation</div>
+        <div class="help-item">
+          <div class="help-item-icon">✎</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Customise WhatsApp Message</div>
+            <div class="help-item-desc">Click <span class="help-badge">✎ WA Message</span> in the category filter row. Edit the <strong>Opening Line</strong> (e.g., "Dear Client,"), <strong>Closing Line</strong> (e.g., "Kindly ensure timely compliance."), and <strong>Signature</strong>. A live preview is shown. Click <strong>Save</strong> — settings persist across sessions. Click <strong>↺ Reset to Default</strong> to restore original text.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">➕</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Add Custom Compliance</div>
+            <div class="help-item-desc">Click <span class="help-badge">+ Add</span> to open the add form. Fill in: Compliance Name (required), Due Date (required), Category (required), and Period/Remarks (optional). Click <strong>Save Compliance</strong>. Custom entries appear with a <span class="help-badge" style="background:#fef3c7;color:#92400e;border-color:#fde68a">CUSTOM</span> tag and are stored in your browser — they persist across sessions on the same device/browser.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">✕</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Delete Custom Compliance</div>
+            <div class="help-item-desc">Custom entries show a red <span class="help-badge" style="color:#dc2626;border-color:#fecaca">✕</span> delete button in the last column. Click it and confirm the prompt to permanently remove that entry from your browser storage.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">🗓️</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Custom Reference Date</div>
+            <div class="help-item-desc">The date badge in the header (top-right area) shows today's date. Click <strong>Change</strong> next to it to pick a different date — all status calculations (Overdue / Urgent / Upcoming) will be recomputed relative to that date. This is useful for <strong>future planning</strong> ("what will be urgent on 1st June?"). Click <strong>↺</strong> to reset to today.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">🌙</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Dark Mode</div>
+            <div class="help-item-desc">Click the <span class="help-badge">🌙</span> toggle in the header to switch between light and dark themes. Your preference is saved in the browser and restored on next visit.</div>
+          </div>
+        </div>
+        <div class="help-item">
+          <div class="help-item-icon">⌨️</div>
+          <div class="help-item-body">
+            <div class="help-item-label">Keyboard Shortcuts</div>
+            <div class="help-item-desc"><span class="help-kbd">Ctrl+F</span> / <span class="help-kbd">⌘F</span> — focus search box &nbsp;·&nbsp; <span class="help-kbd">Esc</span> — close any open modal or popover</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Limitations box -->
+      <div class="help-limit-box">
+        <div class="help-limit-box-title">⚠️ Limitations to Be Aware Of</div>
+        <div class="help-limit-item">Data covers <strong>FY 2026-27 only</strong> (Apr 2026 – Mar 2027). No multi-year or prior-year data is included.</div>
+        <div class="help-limit-item"><strong>Custom entries are stored in browser localStorage.</strong> Clearing browser data, using incognito mode, or switching browsers/devices will lose them. There is no cloud sync or backup.</div>
+        <div class="help-limit-item">The <strong>.ics import is a one-time snapshot</strong> — if you update deadlines in this tool after importing, the calendar app will NOT auto-sync. Re-export and re-import to get updates.</div>
+        <div class="help-limit-item"><strong>WhatsApp send</strong> opens WhatsApp Web / app — you must manually select the recipient. Bulk sending to multiple contacts is not supported.</div>
+        <div class="help-limit-item"><strong>Google Calendar</strong> button requires you to be signed into a Google account in the same browser session.</div>
+        <div class="help-limit-item"><strong>AGM date changes</strong> affect only three filings: AOC-4, MGT-7, and ADT-1. All other deadlines are fixed.</div>
+        <div class="help-limit-item">Calendar view shows a maximum of <strong>3 events per day cell</strong>. Use the "+N more" link to see additional events for that date.</div>
+        <div class="help-limit-item">Month Image/PDF export requires <strong>html2canvas</strong> to load from CDN — will fail if there is no internet connection at page load time.</div>
+        <div class="help-limit-item">This tool provides deadline information only. <strong>Verify due dates against official CBDT / CBIC / MCA notifications</strong> as extensions or changes may be announced after the tool was last updated (March 2026).</div>
+      </div>
+
+    </div><!-- end hpanel-use -->
+
+    <!-- ── TAB: FEATURES ── -->
+    <div class="help-body hide" id="hpanel-feat">
+
+      <div class="help-section">
+        <div class="help-section-title">Dashboard &amp; Insights</div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">🔢</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">4 Live Status Tiles</div>
+            <div class="help-feat-desc">Real-time count of Total, Overdue, Due in 7 Days, and Upcoming (30d) deadlines — computed fresh every session. Click any tile to instantly filter the entire view to that status group.</div>
+            <span class="help-feat-benefit">✓ Instant compliance health snapshot at a glance</span>
+          </div>
+        </div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">🍩</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">Category Donut Chart</div>
+            <div class="help-feat-desc">Interactive donut showing deadline distribution across all 6 categories. Labels and counts are displayed directly on the chart segments. Click any segment to filter by that category. Updates live as filters change.</div>
+            <span class="help-feat-benefit">✓ Visual workload distribution — spot which compliance area needs most attention</span>
+          </div>
+        </div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">📊</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">Monthly Bar Chart</div>
+            <div class="help-feat-desc">Bar chart showing deadline count for each of the 12 FY months. Always shows all months regardless of active filters. Click any bar to jump to that month's deadlines. Click again to reset. Double-click resets the filter.</div>
+            <span class="help-feat-benefit">✓ Identify peak compliance months — plan workload and staffing in advance</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-section-title">Views &amp; Navigation</div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">☰</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">Table View with Month Separators</div>
+            <div class="help-feat-desc">Full-detail tabular view with colour-coded month dividers. Each divider shows the month name, deadline count, and one-click export buttons (PDF, Image, WhatsApp). Toggle separators on/off via the checkbox in the results bar.</div>
+            <span class="help-feat-benefit">✓ Best for reviewing, copying, and sharing individual deadlines</span>
+          </div>
+        </div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">⊞</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">Cards View</div>
+            <div class="help-feat-desc">Visual card layout grouped by month, each card showing the compliance name, date, period, status badge, and category colour. Optimised for quick visual review and mobile reading.</div>
+            <span class="help-feat-benefit">✓ Ideal for client presentations and quick status reviews</span>
+          </div>
+        </div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">⊡</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">Monthly Calendar View</div>
+            <div class="help-feat-desc">Full monthly grid with colour-coded category events, weekend highlights, and today marker. Supports prev/next navigation, "Today" jump, and per-event action popovers with Copy, WhatsApp, and GCal buttons.</div>
+            <span class="help-feat-benefit">✓ Natural calendar planning — see exactly which days have multiple deadlines</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-section-title">Filtering &amp; Search</div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">🔍</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">Live Search</div>
+            <div class="help-feat-desc">Searches across compliance name, period, and category simultaneously with every keystroke. Press <span class="help-kbd">Ctrl+F</span> / <span class="help-kbd">⌘F</span> to instantly jump focus to the search box.</div>
+            <span class="help-feat-benefit">✓ Find any deadline in under 2 seconds</span>
+          </div>
+        </div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">🏷️</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">Multi-dimensional Filters</div>
+            <div class="help-feat-desc">Filter by Month, Category, Status, and Search simultaneously — all filters stack and work together. Active filters are shown as tags below the results count. Filters apply across all three views instantly.</div>
+            <span class="help-feat-benefit">✓ Drill down to exactly the deadlines that matter right now</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-section-title">Smart Customisation</div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">🗓️</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">Custom Reference Date</div>
+            <div class="help-feat-desc">Change the "today" date used for all status calculations. Simulate what the calendar will look like on any future date — useful for advance planning, client meetings, or year-end reviews.</div>
+            <span class="help-feat-benefit">✓ Plan ahead — see what will be urgent on any specific future date</span>
+          </div>
+        </div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">🏢</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">AGM Date Auto-Computation</div>
+            <div class="help-feat-desc">Enter your company's AGM date and the tool automatically recalculates the statutory due dates for AOC-4 (Form for Financial Statements), MGT-7 (Annual Return), and ADT-1 (Auditor Appointment). Eliminates manual date calculation errors.</div>
+            <span class="help-feat-benefit">✓ No more manual MCA deadline arithmetic — enter AGM date once, get all three due dates</span>
+          </div>
+        </div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">➕</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">Custom Compliance Entries</div>
+            <div class="help-feat-desc">Add your own deadlines (client-specific filings, internal dates, etc.) with the "+ Add" button. Custom entries integrate seamlessly with all filters, exports, and status logic. Stored in browser localStorage — persist across sessions on the same device.</div>
+            <span class="help-feat-benefit">✓ Personalise the calendar for each client or firm requirement</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-section-title">Communication &amp; Sharing</div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">💬</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">WhatsApp Reminder — Per Row &amp; Per Month</div>
+            <div class="help-feat-desc">Send a formatted compliance reminder directly via WhatsApp for any individual deadline. Also send a monthly summary (with image/PDF attachment) from each month header. Message text is fully customisable via <strong>✎ WA Message</strong> settings.</div>
+            <span class="help-feat-benefit">✓ Client reminders in seconds — no copy-pasting, no formatting effort</span>
+          </div>
+        </div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">✎</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">WhatsApp Message Customiser</div>
+            <div class="help-feat-desc">Personalise the opening line, closing line, and signature used in all WhatsApp reminders. Live preview shown as you type. Settings saved in browser and applied to all future sends automatically.</div>
+            <span class="help-feat-benefit">✓ Professional, branded client communication with zero extra effort</span>
+          </div>
+        </div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">⎘</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">One-Click Row Copy</div>
+            <div class="help-feat-desc">Click the copy icon on any row to copy a formatted text summary (name · period · due date · category · days left) to the clipboard. Paste directly into emails, notes, or chat.</div>
+            <span class="help-feat-benefit">✓ Share any deadline in one click — no manual typing</span>
+          </div>
+        </div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">📅</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">Google Calendar Integration</div>
+            <div class="help-feat-desc">Add any single deadline to Google Calendar with one click. Opens Google Calendar's event creation page pre-filled with the compliance name, date, and a description including period and source URL. No API key or authorisation required.</div>
+            <span class="help-feat-benefit">✓ Selective calendar entries — add only the deadlines relevant to a specific client</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-section-title">Export Options</div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">📊</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">Excel Export (Filtered)</div>
+            <div class="help-feat-desc">Downloads the currently filtered rows as a formatted <code>.xlsx</code> file with 5 columns. Apply filters first to get exactly the rows you need — full year, single month, single category, or any combination.</div>
+            <span class="help-feat-benefit">✓ Hand off deadline data to staff or clients in a familiar spreadsheet format</span>
+          </div>
+        </div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">📄</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">PDF Export (Filtered)</div>
+            <div class="help-feat-desc">Generates a landscape A4 PDF of filtered rows with a professional header (title + date + count) and footer (website + page number). Table columns are optimally sized to fill the full page width with no blank right margin.</div>
+            <span class="help-feat-benefit">✓ Print-ready compliance list for client files, partner reviews, or office notice boards</span>
+          </div>
+        </div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">🗓️</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">.ics Calendar Export with Reminders</div>
+            <div class="help-feat-desc">Exports all filtered deadlines as an industry-standard <code>.ics</code> file importable into Google Calendar, Apple Calendar, Outlook, and any RFC 5545-compliant app. Configurable reminder alerts (1–30 days before each deadline). Includes event title, description, period, and source URL for each entry.</div>
+            <span class="help-feat-benefit">✓ Import <span class="helpTotalCount">148</span> deadlines into your calendar in under 60 seconds — with automatic reminders</span>
+          </div>
+        </div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">📷</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">Month-level PDF &amp; Image Export</div>
+            <div class="help-feat-desc">Export any single month's deadlines as a standalone PDF or JPEG image directly from the Table or Cards view month header. The image captures the current view style (table or grid) and includes a professional header and footer.</div>
+            <span class="help-feat-benefit">✓ Send monthly compliance summaries as image attachments — no formatting required</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-section-title">Accessibility &amp; Usability</div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">🌙</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">Dark Mode</div>
+            <div class="help-feat-desc">Full dark theme available via the 🌙 toggle in the header. Preference saved in browser — persists across sessions. All charts, badges, and modals adapt to the selected theme.</div>
+            <span class="help-feat-benefit">✓ Comfortable for late-night deadline reviews</span>
+          </div>
+        </div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">📱</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">Mobile-Responsive Layout</div>
+            <div class="help-feat-desc">The header, filters, stats, toolbar, and card view adapt for small screens. Table and calendar views are horizontally scrollable on mobile. All action buttons remain accessible at any screen width.</div>
+            <span class="help-feat-benefit">✓ Use on phone or tablet when away from your desk</span>
+          </div>
+        </div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">⌨️</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">Keyboard Shortcuts</div>
+            <div class="help-feat-desc"><span class="help-kbd">Ctrl+F</span> / <span class="help-kbd">⌘F</span> to focus search instantly without using the browser's find dialog. <span class="help-kbd">Esc</span> to close any open modal or popover. Scroll-to-top button (↑) appears after scrolling past 300px.</div>
+            <span class="help-feat-benefit">✓ Power-user navigation without lifting hands from keyboard</span>
+          </div>
+        </div>
+        <div class="help-feat-card">
+          <div class="help-feat-icon">🔒</div>
+          <div class="help-feat-body">
+            <div class="help-feat-title">100% Client-Side — No Data Leaves Your Browser</div>
+            <div class="help-feat-desc">All data, filters, custom entries, and settings are processed entirely in your browser. Nothing is sent to any server. No login, no account, no subscription. Works offline after the initial page load (except CDN-dependent image export).</div>
+            <span class="help-feat-benefit">✓ Complete privacy — safe to use with confidential client data</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end hpanel-feat -->
+  </div>
+</div>
+
+<script>
+// ── HELP MODAL ──
+function openHelp(){
+  document.getElementById('helpOverlay').classList.remove('hide');
+  // Update all live count spans (help modal + cal settings tip)
+  const n=allRows().length;
+  document.querySelectorAll('.helpTotalCount').forEach(el=>el.textContent=n);
+  switchHelpTab('use');
+}
+function closeHelp(){
+  document.getElementById('helpOverlay').classList.add('hide');
+}
+function switchHelpTab(tab){
+  ['use','feat'].forEach(t=>{
+    document.getElementById('htab-'+t).classList.toggle('on',t===tab);
+    document.getElementById('hpanel-'+t).classList.toggle('hide',t!==tab);
+  });
+}
+</script>
