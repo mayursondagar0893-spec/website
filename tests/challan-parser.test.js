@@ -163,6 +163,21 @@ const NO_TOTAL_LINE = `
   F Others 0
 `;
 
+// Challan where the F row label reads "Others/Fee under section 234E" —
+// the parser must not capture the section number (234) as the fee amount.
+const FEE_UNDER_SECTION = `
+  ITNS No. : 280
+  PAN : ABCDE1234F
+  BSR Code : 1234567
+  A Tax 50,000
+  B Surcharge 0
+  C Cess 1,500
+  D Interest 500
+  E Penalty 0
+  F Others/Fee under section 234E 1,200
+  Total (A+B+C+D+E+F) 53,200
+`;
+
 // Default ITNS when the ITNS line is missing (should default to "280")
 const NO_ITNS_LINE = `
   PAN : ABCDE1234F
@@ -444,6 +459,12 @@ describe('parseChallan() — edge cases', () => {
     expect(r.ok).toBe(true);
     expect(r.pan).toBe('ABCDE1234F');
     expect(r.tax).toBe(1000);
+  });
+
+  it('does not capture section number as fee when label is "F Others/Fee under section 234E"', () => {
+    const r = parseChallan(FEE_UNDER_SECTION, 'fee-section.pdf');
+    expect(r.others).toBe(1200);   // must be the actual fee, not 234 (the section number)
+    expect(r.total).toBe(53200);
   });
 
   it('stores the original filename on the result', () => {

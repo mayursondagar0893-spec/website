@@ -92,7 +92,8 @@ function parseChallan(text, filename) {
   const cess      = parseAmount((t.match(amtRx('\\bC\\s+Cess'))      || [])[1]);
   const interest  = parseAmount((t.match(amtRx('\\bD\\s+Interest'))  || [])[1]);
   const penalty   = parseAmount((t.match(amtRx('\\bE\\s+Penalty'))   || [])[1]);
-  const others    = parseAmount((t.match(amtRx('\\bF\\s+(?:Others|Fee)')) || [])[1]);
+  const others    = parseAmount(
+    (t.match(/\bF\s+(?:Others(?:\s*\/\s*Fee)?|Fee)(?:\s+under\s+section\s+\d+[A-Za-z]*)?\s+([\d][\d,]*)/i) || [])[1]);
 
   const totM =
     t.match(amtRx('Total\\s*\\(A\\+B\\+C\\+D\\+E\\+F\\)')) ||
