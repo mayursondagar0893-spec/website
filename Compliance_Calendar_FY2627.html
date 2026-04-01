@@ -1397,8 +1397,8 @@ function renderCalendar(){
       </div>
       <div class="cal-nav">
         <button class="cal-nav-btn today-btn" onclick="jumpToday()">↻ Today</button>
-        <button class="cal-nav-btn" onclick="calNav(-1)">← Prev</button>
-        <button class="cal-nav-btn" onclick="calNav(1)">Next →</button>
+        <button class="cal-nav-btn" onclick="calNav(-1)" ${(state.monthIdx!==null?state.monthIdx:FY_MONTHS.findIndex(([,m,y])=>m===month+1&&y===year))<=0?'disabled style="opacity:.35;cursor:not-allowed"':''}>← Prev</button>
+        <button class="cal-nav-btn" onclick="calNav(1)" ${(state.monthIdx!==null?state.monthIdx:FY_MONTHS.findIndex(([,m,y])=>m===month+1&&y===year))>=FY_MONTHS.length-1?'disabled style="opacity:.35;cursor:not-allowed"':''}>Next →</button>
       </div>
     </div>
     <div class="cal-legend">
@@ -1412,13 +1412,25 @@ function renderCalendar(){
 }
 
 function calNav(dir){
-  calMonth+=dir;
-  if(calMonth<0){calMonth=11;calYear--}
-  if(calMonth>11){calMonth=0;calYear++}
-  renderCalendar();
+  // Find current FY index from state or from calMonth/calYear
+  const curIdx=state.monthIdx!==null?state.monthIdx:FY_MONTHS.findIndex(([,m,y])=>m===calMonth+1&&y===calYear);
+  const nextIdx=curIdx+dir;
+  // Clamp to FY range — do nothing if already at boundary
+  if(nextIdx<0||nextIdx>=FY_MONTHS.length) return;
+  jumpToMonth(nextIdx);
 }
 function jumpToday(){
-  calYear=REFERENCE_DATE.getFullYear(); calMonth=REFERENCE_DATE.getMonth(); renderCalendar();
+  const cm=REFERENCE_DATE.getMonth()+1, cy=REFERENCE_DATE.getFullYear();
+  const idx=FY_MONTHS.findIndex(([,m,y])=>m===cm&&y===cy);
+  if(idx>=0){
+    jumpToMonth(idx);
+  } else {
+    // Today is outside this FY — show calendar without a month pill highlight
+    calYear=cy; calMonth=REFERENCE_DATE.getMonth();
+    state.monthIdx=null;
+    document.querySelectorAll('#monthPills .pill').forEach((x,i)=>x.classList.toggle('on',i===0));
+    applyFilters();
+  }
 }
 
 // ══════════════════════════════════════════════
