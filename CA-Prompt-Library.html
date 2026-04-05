@@ -206,10 +206,10 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 <!-- HEADER -->
 <div class="hdr">
   <button class="sbtn" id="sideToggle" title="Toggle Sidebar">☰</button>
-  <div class="hdr-logo">
-    <div class="hdr-logo-icon" style="background:var(--acc);border-radius:8px;font-size:14px">Tx<sup style="font-size:8px">®</sup></div>
+  <a href="/" class="hdr-logo" title="Back to Home – Taxation Updates" aria-label="Back to Home – Taxation Updates" style="text-decoration:none">
+    <div class="hdr-logo-icon" style="background:linear-gradient(135deg,#3d4408,#8c9a1a);border-radius:8px;font-family:'Playfair Display',serif;font-weight:900;font-size:.72rem;line-height:1.2;color:#fff;padding:.35rem .55rem;text-align:center;width:auto;height:auto;display:inline-block;box-shadow:0 3px 12px rgba(140,154,26,.35);transition:filter .2s,transform .2s;flex-shrink:0" onmouseover="this.style.filter='brightness(1.12)';this.style.transform='translateY(-1px)'" onmouseout="this.style.filter='';this.style.transform=''">Taxation<sup style="font-size:.45rem;vertical-align:super">®</sup><br/>Updates</div>
     <div><div class="hdr-logo-text">CA Prompt Library</div><span class="hdr-logo-sub">500+ AI Prompts · Taxation Updates</span></div>
-  </div>
+  </a>
   <div class="hdr-search">
     <span style="color:var(--txt3);font-size:14px">🔍</span>
     <input type="text" id="searchInput" placeholder="Search 500+ prompts…" oninput="doRender()">
