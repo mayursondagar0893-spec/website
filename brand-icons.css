@@ -1,0 +1,46 @@
+/*
+ * brand-icons.css — Social Icon Brand Colors
+ * Shared across all pages on taxationupdates.com
+ *
+ * X (Twitter): black on light mode, white on dark mode
+ * LinkedIn:    #0A66C2 (brand blue) in all modes
+ * WhatsApp:    #25D366 (brand green) in all modes
+ */
+
+/* ── X (Twitter): black on light ── */
+.pill-x svg,
+.c-icon-x svg,
+.hero-pill-x svg,
+.social-link-x svg,
+.tl-dot-x svg,
+#shareTWBtn svg { fill: #000; }
+
+/* ── X (Twitter): white on dark ── */
+[data-theme="dark"] .pill-x svg,
+[data-theme="dark"] .c-icon-x svg,
+[data-theme="dark"] .hero-pill-x svg,
+[data-theme="dark"] .social-link-x svg,
+[data-theme="dark"] .tl-dot-x svg,
+[data-theme="dark"] #shareTWBtn svg { fill: #fff; }
+
+/* ── LinkedIn: brand blue always ── */
+.pill-li svg,
+.c-icon-li svg,
+.hero-pill-li svg,
+.social-link-li svg,
+#shareLIBtn svg { fill: #0A66C2; }
+
+/* ── Footer social buttons: X ── */
+.social-btn-x { background: #000 !important; border-color: #000 !important; }
+.social-btn-x svg { fill: #fff; }
+.social-btn-x:hover { background: #333 !important; border-color: #333 !important; }
+
+/* ── Footer social buttons: LinkedIn ── */
+.social-btn-li { background: #0A66C2 !important; border-color: #0A66C2 !important; }
+.social-btn-li svg { fill: #fff; }
+.social-btn-li:hover { background: #004182 !important; border-color: #004182 !important; }
+
+/* ── Footer social buttons: WhatsApp ── */
+.social-btn-wa { background: #25D366 !important; border-color: #25D366 !important; }
+.social-btn-wa svg { fill: #fff; }
+.social-btn-wa:hover { background: #1da851 !important; border-color: #1da851 !important; }

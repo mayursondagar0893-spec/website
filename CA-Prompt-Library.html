@@ -6,7 +6,18 @@
 <title>CA Prompt Library Pro — 500+ AI Prompts for CAs</title>
 <meta name="description" content="500+ curated AI prompts for Chartered Accountants covering GST, Income Tax, audit, compliance, client communication, and more. Free searchable library by CA Mayur Sondagar."/>
 <link rel="canonical" href="https://taxationupdates.com/CA-Prompt-Library.html"/>
+<link rel="stylesheet" href="/brand-icons.css"/>
 <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png"/>
+<meta property="og:title"       content="CA Prompt Library Pro — 500+ AI Prompts for CAs"/>
+<meta property="og:description" content="500+ curated AI prompts for Chartered Accountants covering GST, Income Tax, audit, compliance, client communication, and more. Free searchable library by CA Mayur Sondagar."/>
+<meta property="og:type"        content="website"/>
+<meta property="og:url"         content="https://taxationupdates.com/CA-Prompt-Library.html"/>
+<meta property="og:image"       content="https://taxationupdates.com/og-cover.png"/>
+<meta name="twitter:card"        content="summary_large_image"/>
+<meta name="twitter:site"        content="@TaxationUpdates"/>
+<meta name="twitter:title"       content="CA Prompt Library Pro — 500+ AI Prompts for CAs"/>
+<meta name="twitter:description" content="500+ curated AI prompts for Chartered Accountants covering GST, Income Tax, audit, compliance, and more."/>
+<meta name="twitter:image"       content="https://taxationupdates.com/og-cover.png"/>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YC101DVMH7"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -14,12 +25,31 @@
   gtag('js', new Date());
   gtag('config', 'G-YC101DVMH7');
 </script>
+<!-- Schema.org: WebApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "CA Prompt Library Pro",
+  "url": "https://taxationupdates.com/CA-Prompt-Library.html",
+  "description": "500+ curated AI prompts for Chartered Accountants covering GST, Income Tax, audit, compliance, client communication, and more.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+  "author": { "@type": "Person", "@id": "https://taxationupdates.com/#person", "name": "CA Mayur J Sondagar" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ── THEMES ── */
 :root{--bg:#fafbf0;--sur:#ffffff;--sur2:#f0f3d8;--sur3:#e8edbb;--bdr:rgba(140,154,26,0.22);--acc:#8c9a1a;--acc2:#b5c422;--accbg:rgba(140,154,26,0.07);--txt:#252a08;--txt2:#4e570f;--txt3:#7a8520;--green:#4ade80;--red:#f87171;--blue:#60a5fa;--teal:#2dd4bf;--radius:12px;--shadow:0 8px 32px rgba(140,154,26,0.18);--sideW:255px}
 [data-theme="dark"]{--bg:#1a1d0a;--sur:#242810;--sur2:#1f2209;--sur3:#2e3410;--bdr:rgba(140,154,26,0.3);--acc:#8c9a1a;--acc2:#b5c422;--accbg:rgba(140,154,26,0.12);--txt:#e8edbb;--txt2:#c5ce6e;--txt3:#9aaa2e;--shadow:0 8px 32px rgba(0,0,0,.5)}
 *{margin:0;padding:0;box-sizing:border-box}
+.skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
+.skip-nav:focus{position:fixed;top:0;left:0;width:auto;height:auto;padding:.5rem 1rem;background:var(--acc);color:#fff;font-weight:600;font-size:.85rem;z-index:9999;border-radius:0 0 8px 0;text-decoration:none;}
 body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-height:100vh;transition:background .3s,color .3s}
 ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:99px}::-webkit-scrollbar-thumb:hover{background:var(--txt3)}
 
@@ -35,9 +65,8 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 .hdr-search input::placeholder{color:var(--txt3)}
 .hdr-clear{color:var(--txt3);cursor:pointer;font-size:12px;display:none;padding:2px 4px}
 .hdr-right{display:flex;align-items:center;gap:6px;margin-left:auto;flex-shrink:0}
-.back-link{font-size:.82rem;color:var(--acc);text-decoration:none;font-weight:600;display:flex;align-items:center;gap:.3rem;transition:color .2s;white-space:nowrap;}
-.back-link:hover{color:var(--acc2);}
-@media(max-width:480px){.back-link span{display:none}}
+.back-link{font-size:.82rem;color:var(--acc);text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:.3rem;transition:all .2s;white-space:nowrap;padding:5px 12px;border-radius:8px;border:1.5px solid var(--acc);background:transparent;}
+.back-link:hover{color:var(--acc2);border-color:var(--acc2);background:var(--accbg);}
 /* dark mode toggle */
 .dark-toggle{width:42px;height:24px;border-radius:50px;background:var(--sur3);border:1.5px solid var(--bdr);cursor:pointer;position:relative;transition:background .3s;flex-shrink:0}
 .dark-toggle::after{content:'☀️';position:absolute;left:2px;top:50%;transform:translateY(-50%);font-size:.7rem;width:18px;height:18px;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;transition:left .3s,background .3s}
@@ -159,18 +188,28 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 /* responsive */
 @media(max-width:760px){.sidebar{display:none}.grid{grid-template-columns:1fr}.hdr-logo-text{font-size:14px}.hbtn .lbl{display:none}.share-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.dark-toggle{display:none}}
+@media(max-width:480px){
+  .hdr{flex-wrap:wrap;height:auto;padding:8px 10px 8px;gap:6px}
+  .hdr-search{order:3;flex:0 0 100%;max-width:100%;min-width:0}
+  .hdr-right{gap:4px;flex-shrink:1}
+  .hbtn{padding:4px 7px;font-size:11px}
+  .back-link{font-size:.72rem;padding:4px 9px}
+}
 </style>
+<script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
 <body>
+
+<!-- Skip navigation for keyboard users -->
+<a href="#prompt-content" class="skip-nav">Skip to main content</a>
 
 <!-- HEADER -->
 <div class="hdr">
   <button class="sbtn" id="sideToggle" title="Toggle Sidebar">☰</button>
-  <div class="hdr-logo">
-    <div class="hdr-logo-icon" style="background:var(--acc);border-radius:8px;font-size:14px">Tx<sup style="font-size:8px">®</sup></div>
+  <a href="/" class="hdr-logo" title="Back to Home – Taxation Updates" aria-label="Back to Home – Taxation Updates" style="text-decoration:none">
+    <div class="hdr-logo-icon" style="background:linear-gradient(135deg,#3d4408,#8c9a1a);border-radius:8px;font-family:'Playfair Display',serif;font-weight:900;font-size:.72rem;line-height:1.2;color:#fff;padding:.35rem .55rem;text-align:center;width:auto;height:auto;display:inline-block;box-shadow:0 3px 12px rgba(140,154,26,.35);transition:filter .2s,transform .2s;flex-shrink:0" onmouseover="this.style.filter='brightness(1.12)';this.style.transform='translateY(-1px)'" onmouseout="this.style.filter='';this.style.transform=''">Taxation<sup style="font-size:.45rem;vertical-align:super">®</sup><br/>Updates</div>
     <div><div class="hdr-logo-text">CA Prompt Library</div><span class="hdr-logo-sub">500+ AI Prompts · Taxation Updates</span></div>
-  </div>
+  </a>
   <div class="hdr-search">
     <span style="color:var(--txt3);font-size:14px">🔍</span>
     <input type="text" id="searchInput" placeholder="Search 500+ prompts…" oninput="doRender()">
@@ -178,7 +217,7 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
   </div>
   <div class="hdr-right">
     <a href="/" class="back-link">← <span>Back to Home</span></a>
-    <button class="dark-toggle" id="darkToggle" title="Toggle dark mode" aria-label="Toggle dark mode"></button>
+    <button class="dark-toggle" id="darkToggle" role="switch" aria-checked="false" title="Toggle dark mode" aria-label="Toggle dark mode"></button>
     <button class="hbtn" onclick="showBM()">🔖 <span class="lbl">Saved (<span id="bmCount">0</span>)</span></button>
     <button class="hbtn" onclick="showExport()">📤 <span class="lbl">Export</span></button>
     <button class="hbtn pri" onclick="showAdd()">＋ <span class="lbl">Add Prompt</span></button>
@@ -186,7 +225,7 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 </div>
 
 <!-- LAYOUT -->
-<div class="layout">
+<div class="layout" id="prompt-content">
   <!-- SIDEBAR -->
   <div class="sidebar" id="sidebar">
     <div class="sb-title">Browse Categories</div>
@@ -265,8 +304,8 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
     <div class="share-grid">
       <div class="sopt" id="shareWABtn"><span class="sopt-ic">💬</span>WhatsApp</div>
       <div class="sopt" id="shareEmailBtn"><span class="sopt-ic">📧</span>Email</div>
-      <div class="sopt" id="shareTWBtn"><span class="sopt-ic">🐦</span>Twitter / X</div>
-      <div class="sopt" id="shareLIBtn"><span class="sopt-ic">💼</span>LinkedIn</div>
+      <div class="sopt" id="shareTWBtn"><span class="sopt-ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></span>Twitter / X</div>
+      <div class="sopt" id="shareLIBtn"><span class="sopt-ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span>LinkedIn</div>
       <div class="sopt" id="shareCopyBtn"><span class="sopt-ic">📋</span>Copy Text</div>
       <div class="sopt" id="sharePrintBtn"><span class="sopt-ic">🖨️</span>Print</div>
     </div>
@@ -311,6 +350,7 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
+<script src="/prompt-filter.js"></script>
 <script>
 const PROMPTS_DEFAULT=[
 // ═══ GST ═══
@@ -1079,23 +1119,16 @@ function openLink(url) {
 }
 
 // ══ FILTER & SORT ══
+// filterAndSort / toggleBookmark provided by /prompt-filter.js
 function getFiltered() {
-  const q = document.getElementById('searchInput').value.trim().toLowerCase();
-  const sort = document.getElementById('sortSel').value;
-  let list = [...prompts];
-  if (activeFilter === 'bm') list = list.filter(p => bookmarks.includes(p.id));
-  else if (activeFilter === 'mine') list = list.filter(p => p._custom);
-  if (activeCat !== 'all') list = list.filter(p => p.cat === activeCat);
-  if (q) list = list.filter(p =>
-    p.title.toLowerCase().includes(q) ||
-    p.prompt.toLowerCase().includes(q) ||
-    (p.tags || '').toLowerCase().includes(q) ||
-    getCat(p.cat).label.toLowerCase().includes(q)
-  );
-  if (sort === 'az') list.sort((a,b) => a.title.localeCompare(b.title));
-  else if (sort === 'za') list.sort((a,b) => b.title.localeCompare(a.title));
-  else if (sort === 'cat') list.sort((a,b) => a.cat.localeCompare(b.cat));
-  return list;
+  return filterAndSort(prompts, {
+    bookmarks,
+    activeFilter,
+    activeCat,
+    query:       document.getElementById('searchInput').value,
+    sort:        document.getElementById('sortSel').value,
+    getCatLabel: (id) => getCat(id).label,
+  });
 }
 
 // ══ RENDER ══
@@ -1195,13 +1228,9 @@ function showBM() { setFilter('bm', document.getElementById('fc-bm')); }
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('hide'); }
 
 function toggleBM(id) {
-  if (bookmarks.includes(id)) {
-    bookmarks = bookmarks.filter(x => x !== id);
-    showToast('Removed from bookmarks');
-  } else {
-    bookmarks.push(id);
-    showToast('⭐ Bookmarked!');
-  }
+  const wasBookmarked = bookmarks.includes(id);
+  bookmarks = toggleBookmark(bookmarks, id);
+  showToast(wasBookmarked ? 'Removed from bookmarks' : '⭐ Bookmarked!');
   saveData();
   doRender();
 }
@@ -1523,16 +1552,18 @@ function toggleDarkMode() {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   if (isDark) {
     document.documentElement.removeAttribute('data-theme');
-    localStorage.setItem('cpl_theme', 'light');
+    localStorage.setItem('theme', 'light');
   } else {
     document.documentElement.setAttribute('data-theme', 'dark');
-    localStorage.setItem('cpl_theme', 'dark');
+    localStorage.setItem('theme', 'dark');
   }
+  document.getElementById('darkToggle').setAttribute('aria-checked', isDark ? 'false' : 'true');
 }
 function loadTheme() {
-  const saved = localStorage.getItem('cpl_theme');
+  const saved = localStorage.getItem('theme');
   if (saved === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('darkToggle').setAttribute('aria-checked', 'true');
   }
 }
 document.getElementById('darkToggle').addEventListener('click', toggleDarkMode);
@@ -1566,5 +1597,6 @@ loadTheme();
 initData();
 doRender();
 </script>
+<script src="/wa-init.js"></script>
 </body>
 </html>

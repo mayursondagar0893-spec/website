@@ -6,7 +6,18 @@
 <title>Income Tax Challan PDF to Excel — Taxation Updates</title>
 <meta name="description" content="Free online Income Tax challan PDF parser. Upload ITNS 280/281/282/283 challans and export data to Excel instantly. 100% client-side — no data uploaded. By CA Mayur Sondagar."/>
 <link rel="canonical" href="https://taxationupdates.com/INCOME-TAX-CHALLAN-TO-EXCEL.html"/>
+<link rel="stylesheet" href="/brand-icons.css"/>
 <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png"/>
+<meta property="og:title"       content="Income Tax Challan PDF to Excel — Taxation Updates"/>
+<meta property="og:description" content="Free online Income Tax challan PDF parser. Upload ITNS 280/281/282/283 challans and export data to Excel instantly. 100% client-side — no data uploaded. By CA Mayur Sondagar."/>
+<meta property="og:type"        content="website"/>
+<meta property="og:url"         content="https://taxationupdates.com/INCOME-TAX-CHALLAN-TO-EXCEL.html"/>
+<meta property="og:image"       content="https://taxationupdates.com/og-cover.png"/>
+<meta name="twitter:card"        content="summary_large_image"/>
+<meta name="twitter:site"        content="@TaxationUpdates"/>
+<meta name="twitter:title"       content="Income Tax Challan PDF to Excel — Taxation Updates"/>
+<meta name="twitter:description" content="Upload ITNS 280/281/282/283 challans and export data to Excel instantly. Free, 100% client-side tool."/>
+<meta name="twitter:image"       content="https://taxationupdates.com/og-cover.png"/>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YC101DVMH7"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -16,6 +27,24 @@
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="/challan-parser.js"></script>
+<!-- Schema.org: WebApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Income Tax Challan PDF to Excel",
+  "url": "https://taxationupdates.com/INCOME-TAX-CHALLAN-TO-EXCEL.html",
+  "description": "Free online Income Tax challan PDF parser. Upload ITNS 280/281/282/283 challans and export data to Excel instantly. 100% client-side.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+  "author": { "@type": "Person", "@id": "https://taxationupdates.com/#person", "name": "CA Mayur J Sondagar" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
 <style>
   /* ══════════════════════════════════════
@@ -158,12 +187,17 @@
     color: var(--olive);
     text-decoration: none;
     font-weight: 600;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: .3rem;
-    transition: color .2s;
+    transition: all .2s;
+    white-space: nowrap;
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: 1.5px solid var(--olive);
+    background: transparent;
   }
-  .back-link:hover { color: var(--olive-dark); }
+  .back-link:hover { color: var(--olive-dark); border-color: var(--olive-dark); background: var(--olive-pale); }
 
   /* ══════════════ MAIN ══════════════ */
   main { max-width: 1240px; margin: 0 auto; padding: 2rem 6%; }
@@ -328,6 +362,11 @@
   .stat.success .stat-val { color: var(--olive-dark); }
   .stat.error .stat-val { color: var(--error); }
   .stat.warn .stat-val { color: var(--warn); }
+  .stat.clickable { cursor: pointer; border: 1.5px solid transparent; transition: transform .2s, border-color .2s, box-shadow .2s; }
+  .stat.clickable:hover { border-color: var(--olive); box-shadow: 0 4px 18px rgba(140,154,26,0.22); }
+  .stat.clickable.active-filter { border-color: var(--olive); background: var(--olive-pale); }
+  [data-theme="dark"] .stat.clickable.active-filter { background: var(--olive-bg); }
+  .stat-hint { font-size: 9px; color: var(--text-soft); margin-top: 3px; opacity: .7; letter-spacing: .03em; }
 
   /* ══════════════ FILTER BAR ══════════════ */
   .filter-bar {
@@ -463,21 +502,22 @@
     gap: .5rem;
   }
   .footer-logo-box {
-    background: rgba(255,255,255,0.12);
+    background: var(--olive);
     color: #fff;
     font-family: 'Playfair Display', serif;
     font-weight: 900;
     font-size: .75rem;
     line-height: 1.2;
     padding: .35rem .65rem;
-    border-radius: 7px;
+    border-radius: 6px;
     display: inline-block;
     margin-bottom: .3rem;
   }
+  .footer-logo-box sup { font-size: .45rem; vertical-align: super; }
   footer a { color: var(--olive-light); text-decoration: none; }
   footer a:hover { color: #fff; }
   .footer-socials { display: flex; gap: .75rem; justify-content: center; margin-top: .3rem; }
-  .social-btn { width: 32px; height: 32px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .78rem; color: rgba(232,237,187,0.8); text-decoration: none; transition: background .2s; }
+  .social-btn { width: 36px; height: 36px; background: rgba(140,154,26,0.2); border: 1px solid rgba(140,154,26,0.35); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: .82rem; color: var(--olive-pale); text-decoration: none; transition: background .2s; }
   .social-btn:hover { background: var(--olive); color: #fff; }
 
   /* ══════════════ BACK TO TOP ══════════════ */
@@ -499,25 +539,28 @@
     header { padding: .85rem 4%; }
     main { padding: 1.5rem 4%; }
     .page-hero { padding: 1.5rem 4%; }
-    .back-link span { display: none; }
+    .back-link { font-size: .72rem; padding: 4px 9px; }
   }
+  .skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
+  .skip-nav:focus{position:fixed;top:0;left:0;width:auto;height:auto;padding:.5rem 1rem;background:var(--olive);color:#fff;font-weight:600;font-size:.85rem;z-index:9999;border-radius:0 0 8px 0;text-decoration:none;}
 </style>
+<script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
 <body>
+<a href="#main-content" class="skip-nav">Skip to main content</a>
 
 <!-- ══════════ HEADER ══════════ -->
 <header>
-  <div class="logo">
+  <a href="/" class="logo" title="Back to Home – Taxation Updates" aria-label="Back to Home – Taxation Updates" style="text-decoration:none">
     <div class="logo-box">Taxation<sup>®</sup><br/>Updates</div>
     <div>
       <div class="logo-name">CA <span>Mayur</span> Sondagar</div>
       <div class="logo-sub">Challan PDF Parser · ITNS 280 / 281 / 282 / 283</div>
     </div>
-  </div>
+  </a>
   <div class="header-right">
     <a href="index.html" class="back-link">← <span>Back to Home</span></a>
-    <span class="badge">Bulk Upload</span>
-    <button class="dark-toggle" id="dark-toggle" title="Toggle dark mode"></button>
+    <button class="dark-toggle" id="dark-toggle" role="switch" aria-checked="false" aria-label="Toggle dark mode" title="Toggle dark mode"></button>
   </div>
 </header>
 
@@ -531,7 +574,7 @@
   </div>
 </div>
 
-<main>
+<main id="main-content">
   <!-- Drop Zone -->
   <div class="drop-zone" id="dropZone">
     <div class="drop-icon">📂</div>
@@ -568,11 +611,29 @@
 
   <!-- Stats -->
   <div class="stat-bar" id="statBar" style="display:none">
-    <div class="stat">          <div class="stat-val" id="stTotal">0</div>  <div class="stat-label">Total Challans</div></div>
-    <div class="stat success">  <div class="stat-val" id="stParsed">0</div> <div class="stat-label">Parsed OK</div></div>
-    <div class="stat error">    <div class="stat-val" id="stFailed">0</div> <div class="stat-label">Needs Review</div></div>
-    <div class="stat warn">     <div class="stat-val" id="stAmount">₹0</div><div class="stat-label">Total Amount</div></div>
-    <div class="stat">          <div class="stat-val" id="stShowing">0</div><div class="stat-label">Showing (filtered)</div></div>
+    <div class="stat clickable" id="statAll" title="Click to show all challans" onclick="filterByStat('all')">
+      <div class="stat-val" id="stTotal">0</div>
+      <div class="stat-label">Total Challans</div>
+      <div class="stat-hint">Click to show all</div>
+    </div>
+    <div class="stat success clickable" id="statOK" title="Click to show only Parsed OK" onclick="filterByStat('ok')">
+      <div class="stat-val" id="stParsed">0</div>
+      <div class="stat-label">Parsed OK</div>
+      <div class="stat-hint">Click to filter</div>
+    </div>
+    <div class="stat error clickable" id="statErr" title="Click to show only Needs Review" onclick="filterByStat('err')">
+      <div class="stat-val" id="stFailed">0</div>
+      <div class="stat-label">Needs Review</div>
+      <div class="stat-hint">Click to filter</div>
+    </div>
+    <div class="stat warn">
+      <div class="stat-val" id="stAmount">₹0</div>
+      <div class="stat-label">Total Amount</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" id="stShowing">0</div>
+      <div class="stat-label">Showing (filtered)</div>
+    </div>
   </div>
 
   <!-- Filter Bar -->
@@ -663,8 +724,9 @@
   <div><div class="footer-logo-box">Taxation<sup>®</sup><br/>Updates</div></div>
   <p>© 2026 CA Mayur J Sondagar · All rights reserved · <a href="/">taxationupdates.com</a></p>
   <div class="footer-socials">
-    <a class="social-btn" href="https://twitter.com/TaxationUpdates" target="_blank" rel="noopener noreferrer" title="Twitter / X">𝕏</a>
-    <a class="social-btn" href="https://www.linkedin.com/in/taxation-updates-ca-mayur-j-sondagar-936772219" target="_blank" rel="noopener noreferrer" title="LinkedIn">in</a>
+    <a class="social-btn social-btn-x" href="https://twitter.com/TaxationUpdates" target="_blank" rel="noopener noreferrer" title="Twitter / X"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    <a class="social-btn social-btn-li" href="https://www.linkedin.com/in/taxation-updates-ca-mayur-j-sondagar-936772219" target="_blank" rel="noopener noreferrer" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+    <a class="social-btn social-btn-wa wa-link" href="#" target="_blank" title="WhatsApp"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></a>
   </div>
 </footer>
 
@@ -678,11 +740,12 @@ let files=[], parsedData=[], filteredData=[], sortCol='', sortDir='asc';
 // ── Dark Mode ─────────────────────────────────────────────────
 const toggleBtn = document.getElementById('dark-toggle');
 const saved = localStorage.getItem('theme') || 'light';
-if(saved === 'dark') document.documentElement.setAttribute('data-theme','dark');
+if(saved === 'dark') { document.documentElement.setAttribute('data-theme','dark'); toggleBtn.setAttribute('aria-checked','true'); }
 toggleBtn.addEventListener('click', () => {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
   localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  toggleBtn.setAttribute('aria-checked', isDark ? 'false' : 'true');
 });
 
 // ── Back to top ───────────────────────────────────────────────
@@ -773,6 +836,10 @@ function clearAll(){
   document.getElementById('statusMsg').textContent='';
   document.getElementById('fileInput').value='';
   sortCol='';sortDir='asc';
+  // Clear all filter inputs so they don't carry over to the next parse
+  document.getElementById('searchInput').value='';
+  ['filterITNS','filterAY','filterPAN','filterStatus'].forEach(id=>document.getElementById(id).value='');
+  ['statAll','statOK','statErr'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active-filter');});
 }
 
 // ── PDF extraction ────────────────────────────────────────────
@@ -784,46 +851,8 @@ async function extractText(file){
   return text;
 }
 
-// ── Parser ────────────────────────────────────────────────────
-function clean(s){return(s||'').replace(/\s+/g,' ').trim();}
-function parseAmount(s){if(!s)return 0;return parseFloat(s.replace(/[^\d]/g,''))||0;}
-function between(t,sp,ep){const m=t.match(new RegExp(sp+'\\s*[:\\-]?\\s*(.+?)(?='+ep+')','i'));return m?clean(m[1]):'';}
-function get(t,pat){const m=t.match(pat);return m?clean(m[1]):'';}
-
-function parseChallan(text,filename){
-  const t=text.replace(/[\r\n]+/g,' ').replace(/\s+/g,' ').trim();
-  const itns=get(t,/ITNS\s*No\.?\s*[:\-\s]\s*(\d+)/i)||'280';
-  const is281=itns==='281';
-  const pan=get(t,/PAN\s*[:\-]\s*([A-Z]{5}[0-9]{4}[A-Z])/i);
-  const tan=get(t,/TAN\s*[:\-]\s*([A-Z]{4}[0-9]{5}[A-Z])/i);
-  const name=between(t,'Name','Assessment\\s*Year');
-  const ay=get(t,/Assessment\s*Year\s*[:\-]\s*(20\d{2}-\d{2,4})/i);
-  const fy=get(t,/Financial\s*Year\s*[:\-]\s*(20\d{2}-\d{2,4})/i);
-  const major=between(t,'Major\\s*Head','Minor\\s*Head');
-  const minor=between(t,'Minor\\s*Head','Nature\\s*of\\s*Payment|Amount\\s*\\(in\\s*Rs');
-  const natureOfPayment=get(t,/Nature\s*of\s*Payment\s*[:\-]\s*([A-Z0-9]+)/i);
-  const cin=get(t,/CIN\s*[:\-]\s*([A-Z0-9]{14,25})/i);
-  const mode=between(t,'Mode\\s*of\\s*Payment','Bank\\s*Name');
-  const bank=between(t,'Bank\\s*Name','Bank\\s*Reference');
-  const bankRef=get(t,/Bank\s*Reference\s*Number\s*[:\-]\s*([A-Z0-9]+)/i);
-  const dod=get(t,/Date\s*of\s*Deposit\s*[:\-]\s*(\d{1,2}[-\s][A-Za-z]{3}[-\s]\d{4})/i)
-           ||get(t,/Date\s*of\s*Deposit\s*[:\-]\s*(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4})/i);
-  const bsr=get(t,/BSR\s*code?\s*[:\-]\s*(\d{7})/i);
-  const challanNo=get(t,/Challan\s*No\.?\s*[:\-]\s*(\d+)/i);
-  const tenderDate=get(t,/Tender\s*Date\s*[:\-]\s*(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4})/i);
-  const amtRx=label=>new RegExp(label+'[^\\d]+(\\d[\\d,]*)','i');
-  const tax=parseAmount((t.match(amtRx('\\bA\\s+Tax'))||[])[1]);
-  const surcharge=parseAmount((t.match(amtRx('\\bB\\s+Surcharge'))||[])[1]);
-  const cess=parseAmount((t.match(amtRx('\\bC\\s+Cess'))||[])[1]);
-  const interest=parseAmount((t.match(amtRx('\\bD\\s+Interest'))||[])[1]);
-  const penalty=parseAmount((t.match(amtRx('\\bE\\s+Penalty'))||[])[1]);
-  const others=parseAmount((t.match(amtRx('\\bF\\s+(?:Others|Fee)'))||[])[1]);
-  const totM=t.match(amtRx('Total\\s*\\(A\\+B\\+C\\+D\\+E\\+F\\)'))||t.match(amtRx('Amount\\s*\\(in\\s*Rs\\.\\)\\s*[:\\-]?'));
-  let total=totM?parseAmount(totM[1]):0;
-  if(!total)total=tax+surcharge+cess+interest+penalty+others;
-  const ok=is281?!!(tan&&(cin||bsr)):!!(pan&&(cin||bsr));
-  return{ok,itns,pan,tan,name,ay,fy,major,minor,natureOfPayment,cin,mode,bank,bankRef,dod,bsr,challanNo,tenderDate,tax,surcharge,cess,interest,penalty,others,total,file:filename};
-}
+// ── Parser (clean, parseAmount, between, get, parseChallan) ───
+// Provided by /challan-parser.js loaded in <head>.
 
 // ── Parse All ─────────────────────────────────────────────────
 async function parseAll(){
@@ -845,7 +874,8 @@ async function parseAll(){
       parsedData.push(rec);
       if(rec.ok){ok++;totalAmt+=rec.total;}else fail++;
     }catch(e){
-      parsedData.push({ok:false,file:files[i].name,pan:'',tan:'',name:'',ay:'',fy:'',itns:'?',major:'',minor:'',natureOfPayment:'',cin:'',mode:'',bank:'',bankRef:'',dod:'',bsr:'',challanNo:'',tenderDate:'',tax:0,surcharge:0,cess:0,interest:0,penalty:0,others:0,total:0});
+      console.warn('Challan parse error for '+files[i].name+':', e);
+      parsedData.push({ok:false,file:files[i].name,pan:'',tan:'',name:'',ay:'',fy:'',itns:'?',major:'',minor:'',natureOfPayment:'',cin:'',mode:'',bank:'',bankRef:'',dod:'',bsr:'',challanNo:'',tenderDate:'',tax:0,surcharge:0,cess:0,interest:0,penalty:0,others:0,total:0,parseError:e&&e.message||String(e)});
       fail++;
     }
   }
@@ -892,7 +922,14 @@ function applyFilters(){
     if(status==='ok'&&!r.ok)return false;
     if(status==='err'&&r.ok)return false;
     if(search){
-      const hay=[r.pan,r.name,r.cin,r.challanNo,r.bankRef,r.bsr,r.bank,r.major,r.minor,r.dod,r.tenderDate,r.file].join(' ').toLowerCase();
+      const hay=[
+        r.pan,r.tan,r.name,r.cin,r.challanNo,r.bankRef,r.bsr,r.bank,
+        r.major,r.minor,r.dod,r.tenderDate,r.file,
+        r.ay,r.fy,r.itns,r.mode,r.natureOfPayment,
+        r.ok?'ok parsed':'needs review check',
+        String(r.tax||''),String(r.surcharge||''),String(r.cess||''),
+        String(r.interest||''),String(r.penalty||''),String(r.others||''),String(r.total||'')
+      ].join(' ').toLowerCase();
       if(!hay.includes(search))return false;
     }
     return true;
@@ -904,8 +941,30 @@ function clearFilters(){
   ['searchInput'].forEach(id=>document.getElementById(id).value='');
   ['filterITNS','filterAY','filterPAN','filterStatus'].forEach(id=>document.getElementById(id).value='');
   filteredData=[...parsedData];
+  // reset active-filter highlight
+  ['statAll','statOK','statErr'].forEach(id=>document.getElementById(id).classList.remove('active-filter'));
   if(sortCol)doSort(sortCol,false);else renderTable();
   document.getElementById('stShowing').textContent=filteredData.length;
+}
+
+// ── Stat card quick-filter ─────────────────────────────────────
+function filterByStat(type){
+  // reset all active highlights
+  ['statAll','statOK','statErr'].forEach(id=>document.getElementById(id).classList.remove('active-filter'));
+  const statusEl=document.getElementById('filterStatus');
+  if(type==='all'){
+    statusEl.value='';
+    document.getElementById('statAll').classList.add('active-filter');
+  } else if(type==='ok'){
+    statusEl.value='ok';
+    document.getElementById('statOK').classList.add('active-filter');
+  } else if(type==='err'){
+    statusEl.value='err';
+    document.getElementById('statErr').classList.add('active-filter');
+  }
+  applyFilters();
+  // Scroll to filter bar smoothly
+  document.getElementById('filterBar').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 // ── Sorting ───────────────────────────────────────────────────
@@ -959,7 +1018,7 @@ function renderTable(){
     if(!r.ok)tr.className='error-row';
     tr.innerHTML=`
       <td>${i+1}</td>
-      <td><span class="chip ${r.ok?'chip-ok':'chip-err'}">${r.ok?'✓ OK':'⚠ Check'}</span></td>
+      <td><span class="chip ${r.ok?'chip-ok':'chip-err'}" ${!r.ok&&r.parseError?`title="${esc(r.parseError)}"`:''}>${r.ok?'✓ OK':'⚠ Check'}</span></td>
       <td><span class="chip chip-${esc(r.itns||'280')}">${esc(r.itns||'?')}</span></td>
       <td><strong>${hl(r.pan||r.tan,term)}</strong><span style="font-size:9px;color:var(--text-soft);margin-left:3px">${r.pan?'PAN':r.tan?'TAN':''}</span></td>
       <td title="${esc(r.name)}">${hl(trunc(r.name,34),term)}</td>
@@ -1025,5 +1084,6 @@ function exportCSV(){
   a.click();
 }
 </script>
+<script src="/wa-init.js"></script>
 </body>
 </html>
