@@ -22,6 +22,7 @@ This file provides context for AI assistants (Claude, Copilot, etc.) working on 
 ├── CA-Prompt-Library.html          # Searchable AI prompt library for CAs (500+ prompts)
 ├── TDS-SECTION-CODE.html           # Interactive TDS/TCS section code reference
 ├── INCOME-TAX-CHALLAN-TO-EXCEL.html# Income Tax challan PDF to Excel parser (ITNS 280/281/282/283)
+├── Compliance_Calendar_FY2627.html # Interactive compliance calendar FY 2026-27 (GST/TDS/IT/PF due dates)
 ├── challan-parser.html             # PDF/Excel challan parser tool (older/general)
 ├── privacy-policy.html             # Privacy policy page
 ├── disclaimer.html                 # Disclaimer page
@@ -62,8 +63,8 @@ No backend, no build process — this is a **pure static site**. `package.json` 
 |---|---|
 | Languages | HTML5, CSS3, Vanilla JavaScript (ES6+) |
 | Hosting | GitHub Pages |
-| External Libraries | PDF.js (challan parser), XLSX.js (Excel export) |
-| Fonts | Google Fonts (Inter, Poppins) |
+| External Libraries | PDF.js (challan parser), XLSX.js (Excel export), html2canvas, jsPDF (compliance calendar) |
+| Fonts | Google Fonts — `Playfair Display` (headings); `DM Sans` (body, most pages); `Plus Jakarta Sans` + `JetBrains Mono` (compliance calendar) |
 | Analytics | Google Analytics (G-YC101DVMH7) |
 | Storage | `localStorage` only (no backend/database) |
 | PWA | `manifest.json` + `sw.js` service worker (offline caching) |
@@ -186,6 +187,14 @@ There is no `npm run build` or compilation step. All files are served as-is by G
 - Exports parsed data to Excel using XLSX.js (CDN).
 - Uses PDF.js (CDN) for PDF parsing.
 
+### `Compliance_Calendar_FY2627.html`
+- Interactive compliance calendar for FY 2026-27 covering GST, TDS, Income Tax, and PF due dates.
+- Month-by-month view with colour-coded compliance categories.
+- Export to Excel (XLSX.js), PDF (jsPDF + jspdf-autotable), and image (html2canvas).
+- 100% client-side — no data leaves the browser.
+- Uses fonts: Playfair Display, Plus Jakarta Sans, JetBrains Mono.
+- Filename uses mixed-case with underscores (`Compliance_Calendar_FY2627.html`) — an exception to the UPPER-KEBAB-CASE convention.
+
 ### `challan-parser.html`
 - Drag-and-drop or click-to-upload PDF/Excel files (general challan parser).
 - Parses challans using PDF.js (CDN).
@@ -230,7 +239,8 @@ There is no `npm run build` or compilation step. All files are served as-is by G
 ### `sw.js`
 - Service Worker for PWA offline support.
 - Cache-first strategy for static assets; network-first for HTML pages.
-- Update `CACHE_NAME` version when making breaking changes to cached files.
+- Current `CACHE_NAME`: `taxationupdates-v2` — bump the version number when making breaking changes to cached files or adding/renaming cached URLs.
+- `PRECACHE_URLS` currently includes all HTML tool pages, icons, and `manifest.json`.
 
 ### `manifest.json`
 - PWA manifest: app name, icons, theme color (`#8c9a1a`), display mode.
@@ -272,6 +282,7 @@ When the user provides HTML for a new tool — phrases like "add this tool", "in
 
 2. **Determine the filename.**
    - Derive from the `<title>` tag using UPPER-KEBAB-CASE (e.g. title "GST Calculator" → `GST-CALCULATOR.html`).
+   - If the user provides a specific filename (e.g. with underscores like `Compliance_Calendar_FY2627.html`), use that exactly.
    - If ambiguous, ask once before proceeding.
 
 3. **Validate & auto-fix the HTML** — check every item below and patch any missing ones directly into the HTML before saving:
@@ -382,6 +393,7 @@ When the user provides HTML for a new tool — phrases like "add this tool", "in
 | Add a new section to index.html | Follow existing section structure with `<section id="..." class="...">`, add nav link |
 | Add a new prompt category | Edit the JS data array in `CA-Prompt-Library.html`, add sidebar entry |
 | Update TDS rates/sections | Edit the table rows in `TDS-SECTION-CODE.html` |
+| Update compliance due dates | Edit the JS data in `Compliance_Calendar_FY2627.html` |
 | Change brand colors | Update CSS custom properties in `:root` and `[data-theme="dark"]` blocks |
 | Add a WhatsApp link | Use class `.wa-link` on the element and include `<script src="/wa-init.js" defer></script>` |
 | Add social icon styles | Reference `brand-icons.css` — do not duplicate social color rules inline |
