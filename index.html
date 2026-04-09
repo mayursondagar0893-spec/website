@@ -375,9 +375,10 @@
 
     /* ══════════════ RESPONSIVE ══════════════ */
     @media (max-width: 920px) {
-      /* Hero collapses to single column, card hidden on mobile */
-      .hero-visual { display: none; }
       #hero { grid-template-columns: 1fr; padding: 5.5rem 5% 3.5rem; gap: 0; }
+      .hero-visual { display: flex; margin-top: 2rem; }
+      .hero-card { padding: 1.4rem 1.5rem; border-radius: 20px; box-shadow: 0 8px 24px rgba(140,154,26,0.14); }
+      .hero-avatar { width: 66px; height: 66px; font-size: 1.2rem; box-shadow: 0 0 14px rgba(140,154,26,0.25); }
       .about-grid, .contact-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
       .nav-links { display: none; }
       .nav-cta   { display: none; }
@@ -397,6 +398,113 @@
     .wa-number::before { content: '+91 91520'; }
     .wa-number::after  { content: '62090'; }
     .wa-number { font-size: .88rem; color: var(--text); font-weight: 500; user-select: none; }
+
+    /* ══════════════ LIVE TICKER ══════════════ */
+    .ticker-wrap {
+      width: 100%; background: var(--olive-deep);
+      display: flex; align-items: stretch; height: 42px;
+      overflow: hidden; position: relative; z-index: 10;
+    }
+    [data-theme="dark"] .ticker-wrap {
+      background: #080a02;
+      border-top: 1px solid rgba(140,154,26,0.25);
+      border-bottom: 1px solid rgba(140,154,26,0.25);
+    }
+    .ticker-label {
+      flex-shrink: 0; background: var(--olive); color: #fff;
+      font-size: .7rem; font-weight: 700; letter-spacing: .12em;
+      padding: 0 1.1rem; display: flex; align-items: center;
+      gap: .45rem; white-space: nowrap; text-transform: uppercase;
+    }
+    .ticker-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #ff5252; box-shadow: 0 0 7px #ff5252;
+      flex-shrink: 0; animation: pulse 1.2s infinite;
+    }
+    .ticker-track {
+      flex: 1; overflow: hidden; display: flex; align-items: center;
+      mask-image: linear-gradient(90deg, transparent 0%, black 3%, black 97%, transparent 100%);
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 3%, black 97%, transparent 100%);
+    }
+    .ticker-inner {
+      display: flex; white-space: nowrap;
+      animation: ticker-scroll 52s linear infinite;
+    }
+    .ticker-wrap:hover .ticker-inner { animation-play-state: paused; }
+    .ticker-item {
+      display: inline-flex; align-items: center; gap: .5rem;
+      color: var(--olive-pale); font-size: .78rem; font-weight: 500;
+      padding: 0 2.2rem;
+      border-right: 1px solid rgba(181,196,34,0.2); line-height: 1;
+    }
+    @keyframes ticker-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ══════════════ FREE TOOLS STRIP ══════════════ */
+    #tools-strip {
+      background: var(--card-bg);
+      padding: 3rem 6% 2.8rem;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .tools-strip-hdr {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; margin-bottom: 1.6rem; gap: 1rem;
+    }
+    .tools-strip-eyebrow {
+      font-size: .7rem; text-transform: uppercase; letter-spacing: .14em;
+      color: var(--olive); font-weight: 700; margin-bottom: .3rem;
+    }
+    .tools-strip-hdr h3 {
+      font-family: 'Playfair Display', serif; font-size: 1.25rem;
+      font-weight: 700; color: var(--olive-deep); line-height: 1.2;
+    }
+    [data-theme="dark"] .tools-strip-hdr h3 { color: var(--text); }
+    .tools-strip-all {
+      font-size: .8rem; font-weight: 600; color: var(--olive);
+      text-decoration: none; white-space: nowrap;
+      display: inline-flex; align-items: center; gap: .3rem;
+      padding: .45rem 1rem; border: 1.5px solid var(--olive);
+      border-radius: 50px; transition: background .2s, color .2s; flex-shrink: 0;
+    }
+    .tools-strip-all:hover { background: var(--olive); color: #fff; }
+    .tools-scroll {
+      display: flex; gap: 1rem;
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: .4rem; scrollbar-width: none;
+    }
+    .tools-scroll::-webkit-scrollbar { display: none; }
+    .tool-chip {
+      flex-shrink: 0; scroll-snap-align: start; width: 195px;
+      background: var(--cream); border: 1.5px solid var(--glass-border);
+      border-radius: 18px; overflow: hidden;
+      text-decoration: none; display: flex; flex-direction: column;
+      color: inherit; transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+    .tool-chip:hover {
+      transform: translateY(-5px); border-color: var(--olive);
+      box-shadow: 0 12px 36px rgba(140,154,26,0.2);
+    }
+    .tool-chip-thumb {
+      height: 78px; display: flex; align-items: center;
+      justify-content: center; font-size: 1.9rem;
+    }
+    .tool-chip-thumb.g1 { background: linear-gradient(135deg, #8c9a1a, #b5c422); }
+    .tool-chip-thumb.g2 { background: linear-gradient(135deg, #6b760f, #9aaa2e); }
+    .tool-chip-thumb.g3 { background: linear-gradient(135deg, #3d4408, #6b760f); }
+    .tool-chip-thumb.g4 { background: linear-gradient(135deg, #4e570f, #8c9a1a); }
+    .tool-chip-body { padding: .9rem 1rem 1rem; display: flex; flex-direction: column; gap: .3rem; }
+    .tool-chip-tag { font-size: .6rem; text-transform: uppercase; letter-spacing: .1em; color: var(--olive); font-weight: 700; }
+    .tool-chip-name { font-family: 'Playfair Display', serif; font-size: .88rem; color: var(--olive-deep); font-weight: 700; line-height: 1.3; }
+    [data-theme="dark"] .tool-chip-name { color: var(--text); }
+    .tool-chip-cta { font-size: .73rem; color: var(--olive); font-weight: 600; display: inline-flex; align-items: center; gap: .25rem; margin-top: .35rem; }
+    @media (max-width: 768px) {
+      #tools-strip { padding: 2.5rem 5%; }
+      .tool-chip { width: 165px; }
+      .tools-strip-hdr h3 { font-size: 1.05rem; }
+    }
   </style>
   <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
@@ -475,6 +583,75 @@
       </div>
       <div class="hero-card-tag">Chartered Accountant · Mumbai</div>
     </div>
+  </div>
+</section>
+
+
+<!-- ══════════ LIVE TICKER ══════════ -->
+<div class="ticker-wrap" aria-label="Live tax updates">
+  <div class="ticker-label"><span class="ticker-dot"></span>Live&nbsp;Updates</div>
+  <div class="ticker-track">
+    <div class="ticker-inner" aria-live="off">
+      <span class="ticker-item">📢 Budget 2026-27: ₹12L income tax-free under the new regime — revised slabs now in effect</span>
+      <span class="ticker-item">📋 New Income Tax Act, 2025 replaces IT Act, 1961 from April 1, 2026 — new section numbers apply</span>
+      <span class="ticker-item">🧾 TDS: Reduced 2% rate on professional fees u/s 194J applicable from FY 2026-27</span>
+      <span class="ticker-item">📅 GST: GSTR-3B for March 2026 due April 20, 2026 — file on time to avoid interest</span>
+      <span class="ticker-item">💡 Free Tool: TDS Section Code master updated with Finance Bill 2026 changes</span>
+      <span class="ticker-item">📊 Compliance Calendar FY 2026-27 live — track GST, TDS &amp; IT due dates in one place</span>
+      <!-- Duplicate for seamless CSS loop -->
+      <span class="ticker-item">📢 Budget 2026-27: ₹12L income tax-free under the new regime — revised slabs now in effect</span>
+      <span class="ticker-item">📋 New Income Tax Act, 2025 replaces IT Act, 1961 from April 1, 2026 — new section numbers apply</span>
+      <span class="ticker-item">🧾 TDS: Reduced 2% rate on professional fees u/s 194J applicable from FY 2026-27</span>
+      <span class="ticker-item">📅 GST: GSTR-3B for March 2026 due April 20, 2026 — file on time to avoid interest</span>
+      <span class="ticker-item">💡 Free Tool: TDS Section Code master updated with Finance Bill 2026 changes</span>
+      <span class="ticker-item">📊 Compliance Calendar FY 2026-27 live — track GST, TDS &amp; IT due dates in one place</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════ FREE TOOLS STRIP ══════════ -->
+<section id="tools-strip" aria-label="Free Tax Tools">
+  <div class="tools-strip-hdr reveal">
+    <div>
+      <div class="tools-strip-eyebrow">Free Tools</div>
+      <h3>Powerful CA Tools — Zero Cost</h3>
+    </div>
+    <a href="#portfolio" class="tools-strip-all">View All →</a>
+  </div>
+  <div class="tools-scroll">
+    <a href="TDS-SECTION-CODE.html" class="tool-chip">
+      <div class="tool-chip-thumb g1">🧾</div>
+      <div class="tool-chip-body">
+        <div class="tool-chip-tag">Reference</div>
+        <div class="tool-chip-name">TDS / TCS Section Codes</div>
+        <span class="tool-chip-cta">Try Free →</span>
+      </div>
+    </a>
+    <a href="CA-Prompt-Library.html" class="tool-chip">
+      <div class="tool-chip-thumb g2">🤖</div>
+      <div class="tool-chip-body">
+        <div class="tool-chip-tag">AI Prompts</div>
+        <div class="tool-chip-name">CA Prompt Library</div>
+        <span class="tool-chip-cta">Try Free →</span>
+      </div>
+    </a>
+    <a href="INCOME-TAX-CHALLAN-TO-EXCEL.html" class="tool-chip">
+      <div class="tool-chip-thumb g3">📂</div>
+      <div class="tool-chip-body">
+        <div class="tool-chip-tag">Converter</div>
+        <div class="tool-chip-name">Challan PDF to Excel</div>
+        <span class="tool-chip-cta">Try Free →</span>
+      </div>
+    </a>
+    <a href="Compliance_Calendar_FY2627.html" class="tool-chip">
+      <div class="tool-chip-thumb g4">📅</div>
+      <div class="tool-chip-body">
+        <div class="tool-chip-tag">Calendar</div>
+        <div class="tool-chip-name">Compliance Calendar FY 2026-27</div>
+        <span class="tool-chip-cta">Try Free →</span>
+      </div>
+    </a>
   </div>
 </section>
 
