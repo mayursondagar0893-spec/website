@@ -351,7 +351,40 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<script src="/prompt-filter.js"></script>
+<script>
+/* ── prompt-filter.js inlined for standalone use ── */
+function filterAndSort(prompts, {
+  bookmarks    = [],
+  activeFilter = 'all',
+  activeCat    = 'all',
+  query        = '',
+  sort         = 'default',
+  getCatLabel  = (id) => id,
+} = {}) {
+  let list = [...prompts];
+  if (activeFilter === 'bm')   list = list.filter(p => bookmarks.includes(p.id));
+  else if (activeFilter === 'mine') list = list.filter(p => p._custom);
+  if (activeCat !== 'all') list = list.filter(p => p.cat === activeCat);
+  const q = query.trim().toLowerCase();
+  if (q) {
+    list = list.filter(p =>
+      p.title.toLowerCase().includes(q) ||
+      p.prompt.toLowerCase().includes(q) ||
+      (p.tags || '').toLowerCase().includes(q) ||
+      getCatLabel(p.cat).toLowerCase().includes(q)
+    );
+  }
+  if (sort === 'az')  list.sort((a, b) => a.title.localeCompare(b.title));
+  else if (sort === 'za')  list.sort((a, b) => b.title.localeCompare(a.title));
+  else if (sort === 'cat') list.sort((a, b) => a.cat.localeCompare(b.cat));
+  return list;
+}
+function toggleBookmark(bookmarks, id) {
+  return bookmarks.includes(id)
+    ? bookmarks.filter(b => b !== id)
+    : [...bookmarks, id];
+}
+</script>
 <script>
 const PROMPTS_DEFAULT=[
 // ═══ GST ═══
