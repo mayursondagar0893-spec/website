@@ -56,7 +56,9 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 /* ── HEADER ── */
 .hdr{background:var(--bg);border-bottom:1px solid var(--bdr);padding:0 16px;position:sticky;top:0;z-index:300;display:flex;align-items:center;gap:10px;height:58px;box-shadow:0 2px 16px rgba(140,154,26,0.1);backdrop-filter:blur(12px)}
 .hdr-logo{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.hdr-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--acc),var(--acc2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.hdr-logo-icon{background:linear-gradient(135deg,#3d4408,#8c9a1a);border-radius:8px;display:inline-block;font-family:'Playfair Display',serif;font-weight:900;font-size:.82rem;line-height:1.2;color:#fff;padding:.4rem .7rem;text-align:center;box-shadow:0 3px 12px rgba(140,154,26,.35);transition:filter .2s,transform .2s;flex-shrink:0}
+.hdr-logo-icon:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.hdr-logo-icon sup{font-size:.48rem;vertical-align:super}
 .hdr-logo-text{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--txt);white-space:nowrap}
 .hdr-logo-sub{font-size:9px;color:var(--txt3);display:block;margin-top:-2px}
 .hdr-search{flex:1;max-width:440px;display:flex;align-items:center;gap:8px;background:var(--sur2);border:1px solid var(--bdr);border-radius:9px;padding:0 11px;transition:border-color .2s}
@@ -207,7 +209,7 @@ body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-
 <div class="hdr">
   <button class="sbtn" id="sideToggle" title="Toggle Sidebar">☰</button>
   <a href="/" class="hdr-logo" title="Back to Home – Taxation Updates" aria-label="Back to Home – Taxation Updates" style="text-decoration:none">
-    <div class="hdr-logo-icon" style="background:linear-gradient(135deg,#3d4408,#8c9a1a);border-radius:8px;font-family:'Playfair Display',serif;font-weight:900;font-size:.72rem;line-height:1.2;color:#fff;padding:.35rem .55rem;text-align:center;width:auto;height:auto;display:inline-block;box-shadow:0 3px 12px rgba(140,154,26,.35);transition:filter .2s,transform .2s;flex-shrink:0" onmouseover="this.style.filter='brightness(1.12)';this.style.transform='translateY(-1px)'" onmouseout="this.style.filter='';this.style.transform=''">Taxation<sup style="font-size:.45rem;vertical-align:super">®</sup><br/>Updates</div>
+    <div class="hdr-logo-icon">Taxation<sup>®</sup><br/>Updates</div>
     <div><div class="hdr-logo-text">CA Prompt Library</div><span class="hdr-logo-sub">500+ AI Prompts · Taxation Updates</span></div>
   </a>
   <div class="hdr-search">
