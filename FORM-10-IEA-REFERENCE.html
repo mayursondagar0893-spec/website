@@ -913,7 +913,7 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
           <div class="lane-year-chip"><span class="lane-year-ico">&#11088;</span> FY 2025-26 &middot; AY 2026-27</div>
           <div class="lane-title-col">
             <div class="lane-title">Current year — file now</div>
-            <div class="lane-subtitle">Deadline: 31 July 2026 (non-audit) &middot; 31 Oct 2026 (audit)</div>
+            <div class="lane-subtitle">Deadline: 31 Aug 2026 (non-audit) &middot; 31 Oct 2026 (audit) &middot; 30 Nov 2026 (transfer pricing)</div>
           </div>
           <div class="lane-done-row" id="l3done" style="display:none"></div>
         </div>
@@ -1117,7 +1117,7 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
     <div class="note-card">
       <div class="note-card-hdr"><div><div class="note-ref">PROCEDURE — AY 2026-27</div><div class="note-title">Form 10-IEA Deadline</div></div></div>
       <div class="note-body">Must be filed <strong>on or before due date u/s 139(1)</strong>. Late or belated filing = New Regime applied by default.
-        <div class="hl">Non-audit cases: <strong>31 July 2026</strong> &nbsp;|&nbsp; Tax audit cases: <strong>31 October 2026</strong></div>
+        <div class="hl">Non-audit cases: <strong>31 August 2026</strong> &nbsp;|&nbsp; Tax audit cases: <strong>31 October 2026</strong> &nbsp;|&nbsp; Transfer pricing cases: <strong>30 November 2026</strong></div>
       </div>
     </div>
 
@@ -1676,7 +1676,7 @@ function buildNote(r,cant,sk1,sk2){
   else if(r[6]==="YES")p.push("<strong>FY 2024-25:</strong> Form 10-IEA filed — opted for Old Regime. Switching restriction applies going forward.");
   else if(r[4].includes("1"))p.push("<strong>FY 2024-25:</strong> ITR 1/2 — no Form 10-IEA, no restrictions.");
   else p.push("<strong>FY 2024-25:</strong> New Regime — no Form 10-IEA needed.");
-  if(r[10]==="YES")p.push("<strong>FY 2025-26 ⚠ ACTION REQUIRED:</strong> File Form 10-IEA <em>before</em> your ITR — by <strong>31 July 2026</strong> (non-audit) or <strong>31 Oct 2026</strong> (audit) — under S. 115BAC(6) r/w Rule 21AGA. Missing = New Regime applied automatically.");
+  if(r[10]==="YES")p.push("<strong>FY 2025-26 ⚠ ACTION REQUIRED:</strong> File Form 10-IEA <em>before</em> your ITR — by <strong>31 Aug 2026</strong> (non-audit), <strong>31 Oct 2026</strong> (audit) or <strong>30 Nov 2026</strong> (transfer pricing) — under S. 115BAC(6) r/w Rule 21AGA. Missing = New Regime applied automatically.");
   else if(r[8].includes("1"))p.push("<strong>FY 2025-26:</strong> ITR 1/2 — no Form 10-IEA. Freely chose "+r[9]+".");
   else p.push("<strong>FY 2025-26:</strong> New Regime — no Form 10-IEA."+(r[11]==="YES"?" Switching restriction applies.":""));
   return p.map(function(x){return "<p>"+x+"</p>";}).join("");
@@ -1733,7 +1733,7 @@ function buildShareText(match,cant,sk1,sk2){
     lines.push("━━━━━━━━━━━━━━━━━━━━");
     if(match[10]==="YES"){
       lines.push("⚠ *Action Required — File Form 10-IEA*");
-      lines.push("Deadline: 31 July 2026 (non-audit) | 31 Oct 2026 (audit)");
+      lines.push("Deadline: 31 Aug 2026 (non-audit) | 31 Oct 2026 (audit) | 30 Nov 2026 (transfer pricing)");
       lines.push("Under S. 115BAC(6) r/w Rule 21AGA. Missing deadline = New Regime auto-applied.");
     } else {
       lines.push("✅ No Form 10-IEA required for FY 2025-26.");
