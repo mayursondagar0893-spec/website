@@ -738,6 +738,19 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
   .site-topnav-btn.tool{display:none;}
   .site-topnav-logo span{display:none;}
 }
+.site-topnav-btn.current{background:#8c9a1a;color:#fff!important;border-color:#8c9a1a;pointer-events:none;}
+[data-theme="dark"] .site-topnav-btn.current{background:#8c9a1a;color:#fff!important;border-color:#8c9a1a;}
+/* ── Cross-Tool Footer ── */
+.site-footer{padding:22px 20px 18px;border-top:1px solid rgba(140,154,26,.15);text-align:center;margin-top:32px}
+.site-footer-copy{font-size:12px;color:#94a3b8;margin-bottom:10px}
+.site-footer-copy a{color:#64748b;text-decoration:none}
+.site-footer-copy a:hover{color:#8c9a1a}
+.site-footer-links{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center}
+.site-footer-links a{font-size:12px;color:#64748b;text-decoration:none;transition:color .15s}
+.site-footer-links a:hover{color:#8c9a1a}
+[data-theme="dark"] .site-footer{border-top-color:rgba(181,196,34,.18)}
+[data-theme="dark"] .site-footer-copy,[data-theme="dark"] .site-footer-copy a,[data-theme="dark"] .site-footer-links a{color:#94a3b8}
+[data-theme="dark"] .site-footer-links a:hover{color:#c6d63a}
 </style>
 </head>
 <body>
@@ -752,10 +765,11 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
   </a>
   <div class="site-topnav-links">
     <a href="/" class="site-topnav-btn home">← Home</a>
-    <a href="/TDS-SECTION-CODE.html"             class="site-topnav-btn tool">🧾 TDS Codes</a>
+    <a href="/TDS-SECTION-CODE.html"             class="site-topnav-btn tool">✏️ TDS Codes</a>
     <a href="/CA-Prompt-Library.html"             class="site-topnav-btn tool">💡 CA Prompts</a>
-    <a href="/Compliance_Calendar_FY2627.html"    class="site-topnav-btn tool">📅 Calendar</a>
-    <a href="/INCOME-TAX-CHALLAN-TO-EXCEL.html"  class="site-topnav-btn tool">📂 Challan Parser</a>
+    <a href="/Compliance_Calendar_FY2627.html"    class="site-topnav-btn tool">📋 Calendar</a>
+    <a href="/INCOME-TAX-CHALLAN-TO-EXCEL.html"  class="site-topnav-btn tool">🧾 Challan Parser</a>
+    <a href="/FORM-10-IEA-REFERENCE.html"         class="site-topnav-btn tool current">📝 Form 10-IEA</a>
   </div>
 </nav>
 
@@ -1796,5 +1810,18 @@ function fallbackCopy(text, btn, showToast){
     window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js'); });
   }
 </script>
+<footer class="site-footer">
+  <div class="site-footer-copy">© 2026 CA Mayur J Sondagar · <a href="/">taxationupdates.com</a></div>
+  <nav class="site-footer-links" aria-label="Site tools">
+    <a href="/">Home</a>
+    <a href="/TDS-SECTION-CODE.html">TDS Codes</a>
+    <a href="/CA-Prompt-Library.html">CA Prompts</a>
+    <a href="/Compliance_Calendar_FY2627.html">Compliance Calendar</a>
+    <a href="/INCOME-TAX-CHALLAN-TO-EXCEL.html">Challan Parser</a>
+    <a href="/FORM-10-IEA-REFERENCE.html">Form 10-IEA</a>
+    <a href="/disclaimer.html">Disclaimer</a>
+    <a href="/privacy-policy.html">Privacy Policy</a>
+  </nav>
+</footer>
 </body>
 </html>
