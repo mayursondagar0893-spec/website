@@ -2312,6 +2312,7 @@ var YEAR_CFG = {
     s_208:       'S. 208',  s_209: 'S. 209',  s_210: 'S. 210',  s_211: 'S. 211',
     s_234b:      'S. 234B', s_234b_full: 'u/s 234B', s_234b_cap: 'S. 234B',
     s_234c:      'S. 234C', s_234c_full: 'u/s 234C',
+    s_step3_hdr: 'Interest u/s 234B &amp; 234C',
     s_140a:      'u/s 140A',
     s_143_1:     'u/s 143(1)',
     s_207_thr:   'S. 207',
@@ -2429,6 +2430,7 @@ var YEAR_CFG = {
     s_208:       'S. 404',  s_209: 'S. 405',  s_210: 'S. 406',  s_211: 'S. 408',
     s_234b:      'S. 424', s_234b_full: 'u/s 424', s_234b_cap: 'S. 424',
     s_234c:      'S. 425', s_234c_full: 'u/s 425',
+    s_step3_hdr: 'Interest u/s 424 &amp; 425',
     s_140a:      'u/s 266',
     s_143_1:     'u/s 270',
     s_207_thr:   'S. 403',
@@ -2960,6 +2962,7 @@ function applyYear(yr){
   lbl('at_ref_211_s',  C.at_ref_211);
   lbl('at_ref_234b_s', C.at_ref_234b);
   lbl('at_ref_234c_s', C.at_ref_234c);
+  html('at-step3-head', '&#x26A0;&#xFE0F; Step 3 &#x2014; ' + C.s_step3_hdr);
   html('at_ref_sc_s',  C.at_ref_sc);
   html('at_ref_cg_s',  C.at_ref_cg);
   html('at_ref_234bn_s', C.at_ref_234bn);
@@ -3206,9 +3209,9 @@ ttBuild();
 <thead><tr><th style="width:35%">Income Slab (₹)</th><th style="width:25%">Tax Rate</th><th style="width:40%">Remarks</th></tr></thead>
 <tbody>
 <tr><td>Up to 2,50,000</td><td class="rate">NIL</td><td>Basic exemption — same as Individual below 60</td></tr>
-<tr><td>2,50,001 – 5,00,000</td><td class="rate">5%</td><td></td></tr>
-<tr><td>5,00,001 – 10,00,000</td><td class="rate">20%</td><td></td></tr>
-<tr><td>Above 10,00,000</td><td class="rate">30%</td><td></td></tr>
+<tr><td>2,50,001 – 5,00,000</td><td class="rate">5%</td><td>Max ₹12,500 in this slab</td></tr>
+<tr><td>5,00,001 – 10,00,000</td><td class="rate">20%</td><td>Max ₹1,00,000 in this slab</td></tr>
+<tr><td>Above 10,00,000</td><td class="rate">30%</td><td>Highest slab rate</td></tr>
 <tr class="total-row"><td colspan="3" id="slabHUFNote">➕ Rebate u/S. 87A: ₹12,500 for income ≤ ₹5L. No age-based higher exemption for HUF. Surcharge &amp; cess same as Individual. HUF can also opt for New Regime u/S. 115BAC(1A).</td></tr>
 </tbody>
 </table>
@@ -3223,9 +3226,9 @@ ttBuild();
 <thead><tr><th style="width:35%">Income Slab (₹)</th><th style="width:25%">Tax Rate</th><th style="width:40%">Remarks</th></tr></thead>
 <tbody>
 <tr><td>Up to 2,50,000</td><td class="rate">NIL</td><td>Basic exemption</td></tr>
-<tr><td>2,50,001 – 5,00,000</td><td class="rate">5%</td><td></td></tr>
-<tr><td>5,00,001 – 10,00,000</td><td class="rate">20%</td><td></td></tr>
-<tr><td>Above 10,00,000</td><td class="rate">30%</td><td></td></tr>
+<tr><td>2,50,001 – 5,00,000</td><td class="rate">5%</td><td>Max ₹12,500 in this slab</td></tr>
+<tr><td>5,00,001 – 10,00,000</td><td class="rate">20%</td><td>Max ₹1,00,000 in this slab</td></tr>
+<tr><td>Above 10,00,000</td><td class="rate">30%</td><td>Highest slab rate</td></tr>
 <tr class="total-row"><td colspan="3">➕ Where all members of AOP/BOI have known shares and any member's income is taxable at higher rate, AOP/BOI tax at that higher rate (S. 167B). Rebate u/S. 87A not available to AOP/BOI. Can opt New Regime u/S. 115BAC(1A) [excluding certain co-operative societies].</td></tr>
 </tbody>
 </table>
@@ -3952,7 +3955,7 @@ ttBuild();
 
   <!-- Interest output -->
   <div class="at-card">
-    <div class="at-h">&#x26A0;&#xFE0F; Step 3 &#x2014; Interest u/s 234B &amp; 234C</div>
+    <div class="at-h" id="at-step3-head">&#x26A0;&#xFE0F; Step 3 &#x2014; Interest u/s 234B &amp; 234C</div>
     <div class="at-b">
       <div id="at-int-output"></div>
     </div>
@@ -4380,6 +4383,19 @@ function toggleDark(){
 }
 </script>
 <script src="/wa-init.js" defer></script>
-
+<footer class="site-footer">
+  <div class="site-footer-copy">© 2026 CA Mayur J Sondagar · <a href="/">taxationupdates.com</a></div>
+  <nav class="site-footer-links" aria-label="Site tools">
+    <a href="/">Home</a>
+    <a href="/TDS-SECTION-CODE.html">TDS Codes</a>
+    <a href="/CA-Prompt-Library.html">CA Prompts</a>
+    <a href="/Compliance_Calendar_FY2627.html">Compliance Calendar</a>
+    <a href="/INCOME-TAX-CHALLAN-TO-EXCEL.html">Challan Parser</a>
+    <a href="/FORM-10-IEA-REFERENCE.html">Form 10-IEA</a>
+    <a href="/INCOME-TAX-CALCULATOR-FY2526-FY2627.html">IT Calculator</a>
+    <a href="/disclaimer.html">Disclaimer</a>
+    <a href="/privacy-policy.html">Privacy Policy</a>
+  </nav>
+</footer>
 </body>
 </html>
