@@ -23,7 +23,8 @@ This file provides context for AI assistants (Claude, Copilot, etc.) working on 
 ├── TDS-SECTION-CODE.html           # Interactive TDS/TCS section code reference
 ├── INCOME-TAX-CHALLAN-TO-EXCEL.html# Income Tax challan PDF to Excel parser (ITNS 280/281/282/283)
 ├── Compliance_Calendar_FY2627.html # Interactive compliance calendar FY 2026-27 (GST/TDS/IT/PF due dates)
-├── challan-parser.html             # PDF/Excel challan parser tool (older/general)
+├── FORM-10-IEA-REFERENCE.html      # Form 10-IEA & tax regime switching reference (64 scenarios, Smart Finder)
+├── INCOME-TAX-CALCULATOR-FY2526-FY2627.html # Income Tax Calculator FY 2025-26 & FY 2026-27 (Old vs New Regime)
 ├── privacy-policy.html             # Privacy policy page
 ├── disclaimer.html                 # Disclaimer page
 ├── brand-icons.css                 # Shared CSS: social icon brand colors (used by all pages)
@@ -64,7 +65,7 @@ No backend, no build process — this is a **pure static site**. `package.json` 
 | Languages | HTML5, CSS3, Vanilla JavaScript (ES6+) |
 | Hosting | GitHub Pages |
 | External Libraries | PDF.js (challan parser), XLSX.js (Excel export), html2canvas, jsPDF (compliance calendar) |
-| Fonts | Google Fonts — `Playfair Display` (headings); `DM Sans` (body, most pages); `Plus Jakarta Sans` + `JetBrains Mono` (compliance calendar) |
+| Fonts | Google Fonts — `Playfair Display` (headings); `DM Sans` (body, most pages); `Plus Jakarta Sans` + `JetBrains Mono` (compliance calendar, Form 10-IEA); `Inter` (income tax calculator) |
 | Analytics | Google Analytics (G-YC101DVMH7) |
 | Storage | `localStorage` only (no backend/database) |
 | PWA | `manifest.json` + `sw.js` service worker (offline caching) |
@@ -195,10 +196,20 @@ There is no `npm run build` or compilation step. All files are served as-is by G
 - Uses fonts: Playfair Display, Plus Jakarta Sans, JetBrains Mono.
 - Filename uses mixed-case with underscores (`Compliance_Calendar_FY2627.html`) — an exception to the UPPER-KEBAB-CASE convention.
 
-### `challan-parser.html`
-- Drag-and-drop or click-to-upload PDF/Excel files (general challan parser).
-- Parses challans using PDF.js (CDN).
-- Exports data to Excel using XLSX.js (CDN).
+### `FORM-10-IEA-REFERENCE.html`
+- Reference guide for Form 10-IEA and tax regime switching under s.115BAC / Rule 21AGA.
+- Covers FY 2023-24 to FY 2025-26 with 64 mapped scenarios in a Master Table.
+- Smart Finder wizard: answers questions step-by-step to determine the user's exact filing position.
+- Includes Legal Notes section and colour-coded scenario badges.
+- Uses fonts: Plus Jakarta Sans, JetBrains Mono (consistent with compliance calendar).
+
+### `INCOME-TAX-CALCULATOR-FY2526-FY2627.html`
+- Dual-year Income Tax Calculator covering FY 2025-26 (AY 2026-27) and FY 2026-27.
+- Old Regime vs New Regime comparison with detailed slab rates and deduction inputs.
+- Advance Tax instalment calculator with due dates.
+- ITR filing due dates reference section.
+- Includes Schema.org `WebApplication` structured data for SEO.
+- Uses `Inter` font. 100% client-side — no data leaves the browser.
 
 ### `brand-icons.css`
 - Shared stylesheet for social icon brand colors (X/Twitter, LinkedIn, WhatsApp, Instagram, YouTube, etc.).
@@ -239,7 +250,7 @@ There is no `npm run build` or compilation step. All files are served as-is by G
 ### `sw.js`
 - Service Worker for PWA offline support.
 - Cache-first strategy for static assets; network-first for HTML pages.
-- Current `CACHE_NAME`: `taxationupdates-v2` — bump the version number when making breaking changes to cached files or adding/renaming cached URLs.
+- Current `CACHE_NAME`: `taxationupdates-v6` — bump the version number when making breaking changes to cached files or adding/renaming cached URLs.
 - `PRECACHE_URLS` currently includes all HTML tool pages, icons, and `manifest.json`.
 
 ### `manifest.json`
@@ -256,7 +267,7 @@ There is no `npm run build` or compilation step. All files are served as-is by G
 4. **WhatsApp number encoding.** Never expose the raw phone number in plaintext — always use `atob()` decoding pattern (see `wa-init.js`).
 5. **Google Analytics tag.** Do not remove or change the GA4 measurement ID `G-YC101DVMH7`.
 6. **CNAME file.** Do not delete or modify — it controls the custom domain on GitHub Pages.
-7. **Service Worker cache.** If you rename or move a cached file listed in `sw.js`, update the precache URL list and bump `CACHE_NAME` version.
+7. **Service Worker cache.** If you rename or move a cached file listed in `sw.js`, update the precache URL list and bump `CACHE_NAME` version. Note: `/challan-parser.html` appears in `PRECACHE_URLS` in `sw.js` but the file does not exist — this is a stale entry that will cause a cache install failure; remove it when next editing `sw.js`.
 8. **brand-icons.css path.** All pages reference `/brand-icons.css` with an absolute path — do not rename or relocate this file.
 9. **Shared JS dual-module exports.** `challan-parser.js`, `contact-form.js`, and `prompt-filter.js` each end with a `if (typeof module !== 'undefined' && module.exports) { ... }` block so they work as both browser globals and Node/Vitest `require()` modules. Do not remove this block.
 10. **Run tests after editing shared JS.** Any change to `challan-parser.js`, `contact-form.js`, `prompt-filter.js`, `wa-init.js`, or `sw.js` must be followed by `npm test` to verify no regressions.
