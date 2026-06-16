@@ -2437,7 +2437,7 @@ var YEAR_CFG = {
     /* Advance tax at tab reference table */
     at_ref_207:  'S. 207', at_ref_208: 'S. 208', at_ref_209: 'S. 209', at_ref_211: 'S. 211',
     at_ref_234b: 'S. 234B', at_ref_234c: 'S. 234C',
-    at_ref_sc:   'Senior Citizen exemption (S. 207 proviso)',
+    at_ref_sc:   'Senior Citizen exemption (S. 207 )',
     at_ref_cg:   'Capital Gains (S. 234C exception)',
     at_ref_234bn:'S. 234B note:',
     at_ref_sat:  'u/s 140A',
@@ -2555,7 +2555,7 @@ var YEAR_CFG = {
     /* Advance tax at tab reference table */
     at_ref_207:  'S. 403', at_ref_208: 'S. 404', at_ref_209: 'S. 405', at_ref_211: 'S. 408',
     at_ref_234b: 'S. 424', at_ref_234c: 'S. 425',
-    at_ref_sc:   'Senior Citizen exemption (S. 403 proviso)',
+    at_ref_sc:   'Senior Citizen exemption (S. 403 )',
     at_ref_cg:   'Capital Gains (S. 425 exception)',
     at_ref_234bn:'S. 424 note:',
     at_ref_sat:  'u/s 266',
@@ -2733,8 +2733,8 @@ var SEC_MAP = [
   [/S\. 92E/g,     'S. 172'],
 
   /* ── Senior citizen return exemption ── */
-  [/u\/S\. 194P/g, 'u/s. 263 Proviso'],
-  [/S\. 194P/g,    'S. 263 Proviso'],
+  [/u\/S\. 194P/g, 'u/s. 263 '],
+  [/S\. 194P/g,    'S. 263 '],
 
   /* ── ITR filing — sub-sections before parent ── */
   [/S\. 139\(8A\)/g,          'S. 263'],
@@ -2950,7 +2950,7 @@ function applyYear(yr){
   /* Presumptive row */
   html('at_pres_sec', 'Presumptive income '+C.s_44ad_pres);
   html('at_pres_date', atDates[3]+' only');
-  html('at_pres_note', 'Single instalment; no interest for earlier defaults [S. '+( yr==='fy2526'?'211(1)':'408(1)')+' proviso]');
+  html('at_pres_note', 'Single instalment; no interest for earlier defaults [S. '+( yr==='fy2526'?'211(1)':'408(1)')+' ]');
   /* Senior citizen */
   html('at_sc_note', C.s_207_pres+' \u2014 no liability to pay advance tax if no business/profession income');
   /* Bottom note */
@@ -3635,7 +3635,7 @@ ttInitTable();
 <tr><td>3rd Instalment</td><td class="rate" id="at_d3">15th December 2025</td><td class="rate">≥ 75%</td><td id="at_r3">Cumulative minimum 75% by 15 Dec 2025</td></tr>
 <tr><td>4th Instalment</td><td class="rate" id="at_d4">15th March 2026</td><td class="rate">100%</td><td id="at_r4">Full advance tax by 15 March 2026. Self-assessment tax paid by 31 March 2026 reduces S. 234B interest liability.</td></tr>
 <tr class="sub-hdr"><td colspan="4">SPECIAL CASES</td></tr>
-<tr><td id="at_pres_sec">Presumptive income u/s. 44AD / 44ADA</td><td class="rate" id="at_pres_date">15th March 2026 only</td><td class="rate">100%</td><td id="at_pres_note">Single instalment; no interest for earlier defaults [S. 211(1) proviso]</td></tr>
+<tr><td id="at_pres_sec">Presumptive income u/s. 44AD / 44ADA</td><td class="rate" id="at_pres_date">15th March 2026 only</td><td class="rate">100%</td><td id="at_pres_note">Single instalment; no interest for earlier defaults [S. 211(1)]</td></tr>
 <tr><td>Senior citizens (resident, 60+) without business income</td><td class="rate">Exempt from advance tax</td><td class="rate">N/A</td><td id="at_sc_note">S. 207 — no liability to pay advance tax if no business/profession income</td></tr>
 <tr class="total-row"><td colspan="4" id="at_adv_bottom">Interest for non/short payment: S. 234B (1% p.m. on shortfall of 90% of tax due) and S. 234C (1% p.m. per instalment on deferment). Advance tax applicable if estimated tax liability ≥ ₹10,000 in a year.</td></tr>
 </tbody>
@@ -3727,7 +3727,7 @@ ttInitTable();
 <li><span class="ht-step">STEP 5</span><strong>Read the interest estimates:</strong> S. 234C (deferment of instalments) and S. 234B (overall shortfall) are shown separately with month-wise workings.</li>
 </ol>
 <div class="ht-note">
-<strong>Senior Citizen exemption (<span id="ht_adv_sc">S. 207</span> proviso):</strong> Residents aged 60+ with no business/profession income are not liable to pay advance tax — they pay self-assessment tax <span id="ht_adv_140a">u/s 140A</span> by 31 Jul.<br>
+<strong>Senior Citizen exemption (<span id="ht_adv_sc">S. 207</span> ):</strong> Residents aged 60+ with no business/profession income are not liable to pay advance tax — they pay self-assessment tax <span id="ht_adv_140a">u/s 140A</span> by 31 Jul.<br>
 <strong>Capital Gains exception (<span id="ht_adv_234c">S. 234C</span>):</strong> Where STCG/LTCG arises after the first three due dates, no S. 234C interest is levied on earlier instalments for that portion.<br>
 <strong><span id="ht_adv_234b">S. 234B note:</span></strong> Interest base = assessed tax minus advance tax paid (not merely the 90% shortfall). Period runs from 1 Apr of AY to date of assessment or <span id="ht_adv_143">143(1)</span> intimation.
 </div>
@@ -3930,7 +3930,7 @@ ttInitTable();
         </thead>
         <tbody>
           <tr><td><b id="at_ref_207_s">S. 207</b></td><td>Liability to pay advance tax</td><td>Tax payable &gt; &#x20B9;10,000 after TDS. Senior citizens (60+) without business income are exempt.</td></tr>
-          <tr><td><b id="at_ref_208_s">S. 208</b></td><td>Conditions of liability</td><td>Applies to all assessees except senior citizens (<span id="at_ref_sc_s">S. 207 proviso</span>) with no business/profession income.</td></tr>
+          <tr><td><b id="at_ref_208_s">S. 208</b></td><td>Conditions of liability</td><td>Applies to all assessees except senior citizens (<span id="at_ref_sc_s">S. 207 </span>) with no business/profession income.</td></tr>
           <tr><td><b id="at_ref_209_s">S. 209</b></td><td>Computation basis</td><td>Estimated total income of the year &#xD7; applicable slab rate, less TDS/TCS deductible/collectible.</td></tr>
           <tr><td><b id="at_ref_211_s">S. 211</b></td><td>Instalments &amp; due dates</td><td>15% by 15 Jun &nbsp;|&nbsp; 45% by 15 Sep &nbsp;|&nbsp; 75% by 15 Dec &nbsp;|&nbsp; 100% by 15 Mar</td></tr>
           <tr><td><b id="at_ref_234b_s">S. 234B</b></td><td>Interest &#x2014; short/non-payment</td><td>Trigger: advance tax paid &lt; 90% of assessed tax. Interest = 1%/month (simple) &#xD7; (assessed tax &#x2212; advance tax paid) from <b>1 Apr of AY</b> to date of <span id="at_ref_143">143(1)</span> intimation / regular assessment. Enter that date in Step 1 &#x2014; months are auto-computed (part month = full month), matching the Dept. calculator on incometaxindia.gov.in.</td></tr>
@@ -3938,7 +3938,7 @@ ttInitTable();
         </tbody>
       </table>
       <div class="at-note">
-        <b id="at_ref_sc_s2">Senior Citizen exemption (S. 207 proviso):</b> Residents aged 60+ with no business/profession income are not liable to pay advance tax &#x2014; they pay self-assessment tax <span id="at_ref_sat_s">u/s 140A</span> by 31 Jul.<br>
+        <b id="at_ref_sc_s2">Senior Citizen exemption (S. 207 ):</b> Residents aged 60+ with no business/profession income are not liable to pay advance tax &#x2014; they pay self-assessment tax <span id="at_ref_sat_s">u/s 140A</span> by 31 Jul.<br>
         <b id="at_ref_cg_s">Capital Gains (S. 234C exception):</b> Where STCG/LTCG arises after the first three due dates, the balance tax on such gains may be paid in subsequent instalments without attracting <span id="at_ref_234c_s2">S. 234C</span> interest on earlier instalments.<br>
         <b id="at_ref_234bn_s">S. 234B note:</b> Triggered only if advance tax paid is less than 90% of assessed tax. The interest base is <b>assessed tax minus advance tax paid</b> (not merely the 90% shortfall). Period runs from 1 Apr of AY to date of <span id="at_ref_143_2">143(1)</span> intimation or regular assessment &#x2014; enter expected months in Step 1 for the estimated figure. The AO determines the final amount at assessment.<br>
         <b>Disclaimer:</b> For quick reference only. Please refer to the <span id="at_disc_actname">Income-tax Act, 1961</span> and your tax advisor before making payments. &#xB7; Prepared by CA Mayur J Sondagar &#xB7; TaxationUpdates.com
