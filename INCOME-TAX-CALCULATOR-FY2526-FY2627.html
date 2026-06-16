@@ -59,7 +59,6 @@ body{font-family:'Inter',Calibri,Arial,sans-serif;background:#FFFFFF;color:#000;
 .dark-toggle::after{content:'☀️';position:absolute;left:2px;top:50%;transform:translateY(-50%);font-size:.7rem;width:18px;height:18px;border-radius:50%;background:#8c9a1a;display:flex;align-items:center;justify-content:center;transition:left .3s,background .3s;}
 body.dark .dark-toggle{background:#2e3410!important;border-color:rgba(140,154,26,.3)!important;}
 body.dark .dark-toggle::after{content:'🌙';left:18px;background:#b5c422;}
-.btn-print{background:#95B3D7 !important;border-color:#6a8fba !important;font-weight:700;}
 .btn-savepdf{background:#7B8D34 !important;border-color:#5f6d28 !important;color:#fff !important;font-weight:700;}
 .btn-savejpeg{background:#C0504D !important;border-color:#9a3f3d !important;color:#fff !important;font-weight:700;}
 
@@ -451,7 +450,6 @@ body.dark .nav{background:#1e2d3d;border-color:#2e4058;}
 body.dark .nav-t{color:#e2e8f0;}
 body.dark .nav-s{color:#8ba3bd;}
 body.dark .btn-dk{background:#243447;color:#e2e8f0;border-color:#2e4058;}
-body.dark .btn-print{background:#1e3a5f !important;border-color:#3b6fa0 !important;color:#93c5fd !important;}
 body.dark .btn-savepdf{background:#14391f !important;border-color:#2d6b3e !important;color:#86efac !important;}
 body.dark .btn-savejpeg{background:#3d1515 !important;border-color:#7a2a2a !important;color:#fca5a5 !important;}
 body.dark .title{background:#1e3a5f;border-color:#2e4058;}
@@ -694,8 +692,7 @@ body.dark .ps-na-cell{color:#aaa;}
   </div>
   <div style="display:flex;gap:5px;align-items:center;flex-shrink:0;">
     <button class="btn-dk btn-search" onclick="srchOpen()" title="Search across all tabs (Ctrl+K)">🔍 Search</button>
-    <button class="btn-dk btn-print btn-calc-only" onclick="printComputation()" title="Print / Save as PDF via browser dialog">🖨️ Print / PDF</button>
-    <button class="btn-dk btn-savepdf btn-calc-only" onclick="savePDF()" title="Download a PDF copy of the calculator view">📄 Save to PDF</button>
+<button class="btn-dk btn-savepdf btn-calc-only" onclick="savePDF()" title="Download a PDF copy of the calculator view">📄 Save to PDF</button>
     <button class="btn-dk btn-savejpeg btn-calc-only" onclick="saveJPEG()" title="Download a JPEG image of the calculator view">🖼️ Save to JPEG</button>
     <button class="btn-dk dark-toggle" onclick="toggleDark()" role="switch" aria-checked="false" aria-label="Toggle dark mode" title="Toggle dark mode"></button>
     <button class="btn-dk btn-calc-only" onclick="resetAll()" title="Clear all inputs to zero">🔄 Reset</button>
