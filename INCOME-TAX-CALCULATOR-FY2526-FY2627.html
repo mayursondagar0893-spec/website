@@ -1231,6 +1231,11 @@ function setupTabNav(){
   });
 }
 setupTabNav();
+/* Apply same select-on-focus to advance tax editable inputs */
+['at-tax','at-tds','at-p1','at-p2','at-p3','at-p4'].forEach(function(id){
+  var el=document.getElementById(id);
+  if(el)el.addEventListener('focus',function(){var s=this;setTimeout(function(){try{s.select();}catch(err){}},0);});
+});
 calc();   /* initial render on page load */
 /* ── POPULATE PRINT INFO BAR ── */
 function populatePrintBar(){
