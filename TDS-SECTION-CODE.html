@@ -793,6 +793,40 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
 .site-footer-links a:hover{color:#8c9a1a}
 .site-footer-links span{color:var(--t3);font-size:10px}
 .site-footer-socials{display:flex;gap:8px;justify-content:center;margin-top:12px}
+/* ══ UNIFIED SITE TOP NAV ══ */
+.site-topnav{background:rgba(250,251,240,.97);border-bottom:2px solid rgba(140,154,26,.22);padding:6px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;font-family:'Plus Jakarta Sans',sans-serif;position:sticky;top:0;z-index:500;box-shadow:0 2px 12px rgba(140,154,26,.1);backdrop-filter:blur(12px);}
+[data-theme="dark"] .site-topnav,body.dark .site-topnav{background:linear-gradient(90deg,#1f2506,#3d4408);border-bottom-color:rgba(181,196,34,.4);box-shadow:0 2px 12px rgba(0,0,0,.35);backdrop-filter:none;}
+.site-topnav-logo{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-size:11.5px;font-weight:800;color:#3d4408;letter-spacing:.02em;transition:opacity .15s;}
+[data-theme="dark"] .site-topnav-logo,body.dark .site-topnav-logo{color:#e8edbb;}
+.site-topnav-logo:hover{opacity:.82;}
+.stn-logo-box{background:#8c9a1a;color:#fff;font-family:'Playfair Display',serif;font-weight:900;font-size:.7rem;line-height:1.2;padding:.32rem .6rem;border-radius:7px;box-shadow:0 2px 8px rgba(140,154,26,.4);white-space:nowrap;display:inline-block;}
+.stn-logo-box sup{font-size:.44em;vertical-align:super;}
+.site-topnav-links{display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.site-topnav-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:700;text-decoration:none;cursor:pointer;border:1px solid transparent;background:transparent;transition:all .15s;white-space:nowrap;}
+.site-topnav-btn.home{background:#8c9a1a;color:#fff!important;border-color:#8c9a1a;box-shadow:0 2px 8px rgba(140,154,26,.4);}
+.site-topnav-btn.home:hover{background:#6b760f;box-shadow:0 3px 12px rgba(140,154,26,.5);}
+.site-topnav-btn.tool{border-color:rgba(140,154,26,.3);color:#4e570f;}
+.site-topnav-btn.tool:hover{background:rgba(140,154,26,.08);border-color:rgba(140,154,26,.55);color:#3d4408;}
+[data-theme="dark"] .site-topnav-btn.tool,body.dark .site-topnav-btn.tool{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.75);}
+[data-theme="dark"] .site-topnav-btn.tool:hover,body.dark .site-topnav-btn.tool:hover{background:rgba(181,196,34,.18);border-color:rgba(181,196,34,.55);color:#e8edbb;}
+.site-topnav-btn.current{background:#8c9a1a;color:#fff!important;border-color:#8c9a1a;pointer-events:none;}
+[data-theme="dark"] .site-topnav-btn.current,body.dark .site-topnav-btn.current{background:#8c9a1a;color:#fff!important;border-color:#8c9a1a;}
+@media(max-width:640px){.site-topnav-btn.tool{display:none;}.stn-name{display:none;}}
+/* ══ UNIFIED SITE FOOTER ══ */
+.sft{background:#3d4408;color:rgba(232,237,187,.8);padding:28px 20px 22px;text-align:center;margin-top:0;}
+[data-theme="dark"] .sft,body.dark .sft{background:#111405;}
+.sft-logo-box{display:inline-block;background:#8c9a1a;color:#fff;font-family:'Playfair Display',serif;font-weight:900;font-size:.78rem;line-height:1.2;padding:.38rem .72rem;border-radius:7px;margin-bottom:.45rem;box-shadow:0 2px 8px rgba(0,0,0,.25);text-decoration:none;}
+.sft-logo-box sup{font-size:.44em;vertical-align:super;}
+.sft-copy{font-size:11px;color:rgba(232,237,187,.65);margin-bottom:14px;}
+.sft-copy a{color:rgba(232,237,187,.75);text-decoration:none;}
+.sft-copy a:hover{color:#fff;}
+.sft-links{display:flex;flex-wrap:wrap;gap:4px 12px;justify-content:center;margin-bottom:16px;}
+.sft-links a{font-size:11px;color:rgba(232,237,187,.65);text-decoration:none;transition:color .15s;}
+.sft-links a:hover{color:#d4db80;}
+.sft-links span{color:rgba(232,237,187,.3);font-size:9px;}
+.sft-socials{display:flex;gap:9px;justify-content:center;}
+.sft-socials a{width:34px;height:34px;background:rgba(140,154,26,.2);border:1px solid rgba(140,154,26,.35);border-radius:9px;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:background .2s,transform .15s;color:#e8edbb;}
+.sft-socials a:hover{background:#8c9a1a;transform:translateY(-2px);}
 </style>
 <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
@@ -810,15 +844,20 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
   <button class="disc-close" id="discClose" title="Dismiss">✕</button>
 </div>
 
-<!-- Cross-Tool Navigation -->
-<nav class="tool-nav" aria-label="Quick navigation to other tools">
-  <a href="/">← Home</a>
-  <a href="/TDS-SECTION-CODE.html" class="tnb-active">✏️ TDS Codes</a>
-  <a href="/CA-Prompt-Library.html">💡 CA Prompts</a>
-  <a href="/Compliance_Calendar_FY2627.html">📋 Calendar</a>
-  <a href="/INCOME-TAX-CHALLAN-TO-EXCEL.html">🧾 Challan Parser</a>
-  <a href="/FORM-10-IEA-REFERENCE.html">📝 Form 10-IEA</a>
-  <a href="/INCOME-TAX-CALCULATOR-FY2526-FY2627.html">🧮 IT Calculator</a>
+<nav class="site-topnav" aria-label="Site navigation">
+  <a href="/" class="site-topnav-logo">
+    <span class="stn-logo-box">Taxation<sup style="font-size:.44em;vertical-align:super">®</sup><br/>Updates</span>
+    <span class="stn-name">CA Mayur Sondagar</span>
+  </a>
+  <div class="site-topnav-links">
+    <a href="/" class="site-topnav-btn home">← Home</a>
+    <a href="/TDS-SECTION-CODE.html" class="site-topnav-btn tool current">✏️ TDS Codes</a>
+    <a href="/CA-Prompt-Library.html" class="site-topnav-btn tool">💡 CA Prompts</a>
+    <a href="/Compliance_Calendar_FY2627.html" class="site-topnav-btn tool">📋 Calendar</a>
+    <a href="/INCOME-TAX-CHALLAN-TO-EXCEL.html" class="site-topnav-btn tool">🧾 Challan Parser</a>
+    <a href="/FORM-10-IEA-REFERENCE.html" class="site-topnav-btn tool">📝 Form 10-IEA</a>
+    <a href="/INCOME-TAX-CALCULATOR-FY2526-FY2627.html" class="site-topnav-btn tool">🧮 IT Calculator</a>
+  </div>
 </nav>
 
 <!-- HEADER -->
@@ -2676,23 +2715,24 @@ const initTh=document.querySelector('th[data-idx="0"]');
 if(initTh){initTh.classList.add('asc');const a=initTh.querySelector('.sarr');if(a)a.textContent='↑';}
 render();
 </script>
-<footer class="site-footer">
-  <div class="site-footer-copy">© 2026 CA Mayur J Sondagar · <a href="/">taxationupdates.com</a></div>
-  <nav class="site-footer-links" aria-label="Site tools">
-    <a href="/">Home</a>
-    <a href="/TDS-SECTION-CODE.html">TDS Codes</a>
-    <a href="/CA-Prompt-Library.html">CA Prompts</a>
-    <a href="/Compliance_Calendar_FY2627.html">Compliance Calendar</a>
-    <a href="/INCOME-TAX-CHALLAN-TO-EXCEL.html">Challan Parser</a>
-    <a href="/FORM-10-IEA-REFERENCE.html">Form 10-IEA</a>
-    <a href="/INCOME-TAX-CALCULATOR-FY2526-FY2627.html">IT Calculator</a>
-    <a href="/disclaimer.html">Disclaimer</a>
+<footer class="sft">
+  <a href="/" class="sft-logo-box">Taxation<sup>®</sup><br/>Updates</a>
+  <div class="sft-copy">© 2026 CA Mayur J Sondagar · All rights reserved · <a href="/">taxationupdates.com</a></div>
+  <nav class="sft-links" aria-label="Site navigation">
+    <a href="/">Home</a><span>·</span>
+    <a href="/TDS-SECTION-CODE.html">TDS Codes</a><span>·</span>
+    <a href="/CA-Prompt-Library.html">CA Prompts</a><span>·</span>
+    <a href="/Compliance_Calendar_FY2627.html">Compliance Calendar</a><span>·</span>
+    <a href="/INCOME-TAX-CHALLAN-TO-EXCEL.html">Challan Parser</a><span>·</span>
+    <a href="/FORM-10-IEA-REFERENCE.html">Form 10-IEA</a><span>·</span>
+    <a href="/INCOME-TAX-CALCULATOR-FY2526-FY2627.html">IT Calculator</a><span>·</span>
+    <a href="/disclaimer.html">Disclaimer</a><span>·</span>
     <a href="/privacy-policy.html">Privacy Policy</a>
   </nav>
-  <div class="site-footer-socials">
-    <a class="social-btn social-btn-x" href="https://twitter.com/TaxationUpdates" target="_blank" rel="noopener noreferrer" title="Twitter / X"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-    <a class="social-btn social-btn-li" href="https://www.linkedin.com/in/taxation-updates-ca-mayur-j-sondagar-936772219" target="_blank" rel="noopener noreferrer" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.062 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
-    <a class="social-btn social-btn-wa wa-link" href="#" target="_blank" title="WhatsApp"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></a>
+  <div class="sft-socials">
+    <a href="https://twitter.com/TaxationUpdates" target="_blank" rel="noopener noreferrer" title="Twitter / X"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    <a href="https://www.linkedin.com/in/taxation-updates-ca-mayur-j-sondagar-936772219" target="_blank" rel="noopener noreferrer" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.062 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+    <a class="wa-link" href="#" target="_blank" title="WhatsApp"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></a>
   </div>
 </footer>
 <script src="/wa-init.js"></script>
