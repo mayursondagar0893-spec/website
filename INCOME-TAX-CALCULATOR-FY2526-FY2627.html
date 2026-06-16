@@ -1224,10 +1224,9 @@ function setupTabNav(){
         else el.blur();
       }
     });
-    /* Single click = place cursor where tapped (edit a digit).
-       Double click = select the whole number (overwrite). */
+    /* Focus = select all content so user can overwrite immediately. */
     if(el.tagName==='INPUT'){
-      el.addEventListener('dblclick',function(){try{el.select();}catch(err){}});
+      el.addEventListener('focus',function(){try{el.select();}catch(err){}});
     }
   });
 }
