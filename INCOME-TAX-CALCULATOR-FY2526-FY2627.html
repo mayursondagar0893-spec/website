@@ -1224,9 +1224,9 @@ function setupTabNav(){
         else el.blur();
       }
     });
-    /* Focus = select all content so user can overwrite immediately. */
+    /* First focus selects all (easy overwrite); clicking again places cursor for editing. */
     if(el.tagName==='INPUT'){
-      el.addEventListener('focus',function(){try{el.select();}catch(err){}});
+      el.addEventListener('focus',function(){var s=this;setTimeout(function(){try{s.select();}catch(err){}},0);});
     }
   });
 }
