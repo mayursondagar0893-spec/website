@@ -1241,6 +1241,7 @@ function showTab(t){
   var calcBtns=document.querySelectorAll('.btn-calc-only');
   calcBtns.forEach(function(b){b.style.display=(t==='calc')?'':'none';});
   if(t==='advtax') calcAdvTax();
+  localStorage.setItem('itc-tab', t);
   window.scrollTo(0,0);
 }
 function resetAll(){
@@ -3061,9 +3062,11 @@ function setYear(yr){
   toast('\u2705 Switched to '+(yr==='fy2526'?'FY 2025-26 \u2014 IT Act 1961':'Tax Year 2026-27 \u2014 IT Act 2025'));
 }
 
-/* Run applyYear on page load with default year */
+/* Run applyYear on page load with default year; restore last active tab */
 document.addEventListener('DOMContentLoaded', function(){
   applyYear('fy2526');
+  var savedTab = localStorage.getItem('itc-tab');
+  if(savedTab) showTab(savedTab);
 });
 
 </script>
