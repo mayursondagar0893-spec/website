@@ -490,9 +490,11 @@ td:last-child{border-right:none}
 /* ── BACK LINK ── */
 .back-link{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.18);background:transparent;color:#c9d1d9;text-decoration:none;transition:all .15s;white-space:nowrap;line-height:1}
 .back-link:hover{background:rgba(140,154,26,.15);border-color:#8c9a1a;color:#b5c422}
-/* ── DARK TOGGLE (round icon button) ── */
-.tbtn{width:30px;height:30px;border-radius:50%;background:transparent;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.7);display:grid;place-items:center;cursor:pointer;font-size:13px;transition:all .15s;flex-shrink:0}
-.tbtn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.35);color:#fff}
+/* ── DARK TOGGLE (olive pill) ── */
+.tbtn{width:42px;height:24px;border-radius:50px;background:#e8edbb;border:1.5px solid rgba(140,154,26,.22);cursor:pointer;position:relative;transition:background .3s;flex-shrink:0}
+.tbtn::after{content:'☀️';position:absolute;left:2px;top:50%;transform:translateY(-50%);font-size:.7rem;width:18px;height:18px;border-radius:50%;background:#8c9a1a;display:flex;align-items:center;justify-content:center;transition:left .3s,background .3s}
+[data-theme="dark"] .tbtn{background:#2e3410;border-color:rgba(140,154,26,.3)}
+[data-theme="dark"] .tbtn::after{content:'🌙';left:18px;background:#b5c422}
 
 /* ── FOOTER ── */
 .footer{background:var(--hdr);border-top:1px solid rgba(255,255,255,.07);padding:18px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--muted2)}
@@ -519,7 +521,7 @@ td:last-child{border-right:none}
   .hdr-date-wrap{display:flex;align-items:center;gap:4px;flex:1;min-width:0}
   .hdr-date{font-size:10px;padding:3px 7px;flex-shrink:0}
   .hdr-date-edit{font-size:10px;padding:3px 7px;flex-shrink:0}
-  .tbtn{width:26px;height:26px;font-size:12px;flex-shrink:0;margin-left:auto}
+  .tbtn{width:36px;height:20px;flex-shrink:0;margin-left:auto}
   .hdr-date-reset{font-size:10px;padding:2px 6px;flex-shrink:0}
 
   /* FY banner */
@@ -670,7 +672,7 @@ td:last-child{border-right:none}
       <button class="hdr-date-reset" id="dateResetBtn" style="display:none" onclick="resetDate()" title="Reset to today">↺ Reset</button>
     </div>
     <a href="/" class="back-link"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> Home</a>
-    <button class="tbtn" id="themeBtn" onclick="toggleDark()" aria-label="Toggle dark mode" title="Toggle dark / light mode">🌙</button>
+    <button class="tbtn" id="themeBtn" onclick="toggleDark()" role="switch" aria-checked="false" aria-label="Toggle dark mode" title="Toggle dark mode"></button>
   </div>
 </header>
 
@@ -1065,8 +1067,8 @@ function init(){
   const setHdrH=()=>document.documentElement.style.setProperty('--hdr-h',document.querySelector('.hdr').offsetHeight+'px');
   setHdrH();
   window.addEventListener('resize',setHdrH);
-  // Sync dark-mode button icon with restored theme
-  if(isDark){const tb=document.getElementById('themeBtn');if(tb)tb.textContent='☀️';}
+  // Sync dark-mode button aria-checked with restored theme
+  if(isDark){const tb=document.getElementById('themeBtn');if(tb)tb.setAttribute('aria-checked','true');}
   updateDateBadge();
   // Do NOT pre-set customDateInp value here — it causes date to show visually on mobile
   renderStats();
@@ -1162,7 +1164,7 @@ function toggleDark(){
   isDark=!isDark;
   document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
   const tb=document.getElementById('themeBtn');
-  if(tb)tb.textContent=isDark?'☀️':'🌙';
+  if(tb)tb.setAttribute('aria-checked',isDark?'true':'false');
   localStorage.setItem('theme',isDark?'dark':'light');
 }
 
