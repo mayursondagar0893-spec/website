@@ -2676,9 +2676,8 @@ var SEC_MAP = [
   [/not part of 80CCE aggregate/g, 'not part of S. 123 aggregate'],
   [/except 80CCD\(2\) &amp; 80CCH/g, 'except 124 &amp; S. 125'],
   [/80CCD\(1B\)/g,                 '124'],
-  /* New regime disallowed note */
-  [/S\. 80C, 80D, 80TTA, 80TTB, 80G, 80E/g,
-   'S. 123, 126, 153, 133, 129'],
+  /* Remove "NOT allowed in New Regime" row entirely for Tax Year 2026-27 */
+  [/<tr class="total-row"><td colspan="3">🚫 The following are NOT allowed in New Regime:[^<]*<\/td><\/tr>/g, ''],
 
   /* ── Bare "80CCE" standalone ── */
   [/80CCE(?!\s*aggregate|\s*limit|\s*cap)/g, 'S. 123'],
