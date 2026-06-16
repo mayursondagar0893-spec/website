@@ -289,6 +289,8 @@ body.dark .ref-tbl .hdr-row td,.ref-tbl .hdr-row th{background:#2c4a6e;color:#ff
 body.dark .ref-tbl .sub-hdr td{background:#253320;color:#d0ddb0;}
 body.dark .ref-tbl .total-row td{background:#1e3628;color:#c8f0da;}
 body.dark .ref-note{color:#bbb;border-color:#444;}
+body.dark .ref-tbl-new tr:nth-child(even) td{background:#0e2410;}
+body.dark .ref-tbl-old tr:nth-child(even) td{background:#2e1a08;}
 body.dark .itr-card{background:#1c1c1c;border-color:#555;}
 body.dark .itr-card-h{color:#8ec1ff;}
 body.dark .itr-card-form{background:#2c4a6e;color:#fff;border-color:#4a7aaa;}
@@ -2381,7 +2383,7 @@ var YEAR_CFG = {
     s_itr7_4e:   '139(4E)', s_itr7_4f: '139(4F)',
     s_194p:      'S. 194P',
     /* Slab tab footnotes */
-    s_slab_new_note: 'Rebate u/S. 87A: Max \u20B960,000 for total income \u2264 \u20B912,00,000 (with marginal relief just above \u20B912L). Surcharge on normal income: 10% (\u20B950L\u2013\u20B91Cr), 15% (\u20B91Cr\u2013\u20B92Cr), 25% (\u20B92Cr\u2013\u20B95Cr &amp; above). Note: 37% surcharge NOT applicable under New Regime [S. 115BAC(1A)(ii)]. Surcharge on STCG u/S. 111A and LTCG u/S. 112A is capped at 15% even above \u20B92 crore \u2014 in both Old and New Regime.',
+    s_slab_new_note: 'Rebate u/S. 87A: Max \u20B960,000 for total income \u2264 \u20B912,00,000 (with marginal relief just above \u20B912L). Available to Resident Individuals only. Surcharge on normal income: 10% (\u20B950L\u2013\u20B91Cr), 15% (\u20B91Cr\u2013\u20B92Cr), 25% (\u20B92Cr\u2013\u20B95Cr &amp; above). Note: 37% surcharge NOT applicable under New Regime [S. 115BAC(1A)(iii)]. Surcharge on STCG u/S. 111A and LTCG u/S. 112A is capped at 15% even above \u20B92 crore \u2014 in both Old and New Regime.',
     s_slab_old_note: 'Rebate u/S. 87A: Max \u20B912,500 for total income \u2264 \u20B95,00,000. Surcharge: 10% (\u20B950L\u2013\u20B91Cr), 15% (\u20B91Cr\u2013\u20B92Cr), 25% (\u20B92Cr\u2013\u20B95Cr), 37% (>\u20B95Cr) [capped at 15% on STCG/LTCG]. 4% H&amp;E Cess on tax + surcharge.',
     s_sc60_note: 'Rebate u/S. 87A: Max \u20B912,500 for total income \u2264 \u20B95,00,000. Same surcharge &amp; cess as below-60. Senior citizens resident in India are exempt from advance tax if no business/profession income [S. 207].',
     s_huf_note:  'Rebate u/S. 87A: \u20B912,500 for income \u2264 \u20B95L. No age-based higher exemption for HUF. Surcharge &amp; cess same as Individual. HUF can also opt for New Regime u/S. 115BAC(1A).',
@@ -2486,20 +2488,20 @@ var YEAR_CFG = {
     /* ITR date tab sections */
     s_44ad:      'u/S. 58', s_44ada: 'u/S. 58', s_44ae: 'u/S. 58',
     s_115ub:     'u/S. 224',
-    s_11_12:     'u/S. 263(1)(a)(iv)', s_10: 'u/S. 11 &amp; Schedules II\u2013VII',
-    s_139_4a:    'u/S. 263(1)(a)(iv)', s_139_4b: 'u/S. 263(1)(a)(v)',
-    s_139_4c:    'u/S. 263(1)(a)(vi)', s_139_4d: 'u/S. 263(1)(a)(v)',
-    s_139_4e:    'u/S. 263(1)(a)(vi)', s_139_4f: 'u/S. 263(1)(a)(vii)',
-    s_139_1:     'S. 263(1)(a)(x)',
+    s_11_12:     'u/S. 263', s_10: 'u/S. 11 &amp; Schedules II\u2013VII',
+    s_139_4a:    'u/S. 263', s_139_4b: 'u/S. 263',
+    s_139_4c:    'u/S. 263', s_139_4d: 'u/S. 263',
+    s_139_4e:    'u/S. 263', s_139_4f: 'u/S. 263',
+    s_139_1:     'S. 263',
     s_207_at:    'S. 403',  s_208_at: 'S. 408',
     s_adv_hdr:   'Advance Tax Due Dates \u2014 Tax Year 2026-27 [S. 404 / S. 408]',
-    s_key_hdr:   'Key Filing Conditions &amp; Mandatory Filing Triggers \u2014 Tax Year 2026-27 [S. 263(1)(a)(x)]',
-    s_itr7_4a:   '263(1)(a)(iv)', s_itr7_4b: '263(1)(a)(v)',
-    s_itr7_4c:   '263(1)(a)(vi)', s_itr7_4d: '263(1)(a)(v)',
-    s_itr7_4e:   '263(1)(a)(vi)', s_itr7_4f: '263(1)(a)(vii)',
+    s_key_hdr:   'Key Filing Conditions &amp; Mandatory Filing Triggers \u2014 Tax Year 2026-27 [S. 263]',
+    s_itr7_4a:   '263', s_itr7_4b: '263',
+    s_itr7_4c:   '263', s_itr7_4d: '263',
+    s_itr7_4e:   '263', s_itr7_4f: '263',
     s_194p:      'S. 263 Proviso',
     /* Slab tab footnotes */
-    s_slab_new_note: 'Rebate u/S. 156: Max \u20B960,000 for total income \u2264 \u20B912,00,000 (with marginal relief just above \u20B912L). Surcharge on normal income: 10% (\u20B950L\u2013\u20B91Cr), 15% (\u20B91Cr\u2013\u20B92Cr), 25% (\u20B92Cr\u2013\u20B95Cr &amp; above). Note: 37% surcharge NOT applicable under New Regime [S. 202(ii)]. Surcharge on STCG u/S. 196 and LTCG u/S. 198 is capped at 15% even above \u20B92 crore \u2014 in both Old and New Regime.',
+    s_slab_new_note: 'Rebate u/S. 156: Max \u20B960,000 for total income \u2264 \u20B912,00,000 (with marginal relief just above \u20B912L). Available to Resident Individuals only. Surcharge on normal income: 10% (\u20B950L\u2013\u20B91Cr), 15% (\u20B91Cr\u2013\u20B92Cr), 25% (\u20B92Cr\u2013\u20B95Cr &amp; above). Note: 37% surcharge NOT applicable under New Regime [S. 202]. Surcharge on STCG u/S. 196 and LTCG u/S. 198 is capped at 15% even above \u20B92 crore \u2014 in both Old and New Regime.',
     s_slab_old_note: 'Rebate u/S. 156: Max \u20B912,500 for total income \u2264 \u20B95,00,000. Surcharge: 10% (\u20B950L\u2013\u20B91Cr), 15% (\u20B91Cr\u2013\u20B92Cr), 25% (\u20B92Cr\u2013\u20B95Cr), 37% (>\u20B95Cr) [capped at 15% on STCG/LTCG]. 4% H&amp;E Cess on tax + surcharge.',
     s_sc60_note: 'Rebate u/S. 156: Max \u20B912,500 for total income \u2264 \u20B95,00,000. Same surcharge &amp; cess as below-60. Senior citizens resident in India are exempt from advance tax if no business/profession income [S. 403].',
     s_huf_note:  'Rebate u/S. 156: \u20B912,500 for income \u2264 \u20B95L. No age-based higher exemption for HUF. Surcharge &amp; cess same as Individual. HUF can also opt for New Regime u/S. 202.',
@@ -2620,7 +2622,7 @@ var SEC_MAP = [
   [/S\. 80RRB/g,  'S. 152'],
 
   /* ── New Regime ── */
-  [/S\. 115BAC\(1A\)\(ii\)/g, 'S. 202(ii)'],
+  [/S\. 115BAC\(1A\)\(ii\)/g, 'S. 202'],
   [/S\. 115BAC\(1A\)/g,       'S. 202'],
   [/S\. 115BAC\(2\)\(i\)/g,   'S. 202'],
   [/S\. 115BAC/g,              'S. 202'],
@@ -2643,6 +2645,8 @@ var SEC_MAP = [
   [/S\. 115BAE/g,     'S. 270AA'],
   [/S\. 115BAD/g,     'S. 270D'],
   [/S\. 115BAB/g,     'S. 270B'],
+  [/S\. 115BA(?![A-Z\d])/g, 'S. 205'],
+  [/Not applicable for S\. 270A\/270B companies/g, 'Not applicable for S. 205 companies'],
   /* 115BBx series — longest first */
   [/S\. 115BBJ/g,     'S. 179'],
   [/S\. 115BBH/g,     'S. 177'],
@@ -2650,16 +2654,15 @@ var SEC_MAP = [
   [/S\. 115BBC/g,     'S. 173'],
   [/S\. 115BB(?![A-Z\d])/g, 'S. 171'],
   /* MAT / AMT */
-  [/u\/S\. 115JB/g,   'u/S. 258'],
-  [/S\. 115JB/g,      'S. 258'],
-  [/u\/S\. 115JC/g,   'u/S. 259'],
-  [/S\. 115JC/g,      'S. 259'],
-  /* Other 115x */
-  [/S\. 115A(?![A-Z\d])/g, 'S. 193'],
+  [/u\/S\. 115JB/g,   'u/S. 206'],
+  [/S\. 115JB/g,      'S. 206'],
+  [/u\/S\. 115JC/g,   'u/S. 206'],
+  [/S\. 115JC/g,      'S. 206'],
+  [/AMT u\/S\. 206/g, 'MT u/S. 206'],
   /* S. 50AA */
   [/S\. 50AA/g,       'S. 68'],
-  /* S. 40(b) — partnership deduction limit */
-  [/S\. 40\(b\)/g,    'S. 40(b)'],   /* same number in IT Act 2025 — no change needed */
+  /* S. 40(b) → S. 35 in IT Act 2025 */
+  [/S\. 40\(b\)/g,    'S. 35'],
   /* S. 192 — TDS on salary */
   [/S\. 192\(/g,      'S. 192('],     /* same section — no change */
 
@@ -2713,21 +2716,21 @@ var SEC_MAP = [
   [/S\. 194P/g,    'S. 263 Proviso'],
 
   /* ── ITR filing — sub-sections before parent ── */
-  [/S\. 139\(8A\)/g,          'S. 263(8A)'],
-  [/S\. 139\(4A\)/g,          'S. 263(1)(a)(iv)'],
-  [/S\. 139\(4B\)/g,          'S. 263(1)(a)(v)'],
-  [/S\. 139\(4C\)/g,          'S. 263(1)(a)(vi)'],
-  [/S\. 139\(4D\)/g,          'S. 263(1)(a)(v)'],
-  [/S\. 139\(4E\)/g,          'S. 263(1)(a)(vi)'],
-  [/S\. 139\(4F\)/g,          'S. 263(1)(a)(vii)'],
-  [/S\. 139\(4\)/g,           'S. 263(4)'],
-  [/u\/S\. 139\(4\)/g,        'u/S. 263(4)'],
-  [/S\. 139\(5\)/g,           'S. 263(5)'],
-  [/u\/S\. 139\(5\)/g,        'u/S. 263(5)'],
-  [/S\. 139\(3\)/g,           'S. 263(3)'],
-  [/S\. 139\(1\) Seventh Proviso/g, 'S. 263(1)(a)(x)'],
-  [/\[S\. 139\(1\)\]/g,       '[S. 263(1)]'],
-  [/u\/S\. 139\(1\)/g,        'u/S. 263(1)'],
+  [/S\. 139\(8A\)/g,          'S. 263'],
+  [/S\. 139\(4A\)/g,          'S. 263'],
+  [/S\. 139\(4B\)/g,          'S. 263'],
+  [/S\. 139\(4C\)/g,          'S. 263'],
+  [/S\. 139\(4D\)/g,          'S. 263'],
+  [/S\. 139\(4E\)/g,          'S. 263'],
+  [/S\. 139\(4F\)/g,          'S. 263'],
+  [/S\. 139\(4\)/g,           'S. 263'],
+  [/u\/S\. 139\(4\)/g,        'u/S. 263'],
+  [/S\. 139\(5\)/g,           'S. 263'],
+  [/u\/S\. 139\(5\)/g,        'u/S. 263'],
+  [/S\. 139\(3\)/g,           'S. 263'],
+  [/S\. 139\(1\) Seventh Proviso/g, 'S. 263'],
+  [/\[S\. 139\(1\)\]/g,       '[S. 263]'],
+  [/u\/S\. 139\(1\)/g,        'u/S. 263'],
 
   /* ── Late fee / filing interest ── */
   [/u\/S\. 234F/g, 'u/S. 434'],
@@ -2741,6 +2744,8 @@ var SEC_MAP = [
   [/S\. 209/g,      'S. 405'],
   [/S\. 208/g,      'S. 404'],
   [/S\. 207/g,      'S. 403'],
+  /* S. 115A placed after 207→403 to avoid cascade: 115A→207 then 207→403 */
+  [/S\. 115A(?![A-Z\d])/g, 'S. 207'],
 
   /* ── Interest on advance tax ── */
   [/S\. 234C/g,    'S. 425'],
@@ -2784,7 +2789,7 @@ var SEC_MAP = [
 
   /* ── ITR sub-header exact text ── */
   [/ORIGINAL RETURN \[S\. 139\(1\)\] — AY 2026-27 \(FY 2025-26\)/g,
-   'ORIGINAL RETURN [S. 263(1)] — Tax Year 2026-27'],
+   'ORIGINAL RETURN [S. 263] — Tax Year 2026-27'],
 
   /* ── Non-audit row "New due date" note ── */
   [/New due date from AY 2026-27/g, 'Due date as per IT Act, 2025'],
@@ -2843,6 +2848,7 @@ function applyYear(yr){
 
   /* ── SECTION TEXT SWAP across all tabs — runs first so ID updates below override where needed ── */
   swapSectionRefs(yr);
+  ttInitTable();
 
   /* ── TOGGLE BUTTONS ── */
   var b25 = document.getElementById('yr-fy25');
@@ -3168,8 +3174,14 @@ function ttRowClick(e){
     +' (New Regime, '+(window.SHARE_AY||'AY 2026-27 (FY 2025-26)')+') \u2014 TaxationUpdates.com';
   ttCopy(line);
 }
-document.getElementById('ttGrid').addEventListener('click',ttRowClick);
-ttBuild();
+function ttInitTable(){
+  var g=document.getElementById('ttGrid');
+  if(!g)return;
+  g.removeEventListener('click',ttRowClick);
+  g.addEventListener('click',ttRowClick);
+  ttBuild();
+}
+ttInitTable();
 </script>
 <!-- ═══════════════════════════════════════════════════════════════
      TAB: TAX SLABS (AY 2026-27)
@@ -3193,7 +3205,7 @@ ttBuild();
 <tr><td>16,00,001 – 20,00,000</td><td class="rate">20%</td><td>₹0 to ₹80,000 max tax in this slab</td></tr>
 <tr><td>20,00,001 – 24,00,000</td><td class="rate">25%</td><td>₹0 to ₹1,00,000 max tax in this slab</td></tr>
 <tr><td>Above 24,00,000</td><td class="rate">30%</td><td>Highest slab rate</td></tr>
-<tr class="total-row"><td colspan="3" id="slabNewNote">➕ Surcharge + 4% H&amp;E Cess applicable on tax after rebate. Rebate u/S. 87A: Max ₹60,000 for total income ≤ ₹12,00,000 (with marginal relief just above ₹12L). Surcharge on normal income: 10% (₹50L–₹1Cr), 15% (₹1Cr–₹2Cr), 25% (₹2Cr–₹5Cr &amp; above). Note: 37% surcharge NOT applicable under New Regime [S. 115BAC(1A)(ii)]. Surcharge on STCG u/S. 111A and LTCG u/S. 112A is capped at 15% even above ₹2 crore — in both Old and New Regime.</td></tr>
+<tr class="total-row"><td colspan="3" id="slabNewNote">➕ Surcharge + 4% H&amp;E Cess applicable on tax after rebate. Rebate u/S. 87A: Max ₹60,000 for total income ≤ ₹12,00,000 (with marginal relief just above ₹12L). Available to Resident Individuals only. Surcharge on normal income: 10% (₹50L–₹1Cr), 15% (₹1Cr–₹2Cr), 25% (₹2Cr–₹5Cr &amp; above). Note: 37% surcharge NOT applicable under New Regime [S. 115BAC(1A)(iii)]. Surcharge on STCG u/S. 111A and LTCG u/S. 112A is capped at 15% even above ₹2 crore — in both Old and New Regime.</td></tr>
 </tbody>
 </table>
 </div>
