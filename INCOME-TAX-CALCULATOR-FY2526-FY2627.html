@@ -634,6 +634,26 @@ body.dark .at-field label span{color:#aaa!important;}
 body.dark #at-234b-months-display{color:#e8c060!important;}
 body.dark .at-field-stack .at-date-row input[type="date"]{background:#2a2a2a!important;border-color:#666!important;color:#eee!important;}
 
+/* ── DARK MODE: text visibility fixes ── */
+/* Bold text in at-note/ref-note has explicit dark color invisible on dark bg */
+body.dark .at-note b{color:#e0e0e0;}
+body.dark .ref-note b{color:#e0e0e0;}
+/* ITR date cells use inline color styles — override all .rate cells in dark mode */
+body.dark .ref-tbl .rate{color:#ddd !important;}
+/* Semantic color helpers (used in JS-generated and static HTML) */
+.val-green{color:#2e8b57;}
+body.dark .val-green{color:#52c77a;}
+.val-amber{color:#b8860b;}
+body.dark .val-amber{color:#d4b800;}
+.val-red{color:#c0392b;}
+body.dark .val-red{color:#ff8a7a;}
+/* Muted helper for empty-state messages */
+.at-val-muted{color:#555;}
+body.dark .at-val-muted{color:#aaa;}
+/* Print-sheet NA cell */
+.ps-na-cell{text-align:center;color:#666;font-style:italic;}
+body.dark .ps-na-cell{color:#aaa;}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -1333,7 +1353,7 @@ function populatePrintSheet(){
       } else {
         var fw=r.bold?'font-weight:700;':'';
         var nCell=r.naNew
-          ?'<td style="text-align:center;color:#666;font-style:italic;">— NA (Old Regime Only) —</td>'
+          ?'<td class="ps-na-cell">— NA (Old Regime Only) —</td>'
           :'<td style="text-align:right;'+fw+'">'+fmtPrint(r.n)+'</td>';
         tr.innerHTML='<td style="'+fw+'">'+r.l+'</td>'
           +'<td style="text-align:right;'+fw+'">'+fmtPrint(r.o)+'</td>'
@@ -2117,7 +2137,7 @@ function renderSchedule(net, instalments, cumPaid, paid, total234C, sched234C){
   if(!Array.isArray(instalments)){
     /* net <= 10000 — show empty */
     var tr = document.createElement('tr');
-    tr.innerHTML = '<td colspan="8" style="text-align:center;color:#888;padding:12px;">Enter income tax figures in Step 1 to see the instalment schedule.</td>';
+    tr.innerHTML = '<td colspan="8" class="at-val-muted" style="text-align:center;padding:12px;">Enter income tax figures in Step 1 to see the instalment schedule.</td>';
     tbody.appendChild(tr);
     return;
   }
@@ -2137,12 +2157,12 @@ function renderSchedule(net, instalments, cumPaid, paid, total234C, sched234C){
       + '<td class="at-pct">'+pctLabel+'</td>'
       + '<td class="at-amt">'+'\u20B9'+required.toLocaleString('en-IN')+'</td>'
       + '<td class="at-amt">'+'\u20B9'+cumP.toLocaleString('en-IN')+'</td>'
-      + '<td class="at-amt" style="'+(shortfall>0?'color:#C0392B;':shortfall<0?'color:#2E6927;':'')+'">'+
+      + '<td class="at-amt '+(shortfall>0?'val-red':shortfall<0?'val-green':'')+'">'+
           (shortfall===0 ? '\u2014' : (shortfall>0 ? '(' + Math.abs(shortfall).toLocaleString('en-IN') + ')' : '+' + Math.abs(shortfall).toLocaleString('en-IN')))+'</td>'
       + '<td style="text-align:center;">'+(ok
           ? '<span class="at-badge ok">\u2714 OK</span>'
           : '<span class="at-badge miss">\u26A0 Short</span>')+'</td>'
-      + '<td class="at-amt" style="'+(s234C>0?'color:#C0392B;font-weight:700;':'')+'">'+
+      + '<td class="at-amt '+(s234C>0?'val-red':'')+'" style="'+(s234C>0?'font-weight:700;':'')+'">'+
           (s234C>0 ? '\u20B9' + s234C.toLocaleString('en-IN') : '\u2014')+'</td>';
     tbody.appendChild(tr);
   });
@@ -2154,10 +2174,10 @@ function renderSchedule(net, instalments, cumPaid, paid, total234C, sched234C){
   tr2.innerHTML = '<td colspan="3" style="font-weight:700;">TOTAL</td>'
     + '<td class="at-amt"><b>'+'\u20B9'+(net||0).toLocaleString('en-IN')+'</b></td>'
     + '<td class="at-amt"><b>'+'\u20B9'+(cumPaid[3]||0).toLocaleString('en-IN')+'</b></td>'
-    + '<td class="at-amt" style="'+(totalShort>0?'color:#C0392B;font-weight:700;':'')+'">'+
+    + '<td class="at-amt '+(totalShort>0?'val-red':'')+'" style="'+(totalShort>0?'font-weight:700;':'')+'">'+
         (totalShort > 0 ? '(' + totalShort.toLocaleString('en-IN') + ')' : '\u2014')+'</td>'
     + '<td></td>'
-    + '<td class="at-amt" style="'+(total234C>0?'color:#C0392B;font-weight:700;':'')+'">'+
+    + '<td class="at-amt '+(total234C>0?'val-red':'')+'" style="'+(total234C>0?'font-weight:700;':'')+'">'+
         (total234C>0?'\u20B9'+total234C.toLocaleString('en-IN'):'\u2014')+'</td>';
   tbody.appendChild(tr2);
 }
@@ -2167,7 +2187,7 @@ function renderInterest(net, totalTax, totalPaid, p4, total234C, tds, instalment
   if(!out) return;
 
   if(net <= 10000){
-    out.innerHTML = '<div style="color:#555;font-size:11.5px;">No advance tax liability &#x2014; interest provisions not applicable.</div>';
+    out.innerHTML = '<div class="at-val-muted" style="font-size:11.5px;">No advance tax liability &#x2014; interest provisions not applicable.</div>';
     return;
   }
 
@@ -2185,7 +2205,7 @@ function renderInterest(net, totalTax, totalPaid, p4, total234C, tds, instalment
       + '<div class="at-int-h">&#x26A0;&#xFE0F; Interest '+s234C_lbl+' &#x2014; Deferment of Instalment</div>'
       + 'One or more instalments were short of the required cumulative percentage. '
       + 'Interest '+s234C_lbl+' = 1% per month (simple) &#xD7; shortfall &#xD7; months (3 for each of 1st&#x2013;3rd instalments; 1 for 4th).'
-      + '<div style="margin-top:8px;font-size:13px;font-weight:700;color:#c0392b;">'+s234C_lbl+' Interest: &#x20B9;' + total234C.toLocaleString('en-IN') + '</div>'
+      + '<div class="val-red" style="margin-top:8px;font-size:13px;font-weight:700;">'+s234C_lbl+' Interest: &#x20B9;' + total234C.toLocaleString('en-IN') + '</div>'
       + '</div>';
   } else {
     html += '<div class="at-int-card at-int-card-ok">'
@@ -2250,7 +2270,7 @@ function renderInterest(net, totalTax, totalPaid, p4, total234C, tds, instalment
         + '<tr><td><b>Assessed Tax Shortfall (interest base) ['+s234B_lbl+'(1)]</b></td><td><b>' + shortfall234B.toLocaleString('en-IN') + '</b></td></tr>'
         + '<tr><td>Period: '+apr234b+' to ' + dateLabel + '</td><td>' + months234B + ' month' + (months234B>1?'s':'') + '</td></tr>'
         + '<tr><td>Rate</td><td>1% per month (simple)</td></tr>'
-        + '<tr class="at-int-total"><td><b>Total Interest '+s234B_lbl+' (&#x20B9;' + shortfall234B.toLocaleString('en-IN') + ' &#xD7; 1% &#xD7; ' + months234B + ')</b></td><td><b style="color:#c0392b;">&#x20B9;' + interest234B.toLocaleString('en-IN') + '</b></td></tr>'
+        + '<tr class="at-int-total"><td><b>Total Interest '+s234B_lbl+' (&#x20B9;' + shortfall234B.toLocaleString('en-IN') + ' &#xD7; 1% &#xD7; ' + months234B + ')</b></td><td><b class="val-red">&#x20B9;' + interest234B.toLocaleString('en-IN') + '</b></td></tr>'
         + '</tbody></table>'
         + '<div class="at-note"><b>Period rule ('+s234B_lbl+'):</b> Interest runs from <b>'+apr234b+'</b> '+b234b_note+' Any part of a month counts as a full month. Change the date in Step 1 to recompute.</div>'
         + '</div>';
@@ -3758,7 +3778,7 @@ ttBuild();
 <ol>
 <li><span class="ht-step">STEP 1</span><strong>Enter your name and PAN</strong> (optional — used only on the printout) and <strong>select your age category</strong>: Below 60, Senior Citizen (60–79), or Super Senior Citizen (80+). Age affects the Old Regime basic exemption limit.</li>
 <li><span class="ht-step">STEP 2</span><strong>Enter your income in the grey input cells:</strong> Gross Salary, Rent Income, Interest on housing loans (let-out and self-occupied), Business/Profession income, Other Income, Short Term Capital Gain <span id="ht_stcg_s">u/s 111A</span> and Long Term Capital Gain <span id="ht_ltcg_s">u/s 112A</span>. Enter <strong>0</strong> for any item that does not apply — never leave a cell blank.<br>
-<strong>Colour cues on each input cell:</strong> <strong style="color:#2e8b57;">Green strip</strong> = valid amount entered; <strong style="color:#b8860b;">Amber strip</strong> = still zero (you may have missed it); <strong style="color:#c0392b;">Red strip</strong> = amount exceeds the legal cap (the cap actually applied is shown below the cell).</li>
+<strong>Colour cues on each input cell:</strong> <strong class="val-green">Green strip</strong> = valid amount entered; <strong class="val-amber">Amber strip</strong> = still zero (you may have missed it); <strong class="val-red">Red strip</strong> = amount exceeds the legal cap (the cap actually applied is shown below the cell).</li>
 <li><span class="ht-step">STEP 3</span><strong>Enter deductions:</strong> <span id="ht_80c_s">S. 80C</span> (max ₹1,50,000 auto-applied), <span id="ht_80cd2_s">S. 80CCD(2)</span> (employer NPS), <span id="ht_80d_s">S. 80D</span> (mediclaim) and Other Deductions. Under the New Regime only <span id="ht_80cd2_s2">S. 80CCD(2)</span> is permitted — the tool applies this rule automatically.</li>
 <li><span class="ht-step">STEP 4</span><strong>Read the result:</strong> tax under both regimes appears instantly with the beneficial regime highlighted. Detailed slab-wise working is shown for verification.</li>
 <li><span class="ht-step">STEP 5</span><strong>Export your computation:</strong>

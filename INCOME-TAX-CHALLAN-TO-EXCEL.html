@@ -102,6 +102,8 @@
     --border:       rgba(140,154,26,0.3);
     --primary-light:#2e3410;
     --shadow:       0 2px 12px rgba(0,0,0,.3);
+    --error:        #ff8a7a;
+    --warn:         #d4a800;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -481,6 +483,11 @@
   .chip-ok { background: #dcfce7; color: #15803d; }
   .chip-err { background: #fee2e2; color: #dc2626; }
   [data-theme="dark"] .chip-280 { background: var(--olive-deep); color: var(--olive-pale); }
+  [data-theme="dark"] .chip-281 { background: #0e2410; color: #7edd7a; }
+  [data-theme="dark"] .chip-282 { background: #2a1a00; color: #d4a800; }
+  [data-theme="dark"] .chip-283 { background: #2a0a1a; color: #f0a0c0; }
+  [data-theme="dark"] .chip-ok  { background: #0e2410; color: #7edd7a; }
+  [data-theme="dark"] .chip-err { background: #3d1010; color: #ff8a7a; }
   .amt { font-weight: 700; color: var(--olive); font-variant-numeric: tabular-nums; }
   .error-row td { color: var(--error); }
   .empty-state { text-align: center; padding: 48px 24px; color: var(--text-soft); }
