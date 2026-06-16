@@ -2680,6 +2680,7 @@ var SEC_MAP = [
   [/80CCE(?!\s*aggregate|\s*limit|\s*cap)/g, 'S. 123'],
 
   /* ── ITR date tab — presumptive sections ── */
+  [/u\/S\. 44AD \/ 44ADA \/ 44AE/g, 'u/S. 58'],
   [/u\/S\. 44ADA/g,  'u/S. 58'],
   [/u\/S\. 44AE/g,   'u/S. 58'],
   [/u\/S\. 44AD/g,   'u/S. 58'],
@@ -2698,6 +2699,8 @@ var SEC_MAP = [
 
   /* ── Misc ── */
   [/S\. 167B/g, 'S. 107'],
+  [/u\/s 89\b/g, 'u/s 157'],
+  [/Form 3CA-3CD \/ 3CB-3CD/g, 'Form 26'],
 
   /* ── Audit / TP ── */
   [/u\/S\. 44AB/g, 'u/S. 58'],
@@ -2938,7 +2941,7 @@ function applyYear(yr){
     }
   });
   /* Presumptive row */
-  html('at_pres_sec', 'Presumptive income '+C.s_44ad_pres+' / 44ADA');
+  html('at_pres_sec', 'Presumptive income '+C.s_44ad_pres);
   html('at_pres_date', atDates[3]+' only');
   html('at_pres_note', 'Single instalment; no interest for earlier defaults [S. '+( yr==='fy2526'?'211(1)':'408(1)')+' proviso]');
   /* Senior citizen */
@@ -3873,7 +3876,7 @@ ttBuild();
 <div class="ht-card">
 <div class="ht-h">Important notes</div>
 <div class="ht-b">
-<div class="ht-note"><strong>Who can use the Calculator:</strong> Resident Individuals with salary, house property, business/profession (computed figures, not presumptive turnover), other sources, and equity capital gains u/s 111A / 112A. It does not cover non-residents, firms/companies, property/debt capital gains, agricultural income aggregation, AMT, or relief u/s 89.</div>
+<div class="ht-note"><strong>Who can use the Calculator:</strong> Resident Individuals with salary, house property, business/profession (computed figures, not presumptive turnover), other sources, and equity capital gains u/s 111A / u/s 112A. It does not cover non-residents, firms/companies, property/debt capital gains, agricultural income aggregation, AMT, or relief u/s 89.</div>
 <p><strong>Enter annual amounts</strong>, not monthly. Gross Salary = salary before standard deduction but after exempt allowances (HRA, LTA, etc. as applicable).</p>
 <p>All figures are rounded to the nearest rupee. Results match the official computation logic for <span id="ht_disc_fy">FY 2025-26</span> as per the <span id="ht_disc_finact">Finance Act 2025</span>.</p>
 <p><strong>Disclaimer:</strong> This tool is for quick reference and planning only. Please verify with the <span id="ht_disc_actname">Income-tax Act, 1961</span> and your tax advisor before filing your return. · Prepared by CA Mayur J Sondagar · TaxationUpdates.com</p>
