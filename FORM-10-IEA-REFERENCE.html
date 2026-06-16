@@ -112,6 +112,8 @@ body{font-family:var(--font);background:var(--surface);color:var(--text);min-hei
 .dark-btn::after{content:'☀️';position:absolute;left:2px;top:50%;transform:translateY(-50%);font-size:.7rem;width:18px;height:18px;border-radius:50%;background:#8c9a1a;display:flex;align-items:center;justify-content:center;transition:left .3s,background .3s;}
 [data-theme="dark"] .dark-btn{background:#2e3410;border-color:rgba(140,154,26,.3);}
 [data-theme="dark"] .dark-btn::after{content:'🌙';left:18px;background:#b5c422;}
+.print-pdf-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(0,0,0,.25);border:1.5px solid rgba(255,255,255,.3);border-radius:8px;padding:5px 13px;font-family:var(--font);font-size:12px;font-weight:700;color:#fff;cursor:pointer;transition:.15s;flex-shrink:0;white-space:nowrap;}
+.print-pdf-btn:hover{background:rgba(0,0,0,.4);}
 
 /* Stats row in hero */
 .hero-stats{display:flex;gap:0;border-top:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.18);}
@@ -678,7 +680,7 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
 /* ── PRINT ── */
 @media print{
   .hero{position:static;box-shadow:none;background:linear-gradient(135deg,#6b760f,#8c9a1a) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  .dark-btn,#print-btn,.tab-rail-wrap,.filter-grp,.search-wrap,.row-count,.restart-btn{display:none!important;}
+  .dark-btn,.print-pdf-btn,#print-btn,.tab-rail-wrap,.filter-grp,.search-wrap,.row-count,.restart-btn{display:none!important;}
   .main{padding:0;}
   .card-body{box-shadow:none;border:none;}
   .tab-pane{display:block!important;}
@@ -686,6 +688,45 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
   table{font-size:9px;}
   td,th{padding:4px 5px;}
   body{background:#fff;}
+  /* Force light theme for printing — reset all dark mode overrides */
+  [data-theme="dark"] body{
+    --surface:#f5f6f8;--card:#ffffff;--line:#e4e8f0;
+    --text:#1a2035;--sub:#64748b;--ink:#3d4408;--ink2:#4e570f;
+    --jade-lt:#f0fdf4;--jade-bd:#86efac;--jade:#16a34a;
+    --rose-lt:#fff1f2;--rose-bd:#fca5a5;--rose:#dc2626;
+    --amber-lt:#fffbeb;--amber-bd:#fcd34d;--amber:#d97706;
+    --sky-lt:#f0f3d8;--sky-bd:#b5c422;--sky:#8c9a1a;
+    --brand:#8c9a1a;--brand-dk:#6b760f;--brand-lt:#f0f3d8;--brand-bd:#b5c422;
+  }
+  [data-theme="dark"] .card-body{background:#fff;border-color:#e4e8f0;}
+  [data-theme="dark"] .wiz-outer{background:#f5f6f8;}
+  [data-theme="dark"] .lane{background:#fff;}
+  [data-theme="dark"] .result-card{background:#fff;border-color:#e4e8f0;}
+  [data-theme="dark"] .note-card,[data-theme="dark"] .howto-card{background:#fff;border-color:#e4e8f0;}
+  [data-theme="dark"] .result-footer{background:#f5f6f8;}
+  [data-theme="dark"] .result-note{color:#1a2035;}
+  [data-theme="dark"] .fy-col{background:#fff;}
+  [data-theme="dark"] .fy-col.fy-col-skipped{background:#f5f6f8;}
+  [data-theme="dark"] .tbl-wrap{border-color:#b8c890;}
+  [data-theme="dark"] .thead-fy{background:#4e5614;}
+  [data-theme="dark"] .thead-fy .th-num,[data-theme="dark"] th.th-num{background:#4e5614;color:#d4e04a;}
+  [data-theme="dark"] .thead-cols{background:linear-gradient(to bottom,#6b760f,#8c9a1a);}
+  [data-theme="dark"] .thead-cols th{color:#fff;}
+  [data-theme="dark"] tbody tr{border-top-color:#ddeab8;}
+  [data-theme="dark"] td{border-right-color:#e0eabb;}
+  [data-theme="dark"] td:first-child{background:#fff!important;color:#64748b;}
+  [data-theme="dark"] tbody tr.rg-new{background:rgba(240,253,244,.6);}
+  [data-theme="dark"] tbody tr.rg-old{background:rgba(255,241,242,.5);}
+  [data-theme="dark"] tbody tr.rg-cant{background:rgba(254,226,226,.6);}
+  [data-theme="dark"] .b-no{background:#f1f5f9;border-color:#e2e8f0;color:#64748b;}
+  [data-theme="dark"] .b-yes{background:#fffbeb;border-color:#fcd34d;color:#d97706;}
+  [data-theme="dark"] .b-cant{background:#fef2f2;border-color:#fca5a5;color:#7f1d1d;}
+  [data-theme="dark"] .rt-new{background:#f0fdf4;border-color:#86efac;color:#16a34a;}
+  [data-theme="dark"] .rt-old{background:#fff1f2;border-color:#fca5a5;color:#dc2626;}
+  [data-theme="dark"] .rt-12{background:#f0f3d8;border-color:#b5c422;color:#8c9a1a;}
+  [data-theme="dark"] .rt-34{background:#fffbeb;border-color:#fcd34d;color:#d97706;}
+  [data-theme="dark"] .opt-btn{background:#fff;border-color:#e4e8f0;color:#1a2035;}
+  [data-theme="dark"] .gate-btn{background:#fff;border-color:#e4e8f0;color:#3d4408;}
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -795,7 +836,7 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
       </div>
       <div class="hero-right">
         <button class="dark-btn" id="dkbtn" onclick="toggleDark()" role="switch" aria-checked="false" aria-label="Toggle dark mode" title="Toggle dark mode"></button>
-        <button class="dark-btn" onclick="window.print()" title="Print or Save as PDF" id="print-btn">🖨 Print / PDF</button>
+        <button class="print-pdf-btn" onclick="window.print()" title="Print or Save as PDF" id="print-btn">🖨 Print / PDF</button>
       </div>
       <script>
         (function(){
