@@ -4,14 +4,13 @@
    Strategy: Cache-first for static assets, Network-first for HTML.
 ═══════════════════════════════════════════════════════════════ */
 
-const CACHE_NAME = 'taxationupdates-v6';
+const CACHE_NAME = 'taxationupdates-v7';
 
 const PRECACHE_URLS = [
   '/',
   '/index.html',
   '/TDS-SECTION-CODE.html',
   '/CA-Prompt-Library.html',
-  '/challan-parser.html',
   '/INCOME-TAX-CHALLAN-TO-EXCEL.html',
   '/about.html',
   '/contact.html',

@@ -78,7 +78,6 @@ describe('PRECACHE_URLS — required pages', () => {
     '/TDS-SECTION-CODE.html',
     '/CA-Prompt-Library.html',
     '/INCOME-TAX-CHALLAN-TO-EXCEL.html',
-    '/challan-parser.html',
     '/about.html',
     '/contact.html',
     '/disclaimer.html',
