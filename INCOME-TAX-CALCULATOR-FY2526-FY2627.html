@@ -1231,6 +1231,13 @@ function setupTabNav(){
   });
 }
 setupTabNav();
+/* Select-all on focus for numeric inputs (covers advance tax fields not in TABFIELDS) */
+document.addEventListener('focus', function(e){
+  var el=e.target;
+  if(el.tagName==='INPUT' && el.getAttribute('inputmode')==='numeric' && !el.readOnly){
+    setTimeout(function(){try{el.select();}catch(err){}},0);
+  }
+}, true);
 calc();   /* initial render on page load */
 /* ── POPULATE PRINT INFO BAR ── */
 function populatePrintBar(){
