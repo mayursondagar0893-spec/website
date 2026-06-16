@@ -271,12 +271,6 @@ body.dark .ref-tbl-new .total-row td{background:#0a2816;}
 body.dark .ref-tbl-old th{background:#9a3412;color:#fff;}
 body.dark .ref-tbl-old td,body.dark .ref-tbl-old tr:nth-child(even) td{background:#2c1108;}
 body.dark .ref-tbl-old .total-row td{background:#3d1a08;}
-.itr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px;padding:8px;}
-.itr-card{border:1px solid #bbb;padding:8px 10px;background:#fff;}
-.itr-card-h{font-weight:700;font-size:12px;margin-bottom:4px;color:#1a3c6e;}
-.itr-card-form{display:inline-block;background:#95B3D7;color:#000;font-weight:700;font-size:11px;padding:2px 10px;margin-bottom:5px;border:1px solid #6a8fba;}
-.itr-card ul{font-size:11px;line-height:1.6;margin:0;padding-left:16px;color:#222;}
-.itr-card li{margin-bottom:2px;}
 
 /* dark mode for new tabs */
 body.dark .ref-section{background:#1a2535;border-color:#2e4058;}
@@ -290,10 +284,6 @@ body.dark .ref-tbl .total-row td{background:#0e2a1a;color:#86efac;}
 body.dark .ref-note{color:#94a3b8;border-color:#2e4058;}
 body.dark .ref-tbl-new tr:nth-child(even) td{background:#071c10;}
 body.dark .ref-tbl-old tr:nth-child(even) td{background:#2c1108;}
-body.dark .itr-card{background:#1a2535;border-color:#2e4058;}
-body.dark .itr-card-h{color:#93c5fd;}
-body.dark .itr-card-form{background:#1e3a5f;color:#c7dff7;border-color:#3b6fa0;}
-body.dark .itr-card ul{color:#c7dff7;}
 
 /* hidden by default */
 #tab-slabs,#tab-deductions,#tab-itrdate,#tab-advtax{display:none;}
@@ -2938,26 +2928,6 @@ function applyYear(yr){
   var nrSlabHead = document.getElementById('nrSlabHead');
   if(nrSlabHead) nrSlabHead.textContent = '\uD83D\uDFE2 New (Default) Regime \u2014 Individuals, HUF, AOP, BOI ['+C.s_regime+'] \u2014 Applicable for ALL Ages';
 
-  /* ── ITR DATE TAB TITLE ── */
-  var ith = document.getElementById('itrTitleH2');
-  if(ith) ith.textContent = C.itrTitle;
-
-  /* ── ITR-4 PRESUMPTIVE LABELS ── */
-  html('itr4_44ad',  'Business income '+C.s_44ad+' (turnover \u2264 \u20B92 crore for business, \u2264 \u20B93 crore for digital receipts \u2265 95%)');
-  html('itr4_44ada', 'Professional income '+C.s_44ada+' (gross receipts \u2264 \u20B975 lakh / \u20B91.5 crore for digital)');
-  html('itr4_44ae',  'Transport '+C.s_44ae+' (up to 10 vehicles)');
-
-  /* ── ITR-7 MANDATORY FILING CATEGORIES ── */
-  html('itr7_4a', 'Persons required to file '+C.s_139_4a+': Charitable / religious trust claiming exemption '+C.s_11_12);
-  html('itr7_4b', C.s_139_4b+': Political parties');
-  html('itr7_4c', C.s_139_4c+': Scientific research association, news agency, medical/educational institution '+C.s_10);
-  html('itr7_4d', C.s_139_4d+': University, college, institution');
-  html('itr7_4e', C.s_139_4e+': Business trust');
-  html('itr7_4f', C.s_139_4f+': Investment fund '+C.s_115ub);
-
-  /* ── ITR-6 NOTE ── */
-  html('itr6_note', C.s_11_12.replace('(iv)','').replace('u/S. ','S. ')+' trust companies must use ITR-7.');
-
   /* ── ADVANCE TAX DUE DATE SECTION HEADER ── */
   html('advDueDateHead', '\uD83D\uDCB0 '+C.s_adv_hdr);
   /* Instalment dates */
@@ -3652,110 +3622,6 @@ ttInitTable();
 </div>
 </div>
 
-<!-- ── ITR Form Applicability ── -->
-<div class="ref-section">
-<div class="ref-sh">📋 ITR Form Applicability — AY 2026-27</div>
-<div class="ref-sb" style="padding:8px;">
-<div class="itr-grid">
-
-<div class="itr-card">
-<div class="itr-card-form">ITR-1 (SAHAJ)</div>
-<div class="itr-card-h">Resident Individual — Simple Income</div>
-<ul>
-  <li>Salary / Pension income</li>
-  <li>Income from one house property (excluding brought forward loss)</li>
-  <li>Income from other sources (interest, dividends — excluding special rate items)</li>
-  <li>Agricultural income up to ₹5,000</li>
-  <li>Total income up to ₹50,00,000</li>
-</ul>
-<div class="ref-note" style="border:none;padding:4px 0 0;"><b>NOT eligible:</b> Director of company, unlisted shares held, foreign assets / income, capital gains, TDS &gt; ₹25,000 in bank, assets abroad, business income, super senior citizen (80+).</div>
-</div>
-
-<div class="itr-card">
-<div class="itr-card-form">ITR-2</div>
-<div class="itr-card-h">Individual / HUF — No Business Income</div>
-<ul>
-  <li>All income covered in ITR-1 plus:</li>
-  <li>Capital gains (STCG / LTCG including equity and property)</li>
-  <li>Foreign income / foreign assets</li>
-  <li>More than one house property</li>
-  <li>Director in company / unlisted shares held</li>
-  <li>Total income any amount (no upper cap)</li>
-  <li>Super Senior Citizens (80+)</li>
-</ul>
-<div class="ref-note" style="border:none;padding:4px 0 0;"><b>NOT eligible:</b> Any business or profession income (even presumptive); partner in firm.</div>
-</div>
-
-<div class="itr-card">
-<div class="itr-card-form">ITR-3</div>
-<div class="itr-card-h">Individual / HUF — Business / Profession Income</div>
-<ul>
-  <li>Proprietary business or profession (regular or presumptive)</li>
-  <li>Partner in a firm (salary / interest / share of profit from firm)</li>
-  <li>All income types in ITR-2 also included</li>
-  <li>Capital gains + business income together</li>
-  <li>Speculative income (e.g. F&amp;O)</li>
-</ul>
-<div class="ref-note" style="border:none;padding:4px 0 0;">Applicable for audit cases too; all schedules available.</div>
-</div>
-
-<div class="itr-card">
-<div class="itr-card-form">ITR-4 (SUGAM)</div>
-<div class="itr-card-h">Individual / HUF / Firm — Presumptive Income</div>
-<ul>
-  <li id="itr4_44ad">Business income u/S. 44AD (turnover ≤ ₹2 crore for business, ≤ ₹3 crore for digital receipts ≥ 95%)</li>
-  <li id="itr4_44ada">Professional income u/S. 44ADA (gross receipts ≤ ₹75 lakh / ₹1.5 crore for digital)</li>
-  <li id="itr4_44ae">Transport u/S. 44AE (up to 10 vehicles)</li>
-  <li>Salary/pension + one house property + other sources allowed additionally</li>
-  <li>Total income up to ₹50,00,000</li>
-</ul>
-<div class="ref-note" style="border:none;padding:4px 0 0;"><b>NOT eligible:</b> Capital gains, foreign assets, director in company, unlisted shares, not-ordinarily-resident.</div>
-</div>
-
-<div class="itr-card">
-<div class="itr-card-form">ITR-5</div>
-<div class="itr-card-h">Firms, LLP, AOP, BOI, Local Authority etc.</div>
-<ul>
-  <li>Partnership Firm (registered or unregistered)</li>
-  <li>LLP (Limited Liability Partnership)</li>
-  <li>Association of Persons (AOP)</li>
-  <li>Body of Individuals (BOI)</li>
-  <li>Co-operative Society</li>
-  <li>Local authority, artificial juridical person</li>
-  <li>Estate of deceased / insolvent</li>
-  <li>Business trust / investment fund</li>
-</ul>
-<div class="ref-note" style="border:none;padding:4px 0 0;">Does NOT include companies or individuals.</div>
-</div>
-
-<div class="itr-card">
-<div class="itr-card-form">ITR-6</div>
-<div class="itr-card-h">Companies (Domestic &amp; Foreign)</div>
-<ul>
-  <li>All companies except those claiming exemption u/S. 11 (charitable / religious trusts registered as company)</li>
-  <li>Domestic companies, foreign companies having Indian business connection</li>
-  <li>Mandatory e-filing with DSC of authorised signatory</li>
-</ul>
-<div class="ref-note" style="border:none;padding:4px 0 0;" id="itr6_note">S. 11 / 12 trust companies must use ITR-7.</div>
-</div>
-
-<div class="itr-card">
-<div class="itr-card-form">ITR-7</div>
-<div class="itr-card-h">Entities with Exemption Status / Political Parties</div>
-<ul>
-  <li id="itr7_4a">Persons required to file u/S. 139(4A): Charitable / religious trust claiming exemption u/S. 11 &amp; 12</li>
-  <li id="itr7_4b">u/S. 139(4B): Political parties</li>
-  <li id="itr7_4c">u/S. 139(4C): Scientific research association, news agency, medical/educational institution u/S. 10</li>
-  <li id="itr7_4d">u/S. 139(4D): University, college, institution</li>
-  <li id="itr7_4e">u/S. 139(4E): Business trust</li>
-  <li id="itr7_4f">u/S. 139(4F): Investment fund u/S. 115UB</li>
-</ul>
-<div class="ref-note" style="border:none;padding:4px 0 0;">Online filing mandatory with DSC / EVC.</div>
-</div>
-
-</div><!-- /itr-grid -->
-</div>
-</div>
 
 <!-- ── Advance Tax ── -->
 <div class="ref-section">
