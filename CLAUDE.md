@@ -1,339 +1,103 @@
-# CLAUDE.md — AI Assistant Guide for taxationupdates.com
+# CLAUDE.md
 
-This file provides context for AI assistants (Claude, Copilot, etc.) working on this codebase.
-
----
-
-## Project Overview
-
-**Domain:** taxationupdates.com (GitHub Pages static site)
-**Owner:** CA Mayur Sondagar — Chartered Accountant, content creator, and tax expert
-**Purpose:** Personal brand website + interactive tax/CA tools
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ---
 
-## Repository Structure
+## Project
 
-```
-/
-├── index.html                      # Main landing page (portfolio/personal brand)
-├── about.html                      # About page — CA Mayur's background & bio
-├── contact.html                    # Contact page — WhatsApp, email, social links
-├── CA-Prompt-Library.html          # Searchable AI prompt library for CAs (500+ prompts)
-├── TDS-SECTION-CODE.html           # Interactive TDS/TCS section code reference
-├── INCOME-TAX-CHALLAN-TO-EXCEL.html# Income Tax challan PDF to Excel parser (ITNS 280/281/282/283)
-├── Compliance_Calendar_FY2627.html # Interactive compliance calendar FY 2026-27 (GST/TDS/IT/PF due dates)
-├── FORM-10-IEA-REFERENCE.html      # Form 10-IEA & tax regime switching reference (64 scenarios, Smart Finder)
-├── INCOME-TAX-CALCULATOR-FY2526-FY2627.html # Income Tax Calculator FY 2025-26 & FY 2026-27 (Old vs New Regime)
-├── privacy-policy.html             # Privacy policy page
-├── disclaimer.html                 # Disclaimer page
-├── brand-icons.css                 # Shared CSS: social icon brand colors (used by all pages)
-├── wa-init.js                      # Shared JS: WhatsApp link initializer (Base64-encoded number)
-├── challan-parser.js               # Shared JS: pure challan PDF parsing functions (browser + Node)
-├── contact-form.js                 # Shared JS: pure contact form validation/WA message helpers
-├── prompt-filter.js                # Shared JS: pure filter/sort/bookmark helpers for CA-Prompt-Library
-├── sw.js                           # Service Worker — cache-first offline support for tool pages
-├── manifest.json                   # PWA manifest (icons, theme color, display mode)
-├── og-cover.svg                    # Open Graph cover image (SVG)
-├── robots.txt                      # SEO: allow all, references sitemap
-├── sitemap.xml                     # XML sitemap for SEO
-├── add-tool.sh                     # Integration script — registers a new tool in sw.js/sitemap/index
-├── package.json                    # Dev-only: Vitest + jsdom for the unit test suite
-├── vitest.config.js                # Vitest configuration (jsdom env for wa-init/dark-mode tests)
-├── tests/
-│   ├── challan-parser.test.js      # Unit tests for challan-parser.js
-│   ├── contact-form.test.js        # Unit tests for contact-form.js
-│   ├── prompt-filter.test.js       # Unit tests for prompt-filter.js
-│   ├── sw.test.js                  # Tests for sw.js constants and fetch-routing logic
-│   ├── wa-init.test.js             # Tests for wa-init.js (jsdom environment)
-│   └── dark-mode.test.js           # Tests for dark mode theme persistence (jsdom environment)
-├── icons/
-│   ├── icon-192.png                # PWA icon 192×192
-│   └── icon-512.png                # PWA icon 512×512
-├── CNAME                           # GitHub Pages custom domain config
-└── README.md                       # Minimal readme
+**taxationupdates.com** — GitHub Pages static site for CA Mayur Sondagar. Personal brand + interactive Indian tax/CA tools. No backend, no build step; files are served as-is by GitHub Pages.
+
+---
+
+## Commands
+
+```bash
+# Install dev dependencies (once — never deployed)
+npm install
+
+# Run all tests (single pass)
+npm test
+
+# Watch mode
+npm run test:watch
+
+# Run a single test file
+npx vitest run tests/challan-parser.test.js
 ```
 
-No backend, no build process — this is a **pure static site**. `package.json` exists solely for the dev-only Vitest test suite and is never deployed.
+Tests use **Vitest ^2.1.0 + jsdom ^25.0.0**. Two test files (`wa-init.test.js`, `dark-mode.test.js`) run in the jsdom environment; the rest run in Node. After editing any shared JS file (`challan-parser.js`, `contact-form.js`, `prompt-filter.js`, `wa-init.js`, `sw.js`) run `npm test` before committing.
 
 ---
 
-## Tech Stack
+## Architecture
 
-| Layer | Technology |
+### File layout pattern
+Each HTML tool is fully self-contained: its CSS lives in `<style>` tags and its JS lives in `<script>` tags inside that file. The only shared external files are:
+
+| File | Purpose |
 |---|---|
-| Languages | HTML5, CSS3, Vanilla JavaScript (ES6+) |
-| Hosting | GitHub Pages |
-| External Libraries | PDF.js (challan parser), XLSX.js (Excel export), html2canvas, jsPDF (compliance calendar) |
-| Fonts | Google Fonts — `Playfair Display` (headings); `DM Sans` (body, most pages); `Plus Jakarta Sans` + `JetBrains Mono` (compliance calendar, Form 10-IEA); `Inter` (income tax calculator) |
-| Analytics | Google Analytics (G-YC101DVMH7) |
-| Storage | `localStorage` only (no backend/database) |
-| PWA | `manifest.json` + `sw.js` service worker (offline caching) |
-| Shared Assets | `brand-icons.css`, `wa-init.js`, `challan-parser.js`, `contact-form.js`, `prompt-filter.js` |
-| Testing (dev-only) | Vitest `^2.1.0` + jsdom `^25.0.0` — run with `npm test` |
+| `brand-icons.css` | Social icon brand colours — linked by every page at `/brand-icons.css` |
+| `wa-init.js` | Initialises `.wa-link` click handlers with a Base64-encoded WhatsApp number |
+| `challan-parser.js` | PDF challan parsing (ITNS 280/281/282/283) — used by the challan tool and unit tests |
+| `contact-form.js` | Contact form validation + WhatsApp URL builders — used by `index.html` and tests |
+| `prompt-filter.js` | Filter/sort/bookmark helpers for the prompt library — used by `CA-Prompt-Library.html` and tests |
+
+### Dual-module pattern (critical)
+The three `*.js` files above (`challan-parser.js`, `contact-form.js`, `prompt-filter.js`) end with:
+```js
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { ... };
+}
+```
+In the browser they are loaded as `<script>` tags and their functions become globals. In Vitest they are `require()`'d as CommonJS modules. **Never remove this block.**
+
+### Dark mode
+Every page persists and restores theme via `localStorage.getItem/setItem('theme', ...)` and toggles `document.documentElement.setAttribute('data-theme', 'light'|'dark')`. The key **must** stay `'theme'` — live users depend on it.
+
+### PWA / Service Worker
+`sw.js` pre-caches tool pages for offline use. Current `CACHE_NAME`: **`taxationupdates-v8`**.  
+Strategy: network-first for HTML, cache-first for everything else (same-origin only).  
+Bump the version number whenever you add/rename a cached file. The script `add-tool.sh` does this automatically.
+
+### Phone number security
+The WhatsApp number is Base64-encoded in `wa-init.js` (`atob('...')`). Never expose the decoded number in plaintext anywhere in the repo.
 
 ---
 
-## Development Workflow
+## Adding a New Tool (Automated Workflow)
 
-### No Build Process
-There is no `npm run build` or compilation step. All files are served as-is by GitHub Pages.
+When the user says "add this tool" / "integrate this" / pastes HTML:
 
-### Editing
-- Edit HTML files directly — changes are immediately visible in a browser.
-- All CSS is embedded in `<style>` tags within each HTML file, **except** shared styles in `brand-icons.css`.
-- All JavaScript is embedded in `<script>` tags within each HTML file, **except** shared logic in:
-  - `wa-init.js` — WhatsApp link initializer
-  - `challan-parser.js` — challan PDF parsing functions
-  - `contact-form.js` — contact form validation and WA message helpers
-  - `prompt-filter.js` — CA-Prompt-Library filter/sort/bookmark helpers
+1. **Determine filename** — derive from `<title>` using UPPER-KEBAB-CASE (e.g. `GST-CALCULATOR.html`). Use any user-specified name exactly.
 
-### Testing
-- **Automated unit tests** exist in the `tests/` directory — run with `npm test` (uses Vitest).
-  - Install dev dependencies once with `npm install` (never deployed; `.gitignore` handles `node_modules`).
-  - `npm test` runs `vitest run` (single pass); `npm run test:watch` for watch mode.
-  - Two tests use the jsdom environment (`wa-init.test.js`, `dark-mode.test.js`); the rest use Node.
-- **Manual browser testing** is still required for layout, animations, and PDF/Excel functionality.
-- Test across light/dark mode, mobile (≤768px), and desktop viewports.
-- **Always run `npm test` after editing any of the shared JS files.**
-
-### Deployment
-- Push to `master` (or `main`) branch → GitHub Pages auto-deploys.
-- Domain configured via `CNAME` file.
-
----
-
-## Code Conventions
-
-### CSS
-
-- **Theming:** CSS custom properties on `:root` for light mode; overrides on `[data-theme="dark"]`.
-  ```css
-  :root { --primary: #0ea5e9; --bg: #f8fafc; }
-  [data-theme="dark"] { --bg: #0f172a; }
-  ```
-- **Naming:** Hyphenated class names (BEM-like): `.hero-card`, `.section-title`, `.nav-logo`.
-- **Responsive:** Mobile-first. Breakpoint: `768px` for hamburger/drawer nav.
-- **Tokens:** Use semantic variables (`--primary`, `--accent`, `--text`, `--bg`) — never hardcode colors.
-- **Shared styles:** `brand-icons.css` is linked via `<link rel="stylesheet" href="/brand-icons.css"/>` in every page `<head>`.
-
-### JavaScript
-
-- **No frameworks.** Vanilla JS only using modern APIs.
-- **Dark mode persistence:**
-  ```js
-  localStorage.setItem('theme', 'dark');
-  document.documentElement.setAttribute('data-theme', 'dark');
-  ```
-- **Scroll animations:** `IntersectionObserver` with `data-animate` attributes.
-- **Security:** Phone/WhatsApp numbers are Base64-encoded to prevent scraping:
-  ```js
-  const num = atob('...encoded...');
-  ```
-- **WhatsApp shared init:** `wa-init.js` handles `.wa-link` click events site-wide. Include via `<script src="/wa-init.js" defer></script>`.
-- **Performance:** Scroll event listeners use `{ passive: true }`.
-- **Service Worker:** `sw.js` caches tool pages for offline use — do not break cache URLs when renaming files.
-- **Dual module pattern** for shared JS files that are also unit-tested:
-  ```js
-  // Bottom of challan-parser.js / contact-form.js / prompt-filter.js
-  if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { myFunction };
-  }
-  ```
-  In the browser these files are loaded as `<script>` tags and functions become globals. In Vitest they are `require()`'d as CommonJS modules. Never break this pattern when editing shared JS files.
-
-### HTML
-
-- Semantic HTML5: `<nav>`, `<section id="...">`, `<footer>`, `<main>`.
-- IDs follow kebab-case: `id="hero"`, `id="contact-form"`.
-- Navigation links use `href="#section-id"` anchors for single-page scroll.
-- Meta tags for SEO and Open Graph are present in every page `<head>`.
-- Every page links `brand-icons.css` and the PWA icon (`/icons/icon-192.png`).
-
----
-
-## Key Features per File
-
-### `index.html`
-- Hero section with social stats (Twitter/LinkedIn follower counts shown as clickable pills).
-- Services, portfolio, testimonials, blog sections.
-- Contact via WhatsApp (encoded number via `wa-init.js`).
-- Hamburger mobile menu (`id="ham"`) with drawer overlay (`id="mobile-menu"`).
-- Back-to-top button appears after scrolling 400px.
-- Active nav link highlighting based on scroll position.
-
-### `about.html`
-- Bio and background of CA Mayur Sondagar.
-- Highlights expertise: Income Tax, GST, content creation (120K+ followers).
-- Uses shared `brand-icons.css` and `wa-init.js`.
-
-### `contact.html`
-- Contact options: WhatsApp, email, social media links.
-- Uses `.wa-link` class for WhatsApp button (initialized by `wa-init.js`).
-- Uses shared `brand-icons.css`.
-
-### `CA-Prompt-Library.html`
-- 500+ categorized prompts for CAs stored as inline JS data.
-- Sidebar category navigation.
-- Search, sort, bookmark (localStorage), and copy-to-clipboard.
-- 6 themes: Dark, Light, Ocean, Forest, Rose, Slate.
-
-### `TDS-SECTION-CODE.html`
-- Reference table for Income Tax Act 1961 + Finance Bill 2026 TDS/TCS codes.
-- Color-coded categories; light/dark toggle.
-
-### `INCOME-TAX-CHALLAN-TO-EXCEL.html`
-- Parses ITNS 280/281/282/283 Income Tax challan PDFs.
-- 100% client-side — no data is uploaded to any server.
-- Exports parsed data to Excel using XLSX.js (CDN).
-- Uses PDF.js (CDN) for PDF parsing.
-
-### `Compliance_Calendar_FY2627.html`
-- Interactive compliance calendar for FY 2026-27 covering GST, TDS, Income Tax, and PF due dates.
-- Month-by-month view with colour-coded compliance categories.
-- Export to Excel (XLSX.js), PDF (jsPDF + jspdf-autotable), and image (html2canvas).
-- 100% client-side — no data leaves the browser.
-- Uses fonts: Playfair Display, Plus Jakarta Sans, JetBrains Mono.
-- Filename uses mixed-case with underscores (`Compliance_Calendar_FY2627.html`) — an exception to the UPPER-KEBAB-CASE convention.
-
-### `FORM-10-IEA-REFERENCE.html`
-- Reference guide for Form 10-IEA and tax regime switching under s.115BAC / Rule 21AGA.
-- Covers FY 2023-24 to FY 2025-26 with 64 mapped scenarios in a Master Table.
-- Smart Finder wizard: answers questions step-by-step to determine the user's exact filing position.
-- Includes Legal Notes section and colour-coded scenario badges.
-- Uses fonts: Plus Jakarta Sans, JetBrains Mono (consistent with compliance calendar).
-
-### `INCOME-TAX-CALCULATOR-FY2526-FY2627.html`
-- Dual-year Income Tax Calculator covering FY 2025-26 (AY 2026-27) and FY 2026-27.
-- Old Regime vs New Regime comparison with detailed slab rates and deduction inputs.
-- Advance Tax instalment calculator with due dates.
-- ITR filing due dates reference section.
-- Includes Schema.org `WebApplication` structured data for SEO.
-- Uses `Inter` font. 100% client-side — no data leaves the browser.
-
-### `brand-icons.css`
-- Shared stylesheet for social icon brand colors (X/Twitter, LinkedIn, WhatsApp, Instagram, YouTube, etc.).
-- Supports light and dark mode via CSS custom properties.
-- Linked by every page — do not rename or move this file.
-
-### `wa-init.js`
-- Shared script: initializes all `.wa-link` elements with the Base64-encoded WhatsApp number.
-- Included via `<script src="/wa-init.js" defer></script>` on pages with WhatsApp links.
-- Do not expose the decoded number — always keep it Base64-encoded.
-- Covered by `tests/wa-init.test.js` (jsdom environment).
-
-### `challan-parser.js`
-- Shared JS: pure parsing functions for Income Tax challan PDFs (ITNS 280/281/282/283).
-- Functions: `clean`, `parseAmount`, `between`, `get`, `parseChallan`.
-- Used by `INCOME-TAX-CHALLAN-TO-EXCEL.html` (as globals) and testable via Node (CommonJS export).
-- `parseChallan(text, filename)` returns a structured record with `ok`, `itns`, `pan`, `tan`, amounts, dates, etc.
-- Covered by `tests/challan-parser.test.js`.
-
-### `contact-form.js`
-- Shared JS: pure helpers for the contact form in `index.html`.
-- Functions: `validateForm(name, email, msg)`, `buildWAMessage(opts)`, `buildWAUrl(waNumber, message)`.
-- Used by `index.html` (as globals) and testable via Node (CommonJS export).
-- Covered by `tests/contact-form.test.js`.
-
-### `prompt-filter.js`
-- Shared JS: pure filter, sort and bookmark helpers for `CA-Prompt-Library.html`.
-- Functions: `filterAndSort(prompts, opts)`, `toggleBookmark(bookmarks, id)`.
-- Used by `CA-Prompt-Library.html` (as globals) and testable via Node (CommonJS export).
-- Covered by `tests/prompt-filter.test.js`.
-
-### `add-tool.sh`
-- Bash + Python3 integration script that automates registering a new tool across 4 files.
-- Usage: `./add-tool.sh FILENAME.html "Tool Name" "Description" "emoji"`
-- Automatically: bumps `CACHE_NAME` version in `sw.js`, adds URL to `sitemap.xml`, inserts a portfolio card into `index.html`, and prints an HTML validation report.
-- Requires Python 3 to be available on `$PATH`.
-
-### `sw.js`
-- Service Worker for PWA offline support.
-- Cache-first strategy for static assets; network-first for HTML pages.
-- Current `CACHE_NAME`: `taxationupdates-v6` — bump the version number when making breaking changes to cached files or adding/renaming cached URLs.
-- `PRECACHE_URLS` currently includes all HTML tool pages, icons, and `manifest.json`.
-
-### `manifest.json`
-- PWA manifest: app name, icons, theme color (`#8c9a1a`), display mode.
-- Icons live in `/icons/` directory.
-
----
-
-## Important Constraints
-
-1. **No production dependencies.** `package.json` exists only for the Vitest dev test suite — never add runtime `npm` dependencies or build steps that affect deployed files. `node_modules` is never deployed.
-2. **Keep files self-contained.** Each HTML file embeds its own CSS and JS — do not split into separate files unless asked. Exceptions: `brand-icons.css`, `wa-init.js`, `challan-parser.js`, `contact-form.js`, and `prompt-filter.js` are intentionally shared.
-3. **Preserve localStorage keys.** Existing keys (`theme`, `bookmarks`, etc.) are used by live users — renaming them breaks persistence.
-4. **WhatsApp number encoding.** Never expose the raw phone number in plaintext — always use `atob()` decoding pattern (see `wa-init.js`).
-5. **Google Analytics tag.** Do not remove or change the GA4 measurement ID `G-YC101DVMH7`.
-6. **CNAME file.** Do not delete or modify — it controls the custom domain on GitHub Pages.
-7. **Service Worker cache.** If you rename or move a cached file listed in `sw.js`, update the precache URL list and bump `CACHE_NAME` version. Note: `/challan-parser.html` appears in `PRECACHE_URLS` in `sw.js` but the file does not exist — this is a stale entry that will cause a cache install failure; remove it when next editing `sw.js`.
-8. **brand-icons.css path.** All pages reference `/brand-icons.css` with an absolute path — do not rename or relocate this file.
-9. **Shared JS dual-module exports.** `challan-parser.js`, `contact-form.js`, and `prompt-filter.js` each end with a `if (typeof module !== 'undefined' && module.exports) { ... }` block so they work as both browser globals and Node/Vitest `require()` modules. Do not remove this block.
-10. **Run tests after editing shared JS.** Any change to `challan-parser.js`, `contact-form.js`, `prompt-filter.js`, `wa-init.js`, or `sw.js` must be followed by `npm test` to verify no regressions.
-
----
-
-## Git Workflow
-
-- **Main branch:** `master` (production/live)
-- **Feature branches:** `claude/<description>-<id>` naming convention (used by AI assistants)
-- Commit messages are imperative and descriptive: `Fix mobile nav overflow`, `Add dark mode to challan parser`
-- GPG/SSH commit signing is enabled — commits are signed automatically via git config.
-
----
-
-## New Tool Workflow (Fully Automated)
-
-When the user provides HTML for a new tool — phrases like "add this tool", "integrate this", "here's my HTML", "add tool" — follow this exact sequence **automatically, without asking for confirmation at each step**:
-
-### Step-by-step (execute all steps, in order)
-
-1. **Receive the HTML** from the user (pasted content or existing file path).
-
-2. **Determine the filename.**
-   - Derive from the `<title>` tag using UPPER-KEBAB-CASE (e.g. title "GST Calculator" → `GST-CALCULATOR.html`).
-   - If the user provides a specific filename (e.g. with underscores like `Compliance_Calendar_FY2627.html`), use that exactly.
-   - If ambiguous, ask once before proceeding.
-
-3. **Validate & auto-fix the HTML** — check every item below and patch any missing ones directly into the HTML before saving:
+2. **Validate & auto-fix the HTML** before saving. Required in every tool's `<head>`:
 
    | Check | Required value |
    |---|---|
-   | `lang` + `data-theme` on `<html>` | `lang="en" data-theme="light"` |
-   | `<meta charset>` | `UTF-8` |
-   | `<meta name="viewport">` | `width=device-width, initial-scale=1.0` |
-   | `<title>` format | ends with `– Taxation Updates` |
-   | `<link rel="stylesheet" href="/brand-icons.css"/>` | absolute path, present |
-   | `<link rel="manifest" href="/manifest.json"/>` | present |
-   | `<link rel="icon">` | points to `/icons/icon-192.png` |
-   | Google Analytics script | ID must be `G-YC101DVMH7` — never change |
-   | `og:title`, `og:description`, `og:type`, `og:url`, `og:image` | all 5 present |
-   | `twitter:card`, `twitter:site`, `twitter:title`, `twitter:description`, `twitter:image` | all 5 present |
-   | `<link rel="canonical">` | points to `https://taxationupdates.com/FILENAME.html` |
-   | `[data-theme="dark"] {}` CSS block | present in `<style>` |
-   | Dark mode JS: restore on load | `localStorage.getItem('theme')` pattern |
-   | Dark mode JS: save on toggle | `localStorage.setItem('theme', ...)` — key must be `'theme'` |
-   | No raw phone number | no 10-digit Indian mobile number in plaintext |
-   | WhatsApp links | use `.wa-link` class + `<script src="/wa-init.js" defer></script>` |
+   | `<html>` attributes | `lang="en" data-theme="light"` |
+   | `<title>` | ends with `– Taxation Updates` |
+   | `brand-icons.css` | `<link rel="stylesheet" href="/brand-icons.css"/>` |
+   | `manifest.json` | `<link rel="manifest" href="/manifest.json"/>` |
+   | Favicon | `<link rel="icon" … href="/icons/icon-192.png"/>` |
+   | Google Analytics | ID must be `G-YC101DVMH7` — never change |
+   | OG tags | `og:title`, `og:description`, `og:type`, `og:url`, `og:image` |
+   | Twitter tags | `twitter:card`, `twitter:site`, `twitter:title`, `twitter:description`, `twitter:image` |
+   | Canonical | `<link rel="canonical" href="https://taxationupdates.com/FILENAME.html"/>` |
+   | Dark mode CSS | `[data-theme="dark"] {}` block in `<style>` |
+   | Dark mode JS | `localStorage.getItem('theme')` on load; `localStorage.setItem('theme', …)` on toggle |
+   | No raw phone | no 10-digit Indian mobile number in plaintext |
+   | WhatsApp link | `.wa-link` class + `<script src="/wa-init.js" defer></script>` |
 
-4. **Save the file** to the repo root as `FILENAME.html`.
+3. **Save** the file to the repo root.
 
-5. **Run the integration script** (handles sw.js, sitemap.xml, index.html automatically):
+4. **Run the integration script** — it bumps `sw.js` cache version, adds the URL to `sitemap.xml`, and inserts a portfolio card in `index.html`:
    ```bash
    ./add-tool.sh FILENAME.html "Tool Name" "One-line description" "emoji"
    ```
-   - Pick an appropriate emoji for the tool (e.g. 🧮 calculator, 📋 form, 📊 data, 🔍 lookup).
-   - The script will print a validation report — if any ❌ items appear, fix them in the HTML.
+   Fix any `❌` items the script reports, then confirm the 4 files updated: `FILENAME.html`, `sw.js`, `sitemap.xml`, `index.html`.
 
-6. **Confirm completion** — summarize the 4 files updated:
-   - `FILENAME.html` — new tool (saved + validated)
-   - `sw.js` — CACHE_NAME bumped, file added to PRECACHE_URLS
-   - `sitemap.xml` — new `<url>` entry added
-   - `index.html` — portfolio card added to `#portfolio` grid
-
-### Required `<head>` template (use when building from scratch)
-
+### Required `<head>` template
 ```html
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
@@ -375,16 +139,13 @@ When the user provides HTML for a new tool — phrases like "add this tool", "in
 </head>
 ```
 
-### Required dark mode JS (paste before `</body>`)
-
+### Required dark mode JS (before `</body>`)
 ```html
 <script>
-  // Restore theme on load
   (function() {
     const t = localStorage.getItem('theme');
     if (t) document.documentElement.setAttribute('data-theme', t);
   })();
-  // Toggle handler (wire to your toggle button)
   document.getElementById('theme-toggle').addEventListener('click', () => {
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     const next = isDark ? 'light' : 'dark';
@@ -396,21 +157,29 @@ When the user provides HTML for a new tool — phrases like "add this tool", "in
 
 ---
 
-## Common Tasks for AI Assistants
+## Constraints
 
-| Task | Notes |
-|---|---|
-| Add a new standalone tool | Say "add this tool" + paste HTML → Claude runs the full New Tool Workflow above |
-| Add a new section to index.html | Follow existing section structure with `<section id="..." class="...">`, add nav link |
-| Add a new prompt category | Edit the JS data array in `CA-Prompt-Library.html`, add sidebar entry |
-| Update TDS rates/sections | Edit the table rows in `TDS-SECTION-CODE.html` |
-| Update compliance due dates | Edit the JS data in `Compliance_Calendar_FY2627.html` |
-| Change brand colors | Update CSS custom properties in `:root` and `[data-theme="dark"]` blocks |
-| Add a WhatsApp link | Use class `.wa-link` on the element and include `<script src="/wa-init.js" defer></script>` |
-| Add social icon styles | Reference `brand-icons.css` — do not duplicate social color rules inline |
-| Update PWA icons | Replace files in `/icons/` directory; update `manifest.json` if sizes change |
-| Run unit tests | `npm test` (requires `npm install` once) — covers challan parser, contact form, prompt filter, sw.js, wa-init |
-| Edit challan parsing logic | Edit `challan-parser.js`; run `npm test` after; HTML files pick up changes automatically |
-| Edit contact form logic | Edit `contact-form.js`; run `npm test` after |
-| Edit prompt filter/sort logic | Edit `prompt-filter.js`; run `npm test` after |
-| Add a test for a new shared function | Add to the relevant file in `tests/`; follow existing `describe`/`it` structure |
+- **No production dependencies.** `package.json` exists only for the Vitest dev suite. Never add runtime npm deps or a build step.
+- **Self-contained HTML files.** Do not split CSS/JS into external files unless it's one of the intentional shared files listed above.
+- **`CNAME` file.** Do not delete or modify — it controls the GitHub Pages custom domain.
+- **`brand-icons.css` path.** All pages reference it as `/brand-icons.css` (absolute). Do not rename or relocate.
+- **Google Analytics.** Do not remove or change `G-YC101DVMH7`.
+- **`localStorage` key `'theme'`.** Used by live users. Do not rename.
+- **Service Worker cache.** Renaming/moving any file in `PRECACHE_URLS` requires updating `sw.js` and bumping `CACHE_NAME`.
+
+---
+
+## CSS Conventions
+
+- Custom properties on `:root` for light mode; overrides on `[data-theme="dark"]`.
+- Use semantic tokens (`--primary`, `--accent`, `--text`, `--bg`) — never hardcode colours.
+- Mobile-first; breakpoint `768px` for hamburger/drawer nav.
+- Hyphenated class names (BEM-like): `.hero-card`, `.section-title`.
+
+---
+
+## Git Workflow
+
+- **Main branch:** `master` (auto-deploys to GitHub Pages on push)
+- **Feature branches:** `claude/<description>-<id>`
+- Commit messages are imperative: `Fix mobile nav overflow`, `Add dark mode to challan parser`
