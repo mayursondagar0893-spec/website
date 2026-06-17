@@ -7,7 +7,10 @@
 <meta name="description" content="Free online Income Tax challan PDF parser. Upload ITNS 280/281/282/283 challans and export data to Excel instantly. 100% client-side — no data uploaded. By CA Mayur Sondagar."/>
 <link rel="canonical" href="https://taxationupdates.com/INCOME-TAX-CHALLAN-TO-EXCEL.html"/>
 <link rel="stylesheet" href="/brand-icons.css"/>
+<link rel="manifest" href="/manifest.json"/>
 <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png"/>
+<link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192.png"/>
+<meta name="theme-color" content="#8c9a1a"/>
 <meta property="og:title"       content="Income Tax Challan PDF to Excel — Taxation Updates"/>
 <meta property="og:description" content="Free online Income Tax challan PDF parser. Upload ITNS 280/281/282/283 challans and export data to Excel instantly. 100% client-side — no data uploaded. By CA Mayur Sondagar."/>
 <meta property="og:type"        content="website"/>
@@ -117,89 +120,6 @@
     transition: background .3s, color .3s;
     overflow-x: hidden;
   }
-
-  /* ══════════════ HEADER / NAV ══════════════ */
-  header {
-    position: sticky; top: 0; z-index: 200;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1rem 6%;
-    background: var(--nav-bg);
-    backdrop-filter: blur(18px);
-    border-bottom: 1px solid var(--glass-border);
-    box-shadow: var(--shadow);
-    transition: background .3s;
-  }
-
-  .logo { display: flex; align-items: center; gap: .7rem; }
-  .logo-box {
-    background: var(--olive);
-    color: #fff;
-    font-family: 'Playfair Display', serif;
-    font-weight: 900;
-    font-size: .82rem;
-    line-height: 1.2;
-    padding: .4rem .7rem;
-    border-radius: 8px;
-  }
-  .logo-box sup { font-size: .48rem; vertical-align: super; }
-  .logo-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--olive-deep);
-    line-height: 1.2;
-  }
-  [data-theme="dark"] .logo-name { color: var(--text); }
-  .logo-name span { color: var(--olive); }
-  .logo-sub { font-size: .72rem; color: var(--text-soft); margin-top: .1rem; }
-
-  .header-right { display: flex; align-items: center; gap: 12px; }
-  .badge {
-    background: var(--olive-pale);
-    color: var(--olive-deep);
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 50px;
-    border: 1px solid var(--glass-border);
-    letter-spacing: .04em;
-  }
-  [data-theme="dark"] .badge { color: var(--olive-light); }
-
-  /* Dark Toggle */
-  .dark-toggle {
-    width: 42px; height: 24px; border-radius: 50px;
-    background: var(--olive-pale); border: 1.5px solid var(--glass-border);
-    cursor: pointer; position: relative; transition: background .3s;
-    flex-shrink: 0;
-  }
-  .dark-toggle::after {
-    content: '☀️'; position: absolute; left: 2px; top: 50%;
-    transform: translateY(-50%); font-size: .7rem;
-    width: 18px; height: 18px; border-radius: 50%;
-    background: var(--olive); display: flex; align-items: center; justify-content: center;
-    transition: left .3s, background .3s;
-  }
-  [data-theme="dark"] .dark-toggle { background: var(--olive-deep); }
-  [data-theme="dark"] .dark-toggle::after { content: '🌙'; left: 18px; background: var(--olive-light); }
-
-  /* Back to site link */
-  .back-link {
-    font-size: .82rem;
-    color: var(--olive);
-    text-decoration: none;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: .3rem;
-    transition: all .2s;
-    white-space: nowrap;
-    padding: 5px 12px;
-    border-radius: 8px;
-    border: 1.5px solid var(--olive);
-    background: transparent;
-  }
-  .back-link:hover { color: var(--olive-dark); border-color: var(--olive-dark); background: var(--olive-pale); }
 
   /* ══════════════ MAIN ══════════════ */
   main { max-width: 1240px; margin: 0 auto; padding: 2rem 6%; }
@@ -495,37 +415,35 @@
   .status-msg { font-size: 12px; color: var(--text-soft); }
   .row-count { font-size: 11px; color: var(--text-soft); font-weight: 600; }
 
-  /* ══════════════ FOOTER ══════════════ */
-  footer {
-    background: var(--footer-bg);
-    color: rgba(232,237,187,0.7);
-    padding: 1.5rem 6%;
-    text-align: center;
-    font-size: .8rem;
-    margin-top: 3rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: .5rem;
-  }
-  .footer-logo-box {
-    background: var(--olive);
-    color: #fff;
-    font-family: 'Playfair Display', serif;
-    font-weight: 900;
-    font-size: .75rem;
-    line-height: 1.2;
-    padding: .35rem .65rem;
-    border-radius: 6px;
+  /* ══════════════ SMART COLUMN HIDE ══════════════ */
+  .col-hidden { display: none !important; }
+  .breakup-btn { display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; background:var(--olive); color:#fff; border:none; border-radius:50%; font-size:13px; font-weight:700; line-height:1; cursor:pointer; vertical-align:middle; margin-left:4px; transition:transform .15s; }
+  .breakup-btn:hover { background:var(--olive-deep); transform:scale(1.15); }
+  .breakup-btn.open { transform:rotate(45deg); }
+  .breakup-btn.open:hover { transform:rotate(45deg) scale(1.15); }
+  .code-chip { display:inline-block; background:#fef3c7; color:#92400e; border-radius:4px; font-size:10px; font-weight:700; padding:2px 6px; margin:1px 2px 1px 0; }
+  .code-more { display:inline-block; background:#92400e; color:#fff; border-radius:4px; font-size:10px; font-weight:700; padding:2px 6px; margin:1px 2px 1px 0; }
+  .sub-row td { background: var(--olive-pale) !important; padding: 0 !important; }
+  [data-theme="dark"] .sub-row td { background: var(--olive-bg) !important; }
+  .sub-row-inner {
+    position: sticky;
+    left: 0;
     display: inline-block;
-    margin-bottom: .3rem;
+    min-width: min(680px, 90vw);
+    max-width: 90vw;
+    padding: 8px 14px 10px 14px;
+    box-sizing: border-box;
   }
-  .footer-logo-box sup { font-size: .45rem; vertical-align: super; }
-  footer a { color: var(--olive-light); text-decoration: none; }
-  footer a:hover { color: #fff; }
-  .footer-socials { display: flex; gap: .75rem; justify-content: center; margin-top: .3rem; }
-  .social-btn { width: 36px; height: 36px; background: rgba(140,154,26,0.2); border: 1px solid rgba(140,154,26,0.35); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: .82rem; color: var(--olive-pale); text-decoration: none; transition: background .2s; }
-  .social-btn:hover { background: var(--olive); color: #fff; }
+  .sub-table { border-collapse: collapse; font-size: 11px; width: auto; border: 1.5px solid var(--olive); border-radius: 6px; overflow: hidden; }
+  .sub-table th { background: var(--olive); color: #fff; padding: 5px 10px; text-align: right; font-weight: 700; white-space: nowrap; border-right: 1px solid rgba(255,255,255,0.25); border-bottom: 2px solid var(--olive-dark); }
+  .sub-table th:last-child { border-right: none; }
+  .sub-table th:first-child, .sub-table th:nth-child(2) { text-align: left; }
+  .sub-table td { padding: 5px 10px; border-bottom: 1px solid var(--glass-border); border-right: 1px solid var(--glass-border); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .sub-table td:last-child { border-right: none; }
+  .sub-table td:first-child { text-align: left; font-weight: 600; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sub-table td:nth-child(2) { text-align: left; color: var(--olive-deep); font-weight: 600; }
+  .sub-table tr:last-child td { border-bottom: none; font-weight: 700; background: #f0f4c3; border-top: 1.5px solid var(--olive); }
+  [data-theme="dark"] .sub-table tr:last-child td { background: var(--olive-deep); color: var(--olive-pale); border-top-color: var(--olive-dark); }
 
   /* ══════════════ BACK TO TOP ══════════════ */
   #btt {
@@ -543,34 +461,40 @@
 
   /* ══════════════ RESPONSIVE ══════════════ */
   @media (max-width: 640px) {
-    header { padding: .85rem 4%; }
     main { padding: 1.5rem 4%; }
     .page-hero { padding: 1.5rem 4%; }
-    .back-link { font-size: .72rem; padding: 4px 9px; }
   }
   .skip-nav{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
   .skip-nav:focus{position:fixed;top:0;left:0;width:auto;height:auto;padding:.5rem 1rem;background:var(--olive);color:#fff;font-weight:600;font-size:.85rem;z-index:9999;border-radius:0 0 8px 0;text-decoration:none;}
-/* ── Cross-Tool Nav Bar ── */
-.tool-nav{display:flex;align-items:center;gap:6px;padding:7px 14px;background:var(--bg);border-bottom:1px solid rgba(140,154,26,.15);overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;scrollbar-width:none}
-.tool-nav::-webkit-scrollbar{display:none}
-.tool-nav a{display:inline-flex;align-items:center;gap:4px;padding:3px 11px;border-radius:20px;font-size:12px;font-weight:500;text-decoration:none;color:var(--muted,#64748b);border:1px solid transparent;transition:background .15s,color .15s,border-color .15s;flex-shrink:0}
-.tool-nav a:hover{background:rgba(140,154,26,.1);color:#8c9a1a;border-color:rgba(140,154,26,.3)}
-.tool-nav a.tnb-active{background:#8c9a1a;color:#fff!important;border-color:#8c9a1a}
-[data-theme="dark"] .tool-nav a{color:var(--muted,#94a3b8)}
-[data-theme="dark"] .tool-nav a:hover{background:rgba(140,154,26,.18);color:#c6d63a}
-[data-theme="dark"] .tool-nav a.tnb-active{background:#8c9a1a;color:#fff!important}
-/* ── Cross-Tool Footer Links ── */
-.footer-tool-links{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;margin-top:10px}
-.footer-tool-links a{font-size:12px;color:var(--muted,#94a3b8);text-decoration:none;transition:color .15s}
-.footer-tool-links a:hover{color:#8c9a1a}
-.footer-tool-links span{color:var(--muted,#94a3b8);font-size:10px}
-.site-footer{padding:16px 20px;border-top:1px solid var(--border,#e5e7eb);text-align:center;margin-top:0;background:var(--bg,#fff)}
-.site-footer-copy{font-size:12px;color:var(--muted,#6b7280);margin-bottom:8px}
-.site-footer-copy a{color:var(--muted,#6b7280);text-decoration:none}
-.site-footer-copy a:hover{color:#8c9a1a}
-.site-footer-links{display:flex;flex-wrap:wrap;gap:5px 12px;justify-content:center}
-.site-footer-links a{font-size:12px;color:var(--muted,#6b7280);text-decoration:none;transition:color .15s}
-.site-footer-links a:hover{color:#8c9a1a}
+/* ── How to Use ── */
+.how-to-use{background:var(--card-bg);border:1px solid var(--glass-border);border-radius:var(--radius);margin-bottom:16px;box-shadow:var(--shadow);overflow:hidden}
+.htu-summary{display:flex;align-items:center;gap:10px;padding:13px 18px;cursor:pointer;list-style:none;user-select:none;transition:background .2s}
+.htu-summary::-webkit-details-marker{display:none}
+.htu-summary:hover{background:var(--olive-pale)}
+[data-theme="dark"] .htu-summary:hover{background:var(--olive-bg)}
+.htu-icon{font-size:1.1rem}
+.htu-title{font-family:'Playfair Display',serif;font-size:.92rem;font-weight:700;color:var(--olive-deep);flex:1}
+[data-theme="dark"] .htu-title{color:var(--text)}
+.htu-chevron{font-size:.78rem;color:var(--text-soft);transition:transform .25s}
+details[open] .htu-chevron{transform:rotate(180deg)}
+.htu-body{padding:16px 20px 18px;border-top:1px solid var(--glass-border)}
+.htu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:14px}
+.htu-step{display:flex;gap:12px;align-items:flex-start}
+.htu-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--olive);color:#fff;font-weight:700;font-size:.78rem;display:flex;align-items:center;justify-content:center}
+.htu-text{font-size:.82rem;color:var(--text-mid);line-height:1.65}
+.htu-text strong{color:var(--text);display:block;margin-bottom:2px}
+.htu-text em{color:var(--olive-dark);font-style:normal;font-weight:600}
+kbd{display:inline-block;background:var(--olive-pale);border:1px solid var(--glass-border);border-radius:4px;padding:1px 5px;font-size:.72rem;font-family:monospace;color:var(--text);font-style:normal}
+[data-theme="dark"] kbd{background:var(--olive-deep);color:var(--olive-light)}
+.htu-shortcuts{background:var(--olive-bg);border-radius:8px;padding:8px 14px;font-size:.8rem;color:var(--text-mid);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.htu-sc-label{font-weight:700;color:var(--olive-dark);margin-right:4px}
+/* ── Export Count Badge ── */
+#exportCount,#csvCount{font-size:.75rem;font-weight:500;opacity:.85;margin-left:5px}
+/* ── CIN Copy Button ── */
+.cin-wrap{display:inline-flex;align-items:center;gap:5px}
+.cin-copy{background:none;border:none;cursor:pointer;font-size:.75rem;color:var(--text-soft);padding:1px 3px;border-radius:3px;transition:color .15s,background .15s;line-height:1;flex-shrink:0}
+.cin-copy:hover{color:var(--olive);background:var(--olive-pale)}
+.cin-copy.copied{color:#15803d}
 /* ══ UNIFIED SITE TOP NAV ══ */
 .site-topnav{background:rgba(250,251,240,.97);border-bottom:2px solid rgba(140,154,26,.22);padding:6px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;font-family:'Plus Jakarta Sans',sans-serif;position:sticky;top:0;z-index:500;box-shadow:0 2px 12px rgba(140,154,26,.1);backdrop-filter:blur(12px);}
 [data-theme="dark"] .site-topnav,body.dark .site-topnav{background:linear-gradient(90deg,#1f2506,#3d4408);border-bottom-color:rgba(181,196,34,.4);box-shadow:0 2px 12px rgba(0,0,0,.35);backdrop-filter:none;}
@@ -633,11 +557,58 @@
     <div class="section-tag">Tool</div>
     <h1 class="page-title">Income Tax / TDS / TCS <span class="accent">Challan PDF to Excel</span></h1>
     <div class="divider"></div>
-    <p class="page-sub">Upload ITNS 280 / 281 / 282 / 283 challan PDFs — extracted 100% locally, no server upload.</p>
+    <p class="page-sub">Upload ITNS 280 / 280N / 281 / 282 / 283 challan PDFs — extracted 100% locally, no server upload. Supports new <strong>Tax Year</strong> format (AY 2026-27 onwards).</p>
   </div>
 </div>
 
 <main id="main-content">
+  <!-- How to Use -->
+  <details class="how-to-use" id="howToUse">
+    <summary class="htu-summary">
+      <span class="htu-icon">💡</span>
+      <span class="htu-title">How to Use this Tool</span>
+      <span class="htu-chevron">▾</span>
+    </summary>
+    <div class="htu-body">
+      <div class="htu-grid">
+        <div class="htu-step">
+          <div class="htu-num">1</div>
+          <div class="htu-text"><strong>Upload Challans</strong><br>Click <em>Select Folder</em> to pick an entire folder of PDFs at once, or <em>Select Files</em> to choose individual challans. You can also drag &amp; drop PDFs or folders directly onto the upload area. Sub-folders are scanned automatically.</div>
+        </div>
+        <div class="htu-step">
+          <div class="htu-num">2</div>
+          <div class="htu-text"><strong>Parse Challans</strong><br>Click <em>⚡ Parse Challans</em> (or press <kbd>Ctrl</kbd>+<kbd>Enter</kbd>). The tool reads each PDF locally in your browser — no data is sent to any server. ITNS 280 / 280N / 281 / 282 / 283 formats are all supported, including the new Tax Year format from AY 2026-27.</div>
+        </div>
+        <div class="htu-step">
+          <div class="htu-num">3</div>
+          <div class="htu-text"><strong>Filter &amp; Search</strong><br>Use the filter bar to narrow by ITNS type, Tax Year / AY, PAN, TAN, or Status. The search box matches PAN, TAN, Name, CIN, Challan No., Bank Ref, and more. Click any stat card (Total / Parsed OK / Needs Review) to quick-filter. Total Amount updates live to match your filter.</div>
+        </div>
+        <div class="htu-step">
+          <div class="htu-num">4</div>
+          <div class="htu-text"><strong>Export to Excel</strong><br>Click <em>📊 Export to Excel</em> (or press <kbd>Ctrl</kbd>+<kbd>E</kbd>) to download a .xlsx file with 3 sheets: <strong>Challans</strong> (all extracted fields), <strong>Code Breakup</strong> (section-wise TDS for ITNS 281), and <strong>Summary</strong> (totals). Only currently filtered records are exported.</div>
+        </div>
+        <div class="htu-step">
+          <div class="htu-num">5</div>
+          <div class="htu-text"><strong>ITNS Types at a Glance</strong><br>
+            <span class="chip chip-280">280</span> Income Tax (Self-Assessment, Advance Tax) &nbsp;
+            <span class="chip chip-281">281</span> TDS / TCS &nbsp;
+            <span class="chip chip-282">282</span> Securities Transaction Tax &nbsp;
+            <span class="chip chip-283">283</span> Fringe Benefits Tax<br>
+            <em>Status "⚠ Check"</em> means PAN/TAN or CIN could not be extracted — open the original PDF to verify.
+          </div>
+        </div>
+        <div class="htu-step">
+          <div class="htu-num">🔒</div>
+          <div class="htu-text"><strong>100% Private — No Server Upload</strong><br>All PDF parsing happens entirely inside your browser. Your challan data never leaves your device. Safe for confidential client data.</div>
+        </div>
+      </div>
+      <div class="htu-shortcuts">
+        <span class="htu-sc-label">Keyboard Shortcuts:</span>
+        <kbd>Ctrl</kbd>+<kbd>Enter</kbd> Parse &nbsp;·&nbsp; <kbd>Ctrl</kbd>+<kbd>E</kbd> Export to Excel
+      </div>
+    </div>
+  </details>
+
   <!-- Drop Zone -->
   <div class="drop-zone" id="dropZone">
     <div class="drop-icon">📂</div>
@@ -660,8 +631,8 @@
   <!-- Actions -->
   <div class="controls">
     <button class="btn btn-primary" id="parseBtn" disabled onclick="parseAll()">⚡ Parse Challans</button>
-    <button class="btn btn-success" id="exportBtn" disabled onclick="exportExcel()">📊 Export to Excel</button>
-    <button class="btn btn-outline" id="csvBtn" onclick="exportCSV()" style="display:none">📄 Export CSV</button>
+    <button class="btn btn-success" id="exportBtn" disabled onclick="exportExcel()">📊 Export to Excel<span id="exportCount"></span></button>
+    <button class="btn btn-outline" id="csvBtn" onclick="exportCSV()" style="display:none">📄 Export CSV<span id="csvCount"></span></button>
     <button class="btn btn-danger" onclick="clearAll()">🗑 Clear All</button>
     <span class="status-msg" id="statusMsg"></span>
   </div>
@@ -716,12 +687,16 @@
       </select>
     </div>
     <div class="filter-group">
-      <label>Assessment Year</label>
-      <select id="filterAY" onchange="applyFilters()"><option value="">All AYs</option></select>
+      <label>Tax Year / AY</label>
+      <select id="filterAY" onchange="applyFilters()"><option value="">All Years</option></select>
     </div>
     <div class="filter-group">
       <label>PAN</label>
       <select id="filterPAN" onchange="applyFilters()"><option value="">All PANs</option></select>
+    </div>
+    <div class="filter-group">
+      <label>TAN</label>
+      <select id="filterTAN" onchange="applyFilters()"><option value="">All TANs</option></select>
     </div>
     <div class="filter-group">
       <label>Status</label>
@@ -751,14 +726,14 @@
             <th data-col="itns"       onclick="sortBy('itns')">ITNS<span class="si"></span></th>
             <th data-col="pan"        onclick="sortBy('pan')">PAN / TAN<span class="si"></span></th>
             <th data-col="name"       onclick="sortBy('name')">Name<span class="si"></span></th>
-            <th data-col="ay"         onclick="sortBy('ay')">AY<span class="si"></span></th>
+            <th data-col="ay"         onclick="sortBy('ay')">Tax Year / AY<span class="si"></span></th>
             <th data-col="fy"         onclick="sortBy('fy')">FY<span class="si"></span></th>
             <th data-col="major">Major Head</th>
             <th data-col="minor"      onclick="sortBy('minor')">Minor Head<span class="si"></span></th>
+            <th data-col="sectionRef" onclick="sortBy('sectionRef')">Section<span class="si"></span></th>
             <th data-col="natureOfPayment" onclick="sortBy('natureOfPayment')">Nature of Payment<span class="si"></span></th>
             <th data-col="cin"        onclick="sortBy('cin')">CIN<span class="si"></span></th>
-            <th data-col="dod"        onclick="sortBy('dod')">Date of Deposit<span class="si"></span></th>
-            <th data-col="tenderDate" onclick="sortBy('tenderDate')">Tender Date<span class="si"></span></th>
+            <th data-col="tenderDate"  onclick="sortBy('tenderDate')">Tender / Deposit Date<span class="si"></span></th>
             <th data-col="bank"       onclick="sortBy('bank')">Bank<span class="si"></span></th>
             <th data-col="bsr"        onclick="sortBy('bsr')">BSR Code<span class="si"></span></th>
             <th data-col="challanNo"  onclick="sortBy('challanNo')">Challan No<span class="si"></span></th>
@@ -809,17 +784,6 @@
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
 let files=[], parsedData=[], filteredData=[], sortCol='', sortDir='asc';
-
-// ── Dark Mode ─────────────────────────────────────────────────
-const toggleBtn = document.getElementById('dark-toggle');
-const saved = localStorage.getItem('theme') || 'light';
-if(saved === 'dark') { document.documentElement.setAttribute('data-theme','dark'); toggleBtn.setAttribute('aria-checked','true'); }
-toggleBtn.addEventListener('click', () => {
-  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-  localStorage.setItem('theme', isDark ? 'light' : 'dark');
-  toggleBtn.setAttribute('aria-checked', isDark ? 'false' : 'true');
-});
 
 // ── Back to top ───────────────────────────────────────────────
 const btt=document.getElementById('btt');
@@ -909,10 +873,10 @@ function clearAll(){
   document.getElementById('statusMsg').textContent='';
   document.getElementById('fileInput').value='';
   sortCol='';sortDir='asc';
-  // Clear all filter inputs so they don't carry over to the next parse
   document.getElementById('searchInput').value='';
-  ['filterITNS','filterAY','filterPAN','filterStatus'].forEach(id=>document.getElementById(id).value='');
+  ['filterITNS','filterAY','filterPAN','filterTAN','filterStatus'].forEach(id=>document.getElementById(id).value='');
   ['statAll','statOK','statErr'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active-filter');});
+  updateExportBadge();
 }
 
 // ── PDF extraction ────────────────────────────────────────────
@@ -923,9 +887,6 @@ async function extractText(file){
   for(let i=1;i<=pdf.numPages;i++){const pg=await pdf.getPage(i);const c=await pg.getTextContent();text+=c.items.map(x=>x.str).join(' ')+'\n';}
   return text;
 }
-
-// ── Parser (clean, parseAmount, between, get, parseChallan) ───
-// Provided by /challan-parser.js loaded in <head>.
 
 // ── Parse All ─────────────────────────────────────────────────
 async function parseAll(){
@@ -948,22 +909,21 @@ async function parseAll(){
       if(rec.ok){ok++;totalAmt+=rec.total;}else fail++;
     }catch(e){
       console.warn('Challan parse error for '+files[i].name+':', e);
-      parsedData.push({ok:false,file:files[i].name,pan:'',tan:'',name:'',ay:'',fy:'',itns:'?',major:'',minor:'',natureOfPayment:'',cin:'',mode:'',bank:'',bankRef:'',dod:'',bsr:'',challanNo:'',tenderDate:'',tax:0,surcharge:0,cess:0,interest:0,penalty:0,others:0,total:0,parseError:e&&e.message||String(e)});
+      parsedData.push({ok:false,file:files[i].name,pan:'',tan:'',name:'',ay:'',fy:'',ty:'',itns:'?',major:'',minor:'',natureOfPayment:'',sectionRef:'',sectionRows:[],cin:'',mode:'',bank:'',bankRef:'',tenderDate:'',bsr:'',challanNo:'',tax:0,surcharge:0,cess:0,interest:0,penalty:0,others:0,total:0,parseError:e&&e.message||String(e)});
       fail++;
     }
   }
   pFill.style.width='100%';
   pLabel.textContent=`Done — ${files.length} file(s) processed`;
+  setTimeout(()=>document.getElementById('progressWrap').classList.remove('visible'),1800);
   document.getElementById('stTotal').textContent=parsedData.length;
-  document.getElementById('stParsed').textContent=ok;
-  document.getElementById('stFailed').textContent=fail;
-  document.getElementById('stAmount').textContent='₹'+totalAmt.toLocaleString('en-IN');
   document.getElementById('statBar').style.display='flex';
   populateDropdowns();
   document.getElementById('filterBar').classList.add('visible');
   filteredData=[...parsedData];
-  document.getElementById('stShowing').textContent=filteredData.length;
+  updateStatBar();
   renderTable();
+  updateExportBadge();
   btn.disabled=false;
   document.getElementById('exportBtn').disabled=false;
   document.getElementById('csvBtn').style.display='inline-flex';
@@ -973,12 +933,16 @@ async function parseAll(){
 function populateDropdowns(){
   const aySet=[...new Set(parsedData.map(r=>r.ay).filter(Boolean))].sort();
   const panSet=[...new Set(parsedData.map(r=>r.pan).filter(Boolean))].sort();
+  const tanSet=[...new Set(parsedData.map(r=>r.tan).filter(Boolean))].sort();
   const ayEl=document.getElementById('filterAY');
   ayEl.innerHTML='<option value="">All AYs</option>';
   aySet.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;ayEl.appendChild(o);});
   const panEl=document.getElementById('filterPAN');
   panEl.innerHTML='<option value="">All PANs</option>';
   panSet.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;panEl.appendChild(o);});
+  const tanEl=document.getElementById('filterTAN');
+  tanEl.innerHTML='<option value="">All TANs</option>';
+  tanSet.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;tanEl.appendChild(o);});
 }
 
 // ── Filters ───────────────────────────────────────────────────
@@ -987,17 +951,19 @@ function applyFilters(){
   const itns=document.getElementById('filterITNS').value;
   const ay=document.getElementById('filterAY').value;
   const pan=document.getElementById('filterPAN').value;
+  const tan=document.getElementById('filterTAN').value;
   const status=document.getElementById('filterStatus').value;
   filteredData=parsedData.filter(r=>{
     if(itns&&r.itns!==itns)return false;
     if(ay&&r.ay!==ay)return false;
     if(pan&&r.pan!==pan)return false;
+    if(tan&&r.tan!==tan)return false;
     if(status==='ok'&&!r.ok)return false;
     if(status==='err'&&r.ok)return false;
     if(search){
       const hay=[
         r.pan,r.tan,r.name,r.cin,r.challanNo,r.bankRef,r.bsr,r.bank,
-        r.major,r.minor,r.dod,r.tenderDate,r.file,
+        r.major,r.minor,r.tenderDate,r.file,
         r.ay,r.fy,r.itns,r.mode,r.natureOfPayment,
         r.ok?'ok parsed':'needs review check',
         String(r.tax||''),String(r.surcharge||''),String(r.cess||''),
@@ -1008,36 +974,55 @@ function applyFilters(){
     return true;
   });
   if(sortCol)doSort(sortCol,false);else renderTable();
-  document.getElementById('stShowing').textContent=filteredData.length;
+  updateStatBar();
+  updateExportBadge();
 }
 function clearFilters(){
   ['searchInput'].forEach(id=>document.getElementById(id).value='');
-  ['filterITNS','filterAY','filterPAN','filterStatus'].forEach(id=>document.getElementById(id).value='');
+  ['filterITNS','filterAY','filterPAN','filterTAN','filterStatus'].forEach(id=>document.getElementById(id).value='');
   filteredData=[...parsedData];
-  // reset active-filter highlight
   ['statAll','statOK','statErr'].forEach(id=>document.getElementById(id).classList.remove('active-filter'));
   if(sortCol)doSort(sortCol,false);else renderTable();
-  document.getElementById('stShowing').textContent=filteredData.length;
+  updateStatBar();
+  updateExportBadge();
 }
 
 // ── Stat card quick-filter ─────────────────────────────────────
 function filterByStat(type){
-  // reset all active highlights
   ['statAll','statOK','statErr'].forEach(id=>document.getElementById(id).classList.remove('active-filter'));
-  const statusEl=document.getElementById('filterStatus');
   if(type==='all'){
-    statusEl.value='';
+    clearFilters();
     document.getElementById('statAll').classList.add('active-filter');
-  } else if(type==='ok'){
-    statusEl.value='ok';
-    document.getElementById('statOK').classList.add('active-filter');
-  } else if(type==='err'){
-    statusEl.value='err';
-    document.getElementById('statErr').classList.add('active-filter');
+  } else {
+    const statusEl=document.getElementById('filterStatus');
+    if(type==='ok'){
+      statusEl.value='ok';
+      document.getElementById('statOK').classList.add('active-filter');
+    } else if(type==='err'){
+      statusEl.value='err';
+      document.getElementById('statErr').classList.add('active-filter');
+    }
+    applyFilters();
   }
-  applyFilters();
-  // Scroll to filter bar smoothly
   document.getElementById('filterBar').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ── Date Helpers ──────────────────────────────────────────────
+const MON={'jan':1,'feb':2,'mar':3,'apr':4,'may':5,'jun':6,'jul':7,'aug':8,'sep':9,'oct':10,'nov':11,'dec':12};
+function parseDateToNum(s){
+  if(!s||s==='—')return 0;
+  let m=s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+  if(m)return parseInt(m[3])*10000+parseInt(m[2])*100+parseInt(m[1]);
+  m=s.match(/^(\d{1,2})[-\s]([A-Za-z]{3})[-\s](\d{4})$/);
+  if(m){const mo=MON[m[2].toLowerCase()]||0;return parseInt(m[3])*10000+mo*100+parseInt(m[1]);}
+  return 0;
+}
+function toExcelDateSerial(n){
+  if(!n)return '';
+  const y=Math.floor(n/10000),mo=Math.floor((n%10000)/100),d=n%100;
+  const ms=Date.UTC(y,mo-1,d);
+  const serial=Math.floor(ms/86400000)+25569;
+  return serial;
 }
 
 // ── Sorting ───────────────────────────────────────────────────
@@ -1048,11 +1033,13 @@ function sortBy(col){
 }
 function doSort(col,updateHeader){
   const nums=['tax','surcharge','cess','interest','penalty','others','total'];
+  const dates=['tenderDate'];
   filteredData.sort((a,b)=>{
     let va=a[col]??'',vb=b[col]??'';
     if(col==='#'){va=parsedData.indexOf(a);vb=parsedData.indexOf(b);}
     else if(col==='status'){va=a.ok?1:0;vb=b.ok?1:0;}
     else if(nums.includes(col)){va=Number(va)||0;vb=Number(vb)||0;}
+    else if(dates.includes(col)){va=parseDateToNum(va);vb=parseDateToNum(vb);}
     else{va=va.toString().toLowerCase();vb=vb.toString().toLowerCase();}
     if(va<vb)return sortDir==='asc'?-1:1;
     if(va>vb)return sortDir==='asc'?1:-1;
@@ -1087,54 +1074,245 @@ function renderTable(){
     return;
   }
   filteredData.forEach((r,i)=>{
+    const hasBreakup = r.sectionRows && r.sectionRows.length > 1;
     const tr=document.createElement('tr');
     if(!r.ok)tr.className='error-row';
     tr.innerHTML=`
-      <td>${i+1}</td>
-      <td><span class="chip ${r.ok?'chip-ok':'chip-err'}" ${!r.ok&&r.parseError?`title="${esc(r.parseError)}"`:''}>${r.ok?'✓ OK':'⚠ Check'}</span></td>
-      <td><span class="chip chip-${esc(r.itns||'280')}">${esc(r.itns||'?')}</span></td>
-      <td><strong>${hl(r.pan||r.tan,term)}</strong><span style="font-size:9px;color:var(--text-soft);margin-left:3px">${r.pan?'PAN':r.tan?'TAN':''}</span></td>
-      <td title="${esc(r.name)}">${hl(trunc(r.name,34),term)}</td>
-      <td>${esc(r.ay||'—')}</td>
-      <td>${esc(r.fy||'—')}</td>
-      <td title="${esc(r.major)}">${esc(trunc(r.major,28))}</td>
-      <td title="${esc(r.minor)}">${esc(trunc(r.minor,22))}</td>
-      <td>${r.natureOfPayment?`<span class="chip" style="background:#fef3c7;color:#92400e">${esc(r.natureOfPayment)}</span>`:'—'}</td>
-      <td>${hl(r.cin,term)}</td>
-      <td>${esc(r.dod||'—')}</td>
-      <td><strong>${esc(r.tenderDate||'—')}</strong></td>
-      <td>${esc(r.bank||'—')}</td>
-      <td>${hl(r.bsr,term)}</td>
-      <td>${hl(r.challanNo,term)}</td>
-      <td>${hl(r.bankRef,term)}</td>
-      <td>${esc(r.mode||'—')}</td>
-      <td class="amt">${fmt(r.tax)}</td>
-      <td>${fmt(r.surcharge)}</td>
-      <td>${fmt(r.cess)}</td>
-      <td>${fmt(r.interest)}</td>
-      <td>${fmt(r.penalty)}</td>
-      <td>${fmt(r.others)}</td>
-      <td class="amt">${fmt(r.total)}</td>
-      <td style="color:var(--text-soft);font-size:11px" title="${esc(r.file)}">${esc(trunc(r.file,18))}</td>
+      <td data-col="#">${i+1}</td>
+      <td data-col="status"><span class="chip ${r.ok?'chip-ok':'chip-err'}" ${!r.ok&&r.parseError?`title="${esc(r.parseError)}"`:''}>${r.ok?'✓ OK':'⚠ Check'}</span></td>
+      <td data-col="itns"><span class="chip chip-${esc(r.itns||'280')}">${esc(r.itns||'?')}</span></td>
+      <td data-col="pan"><strong>${hl(r.pan||r.tan,term)}</strong><span style="font-size:9px;color:var(--text-soft);margin-left:3px">${r.pan?'PAN':r.tan?'TAN':''}</span></td>
+      <td data-col="name" title="${esc(r.name)}">${hl(trunc(r.name,34),term)}</td>
+      <td data-col="ay">${r.ty ? 'TY ' + esc(r.ty) : r.ay ? 'AY ' + esc(r.ay) : '—'}</td>
+      <td data-col="fy">${esc(r.fy||'—')}</td>
+      <td data-col="major" title="${esc(r.major)}">${esc(trunc(r.major,28))}</td>
+      <td data-col="minor" title="${esc(r.minor)}">${esc(trunc(r.minor,22))}</td>
+      <td data-col="sectionRef" style="font-size:10px;color:var(--olive-deep)">${esc(r.sectionRef||'—')}</td>
+      <td data-col="natureOfPayment"></td>
+      <td data-col="cin"></td>
+      <td data-col="tenderDate"><strong>${esc(r.tenderDate||'—')}</strong></td>
+      <td data-col="bank">${esc(r.bank||'—')}</td>
+      <td data-col="bsr">${hl(r.bsr,term)}</td>
+      <td data-col="challanNo">${hl(r.challanNo,term)}</td>
+      <td data-col="bankRef">${hl(r.bankRef,term)}</td>
+      <td data-col="mode">${esc(r.mode||'—')}</td>
+      <td data-col="tax" class="amt">${fmt(r.tax)}</td>
+      <td data-col="surcharge">${fmt(r.surcharge)}</td>
+      <td data-col="cess">${fmt(r.cess)}</td>
+      <td data-col="interest">${fmt(r.interest)}</td>
+      <td data-col="penalty">${fmt(r.penalty)}</td>
+      <td data-col="others">${fmt(r.others)}</td>
+      <td data-col="total" class="amt">${fmt(r.total)}</td>
+      <td data-col="file" style="color:var(--text-soft);font-size:11px" title="${esc(r.file)}">${esc(trunc(r.file,18))}</td>
     `;
+    // Build natureOfPayment cell as real DOM to ensure onclick works reliably
+    const npTd = tr.querySelector('td[data-col="natureOfPayment"]');
+    if(r.natureOfPayment){
+      const codes = r.sectionRows && r.sectionRows.length > 0
+        ? r.sectionRows.map(s=>s.code)
+        : r.natureOfPayment.split(',').map(s=>s.trim());
+      codes.slice(0,3).forEach(c=>{
+        const chip=document.createElement('span');
+        chip.className='code-chip';
+        chip.textContent=c;
+        npTd.appendChild(chip);
+      });
+      if(codes.length > 3){
+        const more=document.createElement('span');
+        more.className='code-more';
+        more.textContent='+' + (codes.length-3);
+        npTd.appendChild(more);
+      }
+      if(hasBreakup){
+        const btn=document.createElement('button');
+        btn.className='breakup-btn';
+        btn.title='Click to expand code-wise breakup';
+        btn.textContent='+';
+        btn.addEventListener('click', function(){ toggleBreakup(this); });
+        npTd.appendChild(btn);
+      }
+    } else {
+      npTd.textContent='—';
+    }
+    // Build CIN cell with copy-to-clipboard button
+    const cinTd=tr.querySelector('td[data-col="cin"]');
+    if(r.cin){
+      const wrap=document.createElement('span');
+      wrap.className='cin-wrap';
+      const cinText=document.createElement('span');
+      cinText.innerHTML=hl(r.cin,term);
+      const copyBtn=document.createElement('button');
+      copyBtn.className='cin-copy';
+      copyBtn.title='Copy CIN to clipboard';
+      copyBtn.textContent='📋';
+      copyBtn.addEventListener('click',function(){
+        navigator.clipboard.writeText(r.cin).then(()=>{
+          copyBtn.textContent='✓';
+          copyBtn.classList.add('copied');
+          setTimeout(()=>{copyBtn.textContent='📋';copyBtn.classList.remove('copied');},1500);
+        }).catch(()=>{});
+      });
+      wrap.appendChild(cinText);
+      wrap.appendChild(copyBtn);
+      cinTd.appendChild(wrap);
+    } else {
+      cinTd.textContent='—';
+    }
     tbody.appendChild(tr);
+
+    if(hasBreakup){
+      const subTr=document.createElement('tr');
+      subTr.className='sub-row';
+      subTr.style.display='none';
+      const totalTax=r.sectionRows.reduce((s,x)=>s+x.tax,0);
+      const totalAmt=r.sectionRows.reduce((s,x)=>s+x.total,0);
+      const codeRows=r.sectionRows.map(x=>`
+        <tr>
+          <td title="${esc(x.desc)}">${esc(x.desc)}</td>
+          <td>${esc(x.section)}</td>
+          <td>${esc(x.code)}</td>
+          <td>${fmt(x.tax)}</td>
+          <td>${fmt(x.surcharge)}</td>
+          <td>${fmt(x.cess)}</td>
+          <td>${fmt(x.total)}</td>
+        </tr>`).join('');
+      subTr.innerHTML=`<td colspan="26"><div class="sub-row-inner">
+        <table class="sub-table">
+          <tr><th>Description</th><th>Section</th><th>Code</th><th>Tax (₹)</th><th>Surcharge (₹)</th><th>Cess (₹)</th><th>Total (₹)</th></tr>
+          ${codeRows}
+          <tr><td colspan="3">Total (${r.sectionRows.length} codes)</td><td>${fmt(totalTax)}</td><td>—</td><td>—</td><td>${fmt(totalAmt)}</td></tr>
+        </table>
+      </div></td>`;
+      tbody.appendChild(subTr);
+    }
   });
   document.getElementById('rowCount').textContent=`${filteredData.length} of ${parsedData.length} record(s)`;
+  applySmartColumns(filteredData);
+  updateExportBadge();
+}
+
+// ── Smart Column Hide/Show ─────────────────────────────────────
+const SMART_COLS=[
+  {key:'natureOfPayment', blank:r=>!r.natureOfPayment},
+  {key:'sectionRef',      blank:r=>!r.sectionRef},
+  {key:'fy',             blank:r=>!r.fy||r.fy===r.ay},
+  {key:'surcharge',      blank:r=>!r.surcharge},
+  {key:'cess',           blank:r=>!r.cess},
+  {key:'interest',       blank:r=>!r.interest},
+  {key:'penalty',        blank:r=>!r.penalty},
+  {key:'others',         blank:r=>!r.others},
+];
+function applySmartColumns(data){
+  SMART_COLS.forEach(({key,blank})=>{
+    const allBlank = data.length>0 && data.every(r=>blank(r));
+    document.querySelectorAll(`th[data-col="${key}"], td[data-col="${key}"]`)
+      .forEach(el=>el.classList.toggle('col-hidden', allBlank));
+  });
+}
+
+function toggleBreakup(btn){
+  const mainRow = btn.closest('tr');
+  if(!mainRow) return;
+  const subRow = mainRow.nextElementSibling;
+  if(!subRow || !subRow.classList.contains('sub-row')) return;
+  const hidden = subRow.style.display === 'none';
+  subRow.style.display = hidden ? '' : 'none';
+  btn.classList.toggle('open', hidden);
+  if(hidden){
+    setTimeout(()=>subRow.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+  }
+}
+
+// ── Stat Bar Update (reflects filteredData) ────────────────────
+function updateStatBar(){
+  const okCount=filteredData.filter(r=>r.ok).length;
+  const failCount=filteredData.filter(r=>!r.ok).length;
+  const totalAmt=filteredData.reduce((s,r)=>s+r.total,0);
+  document.getElementById('stParsed').textContent=okCount;
+  document.getElementById('stFailed').textContent=failCount;
+  document.getElementById('stAmount').textContent='₹'+totalAmt.toLocaleString('en-IN');
+  document.getElementById('stShowing').textContent=filteredData.length;
+  const isFiltered=filteredData.length<parsedData.length;
+  const amtLabel=document.querySelector('#statBar .stat.warn .stat-label');
+  if(amtLabel)amtLabel.textContent=isFiltered?'Total (Filtered)':'Total Amount';
+}
+
+// ── Export Badge ───────────────────────────────────────────────
+function updateExportBadge(){
+  const n=filteredData.length;
+  const badge=n>0?`(${n} records)`:'';
+  const el=document.getElementById('exportCount');
+  if(el)el.textContent=badge;
+  const csv=document.getElementById('csvCount');
+  if(csv)csv.textContent=badge;
 }
 
 // ── Export ────────────────────────────────────────────────────
-const HDRS=['#','Status','ITNS No.','PAN','TAN','Name','AY','FY','Major Head','Minor Head','Nature of Payment','CIN','Date of Deposit','Tender Date','Bank Name','BSR Code','Challan No.','Bank Ref No.','Mode of Payment','Tax','Surcharge','Cess','Interest','Penalty','Fee/Others','Total Amount','File Name'];
+const HDRS_ALL=['#','Status','ITNS No.','PAN / TAN','Name','Tax Year / AY','FY','Major Head','Minor Head','Section','Nature of Payment','CIN','Tender / Deposit Date','Bank Name','BSR Code','Challan No.','Bank Ref No.','Mode of Payment','Tax (₹)','Surcharge (₹)','Cess (₹)','Interest (₹)','Penalty (₹)','Fee/Others (₹)','Total Amount (₹)','File Name'];
+const HDRS_KEYS=['#','status','itns','pan','name','ay','fy','major','minor','sectionRef','natureOfPayment','cin','tenderDate','bank','bsr','challanNo','bankRef','mode','tax','surcharge','cess','interest','penalty','others','total','file'];
+function getActiveColumns(data){
+  const hiddenKeys=new Set(SMART_COLS.filter(({key,blank})=>data.length>0&&data.every(r=>blank(r))).map(c=>c.key));
+  return HDRS_KEYS.map((k,i)=>({key:k,hdr:HDRS_ALL[i],hidden:hiddenKeys.has(k)})).filter(c=>!c.hidden);
+}
 function buildRows(data){
-  return data.map((r,i)=>[i+1,r.ok?'OK':'Check',r.itns,r.pan,r.tan,r.name,r.ay,r.fy,r.major,r.minor,r.natureOfPayment,r.cin,r.dod,r.tenderDate,r.bank,r.bsr,r.challanNo,r.bankRef,r.mode,r.tax,r.surcharge,r.cess,r.interest,r.penalty,r.others,r.total,r.file]);
+  const activeCols=getActiveColumns(data);
+  return data.map((r,i)=>activeCols.map(c=>{
+    if(c.key==='#')return i+1;
+    if(c.key==='status')return r.ok?'OK':'Check';
+    if(c.key==='pan')return r.pan||r.tan;
+    if(c.key==='ay')return r.ty ? 'TY '+r.ty : r.ay ? 'AY '+r.ay : '';
+    if(c.key==='fy')return r.fy||r.ty||'';
+    if(c.key==='tenderDate'){
+      const serial=toExcelDateSerial(parseDateToNum(r.tenderDate));
+      return serial||r.tenderDate||'';
+    }
+    return r[c.key]??'';
+  }));
+}
+function applyDateFormat(ws,activeCols){
+  const dateColIdx=activeCols.findIndex(c=>c.key==='tenderDate');
+  if(dateColIdx===-1)return;
+  const rng=XLSX.utils.decode_range(ws['!ref']);
+  for(let row=rng.s.r+1;row<=rng.e.r;row++){
+    const cellAddr=XLSX.utils.encode_cell({r:row,c:dateColIdx});
+    if(ws[cellAddr]&&ws[cellAddr].v){
+      ws[cellAddr].t='n';
+      ws[cellAddr].z='DD/MM/YYYY';
+    }
+  }
 }
 function exportExcel(){
   if(!filteredData.length)return;
-  const ws=XLSX.utils.aoa_to_sheet([HDRS,...buildRows(filteredData)]);
-  ws['!cols']=[4,8,8,14,14,30,8,8,32,28,14,22,14,14,22,10,10,14,14,12,12,10,12,10,10,14,28].map(w=>({wch:w}));
+  // Sheet 1: Challans
+  const activeCols=getActiveColumns(filteredData);
+  const ws=XLSX.utils.aoa_to_sheet([activeCols.map(c=>c.hdr),...buildRows(filteredData)]);
+  applyDateFormat(ws,activeCols);
+  const colWidths={'#':4,'status':8,'itns':8,'pan':14,'name':30,'ay':10,'fy':8,'major':32,'minor':28,'sectionRef':28,'natureOfPayment':14,'cin':22,'tenderDate':14,'bank':22,'bsr':10,'challanNo':10,'bankRef':16,'mode':14,'tax':14,'surcharge':12,'cess':10,'interest':12,'penalty':10,'others':10,'total':14,'file':28};
+  ws['!cols']=activeCols.map(c=>({wch:colWidths[c.key]||12}));
   const rng=XLSX.utils.decode_range(ws['!ref']);
   for(let c=rng.s.c;c<=rng.e.c;c++){const cell=XLSX.utils.encode_cell({r:0,c});if(ws[cell])ws[cell].s={font:{bold:true},fill:{fgColor:{rgb:'8C9A1A'}},alignment:{horizontal:'center'}};}
   const wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,ws,'Challans');
+
+  // Sheet 2: Code-wise Breakup (281 challans with section rows)
+  const bkHdrs=['Challan No.','CIN','TAN','Name','Tax Year / AY','Tender / Deposit Date','Description','Section','Code','Tax (₹)','Surcharge (₹)','Cess (₹)','Total (₹)','File Name'];
+  const bkRows=[];
+  filteredData.forEach(r=>{
+    if(r.sectionRows&&r.sectionRows.length>0){
+      r.sectionRows.forEach(s=>{
+        bkRows.push([r.challanNo,r.cin,r.tan,r.name,r.ty?'TY '+r.ty:'AY '+r.ay,r.tenderDate,s.desc||'',s.section||'',s.code,s.tax,s.surcharge,s.cess,s.total,r.file]);
+      });
+    }
+  });
+  if(bkRows.length>0){
+    const ws3=XLSX.utils.aoa_to_sheet([bkHdrs,...bkRows]);
+    ws3['!cols']=[10,22,12,30,10,14,40,12,8,12,12,10,12,28].map(w=>({wch:w}));
+    const rng3=XLSX.utils.decode_range(ws3['!ref']);
+    for(let c=rng3.s.c;c<=rng3.e.c;c++){const cell=XLSX.utils.encode_cell({r:0,c});if(ws3[cell])ws3[cell].s={font:{bold:true},fill:{fgColor:{rgb:'15803d'}},alignment:{horizontal:'center'}};}
+    XLSX.utils.book_append_sheet(wb,ws3,'Code Breakup');
+  }
+
+  // Sheet 3: Summary
   const tot=filteredData.reduce((s,r)=>s+r.total,0);
   const t280=filteredData.filter(r=>r.itns==='280').reduce((s,r)=>s+r.total,0);
   const t281=filteredData.filter(r=>r.itns==='281').reduce((s,r)=>s+r.total,0);
@@ -1152,10 +1330,25 @@ function exportExcel(){
 }
 function exportCSV(){
   if(!filteredData.length)return;
-  const csv=[HDRS,...buildRows(filteredData)].map(r=>r.map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`).join(',')).join('\n');
+  const activeCols=getActiveColumns(filteredData);
+  const csv=[activeCols.map(c=>c.hdr),...buildRows(filteredData)].map(r=>r.map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`).join(',')).join('\n');
   const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([csv],{type:'text/csv'})),download:`Challans_${new Date().toISOString().slice(0,10)}.csv`});
   a.click();
 }
+
+// ── Keyboard Shortcuts ─────────────────────────────────────────
+document.addEventListener('keydown',function(e){
+  if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){
+    e.preventDefault();
+    const btn=document.getElementById('parseBtn');
+    if(btn&&!btn.disabled)parseAll();
+  }
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='e'){
+    e.preventDefault();
+    const btn=document.getElementById('exportBtn');
+    if(btn&&!btn.disabled)exportExcel();
+  }
+});
 </script>
 <script src="/wa-init.js"></script>
 </body>
