@@ -53,8 +53,10 @@ function get(t, pat) {
 function parseChallan(text, filename) {
   const t = text.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
 
-  // Preserve trailing N (e.g. "280N", "281N") as a distinct ITNS type
-  const itns = get(t, /ITNS\s*No\.?\s*[:\-\s]\s*(\d+N?)/i) || '280';
+  // Preserve trailing N (e.g. "280N", "281N") as a distinct ITNS type.
+  // Collapse optional space ("280 N" → "280N") before storing.
+  const itnsRaw = get(t, /ITNS\s*No\.?\s*[:\-\s]\s*(\d+\s*N?)/i) || '280';
+  const itns = itnsRaw.replace(/\s+/g, '').toUpperCase();
   const is281 = itns === '281' || itns === '281N';
 
   const pan = get(t, /PAN\s*[:\-]\s*([A-Z]{5}[0-9]{4}[A-Z])/i);
