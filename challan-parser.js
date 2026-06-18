@@ -103,10 +103,12 @@ function parseChallan(text, filename) {
   const bank     = between(t, 'Bank\\s*Name', 'Bank\\s*Reference');
   const bankRef  = get(t, /Bank\s*Reference\s*Number\s*[:\-]\s*([A-Z0-9]+)/i);
 
-  const tenderDate =
-    get(t, /Tender\s*Date\s*[:\-]\s*(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4})/i) ||
+  const dod =
     get(t, /Date\s*of\s*Deposit\s*:?\s*(\d{1,2}[-\s\/][A-Za-z]{3}[-\s\/]\d{4})/i) ||
     get(t, /Date\s*of\s*Deposit\s*:?\s*(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4})/i);
+
+  const tenderDate =
+    get(t, /Tender\s*Date\s*[:\-]\s*(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4})/i) || dod;
 
   const bsr       = get(t, /BSR\s*code?\s*[:\-]\s*(\d{7})/i);
   const challanNo = get(t, /Challan\s*No\.?\s*[:\-]\s*(\d+)/i);
@@ -132,7 +134,7 @@ function parseChallan(text, filename) {
     ok, itns, pan, tan, name, ay, fy, ty,
     major, minor, natureOfPayment, sectionRef, sectionRows,
     cin, mode, bank, bankRef,
-    tenderDate, bsr, challanNo,
+    dod, tenderDate, bsr, challanNo,
     tax, surcharge, cess, interest, penalty, others, total,
     file: filename,
   };
