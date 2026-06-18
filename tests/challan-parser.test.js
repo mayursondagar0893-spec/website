@@ -178,6 +178,28 @@ const FEE_UNDER_SECTION = `
   Total (A+B+C+D+E+F) 53,200
 `;
 
+// ITNS 280N — new challan format (N must NOT be stripped)
+const ITNS280N_TEXT = `
+  ITNS No. : 280N
+  PAN : ABCDE1234F
+  Name : TEST 280N TAXPAYER
+  Tax Year : 2026-27
+  BSR Code : 1234567
+  A Tax 50,000
+  Total (A+B+C+D+E+F) 50,000
+`;
+
+// ITNS 281N — new TDS challan format
+const ITNS281N_TEXT = `
+  ITNS No. : 281N
+  TAN : MUMS12345A
+  Name : TESTCO PVT LTD
+  Tax Year : 2026-27
+  BSR Code : 3456789
+  A Tax 10,000
+  Total (A+B+C+D+E+F) 10,000
+`;
+
 // Default ITNS when the ITNS line is missing (should default to "280")
 const NO_ITNS_LINE = `
   PAN : ABCDE1234F
@@ -424,6 +446,20 @@ describe('parseChallan() — edge cases', () => {
   it('defaults ITNS to "280" when the ITNS line is absent', () => {
     const r = parseChallan(NO_ITNS_LINE, 'no-itns.pdf');
     expect(r.itns).toBe('280');
+  });
+
+  it('preserves ITNS "280N" as-is (not stripped to "280")', () => {
+    const r = parseChallan(ITNS280N_TEXT, 'itns280n.pdf');
+    expect(r.itns).toBe('280N');
+    expect(r.ok).toBe(true);  // PAN + BSR present
+    expect(r.pan).toBe('ABCDE1234F');
+  });
+
+  it('preserves ITNS "281N" as-is and treats it as TAN-based (is281)', () => {
+    const r = parseChallan(ITNS281N_TEXT, 'itns281n.pdf');
+    expect(r.itns).toBe('281N');
+    expect(r.ok).toBe(true);  // TAN + BSR present
+    expect(r.tan).toBe('MUMS12345A');
   });
 
   it('falls back to summing components when total label is absent', () => {
