@@ -396,16 +396,24 @@
 
   /* ══════════════ CHIPS ══════════════ */
   .chip { display: inline-block; padding: 2px 10px; border-radius: 50px; font-size: 10px; font-weight: 700; letter-spacing: .03em; }
-  .chip-280 { background: var(--olive-pale); color: var(--olive-deep); }
-  .chip-281 { background: #dcfce7; color: #15803d; }
-  .chip-282 { background: #fef3c7; color: #b45309; }
-  .chip-283 { background: #fce7f3; color: #be185d; }
-  .chip-ok { background: #dcfce7; color: #15803d; }
+  .chip-280  { background: var(--olive-pale); color: var(--olive-deep); }
+  .chip-280N { background: #cffafe; color: #0e7490; }
+  .chip-281  { background: #dcfce7; color: #15803d; }
+  .chip-281N { background: #bbf7d0; color: #065f46; }
+  .chip-282  { background: #fef3c7; color: #b45309; }
+  .chip-282N { background: #fde68a; color: #92400e; }
+  .chip-283  { background: #fce7f3; color: #be185d; }
+  .chip-283N { background: #fbcfe8; color: #9d174d; }
+  .chip-ok  { background: #dcfce7; color: #15803d; }
   .chip-err { background: #fee2e2; color: #dc2626; }
-  [data-theme="dark"] .chip-280 { background: var(--olive-deep); color: var(--olive-pale); }
-  [data-theme="dark"] .chip-281 { background: #0e2410; color: #7edd7a; }
-  [data-theme="dark"] .chip-282 { background: #2a1a00; color: #d4a800; }
-  [data-theme="dark"] .chip-283 { background: #2a0a1a; color: #f0a0c0; }
+  [data-theme="dark"] .chip-280  { background: var(--olive-deep); color: var(--olive-pale); }
+  [data-theme="dark"] .chip-280N { background: #0c2030; color: #7dd3fc; }
+  [data-theme="dark"] .chip-281  { background: #0e2410; color: #7edd7a; }
+  [data-theme="dark"] .chip-281N { background: #052010; color: #6ee7b7; }
+  [data-theme="dark"] .chip-282  { background: #2a1a00; color: #d4a800; }
+  [data-theme="dark"] .chip-282N { background: #2a1000; color: #fbbf24; }
+  [data-theme="dark"] .chip-283  { background: #2a0a1a; color: #f0a0c0; }
+  [data-theme="dark"] .chip-283N { background: #200818; color: #f9a8d4; }
   [data-theme="dark"] .chip-ok  { background: #0e2410; color: #7edd7a; }
   [data-theme="dark"] .chip-err { background: #3d1010; color: #ff8a7a; }
   .amt { font-weight: 700; color: var(--olive); font-variant-numeric: tabular-nums; }
@@ -557,7 +565,7 @@ kbd{display:inline-block;background:var(--olive-pale);border:1px solid var(--gla
     <div class="section-tag">Tool</div>
     <h1 class="page-title">Income Tax / TDS / TCS <span class="accent">Challan PDF to Excel</span></h1>
     <div class="divider"></div>
-    <p class="page-sub">Upload ITNS 280 / 280N / 281 / 282 / 283 challan PDFs — extracted 100% locally, no server upload. Supports new <strong>Tax Year</strong> format (AY 2026-27 onwards).</p>
+    <p class="page-sub">Upload ITNS 280 / 280N / 281 / 282 / 283 challan PDFs — extracted 100% locally, no server upload. Supports FY 2025-26 (AY 2026-27) &amp; FY 2026-27 (<strong>Tax Year</strong> 2026-27).</p>
   </div>
 </div>
 
@@ -591,6 +599,7 @@ kbd{display:inline-block;background:var(--olive-pale);border:1px solid var(--gla
           <div class="htu-num">5</div>
           <div class="htu-text"><strong>ITNS Types at a Glance</strong><br>
             <span class="chip chip-280">280</span> Income Tax (Self-Assessment, Advance Tax) &nbsp;
+            <span class="chip chip-280N">280N</span> Income Tax – New Challan &nbsp;
             <span class="chip chip-281">281</span> TDS / TCS &nbsp;
             <span class="chip chip-282">282</span> Securities Transaction Tax &nbsp;
             <span class="chip chip-283">283</span> Fringe Benefits Tax<br>
@@ -681,9 +690,13 @@ kbd{display:inline-block;background:var(--olive-pale);border:1px solid var(--gla
       <select id="filterITNS" onchange="applyFilters()">
         <option value="">All Types</option>
         <option value="280">280 — Income Tax</option>
+        <option value="280N">280N — Income Tax (New)</option>
         <option value="281">281 — TDS/TCS</option>
+        <option value="281N">281N — TDS/TCS (New)</option>
         <option value="282">282</option>
+        <option value="282N">282N</option>
         <option value="283">283</option>
+        <option value="283N">283N</option>
       </select>
     </div>
     <div class="filter-group">
@@ -1314,15 +1327,17 @@ function exportExcel(){
 
   // Sheet 3: Summary
   const tot=filteredData.reduce((s,r)=>s+r.total,0);
-  const t280=filteredData.filter(r=>r.itns==='280').reduce((s,r)=>s+r.total,0);
-  const t281=filteredData.filter(r=>r.itns==='281').reduce((s,r)=>s+r.total,0);
+  const t280 =filteredData.filter(r=>r.itns==='280').reduce((s,r)=>s+r.total,0);
+  const t280N=filteredData.filter(r=>r.itns==='280N').reduce((s,r)=>s+r.total,0);
+  const t281 =filteredData.filter(r=>r.itns==='281'||r.itns==='281N').reduce((s,r)=>s+r.total,0);
   const ws2=XLSX.utils.aoa_to_sheet([
     ['Challan Summary Report'],['Generated on',new Date().toLocaleDateString('en-IN')],
     ['Filter Applied',filteredData.length<parsedData.length?'Yes':'No'],[''],
     ['Metric','Value'],['Total (Filtered)',filteredData.length],
     ['Parsed OK',filteredData.filter(r=>r.ok).length],['Needs Review',filteredData.filter(r=>!r.ok).length],[''],
-    ['ITNS 280 (Income Tax)',t280.toLocaleString('en-IN')],['ITNS 281 (TDS/TCS)',t281.toLocaleString('en-IN')],
-    ['Others',(tot-t280-t281).toLocaleString('en-IN')],['GRAND TOTAL',tot.toLocaleString('en-IN')],
+    ['ITNS 280 (Income Tax)',t280.toLocaleString('en-IN')],['ITNS 280N (Income Tax – New)',t280N.toLocaleString('en-IN')],
+    ['ITNS 281/281N (TDS/TCS)',t281.toLocaleString('en-IN')],
+    ['Others',(tot-t280-t280N-t281).toLocaleString('en-IN')],['GRAND TOTAL',tot.toLocaleString('en-IN')],
   ]);
   ws2['!cols']=[{wch:32},{wch:20}];
   XLSX.utils.book_append_sheet(wb,ws2,'Summary');

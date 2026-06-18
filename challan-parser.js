@@ -1,15 +1,18 @@
 /**
- * challan-parser.js  v1-1
- * Pure parsing functions for Income Tax challan PDFs (ITNS 280/280N/281/282/283).
+ * challan-parser.js  v1-2
+ * Pure parsing functions for Income Tax challan PDFs (ITNS 280/280N/281/281N/282/283).
  * Shared between INCOME-TAX-CHALLAN-TO-EXCEL.html (browser globals)
  * and the Vitest unit test suite (CommonJS/ESM import).
  *
+ * v1-2 changes:
+ *   1. ITNS "280N" / "281N" etc. preserved as-is (no longer stripped to "280")
+ *   2. is281 covers both "281" and "281N"
+ *
  * v1-1 changes:
- *   1. ITNS "280N" normalised → "280"
- *   2. New "Tax Year" field (AY 2026-27 onwards) mapped to ay, fy, ty
- *   3. `name` regex extended to also anchor on "Tax Year"
- *   4. sectionRows: per-code breakdown for ITNS 281 challans
- *   5. sectionRef: section string for single-code TDS challans
+ *   1. New "Tax Year" field (AY 2026-27 onwards) mapped to ay, fy, ty
+ *   2. `name` regex extended to also anchor on "Tax Year"
+ *   3. sectionRows: per-code breakdown for ITNS 281 challans
+ *   4. sectionRef: section string for single-code TDS challans
  *
  * All functions are side-effect-free and depend only on their arguments.
  */
@@ -50,10 +53,9 @@ function get(t, pat) {
 function parseChallan(text, filename) {
   const t = text.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
 
-  // Fix 1: handle "280N" → strip trailing N, normalise to "280"
-  const itnsRaw = get(t, /ITNS\s*No\.?\s*[:\-\s]\s*(\d+N?)/i) || '280';
-  const itns = itnsRaw.replace(/N$/i, '');
-  const is281 = itns === '281';
+  // Preserve trailing N (e.g. "280N", "281N") as a distinct ITNS type
+  const itns = get(t, /ITNS\s*No\.?\s*[:\-\s]\s*(\d+N?)/i) || '280';
+  const is281 = itns === '281' || itns === '281N';
 
   const pan = get(t, /PAN\s*[:\-]\s*([A-Z]{5}[0-9]{4}[A-Z])/i);
   const tan = get(t, /TAN\s*[:\-]\s*([A-Z]{4}[0-9]{5}[A-Z])/i);
