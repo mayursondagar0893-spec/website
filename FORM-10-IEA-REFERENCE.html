@@ -108,8 +108,12 @@ body{font-family:var(--font);background:var(--surface);color:var(--text);min-hei
 .hero-title span{color:#e8f5a0;}
 .hero-sub{font-size:12px;color:rgba(255,255,255,.90);margin-top:6px;font-weight:500;line-height:1.5;letter-spacing:.01em;}
 .hero-right{display:flex;gap:8px;align-items:center;flex-shrink:0;}
-.dark-btn{background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.28);color:#fff;border-radius:20px;padding:7px 16px;font-size:12px;cursor:pointer;font-family:var(--font);font-weight:700;transition:.2s;white-space:nowrap;letter-spacing:.01em;}
-.dark-btn:hover{background:rgba(0,0,0,.35);border-color:rgba(255,255,255,.45);}
+.dark-btn{width:42px;height:24px;border-radius:50px;background:#e8edbb;border:1.5px solid rgba(140,154,26,.22);cursor:pointer;position:relative;transition:background .3s;flex-shrink:0;}
+.dark-btn::after{content:'☀️';position:absolute;left:2px;top:50%;transform:translateY(-50%);font-size:.7rem;width:18px;height:18px;border-radius:50%;background:#8c9a1a;display:flex;align-items:center;justify-content:center;transition:left .3s,background .3s;}
+[data-theme="dark"] .dark-btn{background:#2e3410;border-color:rgba(140,154,26,.3);}
+[data-theme="dark"] .dark-btn::after{content:'🌙';left:18px;background:#b5c422;}
+.print-pdf-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(0,0,0,.25);border:1.5px solid rgba(255,255,255,.3);border-radius:8px;padding:5px 13px;font-family:var(--font);font-size:12px;font-weight:700;color:#fff;cursor:pointer;transition:.15s;flex-shrink:0;white-space:nowrap;}
+.print-pdf-btn:hover{background:rgba(0,0,0,.4);}
 
 /* Stats row in hero */
 .hero-stats{display:flex;gap:0;border-top:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.18);}
@@ -590,7 +594,10 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
 ══════════════════════════════════════════════════════════ */
 .footer{max-width:1480px;margin:8px auto 0;padding:0 20px 24px;}
 .footer-bar{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:13px 22px;font-size:11px;color:var(--sub);text-align:center;}
-.footer-bar a{color:var(--sky);text-decoration:none;font-weight:700;}
+.footer-bar a{color:#8c9a1a;text-decoration:none;font-weight:700;}
+.footer-socials{display:flex;gap:8px;justify-content:center;margin-top:10px;}
+.social-btn{width:32px;height:32px;background:rgba(140,154,26,.15);border:1px solid rgba(140,154,26,.35);border-radius:8px;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:background .2s;}
+.social-btn:hover{background:#8c9a1a;color:#fff;}
 
 /* ══════════════════════════════════════════════════════════
    RESPONSIVE
@@ -621,7 +628,7 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
   .brand-txt{font-size:9px;letter-spacing:1.5px;}
   .hero-title{font-size:15px;letter-spacing:-.2px;}
   .hero-sub{font-size:10.5px;margin-top:3px;line-height:1.4;}
-  .dark-btn{padding:5px 11px;font-size:11px;}
+  .dark-btn{width:36px;height:20px;}
   /* HIDE stats bar completely on mobile — frees ~60px */
   .hero-stats{display:none;}
   /* Compact tab rail */
@@ -673,7 +680,7 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
 /* ── PRINT ── */
 @media print{
   .hero{position:static;box-shadow:none;background:linear-gradient(135deg,#6b760f,#8c9a1a) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  .dark-btn,#print-btn,.tab-rail-wrap,.filter-grp,.search-wrap,.row-count,.restart-btn{display:none!important;}
+  .dark-btn,.print-pdf-btn,#print-btn,.tab-rail-wrap,.filter-grp,.search-wrap,.row-count,.restart-btn{display:none!important;}
   .main{padding:0;}
   .card-body{box-shadow:none;border:none;}
   .tab-pane{display:block!important;}
@@ -681,6 +688,45 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
   table{font-size:9px;}
   td,th{padding:4px 5px;}
   body{background:#fff;}
+  /* Force light theme for printing — reset all dark mode overrides */
+  [data-theme="dark"] body{
+    --surface:#f5f6f8;--card:#ffffff;--line:#e4e8f0;
+    --text:#1a2035;--sub:#64748b;--ink:#3d4408;--ink2:#4e570f;
+    --jade-lt:#f0fdf4;--jade-bd:#86efac;--jade:#16a34a;
+    --rose-lt:#fff1f2;--rose-bd:#fca5a5;--rose:#dc2626;
+    --amber-lt:#fffbeb;--amber-bd:#fcd34d;--amber:#d97706;
+    --sky-lt:#f0f3d8;--sky-bd:#b5c422;--sky:#8c9a1a;
+    --brand:#8c9a1a;--brand-dk:#6b760f;--brand-lt:#f0f3d8;--brand-bd:#b5c422;
+  }
+  [data-theme="dark"] .card-body{background:#fff;border-color:#e4e8f0;}
+  [data-theme="dark"] .wiz-outer{background:#f5f6f8;}
+  [data-theme="dark"] .lane{background:#fff;}
+  [data-theme="dark"] .result-card{background:#fff;border-color:#e4e8f0;}
+  [data-theme="dark"] .note-card,[data-theme="dark"] .howto-card{background:#fff;border-color:#e4e8f0;}
+  [data-theme="dark"] .result-footer{background:#f5f6f8;}
+  [data-theme="dark"] .result-note{color:#1a2035;}
+  [data-theme="dark"] .fy-col{background:#fff;}
+  [data-theme="dark"] .fy-col.fy-col-skipped{background:#f5f6f8;}
+  [data-theme="dark"] .tbl-wrap{border-color:#b8c890;}
+  [data-theme="dark"] .thead-fy{background:#4e5614;}
+  [data-theme="dark"] .thead-fy .th-num,[data-theme="dark"] th.th-num{background:#4e5614;color:#d4e04a;}
+  [data-theme="dark"] .thead-cols{background:linear-gradient(to bottom,#6b760f,#8c9a1a);}
+  [data-theme="dark"] .thead-cols th{color:#fff;}
+  [data-theme="dark"] tbody tr{border-top-color:#ddeab8;}
+  [data-theme="dark"] td{border-right-color:#e0eabb;}
+  [data-theme="dark"] td:first-child{background:#fff!important;color:#64748b;}
+  [data-theme="dark"] tbody tr.rg-new{background:rgba(240,253,244,.6);}
+  [data-theme="dark"] tbody tr.rg-old{background:rgba(255,241,242,.5);}
+  [data-theme="dark"] tbody tr.rg-cant{background:rgba(254,226,226,.6);}
+  [data-theme="dark"] .b-no{background:#f1f5f9;border-color:#e2e8f0;color:#64748b;}
+  [data-theme="dark"] .b-yes{background:#fffbeb;border-color:#fcd34d;color:#d97706;}
+  [data-theme="dark"] .b-cant{background:#fef2f2;border-color:#fca5a5;color:#7f1d1d;}
+  [data-theme="dark"] .rt-new{background:#f0fdf4;border-color:#86efac;color:#16a34a;}
+  [data-theme="dark"] .rt-old{background:#fff1f2;border-color:#fca5a5;color:#dc2626;}
+  [data-theme="dark"] .rt-12{background:#f0f3d8;border-color:#b5c422;color:#8c9a1a;}
+  [data-theme="dark"] .rt-34{background:#fffbeb;border-color:#fcd34d;color:#d97706;}
+  [data-theme="dark"] .opt-btn{background:#fff;border-color:#e4e8f0;color:#1a2035;}
+  [data-theme="dark"] .gate-btn{background:#fff;border-color:#e4e8f0;color:#3d4408;}
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -751,6 +797,21 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
 [data-theme="dark"] .site-footer{border-top-color:rgba(181,196,34,.18)}
 [data-theme="dark"] .site-footer-copy,[data-theme="dark"] .site-footer-copy a,[data-theme="dark"] .site-footer-links a{color:#94a3b8}
 [data-theme="dark"] .site-footer-links a:hover{color:#c6d63a}
+/* ══ UNIFIED SITE FOOTER ══ */
+.sft{background:#3d4408;color:rgba(232,237,187,.8);padding:28px 20px 22px;text-align:center;margin-top:0;}
+[data-theme="dark"] .sft,body.dark .sft{background:#111405;}
+.sft-logo-box{display:inline-block;background:#8c9a1a;color:#fff;font-family:'Playfair Display',serif;font-weight:900;font-size:.78rem;line-height:1.2;padding:.38rem .72rem;border-radius:7px;margin-bottom:.45rem;box-shadow:0 2px 8px rgba(0,0,0,.25);text-decoration:none;}
+.sft-logo-box sup{font-size:.44em;vertical-align:super;}
+.sft-copy{font-size:11px;color:rgba(232,237,187,.65);margin-bottom:14px;}
+.sft-copy a{color:rgba(232,237,187,.75);text-decoration:none;}
+.sft-copy a:hover{color:#fff;}
+.sft-links{display:flex;flex-wrap:wrap;gap:4px 12px;justify-content:center;margin-bottom:16px;}
+.sft-links a{font-size:11px;color:rgba(232,237,187,.65);text-decoration:none;transition:color .15s;}
+.sft-links a:hover{color:#d4db80;}
+.sft-links span{color:rgba(232,237,187,.3);font-size:9px;}
+.sft-socials{display:flex;gap:9px;justify-content:center;}
+.sft-socials a{width:34px;height:34px;background:rgba(140,154,26,.2);border:1px solid rgba(140,154,26,.35);border-radius:9px;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:background .2s,transform .15s;color:#e8edbb;}
+.sft-socials a:hover{background:#8c9a1a;transform:translateY(-2px);}
 </style>
 </head>
 <body>
@@ -770,6 +831,7 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
     <a href="/Compliance_Calendar_FY2627.html"    class="site-topnav-btn tool">📋 Calendar</a>
     <a href="/INCOME-TAX-CHALLAN-TO-EXCEL.html"  class="site-topnav-btn tool">🧾 Challan Parser</a>
     <a href="/FORM-10-IEA-REFERENCE.html"         class="site-topnav-btn tool current">📝 Form 10-IEA</a>
+    <a href="/INCOME-TAX-CALCULATOR-FY2526-FY2627.html" class="site-topnav-btn tool">🧮 IT Calculator</a>
   </div>
 </nav>
 
@@ -788,8 +850,8 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
         <div class="hero-sub hero-sub-mob" style="display:none">S. 115BAC · Rule 21AGA · 64 Scenarios</div>
       </div>
       <div class="hero-right">
-        <button class="dark-btn" id="dkbtn" onclick="toggleDark()">☾ Dark Mode</button>
-        <button class="dark-btn" onclick="window.print()" title="Print or Save as PDF" id="print-btn">🖨 Print / PDF</button>
+        <button class="dark-btn" id="dkbtn" onclick="toggleDark()" role="switch" aria-checked="false" aria-label="Toggle dark mode" title="Toggle dark mode"></button>
+        <button class="print-pdf-btn" onclick="window.print()" title="Print or Save as PDF" id="print-btn">🖨 Print / PDF</button>
       </div>
       <script>
         (function(){
@@ -797,7 +859,7 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
           if(t === 'dark'){
             document.body.classList.add('dark');
             var btn = document.getElementById('dkbtn');
-            if(btn) btn.textContent = '☀ Light Mode';
+            if(btn) btn.setAttribute('aria-checked', 'true');
           }
         })();
       </script>
@@ -1172,26 +1234,27 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
 
 </div><!-- /main -->
 
-<div class="footer">
-  <div class="footer-bar">
-    <strong>© 2026 CA Mayur J Sondagar · TaxationUpdates.com</strong>
-    &nbsp;·&nbsp; 64 Scenarios · S. 115BAC · Rule 21AGA · Finance Act 2025
-    &nbsp;·&nbsp;
-    <a href="/">Home</a>
-    &nbsp;·&nbsp;
-    <a href="/TDS-SECTION-CODE.html">TDS Codes</a>
-    &nbsp;·&nbsp;
-    <a href="/CA-Prompt-Library.html">CA Prompts</a>
-    &nbsp;·&nbsp;
-    <a href="/Compliance_Calendar_FY2627.html">Compliance Calendar</a>
-    &nbsp;·&nbsp;
-    <a href="/INCOME-TAX-CHALLAN-TO-EXCEL.html">Challan Parser</a>
-    &nbsp;·&nbsp;
-    <a href="/disclaimer.html">Disclaimer</a>
-    &nbsp;·&nbsp;
+<footer class="sft">
+  <a href="/" class="sft-logo-box">Taxation<sup>®</sup><br/>Updates</a>
+  <div class="sft-copy">© 2026 CA Mayur J Sondagar · All rights reserved · <a href="/">taxationupdates.com</a></div>
+  <nav class="sft-links" aria-label="Site navigation">
+    <a href="/">Home</a><span>·</span>
+    <a href="/TDS-SECTION-CODE.html">TDS Codes</a><span>·</span>
+    <a href="/CA-Prompt-Library.html">CA Prompts</a><span>·</span>
+    <a href="/Compliance_Calendar_FY2627.html">Compliance Calendar</a><span>·</span>
+    <a href="/INCOME-TAX-CHALLAN-TO-EXCEL.html">Challan Parser</a><span>·</span>
+    <a href="/FORM-10-IEA-REFERENCE.html">Form 10-IEA</a><span>·</span>
+    <a href="/INCOME-TAX-CALCULATOR-FY2526-FY2627.html">IT Calculator</a><span>·</span>
+    <a href="/disclaimer.html">Disclaimer</a><span>·</span>
     <a href="/privacy-policy.html">Privacy Policy</a>
+  </nav>
+  <div class="sft-socials">
+    <a class="social-btn-x" href="https://twitter.com/TaxationUpdates" target="_blank" rel="noopener noreferrer" title="Twitter / X"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    <a class="social-btn-li" href="https://www.linkedin.com/in/taxation-updates-ca-mayur-j-sondagar-936772219" target="_blank" rel="noopener noreferrer" title="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.062 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+    <a class="wa-link social-btn-wa" href="#" target="_blank" title="WhatsApp"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></a>
   </div>
-</div>
+</footer>
+<script src="/wa-init.js" defer></script>
 
 <script>
 // ═══ DATA — 64 rows ═══
@@ -1565,7 +1628,7 @@ function toggleDark(){
   var d=document.body.classList.toggle("dark");
   document.documentElement.setAttribute('data-theme', d ? 'dark' : 'light');
   localStorage.setItem('theme', d ? 'dark' : 'light');
-  document.getElementById("dkbtn").textContent=d?"☀ Light Mode":"☾ Dark Mode";
+  document.getElementById("dkbtn").setAttribute('aria-checked', d ? 'true' : 'false');
 }
 
 // legacy shim
@@ -1810,18 +1873,5 @@ function fallbackCopy(text, btn, showToast){
     window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js'); });
   }
 </script>
-<footer class="site-footer">
-  <div class="site-footer-copy">© 2026 CA Mayur J Sondagar · <a href="/">taxationupdates.com</a></div>
-  <nav class="site-footer-links" aria-label="Site tools">
-    <a href="/">Home</a>
-    <a href="/TDS-SECTION-CODE.html">TDS Codes</a>
-    <a href="/CA-Prompt-Library.html">CA Prompts</a>
-    <a href="/Compliance_Calendar_FY2627.html">Compliance Calendar</a>
-    <a href="/INCOME-TAX-CHALLAN-TO-EXCEL.html">Challan Parser</a>
-    <a href="/FORM-10-IEA-REFERENCE.html">Form 10-IEA</a>
-    <a href="/disclaimer.html">Disclaimer</a>
-    <a href="/privacy-policy.html">Privacy Policy</a>
-  </nav>
-</footer>
 </body>
 </html>
