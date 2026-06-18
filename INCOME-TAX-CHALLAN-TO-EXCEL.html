@@ -944,12 +944,24 @@ async function parseAll(){
 
 // ── Dropdown population ───────────────────────────────────────
 function populateDropdowns(){
-  const aySet=[...new Set(parsedData.map(r=>r.ay).filter(Boolean))].sort();
+  // Build labelled AY/TY entries: "AY:2026-27" or "TY:2026-27"
+  const yearKeys=new Set();
+  parsedData.forEach(r=>{
+    if(r.ty) yearKeys.add('TY:'+r.ty);
+    else if(r.ay) yearKeys.add('AY:'+r.ay);
+  });
+  const yearArr=[...yearKeys].sort();
   const panSet=[...new Set(parsedData.map(r=>r.pan).filter(Boolean))].sort();
   const tanSet=[...new Set(parsedData.map(r=>r.tan).filter(Boolean))].sort();
   const ayEl=document.getElementById('filterAY');
-  ayEl.innerHTML='<option value="">All AYs</option>';
-  aySet.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;ayEl.appendChild(o);});
+  ayEl.innerHTML='<option value="">All Years</option>';
+  yearArr.forEach(v=>{
+    const [prefix,yr]=v.split(':');
+    const o=document.createElement('option');
+    o.value=v;
+    o.textContent=prefix+' '+yr;
+    ayEl.appendChild(o);
+  });
   const panEl=document.getElementById('filterPAN');
   panEl.innerHTML='<option value="">All PANs</option>';
   panSet.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;panEl.appendChild(o);});
@@ -962,13 +974,17 @@ function populateDropdowns(){
 function applyFilters(){
   const search=document.getElementById('searchInput').value.trim().toLowerCase();
   const itns=document.getElementById('filterITNS').value;
-  const ay=document.getElementById('filterAY').value;
+  const ayVal=document.getElementById('filterAY').value;
   const pan=document.getElementById('filterPAN').value;
   const tan=document.getElementById('filterTAN').value;
   const status=document.getElementById('filterStatus').value;
   filteredData=parsedData.filter(r=>{
     if(itns&&r.itns!==itns)return false;
-    if(ay&&r.ay!==ay)return false;
+    if(ayVal){
+      const [prefix,yr]=ayVal.split(':');
+      if(prefix==='TY'){if(r.ty!==yr)return false;}
+      else{if(r.ay!==yr||r.ty)return false;}
+    }
     if(pan&&r.pan!==pan)return false;
     if(tan&&r.tan!==tan)return false;
     if(status==='ok'&&!r.ok)return false;
