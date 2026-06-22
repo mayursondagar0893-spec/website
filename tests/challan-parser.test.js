@@ -347,8 +347,7 @@ describe('parseChallan() — ITNS 280', () => {
     it('extracts BSR code', () => expect(r.bsr).toBe('0000612'));
     it('extracts challan number', () => expect(r.challanNo).toBe('00042'));
     it('extracts bank reference number', () => expect(r.bankRef).toBe('SBIN0987654321'));
-    it('extracts date of deposit (Mon-DD-YYYY format)', () => expect(r.dod).toBe('15-Mar-2024'));
-    it('extracts tender date', () => expect(r.tenderDate).toBe('15/03/2024'));
+    it('extracts date (tender date takes priority)', () => expect(r.tenderDate).toBe('15/03/2024'));
     it('stores the filename', () => expect(r.file).toBe('itns280-bsr.pdf'));
 
     it('parses tax amount', () => expect(r.tax).toBe(50000));
@@ -372,7 +371,7 @@ describe('parseChallan() — ITNS 280', () => {
       expect(r.cess).toBe(3360);
       expect(r.total).toBe(115360);
     });
-    it('extracts date in DD/MM/YYYY format', () => expect(r.dod).toBe('01/04/2025'));
+    it('extracts date in DD/MM/YYYY format', () => expect(r.tenderDate).toBe('01/04/2025'));
   });
 
   describe('validity checks', () => {
@@ -479,14 +478,14 @@ describe('parseChallan() — edge cases', () => {
     expect(r.total).toBe(11395000);     // 1,13,95,000
   });
 
-  it('parses date in DD-Mon-YYYY format', () => {
+  it('parses Date of Deposit in DD-Mon-YYYY format', () => {
     const r = parseChallan(DATE_HYPHEN_FORMAT, 'date-hyphen.pdf');
-    expect(r.dod).toBe('31-Mar-2025');
+    expect(r.tenderDate).toBe('31-Mar-2025');
   });
 
-  it('parses date in DD/MM/YYYY format', () => {
+  it('parses Date of Deposit in DD/MM/YYYY format', () => {
     const r = parseChallan(DATE_SLASH_FORMAT, 'date-slash.pdf');
-    expect(r.dod).toBe('31/03/2025');
+    expect(r.tenderDate).toBe('31/03/2025');
   });
 
   it('handles multiline text (newlines flattened before parsing)', () => {
@@ -512,7 +511,7 @@ describe('parseChallan() — edge cases', () => {
     const expectedKeys = [
       'ok','itns','pan','tan','name','ay','fy',
       'major','minor','natureOfPayment','cin','mode','bank','bankRef',
-      'dod','bsr','challanNo','tenderDate',
+      'tenderDate','bsr','challanNo',
       'tax','surcharge','cess','interest','penalty','others','total','file',
     ];
     const r = parseChallan(EMPTY_TEXT, 'test.pdf');
