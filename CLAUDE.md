@@ -26,7 +26,18 @@ npm run test:watch
 npx vitest run tests/challan-parser.test.js
 ```
 
-Tests use **Vitest ^2.1.0 + jsdom ^25.0.0**. Two test files (`wa-init.test.js`, `dark-mode.test.js`) run in the jsdom environment; the rest run in Node. After editing any shared JS file (`challan-parser.js`, `contact-form.js`, `prompt-filter.js`, `wa-init.js`, `sw.js`) run `npm test` before committing.
+### Test suite (6 files)
+
+| File | Environment | What it tests |
+|---|---|---|
+| `tests/challan-parser.test.js` | Node | `clean`, `parseAmount`, `between`, `get`, `parseChallan` from `challan-parser.js` |
+| `tests/contact-form.test.js` | Node | `validateForm`, `buildWAMessage`, `buildWAUrl` from `contact-form.js` |
+| `tests/prompt-filter.test.js` | Node | `filterAndSort`, `toggleBookmark` from `prompt-filter.js` |
+| `tests/sw.test.js` | Node | `CACHE_NAME` format, `PRECACHE_URLS` contents, fetch routing logic from `sw.js` |
+| `tests/wa-init.test.js` | **jsdom** | WhatsApp link click handler, Base64 encoding in `wa-init.js` |
+| `tests/dark-mode.test.js` | **jsdom** | `localStorage` persistence and theme toggle logic |
+
+After editing any shared JS file (`challan-parser.js`, `contact-form.js`, `prompt-filter.js`, `wa-init.js`, `sw.js`) run `npm test` before committing.
 
 ---
 
@@ -35,13 +46,13 @@ Tests use **Vitest ^2.1.0 + jsdom ^25.0.0**. Two test files (`wa-init.test.js`, 
 ### File layout pattern
 Each HTML tool is fully self-contained: its CSS lives in `<style>` tags and its JS lives in `<script>` tags inside that file. The only shared external files are:
 
-| File | Purpose |
-|---|---|
-| `brand-icons.css` | Social icon brand colours — linked by every page at `/brand-icons.css` |
-| `wa-init.js` | Initialises `.wa-link` click handlers with a Base64-encoded WhatsApp number |
-| `challan-parser.js` | PDF challan parsing (ITNS 280/281/282/283) — used by the challan tool and unit tests |
-| `contact-form.js` | Contact form validation + WhatsApp URL builders — used by `index.html` and tests |
-| `prompt-filter.js` | Filter/sort/bookmark helpers for the prompt library — used by `CA-Prompt-Library.html` and tests |
+| File | Purpose | Also precached? |
+|---|---|---|
+| `brand-icons.css` | Social icon brand colours — linked by every page at `/brand-icons.css` | No |
+| `wa-init.js` | Initialises `.wa-link` click handlers with a Base64-encoded WhatsApp number | No |
+| `challan-parser.js` | PDF challan parsing (ITNS 280/280N/281/281N/282/283) — used by the challan tool and unit tests | **Yes** — listed in `PRECACHE_URLS` |
+| `contact-form.js` | Contact form validation + WhatsApp URL builders — used by `index.html` and tests | No |
+| `prompt-filter.js` | Filter/sort/bookmark helpers for the prompt library — used by `CA-Prompt-Library.html` and tests | No |
 
 ### Dual-module pattern (critical)
 The three `*.js` files above (`challan-parser.js`, `contact-form.js`, `prompt-filter.js`) end with:
@@ -55,13 +66,51 @@ In the browser they are loaded as `<script>` tags and their functions become glo
 ### Dark mode
 Every page persists and restores theme via `localStorage.getItem/setItem('theme', ...)` and toggles `document.documentElement.setAttribute('data-theme', 'light'|'dark')`. The key **must** stay `'theme'` — live users depend on it.
 
+Placement is flexible — the theme init can appear either:
+- Inline at the top of `<head>` (minified, avoids flash-of-wrong-theme), **or**
+- In a `<script>` block before `</body>` (original pattern)
+
+Both are valid as long as the `localStorage` key is `'theme'` and the attribute is `data-theme`.
+
 ### PWA / Service Worker
 `sw.js` pre-caches tool pages for offline use. Current `CACHE_NAME`: **`taxationupdates-v8`**.  
 Strategy: network-first for HTML, cache-first for everything else (same-origin only).  
 Bump the version number whenever you add/rename a cached file. The script `add-tool.sh` does this automatically.
 
+Current `PRECACHE_URLS` (as of `taxationupdates-v8`):
+```
+/                                       /index.html
+/TDS-SECTION-CODE.html                  /CA-Prompt-Library.html
+/INCOME-TAX-CHALLAN-TO-EXCEL.html       /about.html
+/contact.html                           /disclaimer.html
+/privacy-policy.html                    /icons/icon-192.png
+/icons/icon-512.png                     /manifest.json
+/challan-parser.js                      /Compliance_Calendar_FY2627.html
+/FORM-10-IEA-REFERENCE.html             /INCOME-TAX-CALCULATOR-FY2526-FY2627.html
+```
+
 ### Phone number security
 The WhatsApp number is Base64-encoded in `wa-init.js` (`atob('...')`). Never expose the decoded number in plaintext anywhere in the repo.
+
+---
+
+## Current Tool Inventory
+
+| File | Title |
+|---|---|
+| `index.html` | CA Mayur Sondagar – Taxation Updates (homepage) |
+| `about.html` | About |
+| `contact.html` | Contact |
+| `disclaimer.html` | Disclaimer |
+| `privacy-policy.html` | Privacy Policy |
+| `TDS-SECTION-CODE.html` | TDS Section Code Reference |
+| `CA-Prompt-Library.html` | CA Prompt Library |
+| `INCOME-TAX-CHALLAN-TO-EXCEL.html` | Income Tax Challan to Excel |
+| `Compliance_Calendar_FY2627.html` | Compliance Calendar FY 2026-27 |
+| `FORM-10-IEA-REFERENCE.html` | Form 10-IEA Reference |
+| `INCOME-TAX-CALCULATOR-FY2526-FY2627.html` | Income Tax Calculator FY 2025-26 & FY 2026-27 |
+
+When a new tool is added via `add-tool.sh`, update this table.
 
 ---
 
@@ -96,6 +145,8 @@ When the user says "add this tool" / "integrate this" / pastes HTML:
    ./add-tool.sh FILENAME.html "Tool Name" "One-line description" "emoji"
    ```
    Fix any `❌` items the script reports, then confirm the 4 files updated: `FILENAME.html`, `sw.js`, `sitemap.xml`, `index.html`.
+
+5. **Update the tool inventory table** in this file.
 
 ### Required `<head>` template
 ```html
@@ -139,7 +190,7 @@ When the user says "add this tool" / "integrate this" / pastes HTML:
 </head>
 ```
 
-### Required dark mode JS (before `</body>`)
+### Required dark mode JS (before `</body>` — or inline at top of `<head>` to avoid FOUC)
 ```html
 <script>
   (function() {
@@ -154,6 +205,25 @@ When the user says "add this tool" / "integrate this" / pastes HTML:
   });
 </script>
 ```
+
+### Optional: Schema.org structured data
+Newer tools include a `WebApplication` JSON-LD block for richer search results:
+```html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "TOOL TITLE",
+  "url": "https://taxationupdates.com/FILENAME.html",
+  "description": "TOOL DESCRIPTION",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+  "author": { "@type": "Person", "@id": "https://taxationupdates.com/#person", "name": "CA Mayur J Sondagar" }
+}
+</script>
+```
+This is optional but recommended for tools. `index.html` uses `Person` + `WebSite` types.
 
 ---
 
