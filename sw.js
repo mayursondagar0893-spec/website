@@ -25,54 +25,74 @@ const PRECACHE_URLS = [
   '/INCOME-TAX-CALCULATOR-FY2526-FY2627.html',
 ];
 
-// Install: pre-cache all listed URLs
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(PRECACHE_URLS))
-  );
-  self.skipWaiting();
-});
+// Pure routing helpers — also exported for unit testing (see module.exports below)
 
-// Activate: delete old caches
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-    )
-  );
-  self.clients.claim();
-});
+function isHtmlRequest(acceptHeader) {
+  return (acceptHeader || '').includes('text/html');
+}
 
-// Fetch: Network-first for HTML, Cache-first for everything else
-self.addEventListener('fetch', event => {
-  const { request } = event;
-  const url = new URL(request.url);
-
-  // Only handle same-origin requests
-  if (url.origin !== location.origin) return;
-
-  if (request.headers.get('accept')?.includes('text/html')) {
-    // Network-first for HTML pages — always try to get fresh content
-    event.respondWith(
-      fetch(request)
-        .then(response => {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
-          return response;
-        })
-        .catch(() => caches.match(request))
-    );
-  } else {
-    // Cache-first for assets (fonts, images, scripts)
-    event.respondWith(
-      caches.match(request).then(cached => {
-        if (cached) return cached;
-        return fetch(request).then(response => {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
-          return response;
-        });
-      })
-    );
+function isSameOrigin(requestUrl, swOrigin) {
+  try {
+    return new URL(requestUrl).origin === swOrigin;
+  } catch {
+    return false;
   }
-});
+}
+
+// Register Service Worker event listeners only in a SW/browser context
+if (typeof self !== 'undefined') {
+  // Install: pre-cache all listed URLs
+  self.addEventListener('install', event => {
+    event.waitUntil(
+      caches.open(CACHE_NAME).then(cache => cache.addAll(PRECACHE_URLS))
+    );
+    self.skipWaiting();
+  });
+
+  // Activate: delete old caches
+  self.addEventListener('activate', event => {
+    event.waitUntil(
+      caches.keys().then(keys =>
+        Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+      )
+    );
+    self.clients.claim();
+  });
+
+  // Fetch: Network-first for HTML, Cache-first for everything else
+  self.addEventListener('fetch', event => {
+    const { request } = event;
+
+    // Only handle same-origin requests
+    if (!isSameOrigin(request.url, location.origin)) return;
+
+    if (isHtmlRequest(request.headers.get('accept'))) {
+      // Network-first for HTML pages — always try to get fresh content
+      event.respondWith(
+        fetch(request)
+          .then(response => {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
+            return response;
+          })
+          .catch(() => caches.match(request))
+      );
+    } else {
+      // Cache-first for assets (fonts, images, scripts)
+      event.respondWith(
+        caches.match(request).then(cached => {
+          if (cached) return cached;
+          return fetch(request).then(response => {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
+            return response;
+          });
+        })
+      );
+    }
+  });
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { CACHE_NAME, PRECACHE_URLS, isHtmlRequest, isSameOrigin };
+}

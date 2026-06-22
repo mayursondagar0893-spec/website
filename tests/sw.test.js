@@ -1,55 +1,17 @@
 /**
  * Tests for sw.js — Service Worker
  *
- * Because Service Workers run in a specialised global scope (not Node or
- * browser), we test the configuration constants by parsing the source file
- * directly and test the fetch-routing logic as pure functions extracted from
- * the SW implementation.
+ * CACHE_NAME, PRECACHE_URLS, and the routing helpers (isHtmlRequest,
+ * isSameOrigin) are imported directly from sw.js via CommonJS require so
+ * that any change to the real implementation is immediately caught here.
+ * The event listeners in sw.js are guarded by `typeof self !== 'undefined'`
+ * and therefore do not execute in this Node test environment.
  */
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import fs from 'fs';
-import { fileURLToPath } from 'url';
-import path from 'path';
+import { describe, it, expect } from 'vitest';
+import { createRequire } from 'module';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const SW_SRC = fs.readFileSync(path.resolve(__dirname, '../sw.js'), 'utf8');
-
-// ─── Parse constants from source ─────────────────────────────────────────────
-
-function extractCacheName(src) {
-  const m = src.match(/const CACHE_NAME\s*=\s*'([^']+)'/);
-  return m ? m[1] : null;
-}
-
-function extractPrecacheUrls(src) {
-  const m = src.match(/const PRECACHE_URLS\s*=\s*\[([\s\S]*?)\]/);
-  if (!m) return [];
-  return m[1]
-    .split('\n')
-    .map(line => line.trim().replace(/^'|',?$/g, ''))
-    .filter(Boolean);
-}
-
-const CACHE_NAME    = extractCacheName(SW_SRC);
-const PRECACHE_URLS = extractPrecacheUrls(SW_SRC);
-
-// ─── Fetch-routing logic (pure — extracted from sw.js) ───────────────────────
-//
-// These functions mirror the conditional inside the 'fetch' event handler.
-// Testing them as pure functions lets us verify routing decisions without
-// needing a real Service Worker environment.
-
-function isHtmlRequest(acceptHeader) {
-  return (acceptHeader || '').includes('text/html');
-}
-
-function isSameOrigin(requestUrl, swOrigin) {
-  try {
-    return new URL(requestUrl).origin === swOrigin;
-  } catch {
-    return false;
-  }
-}
+const require = createRequire(import.meta.url);
+const { CACHE_NAME, PRECACHE_URLS, isHtmlRequest, isSameOrigin } = require('../sw.js');
 
 // ─── Tests ───────────────────────────────────────────────────────────────────
 
@@ -83,6 +45,8 @@ describe('PRECACHE_URLS — required pages', () => {
     '/disclaimer.html',
     '/privacy-policy.html',
     '/Compliance_Calendar_FY2627.html',
+    '/FORM-10-IEA-REFERENCE.html',
+    '/INCOME-TAX-CALCULATOR-FY2526-FY2627.html',
   ];
 
   REQUIRED.forEach(url => {

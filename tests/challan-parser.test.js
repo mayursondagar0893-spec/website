@@ -200,6 +200,36 @@ const ITNS281N_TEXT = `
   Total (A+B+C+D+E+F) 10,000
 `;
 
+// ITNS 281N with a single section row — tests sectionRows, sectionRef, and
+// natureOfPayment derivation when the "Nature of Payment" label is absent.
+// Row format: <rowNum> <desc> 393(1)[Table: Sl. No. <slot>] - <code> <tax> <surcharge> <cess> <total>
+const ITNS281N_SINGLE_SECTION = `
+  ITNS No. : 281N
+  TAN : MUMS12345A
+  Name : TESTCO PVT LTD
+  Tax Year : 2026-27
+  BSR Code : 3456789
+  A Tax 50,000
+  Total (A+B+C+D+E+F) 50,000
+  S. No Description Tax Surcharge Cess Total
+  1 Payment to contractor 393(1)[Table: Sl. No. A8] - 1003 50,000 0 0 50,000
+`;
+
+// ITNS 281N with two distinct section rows — sectionRef must be empty and
+// natureOfPayment must join both codes.
+const ITNS281N_MULTI_SECTION = `
+  ITNS No. : 281N
+  TAN : MUMS12345A
+  Name : TESTCO PVT LTD
+  Tax Year : 2026-27
+  BSR Code : 3456789
+  A Tax 80,000
+  Total (A+B+C+D+E+F) 80,000
+  S. No Description Tax Surcharge Cess Total
+  1 Payment to contractor 393(1)[Table: Sl. No. A8] - 1003 50,000 0 0 50,000
+  2 Payment of salary 393(1)[Table: Sl. No. A1] - 1001 30,000 0 0 30,000
+`;
+
 // Default ITNS when the ITNS line is missing (should default to "280")
 const NO_ITNS_LINE = `
   PAN : ABCDE1234F
@@ -357,6 +387,11 @@ describe('parseChallan() — ITNS 280', () => {
     it('parses penalty as 0', () => expect(r.penalty).toBe(0));
     it('parses others as 0', () => expect(r.others).toBe(0));
     it('parses total from explicit label', () => expect(r.total).toBe(52000));
+
+    it('extracts major head', () => expect(r.major).toBe('0021 - Income Tax (Other than Companies)'));
+    it('extracts minor head', () => expect(r.minor).toBe('300 - Self Assessment Tax'));
+    it('extracts mode of payment', () => expect(r.mode).toBe('Net Banking'));
+    it('extracts bank name', () => expect(r.bank).toBe('State Bank of India'));
   });
 
   describe('with CIN', () => {
@@ -454,11 +489,25 @@ describe('parseChallan() — edge cases', () => {
     expect(r.pan).toBe('ABCDE1234F');
   });
 
+  it('extracts Tax Year into ty with fallback to ay and fy when no Assessment Year line exists (280N)', () => {
+    const r = parseChallan(ITNS280N_TEXT, 'itns280n.pdf');
+    expect(r.ty).toBe('2026-27');
+    expect(r.ay).toBe('2026-27');
+    expect(r.fy).toBe('2026-27');
+  });
+
   it('preserves ITNS "281N" as-is and treats it as TAN-based (is281)', () => {
     const r = parseChallan(ITNS281N_TEXT, 'itns281n.pdf');
     expect(r.itns).toBe('281N');
     expect(r.ok).toBe(true);  // TAN + BSR present
     expect(r.tan).toBe('MUMS12345A');
+  });
+
+  it('extracts Tax Year into ty with fallback to ay and fy when no Assessment Year line exists (281N)', () => {
+    const r = parseChallan(ITNS281N_TEXT, 'itns281n.pdf');
+    expect(r.ty).toBe('2026-27');
+    expect(r.ay).toBe('2026-27');
+    expect(r.fy).toBe('2026-27');
   });
 
   it('falls back to summing components when total label is absent', () => {
@@ -509,8 +558,8 @@ describe('parseChallan() — edge cases', () => {
 
   it('returns all expected keys on every result', () => {
     const expectedKeys = [
-      'ok','itns','pan','tan','name','ay','fy',
-      'major','minor','natureOfPayment','cin','mode','bank','bankRef',
+      'ok','itns','pan','tan','name','ay','fy','ty',
+      'major','minor','natureOfPayment','sectionRef','sectionRows','cin','mode','bank','bankRef',
       'tenderDate','bsr','challanNo',
       'tax','surcharge','cess','interest','penalty','others','total','file',
     ];
@@ -541,5 +590,62 @@ describe('parseChallan() — total calculation precedence', () => {
     const r = parseChallan(text, 'rounding.pdf');
     // Explicit total (10501) should take precedence over sum (10500)
     expect(r.total).toBe(10501);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// parseChallan() — sectionRows / sectionRef (ITNS 281N per-section breakdown)
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('parseChallan() — sectionRows (ITNS 281N per-section breakdown)', () => {
+  describe('single-section challan', () => {
+    let r;
+    beforeEach(() => { r = parseChallan(ITNS281N_SINGLE_SECTION, 'itns281n-single.pdf'); });
+
+    it('populates sectionRows with one entry', () => expect(r.sectionRows).toHaveLength(1));
+    it('captures the description', () => expect(r.sectionRows[0].desc).toBe('Payment to contractor'));
+    it('captures the section reference string', () => expect(r.sectionRows[0].section).toBe('393(1)[Table: Sl. No. A8]'));
+    it('captures the TDS code', () => expect(r.sectionRows[0].code).toBe('1003'));
+    it('captures row-level amounts', () => {
+      expect(r.sectionRows[0].tax).toBe(50000);
+      expect(r.sectionRows[0].surcharge).toBe(0);
+      expect(r.sectionRows[0].cess).toBe(0);
+      expect(r.sectionRows[0].total).toBe(50000);
+    });
+    it('sets sectionRef to the single section string', () => {
+      expect(r.sectionRef).toBe('393(1)[Table: Sl. No. A8]');
+    });
+    it('derives natureOfPayment from the TDS code when no Nature of Payment label exists', () => {
+      expect(r.natureOfPayment).toBe('1003');
+    });
+  });
+
+  describe('multi-section challan', () => {
+    let r;
+    beforeEach(() => { r = parseChallan(ITNS281N_MULTI_SECTION, 'itns281n-multi.pdf'); });
+
+    it('populates sectionRows with all section entries', () => expect(r.sectionRows).toHaveLength(2));
+    it('leaves sectionRef empty when there are multiple sections', () => {
+      expect(r.sectionRef).toBe('');
+    });
+    it('joins multiple TDS codes in natureOfPayment', () => {
+      expect(r.natureOfPayment).toBe('1003, 1001');
+    });
+    it('each row carries its own amounts', () => {
+      expect(r.sectionRows[0].tax).toBe(50000);
+      expect(r.sectionRows[1].tax).toBe(30000);
+    });
+  });
+
+  describe('empty challan (no section table)', () => {
+    it('returns an empty sectionRows array when no section table is present', () => {
+      const r = parseChallan(ITNS281N_TEXT, 'itns281n-no-table.pdf');
+      expect(r.sectionRows).toHaveLength(0);
+    });
+
+    it('returns an empty sectionRef when no section table is present', () => {
+      const r = parseChallan(ITNS281N_TEXT, 'itns281n-no-table.pdf');
+      expect(r.sectionRef).toBe('');
+    });
   });
 });
