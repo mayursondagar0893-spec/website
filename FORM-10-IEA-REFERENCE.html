@@ -139,6 +139,210 @@ body{font-family:var(--font);background:var(--surface);color:var(--text);min-hei
 
 .tab-pane{display:none;}
 .tab-pane.on{display:block;}
+/* ═══ SUB-TABS (Smart Finder) ═══ */
+.sub-rail{display:flex;gap:6px;padding:4px;background:var(--line);border-radius:12px;margin-bottom:20px;flex-wrap:wrap;}
+.inner-rail{display:flex;gap:4px;padding:3px;background:var(--surface);border:1.5px solid var(--brand-bd);border-radius:10px;margin-bottom:18px;flex-wrap:wrap;}
+.inner-btn{flex:1;min-width:120px;display:flex;align-items:center;justify-content:center;gap:6px;padding:7px 14px;border:none;background:transparent;border-radius:7px;font-family:var(--font);font-size:12.5px;font-weight:700;cursor:pointer;color:var(--sub);transition:.18s;white-space:nowrap;}
+.inner-btn.on{background:var(--brand);color:#fff;box-shadow:0 2px 8px rgba(107,118,15,.25);}
+.inner-btn:hover:not(.on){color:var(--brand-dk);background:var(--brand-lt);}
+.inner-pane{display:none;}.inner-pane.on{display:block;animation:fbIn .2s;}
+@media(max-width:480px){.inner-rail{flex-direction:column;}.inner-btn{justify-content:flex-start;}}
+.sub-btn{flex:1;min-width:130px;display:flex;align-items:center;justify-content:center;gap:8px;padding:9px 12px;border:none;background:transparent;border-radius:9px;font-family:var(--font);cursor:pointer;color:var(--sub);transition:.18s;}
+.sub-ico{font-size:17px;flex-shrink:0;}
+.sub-txt{display:flex;flex-direction:column;line-height:1.2;text-align:left;}
+.sub-txt b{font-size:12px;font-weight:800;}
+.sub-txt i{font-size:9.5px;font-weight:600;font-style:normal;opacity:.75;}
+.sub-btn.on .sub-txt i{opacity:.92;}
+@media(max-width:560px){.sub-rail{flex-direction:column;}.sub-btn{justify-content:flex-start;}}
+.fb-greet{font-size:13.5px;line-height:1.7;padding:14px 0 12px;margin-bottom:8px;color:var(--text);border-bottom:1px dashed var(--line);}
+.fb-toggle{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:4px 0 14px;}
+.fb-toggle-lbl{font-size:12px;font-weight:700;color:var(--sub);}
+.fb-tg{border:1.5px solid var(--line);background:var(--surface);color:var(--sub);border-radius:20px;padding:5px 13px;font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;transition:.15s;}
+.fb-tg:hover{border-color:var(--brand-bd);color:var(--ink);}
+.fb-tg.on{background:var(--brand);border-color:var(--brand);color:#fff;}
+.fb-paths{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:640px){.fb-paths{grid-template-columns:1fr;}}
+.fb-path{border:1.5px solid var(--line);border-radius:var(--r);padding:14px 16px;background:var(--surface);transition:opacity .2s;}
+.fb-path-old{border-top:3px solid var(--amber);}
+.fb-path-new{border-top:3px solid var(--jade);}
+.fb-path-hd{font-size:13px;font-weight:800;margin-bottom:7px;color:var(--ink);}
+.fb-path-bd{font-size:13px;line-height:1.7;color:var(--text);}
+.fb-path-bd strong{color:var(--ink);}
+.fb-paths.show-old .fb-path-new,.fb-paths.show-new .fb-path-old{opacity:.32;}
+.fb-single{border:1.5px solid var(--rose-bd);background:var(--rose-lt);border-radius:var(--r);padding:16px 18px;font-size:13.5px;line-height:1.8;color:var(--text);}
+.fb-single strong{color:var(--ink);}
+.fb-pathnote{margin-top:12px;font-size:12px;line-height:1.6;color:var(--sub);background:var(--surface);border-radius:10px;padding:11px 13px;border-left:3px solid var(--amber-bd);}
+.sub-btn.on{background:var(--card);color:var(--brand-dk);box-shadow:var(--sh);}
+.sub-btn:hover:not(.on){color:var(--text);}
+.sub-pane{display:none;}.sub-pane.on{display:block;animation:fbIn .25s;}
+
+/* ═══ MULTI-ASSESSEE TAB ═══ */
+.ma-banner{display:flex;align-items:flex-start;gap:14px;background:var(--brand-lt);border:1.5px solid var(--brand-bd);border-radius:var(--r);padding:18px 20px;margin-bottom:16px;}
+.ma-banner-ico{font-size:28px;flex-shrink:0;margin-top:2px;}
+.ma-banner-title{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:3px;}
+.ma-banner-sub{font-size:12.5px;color:var(--sub);line-height:1.6;}
+.ma-drop-zone{border:2.5px dashed var(--brand-bd);border-radius:var(--r);background:var(--brand-lt);padding:32px 24px;text-align:center;cursor:pointer;transition:.18s;position:relative;}
+.ma-drop-zone:hover,.ma-drop-zone.drag-over{border-color:var(--brand);background:var(--sky-lt);}
+.ma-drop-ico{font-size:36px;margin-bottom:8px;}
+.ma-drop-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+.ma-drop-sub{font-size:12px;color:var(--sub);}
+.ma-drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.ma-counter{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap;}
+.ma-badge{background:var(--brand);color:#fff;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700;}
+.ma-badge.warn{background:var(--amber);}
+.ma-badge.err{background:var(--rose);}
+.ma-prog-wrap{margin-top:14px;display:none;}
+.ma-prog-bar{width:100%;height:6px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:6px;}
+.ma-prog-fill{height:100%;background:var(--brand);border-radius:4px;transition:width .2s;}
+.ma-prog-lbl{font-size:11px;color:var(--sub);}
+.ma-section-hd{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--sub);margin:20px 0 10px;display:block;}
+.ma-tbl-wrap{overflow-x:auto;overflow-y:auto;max-height:calc(100vh - 220px);-webkit-overflow-scrolling:touch;border:1.5px solid var(--line);border-radius:var(--r2);background:var(--card);position:relative;padding-right:2px;}
+.ma-tbl{width:100%;border-collapse:collapse;font-size:12.5px;min-width:1060px;}
+.ma-tbl th{background:var(--brand-lt);color:var(--ink);font-weight:700;font-size:11px;letter-spacing:.2px;text-transform:uppercase;padding:8px 10px;text-align:center;white-space:normal;line-height:1.35;border-bottom:2px solid var(--brand-bd);position:sticky;top:0;z-index:10;box-shadow:0 2px 4px rgba(0,0,0,.08);}
+.ma-tbl th:nth-child(1),.ma-tbl td:nth-child(1){position:sticky;left:0;z-index:3;background:var(--card);}
+.ma-tbl th:nth-child(1){background:var(--brand-lt);z-index:4;}
+.ma-tbl th:nth-child(2),.ma-tbl td:nth-child(2){position:sticky;left:28px;z-index:3;background:var(--card);box-shadow:2px 0 4px rgba(0,0,0,.06);}
+.ma-tbl th:nth-child(2){background:var(--brand-lt);z-index:4;}
+[data-theme="dark"] .ma-tbl td:nth-child(1),[data-theme="dark"] .ma-tbl td:nth-child(2){background:var(--card);}
+[data-theme="dark"] .ma-tbl th:nth-child(1),[data-theme="dark"] .ma-tbl th:nth-child(2){background:var(--brand-lt);}
+.ma-form-sel.changed{border-color:var(--amber);background:var(--amber-lt);color:var(--amber);font-weight:700;}
+.ma-form-sel.ma-reg-locked{border-color:var(--rose-bd);background:var(--rose-lt);color:var(--rose);font-weight:700;}
+.ma-search-wrap{display:flex;align-items:center;gap:8px;margin-bottom:12px;background:var(--card);border:1.5px solid var(--brand-bd);border-radius:10px;padding:8px 12px;position:relative;}
+.ma-search-ico{font-size:15px;flex-shrink:0;opacity:.7;}
+.ma-search-input{flex:1;border:none;outline:none;background:transparent;font-family:var(--font);font-size:13.5px;color:var(--text);min-width:0;}
+.ma-search-input::placeholder{color:var(--sub);}
+.ma-search-clear{flex-shrink:0;border:none;background:var(--line);color:var(--sub);width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:12px;line-height:1;display:flex;align-items:center;justify-content:center;}
+.ma-search-clear:hover{background:var(--rose-lt);color:var(--rose);}
+.ma-search-count{flex-shrink:0;font-size:11.5px;color:var(--brand-dk);font-weight:700;white-space:nowrap;}
+[data-theme="dark"] .ma-search-wrap{background:var(--surface);}
+.ma-row-hidden{display:none !important;}
+.ma-paths{display:flex;flex-direction:column;gap:6px;}
+.ma-path{font-size:11px;line-height:1.45;padding:6px 8px;border-radius:7px;white-space:normal;border:1px solid transparent;}
+.ma-path-lbl{display:inline-block;font-weight:800;font-size:9.5px;letter-spacing:.4px;padding:1px 6px;border-radius:4px;margin-right:5px;vertical-align:middle;}
+.ma-path-old{background:var(--amber-lt);border-color:var(--amber-bd);color:var(--ink);}
+.ma-path-old .ma-path-lbl{background:var(--amber);color:#fff;}
+.ma-path-new{background:var(--jade-lt);border-color:var(--jade-bd);color:var(--ink);}
+.ma-path-new .ma-path-lbl{background:var(--jade);color:#fff;}
+.ma-path-locked{background:var(--rose-lt);border-color:var(--rose-bd);color:var(--rose);}
+.ma-path-locked .ma-path-lbl{background:var(--rose);color:#fff;}
+[data-theme="dark"] .ma-path-old,[data-theme="dark"] .ma-path-new{color:var(--text);}
+[data-theme="dark"] .ma-form-sel.changed{background:#2a1a00;border-color:var(--amber-bd);color:var(--amber);}
+.ma-tbl td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap;max-width:none;}
+.ma-tbl td:nth-child(2){white-space:normal;max-width:160px;min-width:140px;word-break:break-word;line-height:1.4;font-size:12px;}
+.ma-tbl td:last-child{white-space:normal;min-width:200px;max-width:220px;}
+.ma-tbl tbody tr:hover{background:var(--surface);}
+.ma-tbl td.miss{color:var(--sub);font-style:italic;font-size:11.5px;}
+.ma-form-sel{font-size:12px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--text);font-family:var(--font);min-width:72px;}
+.ma-skip-sel{font-size:12px;padding:4px 6px;border:1.5px solid var(--amber-bd);border-radius:6px;background:var(--amber-lt);color:var(--amber);font-family:var(--font);min-width:130px;}
+.ma-regime{font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:10px;display:inline-block;}
+.ma-regime.old{background:var(--amber-lt);color:var(--amber);border:1px solid var(--amber-bd);}
+.ma-regime.new{background:var(--jade-lt);color:var(--jade);border:1px solid var(--jade-bd);}
+.ma-regime.miss{background:var(--surface);color:var(--sub);border:1px solid var(--line);}
+.ma-verdict{font-size:11px;font-weight:700;padding:3px 9px;border-radius:12px;display:inline-block;white-space:normal;line-height:1.4;word-break:break-word;}
+.ma-verdict.old-active{background:var(--amber-lt);color:var(--amber);border:1px solid var(--amber-bd);}
+.ma-verdict.new-free{background:var(--jade-lt);color:var(--jade);border:1px solid var(--jade-bd);}
+.ma-verdict.locked{background:var(--cant-lt);color:var(--cant);border:1px solid var(--cant-bd);}
+.ma-verdict.nonbiz{background:var(--sky-lt);color:var(--brand-dk);border:1px solid var(--brand-bd);}
+.ma-verdict.warn{background:var(--amber-lt);color:var(--amber);border:1px solid var(--amber-bd);}
+.ma-warn-cell{font-size:11px;color:var(--amber);font-weight:600;white-space:normal;max-width:200px;min-width:120px;line-height:1.45;}
+.ma-row-num{font-size:11px;color:var(--sub);font-weight:600;width:28px;min-width:28px;max-width:28px;text-align:center;}
+.ma-btn-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;align-items:center;}
+.ma-btn{padding:9px 20px;border-radius:9px;font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:var(--font);transition:.18s;white-space:nowrap;}
+.ma-btn.primary{background:var(--brand);color:#fff;}.ma-btn.primary:hover{background:var(--brand-dk);}
+.ma-btn.primary:disabled{background:var(--line);color:var(--sub);cursor:not-allowed;}
+.ma-btn.outline{background:var(--card);color:var(--brand-dk);border:1.5px solid var(--brand-bd);}.ma-btn.outline:hover{background:var(--brand-lt);}
+.ma-btn.excel{background:#1d6f42;color:#fff;}.ma-btn.excel:hover{background:#155534;}
+.ma-privacy{font-size:11.5px;color:var(--sub);background:var(--jade-lt);border:1px solid var(--jade-bd);border-radius:8px;padding:8px 12px;margin-bottom:14px;display:flex;align-items:center;gap:6px;}
+.ma-err{background:var(--rose-lt);border:1.5px solid var(--rose-bd);border-radius:9px;padding:12px 16px;color:var(--rose);font-size:13px;margin-top:10px;}
+.ma-skip-box{margin-top:18px;border:1.5px solid var(--rose-bd);border-radius:var(--r2);overflow:hidden;}
+.ma-skip-box-hd{background:var(--rose-lt);padding:10px 14px;font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--rose);border-bottom:1px solid var(--rose-bd);display:flex;align-items:center;gap:8px;}
+.ma-skip-box-list{padding:10px 14px;}
+.ma-skip-item{display:flex;gap:10px;align-items:baseline;padding:5px 0;border-bottom:1px dashed var(--line);font-size:12px;line-height:1.45;}
+.ma-skip-item:last-child{border-bottom:none;}
+.ma-skip-fname{font-family:var(--mono);font-size:11px;color:var(--sub);flex-shrink:0;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ma-skip-reason{color:var(--rose);font-weight:600;}
+[data-theme="dark"] .ma-skip-box-hd{background:#2a0a0a;}
+[data-theme="dark"] .ma-tbl th{background:var(--brand-lt);}
+[data-theme="dark"] .inner-rail{background:var(--surface);border-color:var(--brand-bd);}
+[data-theme="dark"] .inner-btn:hover:not(.on){background:var(--brand-lt);color:var(--brand-dk);}
+[data-theme="dark"] .ma-drop-zone{background:var(--brand-lt);border-color:var(--brand-bd);}
+[data-theme="dark"] .ma-form-sel,[data-theme="dark"] .ma-skip-sel{background:var(--surface);color:var(--text);}
+@keyframes fbIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+.fb-banner{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,var(--brand),var(--brand-dk));border-radius:var(--r);padding:18px 20px;color:#fff;margin-bottom:20px;}
+.fb-banner-ico{font-size:30px;flex-shrink:0;}
+.fb-banner-title{font-size:17px;font-weight:800;}
+.fb-banner-sub{font-size:12px;opacity:.93;margin-top:3px;line-height:1.5;}
+.fb-privacy{display:flex;align-items:flex-start;gap:9px;background:var(--jade-lt);border:1.5px solid var(--jade-bd);border-radius:12px;padding:11px 14px;font-size:12.5px;line-height:1.55;color:var(--text);margin:0 0 16px;}
+.fb-privacy strong{color:var(--jade);}
+.fb-slots{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;}
+@media(max-width:640px){.fb-slots{grid-template-columns:1fr;}}
+.fb-slot{border:1.5px solid var(--line);border-radius:var(--r);padding:12px 14px;background:var(--surface);}
+.fb-slot.has{border-style:solid;border-color:var(--brand-bd);}
+.fb-slot-hd{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--sub);}
+.fb-slot-fy{font-size:15px;font-weight:800;color:var(--ink);margin:2px 0 12px;}
+.fb-drop{display:block;border:1.5px dashed var(--line);border-radius:10px;padding:16px 14px;text-align:center;cursor:pointer;color:var(--sub);font-size:12.5px;font-weight:600;transition:.15s;background:var(--bg);}
+.fb-drop:hover{border-color:var(--brand);color:var(--brand-dk);background:var(--brand-lt);}
+.fb-drop.fb-drag-over{border-color:var(--brand);background:var(--brand-lt);color:var(--brand-dk);box-shadow:0 0 0 3px var(--brand-lt);}
+.fb-drop:hover{border-color:var(--brand-bd);color:var(--brand-dk);background:var(--brand-lt);}
+.fb-drop input{display:none;}
+.fb-status{font-size:11.5px;margin-top:8px;font-weight:700;min-height:14px;}
+.fb-card{margin-top:12px;border-top:1px solid var(--line);padding-top:12px;display:none;}
+.fb-card.show{display:block;}
+.fb-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.fb-lbl{font-size:11px;font-weight:700;color:var(--sub);width:78px;flex-shrink:0;}
+.fb-ctl{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:8px;padding:6px 9px;font-family:var(--font);font-size:12.5px;font-weight:600;color:var(--text);background:var(--surface);}
+.fb-locked{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:8px;padding:6px 9px;font-family:var(--font);font-size:12.5px;font-weight:600;color:var(--sub);background:var(--bg);cursor:not-allowed;display:flex;align-items:center;justify-content:space-between;gap:4px;}
+.fb-lock-icon{font-size:11px;opacity:0.6;flex-shrink:0;}
+.fb-ack{font-size:10.5px;color:var(--sub);font-family:var(--mono);word-break:break-all;line-height:1.5;}
+.fb-flag{font-size:11px;color:var(--amber);font-weight:700;margin-top:2px;}
+.fb-intent{margin:0;padding:0;border:none;border-radius:0;background:transparent;}
+
+.fb-section{margin-bottom:16px;background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:0 1px 4px rgba(26,34,8,.04);}
+.fb-step{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:800;color:var(--brand-dk);margin:0 0 14px;}
+.fb-step-n{background:var(--brand);color:#fff;font-size:11px;font-weight:800;letter-spacing:.4px;padding:4px 11px;border-radius:20px;flex-shrink:0;white-space:nowrap;}
+.fb-intent .fb-lbl{width:auto;margin-bottom:8px;font-size:12px;color:var(--ink2);}
+.fb-analyse{display:block;width:100%;margin-top:0;background:linear-gradient(135deg,var(--brand-dk),var(--brand));color:#fff;border:none;border-radius:11px;padding:14px;font-family:var(--font);font-size:14px;font-weight:800;cursor:pointer;box-shadow:var(--sh);transition:.18s;}
+.fb-analyse.ready{animation:fbPulse 1.4s ease-in-out infinite;}
+@keyframes fbPulse{0%,100%{box-shadow:0 4px 12px rgba(140,154,26,.3);}50%{box-shadow:0 0 0 6px rgba(140,154,26,.18),0 7px 22px rgba(140,154,26,.55);}}
+.fb-analyse:hover{transform:translateY(-1px);}
+.fb-analyse:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.fb-err{margin-top:16px;padding:14px 16px;border-radius:var(--r);background:var(--rose-lt);border:1.5px solid var(--rose-bd);color:var(--rose);font-size:13px;font-weight:600;line-height:1.6;}
+.fb-verdict{margin-top:18px;border-radius:var(--r);border:1.5px solid var(--line);overflow:hidden;box-shadow:var(--sh);}
+.fb-vhd{padding:16px 20px;color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;gap:10px;line-height:1.3;}
+.fb-vbody{padding:6px 20px 18px;background:var(--card);font-size:13.5px;line-height:1.8;color:var(--text);}
+.fb-vbody strong{color:var(--ink);}
+.fb-vrow{padding:12px 0;border-bottom:1px dashed var(--line);}
+.fb-vrow:last-child{border-bottom:none;}
+.fb-vrow b{display:block;font-size:12px;letter-spacing:.4px;text-transform:uppercase;color:var(--sub);margin-bottom:3px;}
+.fb-meta{display:flex;flex-wrap:wrap;gap:8px;padding:14px 20px 0;background:var(--card);}
+.fb-chip{font-size:11px;font-weight:700;font-family:var(--mono);background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:3px 11px;color:var(--ink2);}
+.fb-note{margin:14px 20px 18px;font-size:11.5px;color:var(--sub);line-height:1.7;padding:12px 14px;background:var(--surface);border-radius:10px;border-left:3px solid var(--brand-bd);}
+.fb-v-old .fb-vhd{background:linear-gradient(135deg,#b45309,var(--amber));}
+.fb-v-new .fb-vhd{background:linear-gradient(135deg,#15803d,var(--jade));}
+.fb-v-lock .fb-vhd{background:linear-gradient(135deg,#7f1d1d,var(--rose));}
+.fb-v-review .fb-vhd{background:linear-gradient(135deg,#5b21b6,#7c3aed);}
+.fb-v-free .fb-vhd{background:linear-gradient(135deg,var(--brand-dk),var(--brand));}
+.fb-q{font-size:12.5px;font-weight:700;color:var(--ink);margin:8px 0 8px;}
+.fb-yn{display:flex;gap:8px;margin-bottom:10px;}
+.fb-yn-btn{flex:1;border:1.5px solid var(--line);background:var(--surface);color:var(--sub);border-radius:9px;padding:8px 6px;font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;transition:.15s;}
+.fb-yn-btn:hover{border-color:var(--brand-bd);color:var(--ink);}
+.fb-yn-btn.on{background:var(--brand);border-color:var(--brand);color:#fff;}
+.fb-up{display:none;}
+.fb-skip{display:none;font-size:11.5px;color:var(--sub);background:var(--surface);border-radius:9px;padding:9px 11px;line-height:1.5;}
+.fb-skip b{color:var(--amber);}
+.fb-modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px;}
+.fb-modal.on{display:flex;animation:fbIn .2s;}
+.fb-modal-box{background:var(--card);border-radius:var(--r);max-width:380px;width:100%;padding:22px;box-shadow:var(--sh2);}
+.fb-modal-ttl{font-size:15px;font-weight:800;color:var(--rose);margin-bottom:8px;}
+.fb-modal-msg{font-size:13px;line-height:1.6;color:var(--text);}
+.fb-modal-ok{margin-top:16px;width:100%;background:linear-gradient(135deg,var(--brand-dk),var(--brand));color:#fff;border:none;border-radius:10px;padding:11px;font-family:var(--font);font-size:13px;font-weight:800;cursor:pointer;}
+.fb-itabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px;}
+@media(max-width:480px){.fb-itabs{grid-template-columns:repeat(2,1fr);}}
+.fb-itab{border:1.5px solid var(--line);background:var(--surface);color:var(--ink2);border-radius:10px;padding:12px 6px;font-family:var(--font);font-size:13px;font-weight:800;cursor:pointer;transition:.15s;}
+.fb-itab:hover{border-color:var(--brand-bd);color:var(--brand-dk);}
+.fb-itab.on{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:var(--sh);}
+.fb-itab-hint{font-size:11px;color:var(--sub);margin-top:8px;line-height:1.5;}
+.fb-foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:14px 20px 18px;background:var(--card);border-top:1px solid var(--line);}
 
 /* ══════════════════════════════════════════════════════════
    MAIN WRAPPER + CARD
@@ -151,6 +355,7 @@ body{font-family:var(--font);background:var(--surface);color:var(--text);min-hei
    WIZARD — TAB 1  (viral redesign v6-5-0)
 ══════════════════════════════════════════════════════════ */
 .wiz-outer{background:linear-gradient(160deg,#f5f6f8 0%,#ffffff 50%,#f5f6f8 100%);min-height:100%;padding:32px 24px 40px;}
+[data-theme="dark"] .fb-section{background:var(--card);border-color:var(--line);}
 [data-theme="dark"] .wiz-outer{background:linear-gradient(160deg,#0d1117 0%,#0a0c02 60%,#0d1117 100%);}
 
 /* ── INTRO BANNER ── */
@@ -588,6 +793,15 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
 .hc-title{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:7px;}
 .hc-body{font-size:12.5px;color:var(--sub);line-height:1.6;}
 .hc-body strong{color:var(--text);}
+.ht-intro{display:flex;gap:16px;align-items:flex-start;background:var(--brand-lt);border:1.5px solid var(--brand-bd);border-radius:var(--r);padding:20px 22px;margin-bottom:22px;}
+.ht-intro-ico{font-size:30px;flex-shrink:0;line-height:1;}
+.ht-intro-title{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:5px;}
+.ht-intro-text{font-size:13px;color:var(--sub);line-height:1.65;}
+.ht-intro-text strong{color:var(--text);}
+.ht-sec-label{font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--brand-dk);margin:26px 0 12px;padding-bottom:7px;border-bottom:2px solid var(--brand-bd);}
+.ht-card-wide{grid-column:1/-1;}
+[data-theme="dark"] .ht-intro{background:var(--brand-lt);border-color:var(--brand-bd);}
+[data-theme="dark"] .ht-sec-label{color:var(--sky);border-color:var(--brand-bd);}
 
 /* ══════════════════════════════════════════════════════════
    FOOTER
@@ -699,7 +913,8 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
     --brand:#8c9a1a;--brand-dk:#6b760f;--brand-lt:#f0f3d8;--brand-bd:#b5c422;
   }
   [data-theme="dark"] .card-body{background:#fff;border-color:#e4e8f0;}
-  [data-theme="dark"] .wiz-outer{background:#f5f6f8;}
+  [data-theme="dark"] .fb-section{background:var(--card);border-color:var(--line);}
+[data-theme="dark"] .wiz-outer{background:#f5f6f8;}
   [data-theme="dark"] .lane{background:#fff;}
   [data-theme="dark"] .result-card{background:#fff;border-color:#e4e8f0;}
   [data-theme="dark"] .note-card,[data-theme="dark"] .howto-card{background:#fff;border-color:#e4e8f0;}
@@ -891,6 +1106,11 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
 <!-- ── TAB 1: WIZARD (viral flowchart v6-5-0) ── -->
 <div id="tab-wiz" class="tab-pane on">
 <div class="card-body">
+  <div class="sub-rail">
+    <button class="sub-btn on" id="sb-form" onclick="switchSub('form',this)"><span class="sub-ico">📄</span><span class="sub-txt"><b>ITR Form Upload Based</b><i>Form 10-IEA Applicability</i></span></button>
+    <button class="sub-btn" id="sb-sel" onclick="switchSub('selection',this)"><span class="sub-ico">🗳️</span><span class="sub-txt"><b>FAQs Answer Based</b><i>Form 10-IEA Applicability</i></span></button>
+  </div>
+  <div id="sub-selection" class="sub-pane">
   <div class="wiz-outer">
 
     <!-- Banner -->
@@ -1014,6 +1234,186 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
     </div><!-- /wiz-lanes -->
     <div id="result-wrap" style="display:none;margin-top:28px;"></div>
   </div>
+  </div><!--/sub-selection-->
+
+  <div id="sub-form" class="sub-pane on">
+  <!-- Level-2 inner rail -->
+  <div class="inner-rail">
+    <button class="inner-btn on" id="ib-single" onclick="switchInner('single',this)">👤 Single Assessee</button>
+    <button class="inner-btn" id="ib-multi" onclick="switchInner('multi',this)">👥 Multiple Assessee</button>
+  </div>
+  <div id="inner-single" class="inner-pane on">
+    <div class="fb-banner">
+      <div class="fb-banner-ico">📄</div>
+      <div>
+        <div class="fb-banner-title">Form Based Smart Finder</div>
+        <div class="fb-banner-sub">Upload the ITR Forms for FY 2023-24 (AY 2024-25) and/or FY 2024-25 (AY 2025-26). The tool gives your Form 10-IEA position for FY 2025-26 (AY 2026-27). Confirm every auto-read field before analysing.</div>
+      </div>
+    </div>
+
+    <div class="fb-privacy">🔒 <span><strong>100% Private.</strong> Your ITR PDF is read entirely on your device (in your browser) — nothing is uploaded to any server.</span></div>
+    <div class="fb-section">
+    <div class="fb-step"><span class="fb-step-n">Step 1</span> Upload your filed ITR Form(s) &amp; confirm the details</div>
+    <div class="fb-slots">
+      <div class="fb-slot" id="slotA">
+        <div class="fb-slot-hd">Year 1</div>
+        <div class="fb-slot-fy">FY 2023-24 (AY 2024-25)</div>
+        <div class="fb-q">Did you file an ITR for FY 2023-24 (AY 2024-25)?</div>
+        <div class="fb-yn">
+          <button type="button" class="fb-yn-btn" onclick="fbFiled('A',true,this)">Yes, filed</button>
+          <button type="button" class="fb-yn-btn" onclick="fbFiled('A',false,this)">No / Skipped</button>
+        </div>
+        <div class="fb-up" id="upA">
+          <label class="fb-drop">📎 Drag & drop or tap to upload ITR PDF or JSON
+            <input type="file" accept="application/pdf,application/json,.json" onchange="fbUpload(this,'A')">
+          </label>
+          <div class="fb-status" id="stA"></div>
+          <div class="fb-card" id="cardA"></div>
+        </div>
+        <div class="fb-skip" id="skipA">Marked <b>not filed</b> &mdash; this year is excluded from the analysis.</div>
+      </div>
+      <div class="fb-slot" id="slotB">
+        <div class="fb-slot-hd">Year 2</div>
+        <div class="fb-slot-fy">FY 2024-25 (AY 2025-26)</div>
+        <div class="fb-q">Did you file an ITR for FY 2024-25 (AY 2025-26)?</div>
+        <div class="fb-yn">
+          <button type="button" class="fb-yn-btn" onclick="fbFiled('B',true,this)">Yes, filed</button>
+          <button type="button" class="fb-yn-btn" onclick="fbFiled('B',false,this)">No / Skipped</button>
+        </div>
+        <div class="fb-up" id="upB">
+          <label class="fb-drop">📎 Drag & drop or tap to upload ITR PDF or JSON
+            <input type="file" accept="application/pdf,application/json,.json" onchange="fbUpload(this,'B')">
+          </label>
+          <div class="fb-status" id="stB"></div>
+          <div class="fb-card" id="cardB"></div>
+        </div>
+        <div class="fb-skip" id="skipB">Marked <b>not filed</b> &mdash; this year is excluded from the analysis.</div>
+      </div>
+    </div>
+    </div><!-- /fb-section s1 -->
+
+    <div class="fb-section">
+    <div class="fb-step"><span class="fb-step-n">Step 2</span> Pick the ITR you plan to file for FY 2025-26 (AY 2026-27)</div>
+    <div class="fb-intent">
+      <div class="fb-itabs">
+        <button type="button" class="fb-itab" data-itr="ITR-1" onclick="fbPickItr(this)">ITR-1</button>
+        <button type="button" class="fb-itab" data-itr="ITR-2" onclick="fbPickItr(this)">ITR-2</button>
+        <button type="button" class="fb-itab" data-itr="ITR-3" onclick="fbPickItr(this)">ITR-3</button>
+        <button type="button" class="fb-itab" data-itr="ITR-4" onclick="fbPickItr(this)">ITR-4</button>
+      </div>
+      <div class="fb-itab-hint">Pick the ITR you expect to file for FY 2025-26 (AY 2026-27) to see your answer. You can change it anytime.</div>
+    </div>
+    </div><!-- /fb-section s2 -->
+
+    <div class="fb-section">
+    <div class="fb-step"><span class="fb-step-n">Step 3</span> Click below to see your answer</div>
+    <button class="fb-analyse" id="fbBtn" onclick="fbAnalyse()" disabled>Analyse &amp; Show FY 2025-26 (AY 2026-27) Position</button>
+    </div><!-- /fb-section s3 -->
+    <div class="fb-modal" id="fbModal"><div class="fb-modal-box">
+      <div class="fb-modal-ttl" id="fbModalT"></div>
+      <div class="fb-modal-msg" id="fbModalM"></div>
+      <button class="fb-modal-ok" type="button" onclick="closeFbPopup()">OK, got it</button>
+    </div></div>
+    <div id="fbOut"></div>
+  </div><!-- /inner-single -->
+
+  <div id="inner-multi" class="inner-pane">
+    <div class="ma-banner">
+      <div class="ma-banner-ico">👥</div>
+      <div>
+        <div class="ma-banner-title">Multiple Assessee — Bulk Regime Analysis</div>
+        <div class="ma-banner-sub">Upload up to 500 ITR JSON or PDF files (any mix of AY 2024-25 &amp; AY 2025-26) for multiple clients. The tool auto-groups by PAN, shows a preview table, then gives the Form 10-IEA position for both Old &amp; New regime for FY 2025-26 for every assessee. Export to Excel in one click.</div>
+      </div>
+    </div>
+    <div class="ma-privacy">🔒 <span><strong>100% Private.</strong> All files are read on your device — nothing is uploaded to any server.</span></div>
+
+    <!-- Upload zone -->
+    <div class="ma-drop-zone" id="maDropZone">
+      <div class="ma-drop-ico">📂</div>
+      <div class="ma-drop-title">Drag &amp; drop files or a folder here, or tap to select</div>
+      <div class="ma-drop-sub">Accepts ITR JSON &amp; PDF files &nbsp;·&nbsp; Max 500 files at a time &nbsp;·&nbsp; AY 2024-25 &amp; AY 2025-26</div>
+      <input type="file" id="maFileInput" multiple accept="application/pdf,application/json,.json,.pdf" onchange="maHandleFiles(this.files)">
+    </div>
+    <div class="ma-counter" id="maCounter" style="display:none;">
+      <span id="maBadge" class="ma-badge">0 files</span>
+      <span id="maCountLbl" style="font-size:12px;color:var(--sub);"></span>
+      <span style="font-size:11px;color:var(--brand-dk);font-weight:600;" id="maAddHint"></span>
+      <button class="ma-btn outline" onclick="maClear()" style="padding:4px 12px;font-size:12px;">✕ Clear All</button>
+    </div>
+    <div class="ma-prog-wrap" id="maProgWrap">
+      <div class="ma-prog-bar"><div class="ma-prog-fill" id="maProgFill" style="width:0%"></div></div>
+      <div class="ma-prog-lbl" id="maProgLbl">Processing…</div>
+    </div>
+
+    <!-- Preview section (shown after processing) -->
+    <div id="maPreviewSection" style="display:none;">
+      <div class="ma-section-hd">📋 Preview — confirm data before analysis</div>
+      <div class="ma-tbl-wrap">
+        <table class="ma-tbl" id="maPreviewTbl">
+          <thead><tr>
+            <th style="min-width:28px">#</th>
+            <th style="min-width:140px;max-width:160px">Name</th>
+            <th style="min-width:100px">PAN</th>
+            <th style="min-width:82px">FY 23-24<br>Form</th>
+            <th style="min-width:82px">FY 23-24<br>Regime</th>
+            <th style="min-width:82px">FY 24-25<br>Form</th>
+            <th style="min-width:82px">FY 24-25<br>Regime</th>
+            <th style="min-width:82px">FY 25-26<br>ITR</th>
+            <th style="min-width:140px;padding-right:16px">Notes</th>
+          </tr></thead>
+          <tbody id="maPreviewBody"></tbody>
+        </table>
+      </div>
+      <div class="ma-btn-row">
+        <button class="ma-btn primary" id="maAnalyseBtn" onclick="maAnalyseAll()">🔍 Confirm &amp; Analyse All</button>
+        <button class="ma-btn outline" onclick="maClear()">↺ Start Over</button>
+        <span style="font-size:12px;color:var(--sub);" id="maPreviewCount"></span>
+      </div>
+    </div>
+
+    <!-- Result section (shown after analysis) -->
+    <div id="maResultSection" style="display:none;">
+      <div class="ma-section-hd">✅ Form 10-IEA Position — FY 2025-26 (AY 2026-27)</div>
+      <div class="ma-search-wrap">
+        <span class="ma-search-ico">🔍</span>
+        <input type="text" id="maSearchInput" class="ma-search-input" placeholder="Search by name or PAN…" oninput="maFilterResults(this.value)" autocomplete="off">
+        <button class="ma-search-clear" id="maSearchClear" onclick="maClearSearch()" style="display:none;">✕</button>
+        <span class="ma-search-count" id="maSearchCount"></span>
+      </div>
+      <div class="ma-tbl-wrap">
+        <table class="ma-tbl" id="maResultTbl">
+          <thead><tr>
+            <th style="min-width:28px">#</th>
+            <th style="min-width:140px;max-width:160px">Name</th>
+            <th style="min-width:100px">PAN</th>
+            <th style="min-width:82px">FY 23-24<br>Form</th>
+            <th style="min-width:82px">FY 23-24<br>Regime</th>
+            <th style="min-width:82px">FY 24-25<br>Form</th>
+            <th style="min-width:82px">FY 24-25<br>Regime</th>
+            <th style="min-width:82px">FY 25-26<br>ITR</th>
+            <th style="min-width:200px">FY 25-26 NEW Regime<br>Form 10-IEA Position</th>
+            <th style="min-width:200px;padding-right:16px">FY 25-26 OLD Regime<br>Form 10-IEA Position</th>
+          </tr></thead>
+          <tbody id="maResultBody"></tbody>
+        </table>
+      </div>
+      <div class="ma-btn-row">
+        <button class="ma-btn excel" onclick="maExportExcel()">⬇ Export to Excel</button>
+        <button class="ma-btn outline" onclick="maClear()">↺ Start Over</button>
+        <span style="font-size:12px;color:var(--sub);" id="maResultCount"></span>
+      </div>
+      <div style="font-size:11.5px;color:var(--sub);margin-top:8px;">✏ Change FY 25-26 ITR or Regime for any row — verdict updates instantly.</div>
+      <!-- Skipped / parse error summary -->
+      <div id="maSkipBox" class="ma-skip-box" style="display:none;">
+        <div class="ma-skip-box-hd">⚠ <span id="maSkipBoxTitle">Skipped due to parse error</span></div>
+        <div class="ma-skip-box-list" id="maSkipBoxList"></div>
+      </div>
+    </div>
+    <div id="maErrBox" class="ma-err" style="display:none;"></div>
+  </div><!-- /inner-multi -->
+
+  </div><!-- /sub-form -->
+
 </div>
 </div>
 
@@ -1219,15 +1619,100 @@ td:first-child{font-family:var(--mono);font-size:9px;color:var(--sub);text-align
 <div id="tab-howto" class="tab-pane">
 <div class="card-body">
   <div class="sec-hdr">❓ How to Use This Tool</div>
+
+  <!-- Intro -->
+  <div class="ht-intro">
+    <div class="ht-intro-ico">📘</div>
+    <div>
+      <div class="ht-intro-title">What this tool does</div>
+      <div class="ht-intro-text">Determines whether <strong>Form 10-IEA</strong> needs to be filed for FY 2025-26 (AY 2026-27), based on a taxpayer's regime history under <strong>S. 115BAC</strong> read with <strong>Rule 21AGA</strong>. Works for a single client (upload ITR) or in bulk for hundreds of clients at once. <strong>🔒 100% private</strong> — every file is read inside your browser; nothing is ever uploaded to any server.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: The two ways to use -->
+  <div class="ht-sec-label">① Two ways to get your answer</div>
   <div class="howto-grid">
-    <div class="howto-card"><div class="hc-icon">🔀</div><div class="hc-title">Smart Finder — Flowchart Wizard</div><div class="hc-body">Start by telling the tool <strong>which year was your first ITR filing</strong>. The flowchart then shows only the years relevant to you — skipping years with no filing history. Each node explains why that year matters before asking your choice.</div></div>
-    <div class="howto-card"><div class="hc-icon">📋</div><div class="hc-title">Master Table — All 64 Rows</div><div class="hc-body">View every scenario at once. Use <strong>Filter</strong> buttons (ITR group, FY25 regime, ⚠ Can't Opt) and the <strong>Search</strong> box to instantly narrow down. Filters are combinable — e.g. ITR 3&amp;4 + FY25 Old.</div></div>
-    <div class="howto-card"><div class="hc-icon">📁</div><div class="hc-title">First Filed Before FY 2023-24</div><div class="hc-body">Full 3-step flow shown: FY 2023-24 → FY 2024-25 → FY 2025-26. All switching history is relevant. The tool checks for the one critical "Can't Opt" scenario — S. 115BAC(6)(ii).</div></div>
-    <div class="howto-card"><div class="hc-icon">🆕</div><div class="hc-title">First Filed in FY 2024-25</div><div class="hc-body">FY 2023-24 is automatically skipped (shown greyed out). Only FY 2024-25 and FY 2025-26 are asked. No risk of S. 115BAC(6)(ii) permanently blocking you — that requires FY 2023-24 history.</div></div>
-    <div class="howto-card"><div class="hc-icon">✨</div><div class="hc-title">First Filing is FY 2025-26</div><div class="hc-body">Both earlier years are skipped. A single question determines your position. <strong>Zero restrictions apply</strong> — you have no prior switching history. ITR 1/2: always free. ITR 3/4 + Old Regime: file Form 10-IEA by deadline.</div></div>
-    <div class="howto-card" style="border-color:var(--cant-bd);background:var(--cant-lt)"><div class="hc-icon">⛔</div><div class="hc-title" style="color:var(--cant)">The Only "Can't Opt" Scenario</div><div class="hc-body" style="color:var(--cant)"><strong>ITR 3/4 Old Regime FY23 → ITR 3/4 New Regime FY24 → ITR 3/4 Old Regime FY25 = PERMANENTLY BLOCKED.</strong> One-time switch used in FY24. S. 115BAC(6)(ii). Only possible if you filed in FY 2023-24.</div></div>
-    <div class="howto-card"><div class="hc-icon">📅</div><div class="hc-title">Reading the Badges</div><div class="hc-body"><span class="b b-yes">YES</span> = Action required / restriction applies<br><br><span class="b b-no">NO</span> = Not required / no restriction<br><br><span class="b b-cant">Can't Opt</span> = Permanently blocked by law</div></div>
-    <div class="howto-card"><div class="hc-icon">💡</div><div class="hc-title">Quick Memory Rule</div><div class="hc-body">🟢 <strong>ITR-1/2 = Always Free</strong><br>🔴 <strong>ITR-3/4 = Form + Restrictions</strong><br>⛔ <strong>Old→New→Old = Permanently Blocked</strong><br>✨ <strong>First-year filer = Zero restrictions</strong></div></div>
+    <div class="howto-card">
+      <div class="hc-icon">📄</div>
+      <div class="hc-title">Smart Finder → ITR Form Upload Based</div>
+      <div class="hc-body">The default tab. Two sub-tabs sit inside it:
+      <br><br><strong>👤 Single Assessee</strong> — upload one client's ITR (PDF or JSON) for each year. FY 2024-25 (AY 2025-26) is the key year; FY 2023-24 (AY 2024-25) is optional. The tool auto-reads <strong>AY, form type, PAN, name &amp; regime</strong> — all editable, and the answer updates live. Wrong-year files are blocked, and both ITRs must share one PAN (S. 139A).
+      <br><br><strong>👥 Multiple Assessee</strong> — bulk mode (see section ② below).</div>
+    </div>
+    <div class="howto-card">
+      <div class="hc-icon">🗳️</div>
+      <div class="hc-title">Smart Finder → FAQs Answer Based</div>
+      <div class="hc-body">A guided questionnaire — <strong>no upload needed</strong>. Tell the tool which year was the <strong>first ITR filing</strong>, and the flowchart shows only the years relevant to that client, skipping years with no filing history. Each step explains why that year matters before asking the choice. Best when you don't have the ITR files handy but know the client's history.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: Bulk -->
+  <div class="ht-sec-label">② Bulk analysis — Multiple Assessee</div>
+  <div class="howto-grid">
+    <div class="howto-card ht-card-wide">
+      <div class="hc-icon">👥</div>
+      <div class="hc-title">Process up to 500 clients at once</div>
+      <div class="hc-body">
+      <strong>Step 1 — Upload.</strong> Drop up to <strong>500 ITR files</strong> (JSON or PDF, any mix of AY 2024-25 &amp; AY 2025-26) — select files together or drop a whole folder. You can keep adding more batches; duplicates by filename are skipped automatically. Use <em>Clear All</em> to reset.
+      <br><br><strong>Step 2 — Preview.</strong> Files auto-group by <strong>PAN</strong> into one row per client, showing FY 23-24 and FY 24-25 form, regime &amp; any Form 10-IEA acknowledgement. If one year is missing, pick <em>Not Filed / Skipped</em> for that client.
+      <br><br><strong>Step 3 — Confirm &amp; Analyse.</strong> The FY 25-26 ITR is auto-set from the latest year's form (editable per row).
+      <br><br><strong>Step 4 — Read both paths.</strong> Each client shows <strong>two columns side by side</strong>: <em>FY 25-26 New Regime</em> and <em>FY 25-26 Old Regime</em> — the exact Form 10-IEA action for each choice. If a client is locked out of Old (S. 115BAC(6)), that column states why.
+      <br><br><strong>Step 5 — Export.</strong> One-click Excel: Sheet 1 = full results (with ack numbers &amp; dates), Sheet 2 = any files that couldn't be parsed. Use the <strong>search box</strong> to jump to any client by name or PAN.
+      <br><br><strong>⚠ Accuracy note:</strong> for a correct verdict, upload <strong>both AY files for the same PAN</strong>. Acknowledgement (ITR-V) PDFs are rejected automatically — upload the actual ITR Form or JSON.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: Reading the answer -->
+  <div class="ht-sec-label">③ Reading your answer</div>
+  <div class="howto-grid">
+    <div class="howto-card">
+      <div class="hc-icon">🎯</div>
+      <div class="hc-title">Old vs New — shown side by side</div>
+      <div class="hc-body">Every result shows <strong>both options</strong> so you see the consequence of each choice:
+      <br><br>🟢 <strong>New Regime path</strong> — whether any 10-IEA action is needed (usually none — New is the default).
+      <br>🟠 <strong>Old Regime path</strong> — whether Form 10-IEA must be filed before the S. 139(1) due date.
+      <br><br>If the one-time switch is already used, the Old path shows a clear <strong>⛔ not-available</strong> note citing S. 115BAC(6) — no false choice.</div>
+    </div>
+    <div class="howto-card">
+      <div class="hc-icon">📅</div>
+      <div class="hc-title">Form 10-IEA acknowledgement</div>
+      <div class="hc-body">When a filed Form 10-IEA is detected, the tool shows its <strong>acknowledgement number</strong> and <strong>filing date</strong> under the relevant year. <strong>Tap the ack number to copy</strong> it. If two acks exist for the same year, only the latest (by date) is shown.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: The law / scenarios -->
+  <div class="ht-sec-label">④ Key scenarios &amp; the law</div>
+  <div class="howto-grid">
+    <div class="howto-card">
+      <div class="hc-icon">✨</div>
+      <div class="hc-title">First-time filer = zero restrictions</div>
+      <div class="hc-body">If FY 2025-26 is the first ITR ever, no prior switching history exists. <strong>ITR-1/2</strong>: regime is a free choice, no form needed. <strong>ITR-3/4 + Old Regime</strong>: just file Form 10-IEA by the due date.</div>
+    </div>
+    <div class="howto-card" style="border-color:var(--cant-bd);background:var(--cant-lt)">
+      <div class="hc-icon">⛔</div>
+      <div class="hc-title" style="color:var(--cant)">The only "Can't Opt" scenario</div>
+      <div class="hc-body" style="color:var(--cant)"><strong>ITR-3/4 Old (FY23) → ITR-3/4 New (FY24) → wants Old (FY25) = PERMANENTLY BLOCKED.</strong> The one-time switch was used in FY24. Governed by <strong>S. 115BAC(6)</strong>. Only possible if the client filed in FY 2023-24.</div>
+    </div>
+    <div class="howto-card">
+      <div class="hc-icon">💡</div>
+      <div class="hc-title">Quick memory rule</div>
+      <div class="hc-body">🟢 <strong>ITR-1/2 = Always Free</strong><br>🟠 <strong>ITR-3/4 = Form + Restrictions</strong><br>⛔ <strong>Old→New→Old = Permanently Blocked</strong><br>✨ <strong>First-year filer = Zero restrictions</strong></div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: Reference tabs -->
+  <div class="ht-sec-label">⑤ Reference tabs</div>
+  <div class="howto-grid">
+    <div class="howto-card">
+      <div class="hc-icon">📋</div>
+      <div class="hc-title">Master Table — all 64 scenarios</div>
+      <div class="hc-body">Every possible 3-year combination in one table. Use <strong>Filter</strong> buttons (ITR group, FY25 regime, ⚠ Can't Opt) and the <strong>Search</strong> box to narrow down. Filters combine — e.g. ITR 3&amp;4 + FY25 Old.</div>
+    </div>
+    <div class="howto-card">
+      <div class="hc-icon">⚖️</div>
+      <div class="hc-title">Legal Notes</div>
+      <div class="hc-body">The statutory basis — <strong>S. 115BAC</strong>, the one-time withdrawal rule under <strong>S. 115BAC(6)</strong>, and <strong>Rule 21AGA</strong> governing Form 10-IEA — explained in plain language with the relevant due-date conditions.</div>
+    </div>
   </div>
 </div>
 </div>
@@ -1868,10 +2353,1410 @@ function fallbackCopy(text, btn, showToast){
   document.body.removeChild(ta);
 }
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+/* ═══ SUB-TAB SWITCH ═══ */
+/* ═══════════════════════════════════════════════════
+   MULTI-ASSESSEE BULK ANALYSIS
+   ═══════════════════════════════════════════════════ */
+var MA = { files:[], parsed:[], rows:[] };
+
+function maHandleFiles(fileList){
+  var incoming = Array.from(fileList).filter(function(f){ return /\.(json|pdf)$/i.test(f.name); });
+  if(!incoming.length){ maShowErr('No valid JSON or PDF files found. Please select ITR JSON or PDF files.'); return; }
+
+  // Accumulate — deduplicate by filename (last-write wins for same name)
+  var existingNames = {};
+  MA.files.forEach(function(f){ existingNames[f.name] = true; });
+  var newFiles = incoming.filter(function(f){ return !existingNames[f.name]; });
+  var dupCount = incoming.length - newFiles.length;
+
+  // Cap total at 100
+  var available = 500 - MA.files.length;
+  var truncated = 0;
+  if(newFiles.length > available){
+    truncated = newFiles.length - available;
+    newFiles = newFiles.slice(0, available);
+  }
+
+  if(!newFiles.length){
+    var msg = MA.files.length>=500
+      ? 'Maximum 500 files reached. Use “✕ Clear All” to start over.'
+      : 'All selected files are already loaded (duplicate filenames skipped).';
+    maShowErr(msg); return;
+  }
+
+  MA.files = MA.files.concat(newFiles);
+
+  // Reset file input so same folder/files can be selected again
+  document.getElementById('maFileInput').value = '';
+
+  // Update counter
+  maUpdateCounter(dupCount, truncated);
+
+  document.getElementById('maPreviewSection').style.display = 'none';
+  document.getElementById('maResultSection').style.display  = 'none';
+  document.getElementById('maErrBox').style.display = 'none';
+  maProcessFiles(newFiles); // process only the newly added files
+}
+
+function maUpdateCounter(dupCount, truncated){
+  var total = MA.files.length;
+  var badge = document.getElementById('maBadge');
+  var lbl   = document.getElementById('maCountLbl');
+  var hint  = document.getElementById('maAddHint');
+  badge.textContent = total + ' file' + (total!==1?'s':'') + ' loaded';
+  badge.className   = 'ma-badge' + (total>=500?' warn':'');
+  var jsonN = MA.files.filter(function(f){return /\.json$/i.test(f.name);}).length;
+  var pdfN  = MA.files.filter(function(f){return /\.pdf$/i.test(f.name);}).length;
+  lbl.textContent = jsonN + ' JSON, ' + pdfN + ' PDF';
+  var notes = [];
+  if(dupCount) notes.push(dupCount + ' duplicate'+(dupCount>1?'s':'')+' skipped');
+  if(truncated) notes.push(truncated + ' file'+(truncated>1?'s':'')+' dropped (500 max)');
+  hint.textContent = notes.length ? '· ' + notes.join(' · ') : (total<500 ? '⊕ Tap to add more files' : '· Limit reached');
+  document.getElementById('maCounter').style.display = 'flex';
+}
+
+function maShowErr(msg){
+  var b = document.getElementById('maErrBox');
+  b.innerHTML = '⚠ ' + msg;
+  b.style.display = 'block';
+}
+
+function maClear(){
+  MA = {files:[], parsed:[], rows:[]};
+  document.getElementById('maFileInput').value = '';
+  document.getElementById('maCounter').style.display = 'none';
+  document.getElementById('maProgWrap').style.display = 'none';
+  document.getElementById('maPreviewSection').style.display = 'none';
+  document.getElementById('maResultSection').style.display  = 'none';
+  document.getElementById('maErrBox').style.display = 'none';
+  document.getElementById('maSkipBox').style.display = 'none';
+  document.getElementById('maBadge').textContent = '0 files';
+  var hint = document.getElementById('maAddHint');
+  if(hint) hint.textContent = '';
+  var si = document.getElementById('maSearchInput');
+  if(si){ si.value=''; }
+  var sc = document.getElementById('maSearchClear');
+  if(sc){ sc.style.display='none'; }
+  var scn = document.getElementById('maSearchCount');
+  if(scn){ scn.textContent=''; }
+}
+
+async function maProcessFiles(newFiles){
+  var filesToProcess = newFiles || MA.files; // process only new batch
+  if(!filesToProcess.length) return;
+  var prog = document.getElementById('maProgWrap');
+  var fill = document.getElementById('maProgFill');
+  var lbl  = document.getElementById('maProgLbl');
+  prog.style.display = 'block';
+  fill.style.width = '0%';
+  lbl.textContent = 'Reading files…';
+
+  var results = []; // {pan, name, ay, form, regime, acks, fileName, error}
+  for(var i=0;i<filesToProcess.length;i++){
+    var f = filesToProcess[i];
+    var pct = Math.round(((i+1)/filesToProcess.length)*100);
+    fill.style.width = pct+'%';
+    lbl.textContent = 'Processing ' + (i+1) + ' of ' + filesToProcess.length + ': ' + f.name;
+    var r = { fileName: f.name, pan:'', name:'', ay:'', form:'', regime:'', acks:[], error:'' };
+    try {
+      var text = await maReadFileText(f);
+      var ext  = f.name.split('.').pop().toLowerCase();
+      var parsed;
+      if(ext === 'json'){
+        parsed = fbExtractJSON(text);
+      } else {
+        // PDF — correct pipeline: fbExtract(file) → text → fbDetect(text)
+        var pdfText = await fbExtract(f);
+        parsed = fbDetect(pdfText);
+      }
+      r.pan    = parsed.pan    || '';
+      r.name   = parsed.name   || '';
+      r.ay     = parsed.ay     || '';
+      r.form   = parsed.form   || '';
+      r.regime = parsed.regime || '';
+      r.acks   = parsed.acks   || [];
+    } catch(e) {
+      r.error = e.message || 'Could not read file';
+    }
+    results.push(r);
+  }
+
+  prog.style.display = 'none';
+  lbl.textContent = 'Done.';
+  // Merge new results into existing MA.parsed (accumulate across batches)
+  MA.parsed = MA.parsed.concat(results);
+  maBuildPreview(MA.parsed);
+}
+
+function maReadFileText(f){
+  return new Promise(function(res,rej){
+    var r = new FileReader();
+    r.onload = function(){ res(r.result); };
+    r.onerror = function(){ rej(new Error('Cannot read file: ' + f.name)); };
+    r.readAsText(f);
+  });
+}
+
+/* Group parsed results by PAN; merge AY2024-25 and AY2025-26 per assessee */
+function maGroupByPan(results){
+  var map = {}; // key = PAN (or fileName for errors)
+  results.forEach(function(r){
+    if(r.error){
+      // Keep errors in a special bucket
+      var key = '__err__' + r.fileName;
+      map[key] = { pan:'ERROR', name: r.fileName, ay24:null, ay25:null, errors:[r] };
+      return;
+    }
+    var key = r.pan || ('__nopan__' + r.fileName);
+    if(!map[key]) map[key] = { pan: r.pan, name: r.name, ay24:null, ay25:null, errors:[] };
+    if(r.name && !map[key].name) map[key].name = r.name;
+    if(r.ay === '2024-25'){
+      if(map[key].ay24) map[key].ay24_dup = r; // duplicate AY for same PAN
+      else map[key].ay24 = r;
+    } else if(r.ay === '2025-26'){
+      if(map[key].ay25) map[key].ay25_dup = r;
+      else map[key].ay25 = r;
+    } else {
+      // Unrecognised AY
+      map[key].errors.push({ fileName: r.fileName, error: 'AY not recognised: ' + r.ay });
+    }
+  });
+  return Object.values(map);
+}
+
+/* Suggest FY25-26 ITR based on prior year forms */
+
+function maBuildPreview(results){
+  var groups = maGroupByPan(results);
+  MA.rows = groups;
+
+  var tbody = document.getElementById('maPreviewBody');
+  tbody.innerHTML = '';
+  var validCount = 0;
+
+  groups.forEach(function(g, idx){
+    var row = document.createElement('tr');
+    var ay24 = g.ay24, ay25 = g.ay25;
+    var isError = g.pan === 'ERROR';
+    validCount++;
+
+    // Notes
+    var notes = [];
+    if(isError) notes.push('Could not parse');
+    if(!ay24 && !isError) notes.push('AY 2024-25 not received');
+    if(!ay25 && !isError) notes.push('AY 2025-26 not received');
+    if(g.ay24_dup) notes.push('Duplicate AY 2024-25 file');
+    if(g.ay25_dup) notes.push('Duplicate AY 2025-26 file');
+    if(g.errors && g.errors.length) g.errors.forEach(function(e){ notes.push(e.error); });
+
+    // Cells
+    var cell24form, cell24reg, cell25form, cell25reg;
+    if(isError){
+      cell24form = '<span class="miss">-</span>';
+      cell24reg  = '<span class="miss">-</span>';
+      cell25form = '<span class="miss">-</span>';
+      cell25reg  = '<span class="miss">-</span>';
+    } else {
+      cell24form = ay24 ? ay24.form
+        : '<select class="ma-skip-sel" id="maSkip24_'+idx+'" onchange="maSkipChange('+idx+',\'ay24\',this.value)">'
+          +'<option value="">-- Not received --</option>'
+          +'<option value="skipped">Not Filed / Skipped</option>'
+          +'</select>';
+      cell24reg = ay24
+        ? '<span class="ma-regime '+(ay24.regime==='Old'?'old':'new')+'">'+ay24.regime+'</span>'
+        : '<span class="ma-regime miss">-</span>';
+      cell25form = ay25 ? ay25.form
+        : '<select class="ma-skip-sel" id="maSkip25_'+idx+'" onchange="maSkipChange('+idx+',\'ay25\',this.value)">'
+          +'<option value="">-- Not received --</option>'
+          +'<option value="skipped">Not Filed / Skipped</option>'
+          +'</select>';
+      cell25reg = ay25
+        ? '<span class="ma-regime '+(ay25.regime==='Old'?'old':'new')+'">'+ay25.regime+'</span>'
+        : '<span class="ma-regime miss">-</span>';
+    }
+
+    // FY25-26 ITR — simple: latest year's form, fallback ITR-1
+    var suggestItr = (ay25&&ay25.form) || (ay24&&ay24.form) || 'ITR-1';
+    if(['ITR-1','ITR-2','ITR-3','ITR-4'].indexOf(suggestItr)<0) suggestItr='ITR-1';
+
+    var itrCell = isError ? '<span class="miss">-</span>'
+      : '<select class="ma-form-sel" id="maSel_'+idx+'" onchange="maMarkChanged(this)">'
+        +['ITR-1','ITR-2','ITR-3','ITR-4'].map(function(f){return '<option'+(f===suggestItr?' selected':'')+'>'+f+'</option>';}).join('')
+        +'</select>';
+
+    row.innerHTML = '<td class="ma-row-num">'+(idx+1)+'</td>'
+      +'<td title="'+(g.name||'')+'"><strong>'+(g.name||'-')+'</strong></td>'
+      +'<td style="font-family:var(--mono);font-size:11.5px;">'+(isError?'<span style="color:var(--rose)">ERROR</span>':g.pan)+'</td>'
+      +'<td>'+cell24form+'</td>'
+      +'<td>'+cell24reg+'</td>'
+      +'<td>'+cell25form+'</td>'
+      +'<td>'+cell25reg+'</td>'
+      +'<td>'+itrCell+'</td>'
+      +'<td class="ma-warn-cell">'+(notes.length ? notes.map(function(n){return '\u26a0 '+n;}).join(' &nbsp; ') : '\u2713 Both years received')+'</td>';
+    tbody.appendChild(row);
+  });
+
+  document.getElementById('maPreviewSection').style.display = 'block';
+  document.getElementById('maPreviewCount').textContent = validCount + ' assessee' + (validCount!==1?'s':'') + ' found';
+}
+
+function maSkipChange(idx, field, val){
+  MA.rows[idx][field + '_skipped'] = (val === 'skipped');
+  // Reset if user changes back to not-received
+  if(val !== 'skipped') MA.rows[idx][field + '_skipped'] = false;
+}
+
+/* Verdict engine — based ONLY on AY2024-25 & AY2025-26 prior years.
+   Tool purpose: Form 10-IEA filing requirement for FY 2025-26. No ITR form pick needed. */
+function maAnalyseAll(){
+  var resultBody = document.getElementById('maResultBody');
+  resultBody.innerHTML = '';
+  var count = 0;
+  var skipList = []; /* collect parse-error rows to show at bottom */
+  MA.rows.forEach(function(g, idx){
+    count++;
+    // Read FY25-26 ITR from preview dropdown (regime no longer needed — both paths shown)
+    var selEl   = document.getElementById('maSel_'+idx);
+    var itrPick = selEl ? selEl.value : ((g.ay25&&g.ay25.form)||(g.ay24&&g.ay24.form)||'ITR-1');
+    if(['ITR-1','ITR-2','ITR-3','ITR-4'].indexOf(itrPick)<0) itrPick='ITR-1';
+
+    var ay24 = g.ay24, ay25 = g.ay25;
+    var years = [];
+    if(g.ay24 && !g.ay24_skipped)
+      years.push({ay:'2024-25', form:g.ay24.form, regime:g.ay24.regime, formClass:formClass(g.ay24.form), hasAck:yearHasAck(g.ay24)});
+    if(g.ay25 && !g.ay25_skipped)
+      years.push({ay:'2025-26', form:g.ay25.form, regime:g.ay25.regime, formClass:formClass(g.ay25.form), hasAck:yearHasAck(g.ay25)});
+    years.sort(function(a,b){return a.ay<b.ay?-1:1;});
+
+    MA.rows[idx]._itrPick = itrPick;
+    MA.rows[idx]._verdictNew = maNewPath(g, years, itrPick).txt;
+    MA.rows[idx]._verdictOld = maOldPath(g, years, itrPick).txt;
+
+    /* Parse-error rows: collect for skip-box, skip adding to result table */
+    if(g.pan === 'ERROR'){
+      skipList.push(g);
+      return;
+    }
+
+    var newP = maNewPath(g, years, itrPick);
+    var oldP = maOldPath(g, years, itrPick);
+
+    var row = document.createElement('tr');
+    // Result row has editable ITR dropdown that re-runs both verdicts live
+    var rItrSel = g.pan==='ERROR' ? itrPick
+      : '<select class="ma-form-sel" onchange="maMarkChanged(this);maUpdateRow('+idx+',this.value,null)">'
+        +['ITR-1','ITR-2','ITR-3','ITR-4'].map(function(f){return '<option'+(f===itrPick?' selected':'')+'>'+f+'</option>';}).join('')
+        +'</select>';
+    row.setAttribute('data-search', ((g.name||'')+' '+(g.pan||'')).toLowerCase());
+    row.innerHTML = '<td class="ma-row-num">'+count+'</td>'
+      +'<td title="'+(g.name||'')+'"><strong>'+(g.name||'-')+'</strong></td>'
+      +'<td style="font-family:var(--mono);font-size:11.5px;">'+(g.pan==='ERROR'?'<span style="color:var(--rose)">ERROR</span>':g.pan)+'</td>'
+      +'<td>'+(ay24&&!g.ay24_skipped?ay24.form:'<span class="miss">Skipped</span>')+'</td>'
+      +'<td>'+(ay24&&!g.ay24_skipped?'<span class="ma-regime '+(ay24.regime==='Old'?'old':'new')+'">'+ay24.regime+'</span>'+maAckCell(ay24):'<span class="ma-regime miss">-</span>')+'</td>'
+      +'<td>'+(ay25&&!g.ay25_skipped?ay25.form:'<span class="miss">Skipped</span>')+'</td>'
+      +'<td>'+(ay25&&!g.ay25_skipped?'<span class="ma-regime '+(ay25.regime==='Old'?'old':'new')+'">'+ay25.regime+'</span>'+maAckCell(ay25):'<span class="ma-regime miss">-</span>')+'</td>'
+      +'<td>'+rItrSel+'</td>'
+      +'<td id="maVerdNew_'+idx+'">'+maPathCell(newP)+'</td>'
+      +'<td id="maVerdOld_'+idx+'">'+maPathCell(oldP)+'</td>';
+    resultBody.appendChild(row);
+  });
+
+  /* Render skip-box */
+  var skipBox  = document.getElementById('maSkipBox');
+  var skipList2 = document.getElementById('maSkipBoxList');
+  var skipTitle = document.getElementById('maSkipBoxTitle');
+  if(skipList.length){
+    skipTitle.textContent = skipList.length + ' file'+(skipList.length!==1?'s':'')+' skipped due to parse error';
+    skipList2.innerHTML = skipList.map(function(g,i){
+      var fname = g.name || (g.errors&&g.errors[0]&&g.errors[0].fileName) || 'Unknown file';
+      var reason = (g.errors&&g.errors[0]&&g.errors[0].error) || 'Could not parse — unsupported format or acknowledgement PDF';
+      return '<div class="ma-skip-item"><span class="ma-skip-fname" title="'+fname+'">'+fname+'</span><span class="ma-skip-reason">'+reason+'</span></div>';
+    }).join('');
+    skipBox.style.display = 'block';
+  } else {
+    skipBox.style.display = 'none';
+  }
+  document.getElementById('maPreviewSection').style.display = 'none';
+  document.getElementById('maResultSection').style.display  = 'block';
+  document.getElementById('maResultCount').textContent = count + ' assessee'+(count!==1?'s':'')+' analysed'+(skipList.length?' ('+skipList.length+' skipped)':'')+'';
+  document.getElementById('maResultSection').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* Decode date from 15-digit ITD ack number: digits 9-14 = DDMMYY */
+function maDecodeAckDate(ack){
+  if(!ack || ack.length!==15) return '';
+  var dd=ack.slice(9,11), mm=ack.slice(11,13), yy=ack.slice(13,15);
+  var yr = (parseInt(yy,10)>=24) ? '20'+yy : '20'+yy;
+  return yr+'-'+mm+'-'+dd; /* YYYY-MM-DD for comparison */
+}
+
+/* Return ack+date HTML for a single year — only the LATEST ack by date */
+function maAckCell(yr){
+  if(!yr) return '';
+  var objs = yr.ackObjs || (yr.acks||[]).map(function(a){return{ack:a,date:''};});
+  if(!objs.length) return '';
+
+  /* Fill missing dates by decoding from ack number */
+  objs = objs.map(function(o){
+    var d = o.date || maDecodeAckDate(o.ack);
+    return {ack:o.ack, date:d};
+  });
+
+  /* Deduplicate by ack number first */
+  var seen={};
+  objs.forEach(function(o){ if(o.ack) seen[o.ack]=o; });
+  var deduped = Object.keys(seen).map(function(k){return seen[k];});
+
+  /* Keep only the LATEST ack by decoded date */
+  deduped.sort(function(a,b){
+    return (b.date||'').localeCompare(a.date||'');
+  });
+  var latest = deduped[0];
+  if(!latest || !latest.ack) return '';
+
+  var fmtDate = latest.date
+    ? latest.date.replace(/(\d{4})-(\d{2})-(\d{2})/,'$3-$2-$1')
+    : '';
+  var out = '<div style="margin-top:5px;font-size:10px;color:var(--sub);line-height:1.6;white-space:normal;">';
+  out += '<span style="font-weight:700;color:var(--brand-dk);">10-IEA Ack:</span><br>';
+  out += '<span onclick="maCopyAck(this,\''+latest.ack+'\')" title="Tap to copy" '
+       + 'style="cursor:pointer;font-family:var(--mono);font-size:9.5px;background:var(--brand-lt);border:1px solid var(--brand-bd);border-radius:4px;padding:1px 5px;display:inline-block;margin-top:2px;">'
+       + latest.ack
+       + '<span style="margin-left:4px;font-size:9px;opacity:.7;">⧉</span></span>';
+  if(fmtDate) out += '<br><span style="font-weight:700;color:var(--brand-dk);">Filed:</span> '+fmtDate;
+  out += '</div>';
+  return out;
+}
+
+/* Copy ack number to clipboard with toast */
+function maCopyAck(el, ack){
+  var orig = el.style.background;
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(ack).then(function(){
+      el.style.background='var(--jade-lt)'; el.style.borderColor='var(--jade)';
+      setTimeout(function(){el.style.background=orig;el.style.borderColor='';},1200);
+    });
+  } else {
+    var ta=document.createElement('textarea');
+    ta.value=ack; ta.style.cssText='position:fixed;left:-9999px;';
+    document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');
+      el.style.background='var(--jade-lt)'; el.style.borderColor='var(--jade)';
+      setTimeout(function(){el.style.background=orig;el.style.borderColor='';},1200);
+    }catch(e){}
+    document.body.removeChild(ta);
+  }
+}
+
+/* Mark a dropdown as user-changed (amber highlight) */
+function maMarkChanged(sel){ sel.classList.add('changed'); }
+
+/* Smart, lock-aware FY25-26 regime suggestion under S.115BAC(6).
+   Returns {regime, locked, flag, tip} so user sees the real available choice. */
+function maSmartRegime(ay24, ay25, g){
+  // Build business-year history (ITR-3/4 only exercise the S.115BAC option)
+  var years=[];
+  if(ay24 && !(g&&g.ay24_skipped)) years.push({ay:'2024-25',regime:ay24.regime,formClass:formClass(ay24.form),hasAck:yearHasAck(ay24)});
+  if(ay25 && !(g&&g.ay25_skipped)) years.push({ay:'2025-26',regime:ay25.regime,formClass:formClass(ay25.form),hasAck:yearHasAck(ay25)});
+
+  var code = fbVerdict(years);
+  var latestReg = (ay25&&ay25.regime) || (ay24&&ay24.regime) || 'New';
+  if(['Old','New'].indexOf(latestReg)<0) latestReg='New';
+
+  if(code==='LOCKED_NEW'){
+    return {regime:'New', locked:true,
+      flag:'⛔ Locked to New (switch used)',
+      tip:'Client already used the one-time switch from Old to New in a business year. Under S.115BAC(6) they cannot opt back to Old. New is the only available choice.'};
+  }
+  if(code==='OLD_ACTIVE'){
+    return {regime:'Old', locked:false, flag:'',
+      tip:'Client is currently in Old Regime (10-IEA active). They may continue Old (no fresh 10-IEA needed) OR make a one-time switch to New. Old suggested as continuation.'};
+  }
+  if(code==='NEW_NEVER_EXERCISED'){
+    return {regime:'New', locked:false, flag:'',
+      tip:'Client is in New Regime and has never opted out. They may stay New (default) OR file Form 10-IEA to opt for Old. New suggested as current position — Old is freely available.'};
+  }
+  // NEVER_BUSINESS = no business years; regime is freely chosen each year (ITR-1/2)
+  return {regime:latestReg, locked:false, flag:'',
+    tip:'No business income in prior years — regime is a free choice every year. Latest year’s regime suggested. Either Old or New can be picked freely.'};
+}
+
+/* Compute verdict badge+txt from group, prior years, FY25-26 ITR+Regime picks */
+function maComputeVerdict(g, years, itrPick, regPick){
+  var badge, txt;
+  if(g.pan === 'ERROR'){
+    badge = '<span class="ma-verdict warn">\u26a0 Parse Error</span>';
+    txt   = 'Parse Error';
+  } else if(!years.length){
+    badge = '<span class="ma-verdict new-free">First-time / Both skipped \u2014 Free choice</span>';
+    txt   = 'First-time filer \u2014 Free choice';
+  } else {
+    var pickCls = formClass(itrPick);
+    // If filing ITR-1/2 next year — no 10-IEA regardless of history
+    if(pickCls === 'nonbusiness'){
+      badge = '<span class="ma-verdict nonbiz">Free choice \u2014 No 10-IEA (ITR-1/2)</span>';
+      txt   = 'Free choice \u2014 No 10-IEA needed (ITR-1/2)';
+    } else {
+      // FY25-26 regime choice drives what action is needed
+      // Build prior history verdict code first
+      var code = fbVerdict(years);
+      var badge_cls, result_txt;
+      if(regPick === 'Old'){
+        // Wants Old Regime in FY25-26
+        if(code === 'LOCKED_NEW'){
+          badge_cls  = 'locked';
+          result_txt = '\u26d4 Cannot opt Old \u2014 Switch already used (S.115BAC(6))';
+        } else if(code === 'OLD_ACTIVE'){
+          badge_cls  = 'old-active';
+          result_txt = 'Old Regime \u2014 10-IEA already filed, no action needed';
+        } else if(code === 'NEW_NEVER_EXERCISED'){
+          badge_cls  = 'new-free';
+          result_txt = 'File 10-IEA before due date to opt Old Regime (first time)';
+        } else { // NEVER_BUSINESS = first biz year
+          badge_cls  = 'new-free';
+          result_txt = 'First business year \u2014 File 10-IEA before due date for Old';
+        }
+      } else {
+        // Wants New Regime in FY25-26
+        if(code === 'OLD_ACTIVE'){
+          badge_cls  = 'new-free';
+          result_txt = 'File 10-IEA to switch to New (one-time \u2014 cannot return to Old)';
+        } else {
+          badge_cls  = 'new-free';
+          result_txt = 'New Regime \u2014 No 10-IEA needed (default)';
+        }
+      }
+      badge = '<span class="ma-verdict '+badge_cls+'">'+result_txt+'</span>';
+      txt   = result_txt;
+    }
+  }
+  return {badge:badge, txt:txt};
+}
+
+/* FY25-26 NEW-regime path text — what to do if client chooses New */
+function maNewPath(g, years, itrPick){
+  if(g.pan === 'ERROR') return {txt:'Parse Error', cls:'warn'};
+  var pickCls = formClass(itrPick);
+  if(pickCls === 'nonbusiness')
+    return {txt:'Free choice \u2014 file ITR-1/2 in New (default). No 10-IEA needed.', cls:'new'};
+  if(!years.length || years.filter(function(y){return y.formClass==='business';}).length===0)
+    return {txt:'No 10-IEA needed \u2014 New is the default regime.', cls:'new'};
+  var code = fbVerdict(years);
+  if(code === 'LOCKED_NEW')
+    return {txt:'No 10-IEA needed \u2014 continue in New Regime.', cls:'new'};
+  if(code === 'OLD_ACTIVE')
+    return {txt:'File 10-IEA to switch to New. \u26a0 One-time only \u2014 cannot return to Old afterwards.', cls:'new'};
+  /* NEW_NEVER_EXERCISED */
+  return {txt:'No 10-IEA needed \u2014 stay in New (default).', cls:'new'};
+}
+
+/* FY25-26 OLD-regime path text — what to do if client chooses Old (or why unavailable) */
+function maOldPath(g, years, itrPick){
+  if(g.pan === 'ERROR') return {txt:'Parse Error', cls:'warn'};
+  var pickCls = formClass(itrPick);
+  if(pickCls === 'nonbusiness')
+    return {txt:'Free choice \u2014 just file ITR-1/2 in Old. No 10-IEA needed.', cls:'old'};
+  if(!years.length || years.filter(function(y){return y.formClass==='business';}).length===0)
+    return {txt:'File Form 10-IEA before ITR due date (S.139(1)) to opt Old.', cls:'old'};
+  var code = fbVerdict(years);
+  if(code === 'LOCKED_NEW')
+    return {txt:'\u26d4 Not available \u2014 the one-time switch from Old to New was already used in an earlier business year. Under S.115BAC(6), the client cannot opt back to Old.', cls:'locked'};
+  if(code === 'OLD_ACTIVE')
+    return {txt:'Continue Old Regime \u2014 10-IEA already active, no fresh filing needed.', cls:'old'};
+  /* NEW_NEVER_EXERCISED */
+  return {txt:'File Form 10-IEA before ITR due date (S.139(1)) to opt Old (first time).', cls:'old'};
+}
+
+/* Wrap a path result into a coloured cell box */
+function maPathCell(p){
+  return '<div class="ma-path ma-path-'+p.cls+'" style="margin:0;">'+p.txt+'</div>';
+}
+
+/* Live update single result row when user changes ITR or Regime in result table */
+function maUpdateRow(idx, newItr, newReg){
+  var g = MA.rows[idx];
+  if(newItr) MA.rows[idx]._itrPick = newItr;
+  var itrPick = MA.rows[idx]._itrPick || 'ITR-1';
+  var years = [];
+  if(g.ay24 && !g.ay24_skipped) years.push({ay:'2024-25',form:g.ay24.form,regime:g.ay24.regime,formClass:formClass(g.ay24.form),hasAck:yearHasAck(g.ay24)});
+  if(g.ay25 && !g.ay25_skipped) years.push({ay:'2025-26',form:g.ay25.form,regime:g.ay25.regime,formClass:formClass(g.ay25.form),hasAck:yearHasAck(g.ay25)});
+  years.sort(function(a,b){return a.ay<b.ay?-1:1;});
+  var newP = maNewPath(g, years, itrPick);
+  var oldP = maOldPath(g, years, itrPick);
+  MA.rows[idx]._verdictNew = newP.txt;
+  MA.rows[idx]._verdictOld = oldP.txt;
+  var cN = document.getElementById('maVerdNew_'+idx);
+  var cO = document.getElementById('maVerdOld_'+idx);
+  if(cN) cN.innerHTML = maPathCell(newP);
+  if(cO) cO.innerHTML = maPathCell(oldP);
+}
+
+/* Back to preview — show preview with existing data, no re-upload needed */
+function maBackToPreview(){
+  document.getElementById('maResultSection').style.display  = 'none';
+  document.getElementById('maPreviewSection').style.display = 'block';
+  document.getElementById('maPreviewSection').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ── Search / filter result rows by name or PAN ── */
+function maFilterResults(q){
+  q = (q||'').trim().toLowerCase();
+  var rows = document.querySelectorAll('#maResultBody tr');
+  var shown = 0;
+  rows.forEach(function(r){
+    var hay = r.getAttribute('data-search')||'';
+    if(!q || hay.indexOf(q)>-1){ r.classList.remove('ma-row-hidden'); shown++; }
+    else { r.classList.add('ma-row-hidden'); }
+  });
+  document.getElementById('maSearchClear').style.display = q ? 'flex' : 'none';
+  var cnt = document.getElementById('maSearchCount');
+  cnt.textContent = q ? (shown + ' match'+(shown!==1?'es':'')) : '';
+}
+
+function maClearSearch(){
+  var inp = document.getElementById('maSearchInput');
+  inp.value = '';
+  maFilterResults('');
+  inp.focus();
+}
+
+function maExportExcel(){
+  if(!window.XLSX){ maShowErr('Excel library not loaded. Please check your connection and refresh.'); return; }
+
+  /* Helper: get latest ack obj from a year's data */
+  function getLatestAck(yr){
+    if(!yr) return {ack:'',date:''};
+    var objs = yr.ackObjs || (yr.acks||[]).map(function(a){return{ack:a,date:''};});
+    objs = objs.map(function(o){return{ack:o.ack,date:o.date||maDecodeAckDate(o.ack)};});
+    var seen={}; objs.forEach(function(o){if(o.ack)seen[o.ack]=o;});
+    var deduped=Object.keys(seen).map(function(k){return seen[k];});
+    deduped.sort(function(a,b){return (b.date||'').localeCompare(a.date||'');});
+    var latest=deduped[0]||{ack:'',date:''};
+    var fmtDate=latest.date?latest.date.replace(/(\d{4})-(\d{2})-(\d{2})/,'$3-$2-$1'):'';
+    return {ack:latest.ack||'',date:fmtDate};
+  }
+
+  /* ── Sheet 1: Valid results (exclude ERROR rows) ── */
+  var data1 = [['#','Name','PAN',
+    'FY 23-24 Form','FY 23-24 Regime','FY 23-24 10-IEA Ack No','FY 23-24 10-IEA Filed Date',
+    'FY 24-25 Form','FY 24-25 Regime','FY 24-25 10-IEA Ack No','FY 24-25 10-IEA Filed Date',
+    'FY 25-26 ITR','FY 25-26 NEW Regime — 10-IEA Position','FY 25-26 OLD Regime — 10-IEA Position']];
+  var n = 0;
+  MA.rows.forEach(function(g){
+    if(g.pan==='ERROR') return;
+    n++;
+    var ay24=g.ay24, ay25=g.ay25;
+    var ack24=getLatestAck(ay24&&!g.ay24_skipped?ay24:null);
+    var ack25=getLatestAck(ay25&&!g.ay25_skipped?ay25:null);
+    data1.push([
+      n,
+      g.name||'',
+      g.pan||'',
+      (ay24&&!g.ay24_skipped)?ay24.form:'Not received / Skipped',
+      (ay24&&!g.ay24_skipped)?ay24.regime:'-',
+      ack24.ack||'-',
+      ack24.date||'-',
+      (ay25&&!g.ay25_skipped)?ay25.form:'Not received / Skipped',
+      (ay25&&!g.ay25_skipped)?ay25.regime:'-',
+      ack25.ack||'-',
+      ack25.date||'-',
+      g._itrPick||'',
+      g._verdictNew||'',
+      g._verdictOld||''
+    ]);
+  });
+  var ws1 = XLSX.utils.aoa_to_sheet(data1);
+  ws1['!cols'] = [
+    {wch:4},{wch:28},{wch:13},
+    {wch:13},{wch:13},{wch:18},{wch:16},
+    {wch:13},{wch:13},{wch:18},{wch:16},
+    {wch:12},{wch:50},{wch:50}
+  ];
+
+  /* ── Sheet 2: Parse errors ── */
+  var data2 = [['#','File Name','Reason']];
+  var ne = 0;
+  MA.rows.forEach(function(g){
+    if(g.pan!=='ERROR') return;
+    ne++;
+    var fname = (g.errors&&g.errors[0]&&g.errors[0].fileName) || (g._fileName||'Unknown');
+    var reason = (g.errors&&g.errors[0]&&g.errors[0].error) || 'Could not parse';
+    data2.push([ne, fname, reason]);
+  });
+  var ws2 = XLSX.utils.aoa_to_sheet(data2);
+  ws2['!cols'] = [{wch:4},{wch:40},{wch:60}];
+
+  var wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws1, 'Form 10-IEA Results');
+  if(ne>0) XLSX.utils.book_append_sheet(wb, ws2, 'Parse Errors');
+
+  var today=new Date(); var dd=String(today.getDate()).padStart(2,'0'); var mm=String(today.getMonth()+1).padStart(2,'0'); var yy=today.getFullYear();
+  XLSX.writeFile(wb, 'Form10IEA_Bulk_'+dd+mm+yy+'.xlsx');
+}
+
+/* Drag-drop for multi upload zone */
+(function(){
+  function initMaDrop(){
+    var zone = document.getElementById('maDropZone');
+    if(!zone||zone._dropInited) return;
+    zone._dropInited = true;
+    zone.addEventListener('dragover', function(e){ e.preventDefault(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', function(e){ e.preventDefault(); zone.classList.remove('drag-over'); });
+    zone.addEventListener('drop', function(e){
+      e.preventDefault(); zone.classList.remove('drag-over');
+      var items = e.dataTransfer && e.dataTransfer.items;
+      var files = e.dataTransfer && e.dataTransfer.files;
+      if(items && items.length){
+        // Support folder drop via webkitGetAsEntry
+        var allFiles = [];
+        var pending = 0;
+        Array.from(items).forEach(function(item){
+          var entry = item.webkitGetAsEntry && item.webkitGetAsEntry();
+          if(entry && entry.isDirectory){
+            pending++;
+            maReadDir(entry, allFiles, function(){
+              pending--;
+              if(pending===0) maHandleFiles(allFiles);
+            });
+          } else if(files){
+            // handled below
+          }
+        });
+        if(pending===0 && files && files.length) maHandleFiles(files);
+      } else if(files && files.length){
+        maHandleFiles(files);
+      }
+    });
+  }
+  setTimeout(initMaDrop, 400);
+})();
+
+function maReadDir(dirEntry, allFiles, done){
+  var reader = dirEntry.createReader();
+  reader.readEntries(function(entries){
+    var pending = entries.length;
+    if(!pending){ done(); return; }
+    entries.forEach(function(entry){
+      if(entry.isFile){
+        entry.file(function(f){
+          if(/\.(json|pdf)$/i.test(f.name)) allFiles.push(f);
+          pending--; if(pending===0) done();
+        }, function(){ pending--; if(pending===0) done(); });
+      } else {
+        maReadDir(entry, allFiles, function(){ pending--; if(pending===0) done(); });
+      }
+    });
+  });
+}
+
+function switchInner(id, btn){
+  document.querySelectorAll('.inner-pane').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.inner-btn').forEach(function(b){b.classList.remove('on');});
+  var pane = document.getElementById('inner-'+id);
+  if(pane) pane.classList.add('on');
+  if(btn) btn.classList.add('on');
+  if(id === 'multi') setTimeout(initMaDrop, 50);
+}
+
+function switchSub(id,btn){
+  document.querySelectorAll('.sub-pane').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.sub-btn').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('sub-'+id).classList.add('on');
+  btn.classList.add('on');
+  // When ITR Form Upload Based tab is clicked, reset inner tab to Single Assessee
+  if(id==='form'){
+    var ib=document.getElementById('ib-single');
+    if(ib) switchInner('single',ib);
+  }
+}
+
+/* ═══ FORM-BASED SMART FINDER ═══ */
+if(window.pdfjsLib){ pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }
+var FB={A:null,B:null,filed:{A:null,B:null}};
+
+function fbNum(s){ if(!s) return 0; return parseInt(String(s).replace(/[^0-9]/g,''),10)||0; }
+
+/* ── fbExtractJSON: parse income-tax portal ITR JSON export ─────────────────
+   The portal exports the ITR as { "ITR": { "ITR3": { ... } } }.
+   We extract: FormName, AssessmentYear, Name, PAN, and regime (from FilingStatus).
+   Returns the same shape as fbDetect() so the rest of the pipeline is unchanged. */
+function fbExtractJSON(text){
+  var d;
+  try{ d=JSON.parse(text); } catch(e){ throw new Error('File is not valid JSON. Please upload the ITR JSON downloaded from the income-tax portal.'); }
+  if(!d.ITR) throw new Error('JSON does not look like an ITR file — missing top-level "ITR" key.');
+  var formKeys=Object.keys(d.ITR);
+  if(!formKeys.length) throw new Error('ITR JSON has no form data inside the "ITR" key.');
+  var formKey=formKeys[0]; /* ITR3, ITR1, ITR2, ITR4 */
+  var itr=d.ITR[formKey];
+
+  /* Form name: ITR3→ITR-3, ITR1→ITR-1 etc. */
+  var formInfoKey='Form_'+formKey; /* Form_ITR3, Form_ITR1 … */
+  var formInfo=itr[formInfoKey]||{};
+  var formName=formInfo.FormName||formKey.replace('ITR','ITR-')||'';
+  /* Validate form type */
+  if(['ITR-1','ITR-2','ITR-3','ITR-4'].indexOf(formName)<0)
+    throw new Error('Unsupported ITR form in JSON: '+formName+'. Only ITR-1, ITR-2, ITR-3, ITR-4 are accepted.');
+
+  /* AY: JSON stores "2024" meaning AY 2024-25, "2025" meaning AY 2025-26 */
+  var ayRaw=formInfo.AssessmentYear||'';
+  var ayMap={'2024':'2024-25','2025':'2025-26','2026':'2026-27'};
+  var ay=ayMap[String(ayRaw)]||'';
+  if(!ay) throw new Error('Unrecognised Assessment Year "'+ayRaw+'" in this JSON. This tool supports AY 2024-25, AY 2025-26, and AY 2026-27 only. Please check the file.');
+
+  /* Personal info
+     ITR-3 wraps PersonalInfo/FilingStatus inside PartA_GEN1.
+     ITR-1, ITR-2, ITR-4 put them directly under the form object.
+     Try PartA_GEN1 first; fall back to direct for the other forms. */
+  var partA=itr.PartA_GEN1||{};
+  var pi=partA.PersonalInfo||itr.PersonalInfo||{};
+  var nameD=pi.AssesseeName||{};
+  var name=[nameD.FirstName,nameD.MiddleName,nameD.SurNameOrOrgName].filter(Boolean).join(' ').trim();
+  var pan=pi.PAN||'';
+
+  /* ── Regime detection — schema-verified against all 8 official ITR JSON schemas ──
+   *
+   *  ITR-1 AY2024-25 & AY2025-26 : OptOutNewTaxRegime = "Y|N"
+   *  ITR-2 AY2024-25 & AY2025-26 : OptOutNewTaxRegime = "Y|N"  (default "N")
+   *
+   *  ITR-3 AY2024-25 : OptOutNewTaxRegime = "Y|N|B"
+   *    Y = opted out within due date → Old Regime
+   *    B = opted out beyond due date → Old Regime (late, but opted out)
+   *    N = did not opt out → New Regime
+   *
+   *  ITR-4 AY2024-25 : OptOutNewTaxRegime = "Y|N|B|NA"
+   *    Y/B = Old; N/NA = New
+   *
+   *  ITR-3 AY2025-26 (schema completely changed — OptOutNewTaxRegime field REMOVED):
+   *    OptOutNewTaxRegime_Method   = "BY10IEA"|"OPTINRETURN" → present only when opting out → Old
+   *    Yes_ContOptOutNewTaxReg     = "Y" → had 10-IEA in AY2024-25, continuing Old Regime
+   *    No_OptOutNewTaxReg          = "Y" → first-time opt-out in AY2025-26 → Old Regime
+   *    SetOptOutNewTaxReg          = "Y" → opt-out set flag → Old Regime
+   *    NA_OptOutNewTaxReg          = "Y" → not applicable (switching from ITR1/2) → New Regime
+   *
+   *  ITR-4 AY2025-26 : same new schema as ITR-3 AY2025-26 (no OptOutNewTaxRegime field)
+   */
+  var fs=partA.FilingStatus||itr.FilingStatus||{};
+
+  var optOut    = fs.OptOutNewTaxRegime||'';          /* ITR1/2 all AY; ITR3/4 AY2024-25 */
+  var contOpt   = fs.Yes_ContOptOutNewTaxReg||'';     /* ITR3/4 AY2025-26: continuing old */
+  var noOptOut  = fs.No_OptOutNewTaxReg||'';          /* ITR3/4 AY2025-26: first-time old */
+  var setOpt    = fs.SetOptOutNewTaxReg||'';          /* ITR3   AY2025-26: opt-out set */
+  /* OptOutNewTaxRegime_Method: portal pre-fills this field regardless of opt-out decision.
+     NEVER use it as standalone signal. Only the Y/N flags above are authoritative. */
+  /* NA_OptOutNewTaxReg = 'Y' means not applicable (no biz income) → New Regime */
+
+  var isOld = (
+    optOut==='Y' || optOut==='B' ||  /* AY2024-25: Y=within due date, B=beyond due date */
+    contOpt==='Y' ||                  /* AY2025-26: continuing Old Regime from prior year */
+    noOptOut==='Y' ||                 /* AY2025-26: first-time opt-out this year */
+    setOpt==='Y'                      /* AY2025-26: opt-out set flag */
+    /* optMethod intentionally excluded — pre-filled by portal, not a reliable signal */
+  );
+  var regime=isOld?'Old':'New';
+
+  /* 10-IEA ack numbers + filing dates — current AY + prior AY if present */
+  var ackObjs=[];
+  var ack1=fs.Form10IEAAckNo||0;
+  var date1=fs.Form10IEADate||'';
+  var ack2=fs.Form10IEAAckNo_AY24_25||0;
+  var date2=fs.Form10IEADate_AY24_25||'';
+  /* Decode date from ack number if field is missing (AY2024-25 schema has no Form10IEADate) */
+  function decodeAckDate(a){
+    a=String(a); if(a.length!==15) return '';
+    var dd=a.slice(9,11),mm=a.slice(11,13),yy=a.slice(13,15);
+    return '20'+yy+'-'+mm+'-'+dd;
+  }
+  if(ack1) ackObjs.push({ack:String(ack1), date:date1||decodeAckDate(ack1)});
+  if(ack2 && String(ack2)!==String(ack1)) ackObjs.push({ack:String(ack2), date:date2||decodeAckDate(ack2)});
+  /* Legacy: acks array kept for PDF path compatibility */
+  var acks=ackObjs.map(function(o){return o.ack;});
+
+  return {form:formName,ay:ay,name:name,pan:pan,regime:regime,acks:acks,ackObjs:ackObjs,conf:'high',_fromJSON:true};
+}
+
+/* ── fbIsZip: peek first 4 bytes for PK signature ─── */
+async function fbIsZip(file){
+  var hdr=await file.slice(0,4).arrayBuffer();
+  var b=new Uint8Array(hdr);
+  return b[0]===0x50&&b[1]===0x4B&&b[2]===0x03&&b[3]===0x04;
+}
+
+/* ── fbExtractZip: read .txt files from ZIP-of-images ITR format ── */
+async function fbExtractZip(file){
+  if(typeof JSZip==='undefined') throw new Error('JSZip not loaded');
+  var buf=await file.arrayBuffer();
+  var zip=await JSZip.loadAsync(buf);
+  /* Read manifest.json first to get ordered page list */
+  var txt='';
+  var manifestFile=zip.file('manifest.json');
+  var pageOrder=[];
+  if(manifestFile){
+    try{
+      var mj=JSON.parse(await manifestFile.async('string'));
+      if(mj.pages) pageOrder=mj.pages.map(function(p){return p.text&&p.text.path;}).filter(Boolean);
+    }catch(e){}
+  }
+  /* If no manifest, fall back to numeric order of .txt files */
+  if(!pageOrder.length){
+    var allTxt=[];
+    zip.forEach(function(path,entry){if(/\.txt$/i.test(path)&&!entry.dir) allTxt.push(path);});
+    allTxt.sort(function(a,b){
+      var na=parseInt(a)||0, nb=parseInt(b)||0;
+      return na-nb;
+    });
+    pageOrder=allTxt;
+  }
+  /* Read ALL pages — no cap. Schedule VI-A may appear anywhere in a long ITR. */
+  for(var i=0;i<pageOrder.length;i++){
+    var entry=zip.file(pageOrder[i]);
+    if(entry){ txt+=' '+(await entry.async('string')); }
+  }
+  if(!txt.trim()) throw new Error('ZIP contains no text layer — this file has images only and cannot be parsed. Please download the ITR Form PDF directly from the income-tax portal instead.');
+  return txt.replace(/\s+/g,' ');
+}
+
+async function fbExtract(file){
+  /* Auto-detect: ZIP-based ITR (e.g. from income-tax portal download) vs normal PDF */
+  var isZip=await fbIsZip(file);
+  if(isZip){ return fbExtractZip(file); }
+  var buf=await file.arrayBuffer();
+  /* Some ITR PDFs have a Java-serialization header (0xACED0005) prepended before %PDF.
+     PDF.js handles this fine (it scans for the %PDF marker internally), but to be safe
+     we strip any non-PDF prefix before passing the buffer. */
+  var bytes=new Uint8Array(buf);
+  var pdfSig=[0x25,0x50,0x44,0x46]; /* %PDF */
+  var pdfStart=0;
+  for(var bi=0;bi<Math.min(bytes.length,1024);bi++){
+    if(bytes[bi]===pdfSig[0]&&bytes[bi+1]===pdfSig[1]&&bytes[bi+2]===pdfSig[2]&&bytes[bi+3]===pdfSig[3]){pdfStart=bi;break;}
+  }
+  var pdfBuf = pdfStart>0 ? buf.slice(pdfStart) : buf;
+  var pdf=await pdfjsLib.getDocument({data:pdfBuf}).promise;
+  var txt='';
+  /* Read ALL pages — no cap. Complete ITR text needed for all signals. */
+  for(var i=1;i<=pdf.numPages;i++){
+    var pg=await pdf.getPage(i);
+    var c=await pg.getTextContent();
+    txt+=' '+c.items.map(function(it){return it.str;}).join(' ');
+  }
+  return txt.replace(/\s+/g,' ');
+}
+
+function fbDetect(t){
+  var U=t.toUpperCase();
+
+  /* ── GUARD: Reject ITR Acknowledgement (ITR-V) — not an ITR form ─────────────
+     The acknowledgement PDF (ITRV) has identical fields (PAN, Name, Form, AY)
+     but contains NO regime or deduction data. Parsing it silently returns wrong
+     results. Detect it early and throw a clear error so the caller can warn user.
+     
+     Reliable unique markers present ONLY in the acknowledgement PDF:
+       1. "DO NOT SEND THIS ACKNOWLEDGEMENT TO CPC"   — footer text
+       2. "INDIAN INCOME TAX RETURN ACKNOWLEDGEMENT"  — document title
+     These phrases NEVER appear in actual ITR form PDFs.                         */
+  if(U.indexOf('DO NOT SEND THIS ACKNOWLEDGEMENT TO CPC')>-1 ||
+     U.indexOf('INCOME TAX RETURN ACKNOWLEDGEMENT')>-1){
+    throw new Error(
+      'This appears to be an ITR Acknowledgement (ITR-V), not an ITR Form PDF. ' +
+      'Please upload the actual ITR Form (downloaded from the Income Tax Portal ' +
+      'under “View Filed Returns” → “Download Form”), not the acknowledgement. ' +
+      'Alternatively, upload the ITR JSON file for best results.'
+    );
+  }
+
+  /* Form type */
+  var form='', head=U.slice(0,700);
+  if(/SAHAJ/.test(head)) form='ITR-1';
+  else if(/SUGAM/.test(head)) form='ITR-4';
+  else { var fmh=head.match(/FORM\s+ITR\s*-?\s*([1-4])/)||head.match(/ITR\s*-?\s*([1-4])\b/); if(fmh) form='ITR-'+fmh[1]; }
+  /* AY */
+  var ay='';
+  var am=U.match(/ASSESSMENT\s*YEAR\s*(20\d{2}\s*-\s*\d{2})/);
+  if(am){ ay=am[1].replace(/\s/g,''); } else { var a2=U.match(/20(24|25|26)\s*-\s*(2[4-7])/); if(a2) ay='20'+a2[1]+'-'+a2[2]; }
+  /* PAN */
+  var pan=''; var pm=U.match(/[A-Z]{5}[0-9]{4}[A-Z]/); if(pm) pan=pm[0];
+  /* 10-IEA acks + shared retAck (used by both acks dedup and Signal G) */
+  var retAck='';
+  var ra=U.match(/ACKNOWLEDGEMENT NUMBER\s*:?\s*(\d{15})/)||t.match(/Acknowledgement\s*Number\s*:?\s*(\d{15})/i);
+  if(ra) retAck=ra[1];
+  var acks=[];
+  var pr=/(\d{2}\/\d{2}\/\d{4})\s*(\d{15})/g, pa;
+  while((pa=pr.exec(U))!==null){ if(parseInt(pa[1].slice(-4),10)>=2023 && pa[2]!==retAck && acks.indexOf(pa[2])<0) acks.push(pa[2]); }
+  if(!acks.length){ var re=/10\s*-?\s*IEA[\s\S]{0,260}?(\d{15})/g,m; while((m=re.exec(U))!==null){ if(m[1]!==retAck && acks.indexOf(m[1])<0) acks.push(m[1]); } }
+  /* ── REGIME DETECTION — 5 independent signals, majority + priority logic ──────
+     Signal scoring:
+       +2  Old  /  -2  New  = definitive (used alone)
+       +1  Old  /  -1  New  = supporting (need corroboration)
+     Final: net score > 0 → Old ; ≤ 0 → New
+  ────────────────────────────────────────────────────────────────────────────── */
+  var regScore=0;
+
+  /* ── SIGNAL G: 10-IEA Acknowledgement Number in opt-out section ─────────────
+     The ITR form ALWAYS prints the opt-out question and method labels as STATIC
+     TEMPLATE TEXT regardless of the taxpayer's answer. Detecting those phrases
+     alone is therefore NOT a reliable regime signal.
+     
+     The ONLY reliable indicator: a 15-digit Form 10-IEA acknowledgement number
+     appearing inside the opt-out section (within ~600 chars of "Do you wish to
+     opt out of New Tax Regime"), which is DIFFERENT from the return's own ack.
+     - Old Regime (YES ticked): the ITR mandatorily records the 10-IEA ack number
+       e.g. "24/07/2025 433853120240725" immediately after the yes/no question.
+     - New Regime (NO ticked): no such ack number appears in that section.      */
+  /* retAck already set above — shared across the whole function */
+  var iea10Direct=false;
+  var optOutSection='';
+  var optOutM=t.match(/Do you wish to opt out of New Tax Regime[\s\S]{0,600}/i);
+  if(optOutM) optOutSection=optOutM[0];
+  if(optOutSection){
+    var acksInSection=optOutSection.match(/\d{15}/g)||[];
+    for(var ai=0;ai<acksInSection.length;ai++){
+      if(acksInSection[ai]!==retAck){ iea10Direct=true; break; }
+    }
+  }
+  if(iea10Direct){ regScore+=3; } /* definitive Old — 10-IEA ack confirmed */
+
+  /* ── SIGNAL A: 80TTA / 80TTB in Schedule VI-A ──────────────────────────────
+     80TTA (savings bank interest) and 80TTB (senior citizen deposits) are
+     ONLY available under Old Regime. If the PDF shows a non-zero value against
+     these fields, the return MUST be Old Regime. Zero or absent = no signal.
+     This is Mayur's suggestion and is the most reliable indirect signal.       */
+  var ttaM=t.match(/80\s*TTA[^\d\r\n]{0,120}?([1-9][\d,]{1,11})/i); /* value ≥1, skip any leading zeros or label digits */
+  var ttbM=t.match(/80\s*TTB[^\d\r\n]{0,120}?([1-9][\d,]{1,11})/i); /* value ≥1, skip any leading zeros or label digits */
+  var ttaVal=ttaM?fbNum(ttaM[1]):0;
+  var ttbVal=ttbM?fbNum(ttbM[1]):0;
+  if(ttaVal>0||ttbVal>0){ regScore+=2; } /* definitive Old */
+
+  /* ── SIGNAL B: Chapter VI-A total deduction > 0 ────────────────────────────
+     Any deduction under Chapter VI-A (80C/80D/80E etc.) is only available
+     under Old Regime. Extract the TOTAL deduction line value carefully.        */
+  var ded=0;
+  var dm=t.match(/Total deductions[^)]*\)[^0-9]{0,10}?([\d][\d,]{2,})/i); if(dm) ded=fbNum(dm[1]);
+  if(!ded){ var dm2=t.match(/Deduction\s*\(Total[^)]*\)[^0-9]{0,10}?([\d][\d,]{2,})/i); if(dm2) ded=fbNum(dm2[1]); }
+  if(!ded){ var dm3=t.match(/(?:Total\s+)?Deductions?\s+under\s+Chapter\s+VI-?A[^0-9]{0,50}?([\d][\d,]{2,})/i); if(dm3) ded=fbNum(dm3[1]); }
+  if(ded>0){ regScore+=2; } /* definitive Old */
+
+  /* ── SIGNAL C: HP interest on borrowed capital — SAFE numeric extract ───────
+     Extract value of field 1h only. Require ≥2 digits to avoid matching the
+     digit "1" from arithmetic summary labels like "(1a+1b+…+1h) 1i 0".        */
+  var hpIntVal=0;
+  var hpLabelM=t.match(/\b1h\b[^0-9-]{0,15}?([\d]{2}[\d,]*)/i);
+  if(hpLabelM){ hpIntVal=fbNum(hpLabelM[1]); }
+  if(!hpIntVal){
+    var hpFbM=t.match(/Interest payable on borrowed capital[^0-9-]{0,25}?([\d]{4}[\d,]*)/i);
+    if(hpFbM){ hpIntVal=fbNum(hpFbM[1]); }
+  }
+  if(hpIntVal>0){ regScore+=2; } /* definitive Old — self-occ or let-out loan */
+
+  /* ── SIGNAL D: Negative House Property income (self-occupied 24(b) loss) ────
+     If HP head shows a loss (negative), it means 24(b) was claimed — Old only. */
+  /* Signal D: covers both new PDF format ('head "Income from house property"') and older ITR-V format */
+  var hpHeadLoss=/(?:head\s*['"\u2019]?\s*(?:Income from\s+)?House\s+Property|Income from house property)[\s\S]{0,80}?\s-\s*[1-9]\d{2,}/i.test(t);
+  if(hpHeadLoss){ regScore+=1; } /* supporting Old */
+
+  /* ── SIGNAL E: Standard Deduction u/s 16(ia) — available BOTH regimes ───────
+     NOT used as a regime signal — present in both Old and New from AY 2024-25. */
+
+  /* ── SIGNAL F: New Regime counter-signals (score reduction) ────────────────
+     If Schedule VI-A shows ALL major deduction fields as zero AND 80TTA=0,
+     this suggests New Regime. Suppressed if Signal G (10-IEA direct) fired.   */
+  var allDedZero=(ded===0 && ttaVal===0 && ttbVal===0 && hpIntVal===0 && !hpHeadLoss);
+  if(allDedZero && !iea10Direct){ regScore-=1; } /* supporting New */
+
+  /* ── FINAL REGIME DECISION ──────────────────────────────────────────────────
+     score > 0 → Old Regime; score ≤ 0 → New Regime                            */
+  var regime = (regScore>0) ? 'Old' : 'New';
+  var conf   = (regScore>=3)?'high':(regScore>=2)?'high':(regScore===1)?'med':(acks.length?'low':'med');
+  /* Assessee name: header First/Middle/Last, fallback verification line */
+  var name='';
+  var nm=t.match(/First Name\s+([A-Z]{2,})(?:[\s\S]{0,30}?Middle Name\s+([A-Z]{2,}))?[\s\S]{0,30}?Last Name\s+([A-Z]{2,})/i);
+  if(nm){ name=[nm[1],nm[2],nm[3]].filter(Boolean).join(' '); }
+  if(!name){ var vn=t.match(/\bI,\s*([A-Z][A-Z.\s]{3,70}?)\s+son\s*\/\s*daughter\s+of/i); if(vn) name=vn[1].replace(/\s+/g,' ').trim(); }
+  /* Build ackObjs for PDF — decode date from last 6 digits of 15-digit ack (DDMMYY) */
+  var ackObjs=acks.map(function(a){
+    var date='';
+    if(a.length===15){
+      var dd=a.slice(9,11),mm=a.slice(11,13),yy=a.slice(13,15);
+      var yr=parseInt(yy,10); yr=yr>=24?'20'+yy:'20'+yy;
+      date=yr+'-'+mm+'-'+dd; /* ISO format YYYY-MM-DD */
+    }
+    return {ack:a,date:date};
+  });
+  return {form:form,ay:ay,pan:pan,name:name,acks:acks,ackObjs:ackObjs,regime:regime,conf:conf,ded:ded};
+}
+
+async function fbUpload(input,slot){
+  var f=input.files[0]; if(!f) return;
+  var st=document.getElementById('st'+slot);
+  st.textContent='Reading file\u2026'; st.style.color='var(--sub)';
+  try{
+    var d;
+    var isJSON=/\.json$/i.test(f.name)||f.type==='application/json';
+    if(isJSON){
+      var jtext=await f.text();
+      d=fbExtractJSON(jtext);
+    } else {
+      var t=await fbExtract(f);
+      d=fbDetect(t);
+    }
+    var want = slot==='A' ? '2024-25' : '2025-26';
+    var fy   = slot==='A' ? 'FY 2023-24' : 'FY 2024-25';
+    if(d.ay && d.ay!==want){
+      fbPopup('Wrong assessment year for this box',
+        'This box is for <b>AY '+want+'</b> ('+fy+'). The file you uploaded is <b>AY '+d.ay+'</b>.<br><br>Please upload the <b>AY '+want+'</b> ITR Form PDF or JSON here \u2014 or use the other box.');
+      input.value=''; FB[slot]=null;
+      document.getElementById('card'+slot).classList.remove('show');
+      document.getElementById('slot'+slot).classList.remove('has');
+      st.textContent='\u2717 AY '+d.ay+' is not allowed in this box'; st.style.color='var(--rose)';
+      fbBtnState(); return;
+    }
+    FB[slot]=d;
+    document.getElementById('slot'+slot).classList.add('has');
+    renderCard(slot,d);
+    st.innerHTML='\u2713 '+(d.name?'<b>'+d.name+'</b> \u00b7 ':'')+(d.form||'Form ?')+' \u00b7 '+(d.ay||'AY ?')+(d._fromJSON?' \u00b7 JSON':''); st.style.color='var(--jade)';
+  }catch(e){
+    /* Show the specific error if thrown deliberately (e.g. acknowledgement guard),
+       else show the generic 'could not read' message */
+    var isKnown = e.message && e.message.indexOf('ITR Acknowledgement')>-1;
+    if(isKnown){
+      fbPopup('Wrong file type — Acknowledgement detected', e.message);
+      st.textContent='\u2717 Acknowledgement uploaded — please upload the ITR Form PDF or JSON instead.'; st.style.color='var(--rose)';
+    } else {
+      st.textContent='\u2717 Could not read this file. Supported formats: (1) ITR JSON from income-tax portal (fastest & most accurate), (2) Text-based ITR PDF, (3) ZIP-based ITR download. Scanned-only image PDFs are not supported.'; st.style.color='var(--rose)';
+    }
+    FB[slot]=null; document.getElementById('card'+slot).classList.remove('show');
+  }
+  fbBtnState();
+}
+
+function selOpt(v,o){ return '<option value="'+v+'"'+(v===o?' selected':'')+'>'+v+'</option>'; }
+function renderCard(slot,d){
+  var c=document.getElementById('card'+slot);
+  var forms=['ITR-1','ITR-2','ITR-3','ITR-4'];
+  var fopt=(d.form?'':'<option value="" selected disabled>— select form —</option>')+forms.map(function(x){return '<option'+(x===d.form?' selected':'')+'>'+x+'</option>';}).join('');
+  /* AY: if detected from PDF → locked read-only display + hidden input for readSlot().
+     This prevents accidental edits that would produce wrong results.
+     If not detected → editable input so user can type it manually.             */
+  var ayRow = d.ay
+    ? '<div class="fb-row"><span class="fb-lbl">AY</span>'
+        +'<span class="fb-ctl fb-locked" title="Detected from PDF — cannot be edited">'+d.ay+' <span class="fb-lock-icon">🔒</span></span>'
+        +'<input type="hidden" id="ay_'+slot+'" value="'+d.ay+'"></div>'
+    : '<div class="fb-row"><span class="fb-lbl">AY</span>'
+        +'<input class="fb-ctl" id="ay_'+slot+'" value="" placeholder="e.g. 2025-26" onchange="fbCardChange()"></div>';
+  /* PAN: always editable — user may need to correct if OCR misread a character. */
+  var panRow = '<div class="fb-row"><span class="fb-lbl">PAN</span>'
+    +'<input class="fb-ctl" id="pan_'+slot+'" value="'+(d.pan||'')+'" style="text-transform:uppercase;font-family:var(--mono)" onchange="fbCardChange()"></div>';
+  var html=''
+    +'<div class="fb-row"><span class="fb-lbl">Form</span><select class="fb-ctl" id="f_'+slot+'" onchange="fbCardChange()">'+fopt+'</select></div>'
+    +ayRow
+    +'<div class="fb-row"><span class="fb-lbl">Name</span><input class="fb-ctl" id="nm_'+slot+'" value="'+(d.name||'').replace(/"/g,'&quot;')+'" placeholder="Assessee name" onchange="fbCardChange()"></div>'
+    +panRow
+    +'<div class="fb-row"><span class="fb-lbl">Regime</span><select class="fb-ctl" id="r_'+slot+'" onchange="fbCardChange()">'+selOpt('Old',d.regime)+selOpt('New',d.regime)+'</select></div>';
+  if(d.acks && d.acks.length){
+    var ackObjs = d.ackObjs || d.acks.map(function(a){return{ack:a,date:''};});
+    html += '<div class="fb-ack">';
+    ackObjs.forEach(function(o,i){
+      var fmtDate = o.date ? o.date.replace(/(\d{4})-(\d{2})-(\d{2})/,'$3-$2-$1') : '';
+      html += (i>0?'<br>':'')+'<span style="font-weight:700;">Form 10-IEA Ack No:</span><br>';
+      html += '<span onclick="maCopyAck(this,\''+o.ack+'\')" title="Tap to copy" '
+            + 'style="cursor:pointer;font-family:var(--mono);font-size:11px;background:var(--brand-lt);border:1px solid var(--brand-bd);border-radius:4px;padding:2px 7px;display:inline-block;margin-top:2px;">'
+            + o.ack+'<span style="margin-left:5px;font-size:10px;opacity:.7;">⧉</span></span>';
+      if(fmtDate) html += '<br><span style="font-weight:700;">Date of Filing:</span> '+fmtDate;
+    });
+    html += '</div>';
+  }
+  c.innerHTML=html; c.classList.add('show');
+}
+
+function fbResolved(s){ return FB.filed[s]===false || (FB.filed[s]===true && !!FB[s]); }
+function fbBtnState(){ var ok=fbResolved('A') && fbResolved('B') && !!fbIntentItr; var b=document.getElementById('fbBtn'); b.disabled=!ok; b.classList.toggle('ready',ok); }
+function fbCardChange(){ if(document.getElementById('fbOut').innerHTML.replace(/\s/g,'') && fbIntentItr && fbResolved('A') && fbResolved('B')) fbAnalyse(); }
+function fbFiled(slot,filed,btn){
+  FB.filed[slot]=filed;
+  btn.parentElement.querySelectorAll('.fb-yn-btn').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  document.getElementById('up'+slot).style.display = filed ? 'block' : 'none';
+  if(filed) setTimeout(function(){ fbInitDrop(slot); },0);
+  document.getElementById('skip'+slot).style.display = filed ? 'none' : 'block';
+  if(!filed){ FB[slot]=null; var c=document.getElementById('card'+slot); if(c)c.classList.remove('show'); var st=document.getElementById('st'+slot); if(st)st.textContent=''; document.getElementById('slot'+slot).classList.remove('has'); var inp=document.querySelector('#up'+slot+' input[type=file]'); if(inp)inp.value=''; }
+  fbBtnState();
+}
+function fbPopup(title,html){ document.getElementById('fbModalT').textContent=title; document.getElementById('fbModalM').innerHTML=html; document.getElementById('fbModal').classList.add('on'); }
+function closeFbPopup(){ document.getElementById('fbModal').classList.remove('on'); }
+var fbIntentItr='';
+function fbPickItr(btn){
+  document.querySelectorAll('.fb-itab').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on'); fbIntentItr=btn.getAttribute('data-itr');
+  fbBtnState();
+  if(document.getElementById('fbOut').innerHTML.replace(/\s/g,'')) fbAnalyse();
+}
+function fbStrip(h){ return String(h).replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&mdash;/g,'\u2014').replace(/&nbsp;/g,' '); }
+function fbShareText(){
+  var d=window._fbLast; if(!d) return '';
+  var bar='\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501';
+  var L=['📋 *Form 10-IEA Position \u2014 FY 2025-26 (AY 2026-27)*', bar];
+  if(d.who||d.pan) L.push('👤 Dear '+(d.who||'Taxpayer')+(d.pan?' ('+d.pan+')':''));
+  if(d.intent) L.push('For FY 2025-26 (AY 2026-27), filing '+d.intent+':');
+  d.years.forEach(function(y){ L.push('📅 '+fyAy(y.ay)+': '+y.form+' \u00b7 '+y.regime+' Regime'); });
+  L.push(bar); L.push('\u27A1 '+fbStrip(d.title));
+  var P=d.paths;
+  if(P){
+    if(P.mode==='single'){ L.push('\u2022 '+fbStrip(P.single)); }
+    else { var vw=d.view||'both'; if(vw!=='new') L.push('🟠 OLD Regime: '+fbStrip(P.old)); if(vw!=='old') L.push('🟢 NEW Regime: '+fbStrip(P.new)); if(P.note) L.push('\u2139 '+fbStrip(P.note)); }
+  }
+  L.push(bar); L.push('🔗 TaxationUpdates.com \u2014 Free CA Tools');
+  return L.join('\n');
+}
+function fbToast(msg){ var t=document.getElementById('resultToast'); if(t){ t.textContent=msg; t.classList.add('show'); setTimeout(function(){t.classList.remove('show');},2200);} }
+function fbCopy(){ var text=fbShareText(); if(!text)return; var btn=document.getElementById('fbCopyBtn');
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(function(){fbToast('\u2713 Summary copied \u2014 paste anywhere');}).catch(function(){fallbackCopy(text,btn,fbToast);}); }
+  else { fallbackCopy(text,btn,fbToast); } }
+function fbShareWA(){ var text=fbShareText(); if(!text)return; window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank'); }
+function fbReset(){
+  FB={A:null,B:null,filed:{A:null,B:null}}; fbIntentItr='';
+  ['A','B'].forEach(function(sl){
+    var slot=document.getElementById('slot'+sl); if(slot)slot.classList.remove('has');
+    var c=document.getElementById('card'+sl); if(c){c.classList.remove('show');c.innerHTML='';}
+    var st=document.getElementById('st'+sl); if(st){st.textContent='';st.style.color='';}
+    var up=document.getElementById('up'+sl); if(up)up.style.display='none';
+    var sk=document.getElementById('skip'+sl); if(sk)sk.style.display='none';
+    if(slot){ slot.querySelectorAll('.fb-yn-btn').forEach(function(b){b.classList.remove('on');}); var inp=slot.querySelector('input[type=file]'); if(inp)inp.value=''; }
+  });
+  document.querySelectorAll('.fb-itab').forEach(function(b){b.classList.remove('on');});
+  var o=document.getElementById('fbOut'); if(o)o.innerHTML='';
+  var bt=document.getElementById('fbBtn'); if(bt)bt.disabled=true;
+  document.getElementById('sub-form').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* read confirmed control values back */
+function readSlot(slot){
+  if(!FB[slot]) return null;
+  return {
+    form:document.getElementById('f_'+slot).value,
+    ay:document.getElementById('ay_'+slot).value.replace(/\s/g,''),
+    pan:document.getElementById('pan_'+slot).value.toUpperCase().trim(),
+    regime:document.getElementById('r_'+slot).value,
+    name:(document.getElementById('nm_'+slot)?document.getElementById('nm_'+slot).value.trim():''),
+    hasAck:yearHasAck(FB[slot])
+  };
+}
+function formClass(f){ return (f==='ITR-3'||f==='ITR-4')?'business':'nonbusiness'; }
+
+/* node-verified engine */
+function fbVerdict(years){
+  /* Non-business years (ITR-1/2) are free-choice and do NOT exercise or withdraw the
+     S.115BAC(6) option, so we read the position from business years only. */
+  var biz=years.filter(Boolean).filter(function(y){return y.formClass==='business';});
+  if(biz.length===0) return 'NEVER_BUSINESS';
+
+  /* ── KEY RULE: For ITR-3/4, Form 10-IEA is filed at TWO events:
+       1st filing = opting OUT of New into Old.
+       2nd filing = WITHDRAWING (re-entering New) — after this, Old can NEVER be chosen again.
+     Therefore a business year showing NEW regime WITH a Form 10-IEA acknowledgement
+     can ONLY be the 2nd (withdrawal) filing — which means the person was in Old earlier
+     and has now used the one-time switch. This LOCKS them into New (S.115BAC(6)),
+     even if the prior Old year is not uploaded. New + ack is impossible without a
+     preceding Old + ack. */
+  var exercised=false, withdrawalUsed=false;
+  biz.forEach(function(y){
+    if(y.regime==='Old'){
+      exercised=true;
+    } else if(y.regime==='New'){
+      if(y.hasAck){
+        /* New + 10-IEA ack = withdrawal filing → switch already used → locked */
+        exercised=true; withdrawalUsed=true;
+      } else if(exercised){
+        /* New following a known Old year (sequence-based withdrawal) */
+        withdrawalUsed=true;
+      }
+    }
+  });
+  if(withdrawalUsed) return 'LOCKED_NEW';
+  return biz[biz.length-1].regime==='Old' ? 'OLD_ACTIVE' : 'NEW_NEVER_EXERCISED';
+}
+
+/* Helper: does a parsed year object carry a Form 10-IEA acknowledgement? */
+function yearHasAck(obj){
+  if(!obj) return false;
+  if(obj.acks && obj.acks.length) return true;
+  if(obj.ackObjs && obj.ackObjs.length) return true;
+  return false;
+}
+
+var VB={
+  NEVER_BUSINESS:{cls:'fb-v-free',title:'🟢 Free Choice \u2014 No Form 10-IEA needed',rows:[
+    ['biz','If you start business / professional income (ITR-3 / ITR-4)','To pick the <strong>Old Regime</strong>, file <strong>Form 10-IEA before the due date u/s 139(1)</strong>. This is your first time choosing Old (S. 115BAC(6)). For the New Regime, do nothing \u2014 it is the default.']
+  ]},
+  OLD_ACTIVE:{cls:'fb-v-old',title:'🟠 You are in the Old Regime \u2014 one switch to New is still allowed',rows:[
+    ['biz','Want to stay in the Old Regime?','<strong>You do NOT need to file Form 10-IEA again.</strong> The form you filed earlier still works \u2014 simply continue in your return.'],
+    ['biz','Want to move to the New Regime?','File <strong>Form 10-IEA once</strong> to switch. \u26A0\uFE0F This switch is allowed <strong>only one time</strong>. After this you can never go back to the Old Regime while you have business income (S. 115BAC(6)).']
+  ]},
+  NEW_NEVER_EXERCISED:{cls:'fb-v-new',title:'🟢 You are in the New Regime \u2014 you can still move to Old',rows:[
+    ['biz','Want to stay in the New Regime?','Do nothing \u2014 the New Regime is the default (S. 115BAC(1A)).'],
+    ['biz','Want to move to the Old Regime?','File <strong>Form 10-IEA before the due date u/s 139(1)</strong>. This is your first time choosing Old. After this it continues automatically, and you can switch back to New only once later (S. 115BAC(6)).']
+  ]},
+  LOCKED_NEW:{cls:'fb-v-lock',title:'\u26A0\uFE0F New Regime is locked in \u2014 the Old Regime is no longer available',rows:[
+    ['all','You have already used your one-time switch back to New','Your returns show Old \u2192 New in a business year. Under S. 115BAC(6), once you switch back you <strong>cannot choose the Old Regime again</strong> while you have business income. <strong>No Form 10-IEA will help.</strong> The Old Regime can return only if your business / professional income stops completely.']
+  ]}
+};
+function fyAy(ay){ var m={'2024-25':'FY 2023-24 (AY 2024-25)','2025-26':'FY 2024-25 (AY 2025-26)','2026-27':'FY 2025-26 (AY 2026-27)'}; return m[ay]||('AY '+ay); }
+function fbHeader(code,pickCls){
+  if(pickCls==='nonbusiness') return {cls:'fb-v-free',title:'🟢 You can pick either Regime \u2014 No Form 10-IEA needed'};
+  if(pickCls==='business' && code==='NEVER_BUSINESS') return {cls:'fb-v-new',title:'🟢 Starting business income \u2014 choose your Regime'};
+  return {cls:VB[code].cls,title:VB[code].title};
+}
+function fbPaths(code,pickCls){
+  if(pickCls==='nonbusiness'){
+    var note='';
+    if(code==='OLD_ACTIVE') note='Your earlier Old-Regime option does not operate in a non-business year. If business income comes back later, that position revives (S. 115BAC(6)).';
+    if(code==='LOCKED_NEW') note='This does not affect ITR-1 / ITR-2. But if business income comes back, the Old Regime stays closed for you (S. 115BAC(6)).';
+    return {mode:'choice',
+      old:'Choose the Old Regime <strong>inside the return</strong>. <strong>No Form 10-IEA needed</strong> \u2014 it is only for business / professional income.',
+      new:'Choose the New Regime <strong>inside the return</strong>. No form needed \u2014 it is the default.',
+      note:note};
+  }
+  if(code==='LOCKED_NEW') return {mode:'single',
+    single:'Your one-time switch back to New is already used (Old \u2192 New in a business year). Under S. 115BAC(6) you <strong>cannot choose the Old Regime again</strong> while you have business income. <strong>The New Regime applies and no Form 10-IEA will help.</strong> The Old Regime can return only if business / professional income stops completely.'};
+  if(code==='OLD_ACTIVE') return {mode:'choice',
+    old:'You are already in the Old Regime. <strong>Do NOT file Form 10-IEA again</strong> \u2014 the form you filed earlier still works. Just file your return in the Old Regime.',
+    new:'File <strong>Form 10-IEA once</strong> to switch to New. \u26A0\uFE0F This is a <strong>one-time</strong> switch \u2014 after it you can never return to the Old Regime while you have business income (S. 115BAC(6)).'};
+  if(code==='NEW_NEVER_EXERCISED') return {mode:'choice',
+    old:'File <strong>Form 10-IEA before the due date u/s 139(1)</strong> to choose the Old Regime (first time). After this it continues automatically, and can be withdrawn only once later (S. 115BAC(6)).',
+    new:'<strong>Do nothing</strong> \u2014 the New Regime is the default (S. 115BAC(1A)).'};
+  return {mode:'choice',
+    old:'Business income is starting. To choose the Old Regime, file <strong>Form 10-IEA before the due date u/s 139(1)</strong> \u2014 your first time exercising the option (S. 115BAC(6)).',
+    new:'<strong>Do nothing</strong> \u2014 the New Regime is the default.'};
+}
+function fbPathView(v,btn){
+  var row=btn.parentElement; row.querySelectorAll('.fb-tg').forEach(function(b){b.classList.remove('on');}); btn.classList.add('on');
+  if(window._fbLast) window._fbLast.view=v;
+  var p=document.getElementById('fbPaths'); if(!p) return;
+  p.classList.remove('show-old','show-new');
+  if(v==='old') p.classList.add('show-old'); else if(v==='new') p.classList.add('show-new');
+}
+function fbAnalyse(){
+  var out=document.getElementById('fbOut');
+  var A=readSlot('A'), B=readSlot('B');
+  var slots=[A,B].filter(Boolean);
+  var err=function(m){ out.innerHTML='<div class="fb-err">'+m+'</div>'; };
+
+  /* Guard: both slots must be answered (Yes/No) before analysis */
+  if(FB.filed.A===null||FB.filed.B===null){
+    return err('Please answer both year questions (Yes / No) in Step 1 before analysing.');
+  }
+
+  /* Both years skipped = first-time filer: valid path, run engine with years=[] */
+  var bothSkipped=(FB.filed.A===false && FB.filed.B===false);
+
+  /* Validate PDF-uploaded slots only when at least one exists */
+  if(!bothSkipped){
+    for(var i=0;i<slots.length;i++){
+      if(!/^20\d{2}-\d{2}$/.test(slots[i].ay))
+        return err('Assessment Year not detected for one upload \u2014 please type it like 2025-26.');
+      if(!/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(slots[i].pan))
+        return err('PAN looks wrong for one upload \u2014 please correct it (format AAAAA9999A).');
+      if(['2024-25','2025-26'].indexOf(slots[i].ay)<0)
+        return err('This tool covers FY 2023-24 (AY 2024-25) and FY 2024-25 (AY 2025-26) only. Found AY '+slots[i].ay+'.');
+      if(['ITR-1','ITR-2','ITR-3','ITR-4'].indexOf(slots[i].form)<0)
+        return err('Please select the ITR form (ITR-1, ITR-2, ITR-3 or ITR-4) for the uploaded return before analysing.');
+    }
+    if(slots.length===2 && A.pan!==B.pan)
+      return err('\u26D4 Two different PANs found \u2014 '+A.pan+' and '+B.pan+'. Both ITRs must belong to the same person (S. 139A). Please upload returns of the same person.');
+    if(slots.length===2 && A.ay===B.ay)
+      return err('Both files are '+fyAy(A.ay)+'. Please upload two different years \u2014 FY 2023-24 (AY 2024-25) and FY 2024-25 (AY 2025-26).');
+  }
+
+  /* Build years array (empty for both-skipped → NEVER_BUSINESS verdict) */
+  var years=slots.map(function(s){return {ay:s.ay,formClass:formClass(s.form),regime:s.regime,form:s.form,hasAck:!!s.hasAck};});
+  years.sort(function(a,b){return a.ay<b.ay?-1:1;});
+  var latest=years.length?years[years.length-1]:null;
+
+  var code=fbVerdict(years);
+  var pickCls=fbIntentItr?formClass(fbIntentItr):'';
+  var hdr=fbHeader(code,pickCls);
+  var P=fbPaths(code,pickCls);
+  var who=(B&&B.name)||(A&&A.name)||'';
+  var panShown=(B&&B.pan)||(A&&A.pan)||'';
+  var idChip=(who||panShown)?'<span class="fb-chip" style="background:var(--brand-lt);border-color:var(--brand-bd);color:var(--brand-dk)">👤 '+(who?who+' \u00b7 ':'')+panShown+'</span>':'';
+  var meta=idChip+years.map(function(y){return '<span class="fb-chip">'+fyAy(y.ay)+' \u00b7 '+y.form+' \u00b7 '+y.regime+'</span>';}).join('');
+  var greet='<div class="fb-greet">Dear <strong>'+(who||'Taxpayer')+'</strong>, for <strong>FY 2025-26 (AY 2026-27)</strong>'+(fbIntentItr?', as you plan to file <strong>'+fbIntentItr+'</strong>':'')+', here is our recommended position:</div>';
+
+  var ans;
+  if(P.mode==='single'){
+    ans='<div class="fb-single">'+P.single+'</div>';
+  } else {
+    ans='<div class="fb-toggle"><span class="fb-toggle-lbl">Show:</span>'
+      +'<button type="button" class="fb-tg on" onclick="fbPathView(\'both\',this)">Both</button>'
+      +'<button type="button" class="fb-tg" onclick="fbPathView(\'old\',this)">🟠 Old only</button>'
+      +'<button type="button" class="fb-tg" onclick="fbPathView(\'new\',this)">🟢 New only</button>'
+      +'</div>'
+      +'<div class="fb-paths" id="fbPaths">'
+        +'<div class="fb-path fb-path-old"><div class="fb-path-hd">🟠 If you want the OLD Regime</div><div class="fb-path-bd">'+P.old+'</div></div>'
+        +'<div class="fb-path fb-path-new"><div class="fb-path-hd">🟢 If you want the NEW Regime</div><div class="fb-path-bd">'+P.new+'</div></div>'
+      +'</div>';
+    if(P.note) ans+='<div class="fb-pathnote">\u2139 '+P.note+'</div>';
+  }
+
+  var extra='';
+  if(bothSkipped){
+    /* Both years not filed — first-time filer context note */
+    extra+='<div class="fb-note" style="border-left-color:var(--amber-bd)"><strong>No prior ITR found:</strong> Both FY 2023-24 and FY 2024-25 were marked as not filed. The answer above is for a <strong>first-time filer</strong> in FY 2025-26 (AY 2026-27). Not having filed earlier does <strong>not</strong> carry any prior regime option (S. 115BAC(6)) \u2014 you start fresh.</div>';
+  } else if(FB.filed.A===false||FB.filed.B===false){
+    /* One year skipped — tell user which one and that prior 10-IEA still holds */
+    var missYr=FB.filed.A===false?'FY 2023-24 (AY 2024-25)':'FY 2024-25 (AY 2025-26)';
+    extra+='<div class="fb-note" style="border-left-color:var(--amber-bd)"><strong>Year not filed:</strong> '+missYr+' was marked as not filed, so it is excluded. Not filing a year does <strong>not</strong> cancel a Form 10-IEA filed earlier (S. 115BAC(6)) \u2014 the answer is based on your most recent filed return. Please file any pending year.</div>';
+  }
+  /* Latest-year staleness warning (only relevant when we have filed years) */
+  if(latest && latest.ay!=='2025-26'){
+    extra+='<div class="fb-note" style="border-left-color:var(--amber-bd)"><strong>Please note:</strong> Your most recent filed year here is '+fyAy(latest.ay)+', not FY 2024-25 (AY 2025-26). The FY 2025-26 (AY 2026-27) answer is carried from that year \u2014 check that no later return changed your regime.</div>';
+  }
+
+  out.innerHTML=''
+    +'<div class="fb-verdict '+hdr.cls+'">'
+    +'<div class="fb-vhd">'+hdr.title+'</div>'
+    +'<div class="fb-meta">'+meta+'</div>'
+    +'<div class="fb-vbody">'+greet+ans+'</div>'
+    +'<div class="fb-note"><strong>Note:</strong> Form 10-IEA is used both to choose the Old Regime and to switch back to New (S. 115BAC(6), Rule 21AGA). Please confirm on the income-tax portal before filing \u2014 this tool is just for reference purpose and not a legal advice or recommendations.</div>'
+    +extra
+    +'<div class="fb-foot">'
+      +'<button class="restart-btn" type="button" onclick="fbReset()">\u21BA Start Over</button>'
+      +'<button class="copy-btn" type="button" id="fbCopyBtn" onclick="fbCopy()"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" fill="currentColor"/></svg> Copy Summary</button>'
+      +'<a class="wa-share-btn" href="#" onclick="fbShareWA();return false;"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Share on WhatsApp</a>'
+    +'</div>'
+    +'</div>';
+  window._fbLast={who:who,pan:panShown,years:years,title:hdr.title,paths:P,intent:fbIntentItr,view:'both'};
+  var _bt=document.getElementById('fbBtn'); if(_bt) _bt.classList.remove('ready');
+  out.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+</script>
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => { navigator.serviceWorker.register('/sw.js'); });
   }
+/* ── DRAG & DROP upload zones ──────────────────────────────────────────────── */
+function fbInitDrop(slot){
+  var lbl=document.querySelector('#up'+slot+' .fb-drop');
+  if(!lbl||lbl._dropInited) return;
+  lbl._dropInited=true;
+  lbl.addEventListener('dragover',function(e){ e.preventDefault(); e.stopPropagation(); lbl.classList.add('fb-drag-over'); });
+  lbl.addEventListener('dragleave',function(e){ e.preventDefault(); e.stopPropagation(); lbl.classList.remove('fb-drag-over'); });
+  lbl.addEventListener('drop',function(e){
+    e.preventDefault(); e.stopPropagation();
+    lbl.classList.remove('fb-drag-over');
+    var files=e.dataTransfer&&e.dataTransfer.files;
+    if(!files||!files.length) return;
+    var f=files[0];
+    if(!/\.pdf$/i.test(f.name)&&!/\.json$/i.test(f.name)&&f.type!=='application/pdf'&&f.type!=='application/json'){
+      var st=document.getElementById('st'+slot);
+      st.textContent='\u2717 Please drop a PDF or JSON file only.';
+      st.style.color='var(--rose)'; return;
+    }
+    fbUpload({files:[f]},slot);
+  });
+}
+
 </script>
 </body>
 </html>
