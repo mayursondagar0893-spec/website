@@ -92,6 +92,18 @@ Current `PRECACHE_URLS` (as of `taxationupdates-v8`):
 ### Phone number security
 The WhatsApp number is Base64-encoded in `wa-init.js` (`atob('...')`). Never expose the decoded number in plaintext anywhere in the repo.
 
+### Articles (blog section on index.html)
+Article files (PDF/JPEG) live in `/articles/` and are served directly by GitHub Pages — no upload service, no backend. This replaced the earlier pattern of linking out to Google Drive.
+
+**To add a new article:**
+1. Save the file to `/articles/` using UPPER/kebab-case matching the article title, e.g. `/articles/Article-Title-Here.pdf`.
+2. Add a new `.blog-card` in the `.blog-grid` section of `index.html` (copy an existing card as a template — emoji, category badge, date, title, one-line description).
+3. Point both actions at the local file:
+   - `Read More →` — `href="/articles/FILENAME.pdf" target="_blank" rel="noopener noreferrer"`
+   - `⬇ Download PDF` — same `href`, plus a `download` attribute to force download instead of opening in-tab.
+4. Articles are **not** added to `sw.js` `PRECACHE_URLS` (they're downloadable documents, not app pages) — no cache version bump needed.
+5. Update `sitemap.xml` with the new article URL if you want it indexed by search engines.
+
 ---
 
 ## Current Tool Inventory
