@@ -298,7 +298,7 @@
     .blog-body h3 { font-family: 'Playfair Display', serif; font-size: 1.02rem; color: var(--olive-deep); margin-bottom: .5rem; line-height: 1.4; }
     [data-theme="dark"] .blog-body h3 { color: var(--text); }
     .blog-body p { font-size: .8rem; color: var(--text-mid); line-height: 1.65; margin-bottom: 1rem; }
-    .blog-read { font-size: .78rem; font-weight: 600; color: var(--olive); text-decoration: none; display: inline-flex; align-items: center; gap: .3rem; transition: gap .2s; }
+    .blog-read { font: inherit; font-size: .78rem; font-weight: 600; color: var(--olive); text-decoration: none; background: none; border: none; padding: 0; cursor: pointer; display: inline-flex; align-items: center; gap: .3rem; transition: gap .2s; }
     .blog-read:hover { gap: .6rem; }
     .blog-actions { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; }
     .blog-download { font-size: .75rem; font-weight: 600; color: var(--olive); background: var(--olive-pale); border: 1.5px solid var(--glass-border); border-radius: 6px; padding: .35rem .9rem; text-decoration: none; display: inline-flex; align-items: center; gap: .35rem; transition: background .2s, border-color .2s; }
@@ -307,6 +307,20 @@
     [data-theme="dark"] .blog-download:hover { background: var(--olive-deep); }
     .blog-emoji { height: 90px; display: flex; align-items: center; justify-content: center; font-size: 2.4rem; background: linear-gradient(135deg, var(--olive-bg), var(--olive-pale)); }
     [data-theme="dark"] .blog-emoji { background: linear-gradient(135deg, #1f2209, #2a2f0d); }
+
+    .article-modal-overlay { position: fixed; inset: 0; z-index: 500; background: rgba(20,22,8,0.55); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 1.2rem; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+    .article-modal-overlay.is-open { opacity: 1; pointer-events: auto; }
+    .article-modal { background: var(--cream); border: 1.5px solid var(--glass-border); border-radius: 16px; width: 100%; max-width: 860px; height: min(85vh, 900px); display: flex; flex-direction: column; overflow: hidden; transform: translateY(16px) scale(.98); transition: transform .25s ease; }
+    .article-modal-overlay.is-open .article-modal { transform: translateY(0) scale(1); }
+    .article-modal-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.2rem; border-bottom: 1.5px solid var(--glass-border); }
+    .article-modal-header h3 { font-family: 'Playfair Display', serif; font-size: .95rem; color: var(--olive-deep); line-height: 1.4; }
+    [data-theme="dark"] .article-modal-header h3 { color: var(--text); }
+    .article-modal-close { flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--glass-border); background: var(--olive-pale); color: var(--olive-deep); font-size: 1.1rem; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s, border-color .2s; }
+    .article-modal-close:hover { background: var(--olive-bg); border-color: var(--olive); }
+    .article-modal-body { flex: 1; background: #525659; }
+    .article-modal-body iframe { width: 100%; height: 100%; border: none; }
+    .article-modal-footer { padding: .8rem 1.2rem; border-top: 1.5px solid var(--glass-border); display: flex; justify-content: flex-end; }
+    @media (max-width: 640px) { .article-modal { height: 90vh; } }
 
     /* ══════════════ TESTIMONIALS ══════════════ */
     #testimonials { background: var(--cream); }
@@ -558,10 +572,9 @@
         <h3>Section Comparison of Income Tax Act, 1961 vs Income Tax Act, 2025</h3>
         <p>List of Some Important Sections of Old Income Tax Act, 1961 and Section Number of the Same of New Income Tax Act, 2025.</p>
         <div class="blog-actions">
+          <button type="button" class="blog-read" onclick="openArticlePreview('/articles/Section-Comparison-Income-Tax-Act-1961-vs-2025.pdf','Section Comparison of Income Tax Act, 1961 vs Income Tax Act, 2025')">Read More →</button>
           <a href="/articles/Section-Comparison-Income-Tax-Act-1961-vs-2025.pdf"
-             target="_blank" rel="noopener noreferrer" class="blog-read">Read More →</a>
-          <a href="/articles/Section-Comparison-Income-Tax-Act-1961-vs-2025.pdf"
-             download target="_blank" rel="noopener noreferrer" class="blog-download">⬇ Download PDF</a>
+             download class="blog-download">⬇ Download PDF</a>
         </div>
       </div>
     </div>
@@ -577,10 +590,9 @@
         <h3>Tax Amount as per New (Default) Tax Regime for F.Y. 2025-26</h3>
         <p>For Resident Individual for Normal Taxable Income up to Rs. 1 Crore.</p>
         <div class="blog-actions">
+          <button type="button" class="blog-read" onclick="openArticlePreview('/articles/Tax-Amount-New-Regime-FY2025-26.pdf','Tax Amount as per New (Default) Tax Regime for F.Y. 2025-26')">Read More →</button>
           <a href="/articles/Tax-Amount-New-Regime-FY2025-26.pdf"
-             target="_blank" rel="noopener noreferrer" class="blog-read">Read More →</a>
-          <a href="/articles/Tax-Amount-New-Regime-FY2025-26.pdf"
-             download target="_blank" rel="noopener noreferrer" class="blog-download">⬇ Download PDF</a>
+             download class="blog-download">⬇ Download PDF</a>
         </div>
       </div>
     </div>
@@ -690,6 +702,21 @@ I really admire how you present complex things in so simple manner @TaxationUpda
 
 <button id="btt" title="Back to top">↑</button>
 
+<!-- Article Preview Modal -->
+<div class="article-modal-overlay" id="article-modal-overlay">
+  <div class="article-modal" role="dialog" aria-modal="true" aria-labelledby="article-modal-title">
+    <div class="article-modal-header">
+      <h3 id="article-modal-title"></h3>
+      <button type="button" class="article-modal-close" id="article-modal-close" aria-label="Close preview">✕</button>
+    </div>
+    <div class="article-modal-body">
+      <iframe id="article-modal-frame" title="Article preview"></iframe>
+    </div>
+    <div class="article-modal-footer">
+      <a href="#" id="article-modal-download" download class="blog-download">⬇ Download PDF</a>
+    </div>
+  </div>
+</div>
 
 <!-- ══════════ JAVASCRIPT ══════════ -->
 <script>
@@ -735,6 +762,27 @@ I really admire how you present complex things in so simple manner @TaxationUpda
   ham.addEventListener('click',()=>toggle(!drawer.classList.contains('open')));
   document.querySelectorAll('.dl').forEach(a=>a.addEventListener('click',()=>toggle(false)));
 
+
+  /* ── Article Preview Modal ── */
+  const articleOverlay=document.getElementById('article-modal-overlay');
+  const articleFrame=document.getElementById('article-modal-frame');
+  const articleTitle=document.getElementById('article-modal-title');
+  const articleDownload=document.getElementById('article-modal-download');
+  window.openArticlePreview=(url,title)=>{
+    articleFrame.src=url;
+    articleTitle.textContent=title;
+    articleDownload.href=url;
+    articleOverlay.classList.add('is-open');
+    document.body.style.overflow='hidden';
+  };
+  const closeArticlePreview=()=>{
+    articleOverlay.classList.remove('is-open');
+    document.body.style.overflow='';
+    articleFrame.src='';
+  };
+  document.getElementById('article-modal-close').addEventListener('click',closeArticlePreview);
+  articleOverlay.addEventListener('click',(e)=>{ if(e.target===articleOverlay) closeArticlePreview(); });
+  document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeArticlePreview(); });
 
   /* ── Contact Form → WhatsApp ── */
   // validateForm / buildWAMessage / buildWAUrl provided by /contact-form.js
