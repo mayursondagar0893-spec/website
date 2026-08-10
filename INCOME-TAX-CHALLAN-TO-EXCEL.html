@@ -922,7 +922,7 @@ async function parseAll(){
       if(rec.ok){ok++;totalAmt+=rec.total;}else fail++;
     }catch(e){
       console.warn('Challan parse error for '+files[i].name+':', e);
-      parsedData.push({ok:false,file:files[i].name,pan:'',tan:'',name:'',ay:'',fy:'',ty:'',itns:'?',major:'',minor:'',natureOfPayment:'',sectionRef:'',sectionRows:[],cin:'',mode:'',bank:'',bankRef:'',tenderDate:'',bsr:'',challanNo:'',tax:0,surcharge:0,cess:0,interest:0,penalty:0,others:0,total:0,parseError:e&&e.message||String(e)});
+      parsedData.push({ok:false,file:files[i].name,pan:'',tan:'',name:'',ay:'',fy:'',ty:'',itns:'?',major:'',minor:'',natureOfPayment:'',sectionRef:'',sectionRows:[],cin:'',mode:'',bank:'',bankRef:'',dod:'',tenderDate:'',bsr:'',challanNo:'',tax:0,surcharge:0,cess:0,interest:0,penalty:0,others:0,total:0,parseError:e&&e.message||String(e)});
       fail++;
     }
   }
