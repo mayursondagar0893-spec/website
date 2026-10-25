@@ -129,12 +129,6 @@ Article files (PDF/JPEG) live in `/articles/` and are served directly by GitHub 
 
 When a new tool is added via `add-tool.sh`, update this table.
 
-### Unlisted / private pages
-| Path | Notes |
-|---|---|
-| `rn-hub-7k2q9/index.html` | Private Physio Hub page (not a tax tool). Has `<meta name="robots" content="noindex, nofollow">`. Must **not** be linked from `index.html`, added to `sitemap.xml`, or added to `sw.js` `PRECACHE_URLS`. Exempt from the tool `<head>` checklist below. |
-
-
 ---
 
 ## Adding a New Tool (Automated Workflow)
