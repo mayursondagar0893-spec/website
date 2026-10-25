@@ -32,7 +32,7 @@ npx vitest run tests/challan-parser.test.js
 |---|---|---|
 | `tests/challan-parser.test.js` | Node | `clean`, `parseAmount`, `between`, `get`, `parseChallan` from `challan-parser.js` |
 | `tests/contact-form.test.js` | Node | `validateForm`, `buildWAMessage`, `buildWAUrl` from `contact-form.js` |
-| `tests/prompt-filter.test.js` | Node | `filterAndSort` (category, difficulty, bookmark, recent, new filters), `toggleBookmark`, `extractPlaceholders`, `fillPlaceholders`, `applyOutputOptions`, `pushRecent` from `prompt-filter.js` |
+| `tests/prompt-filter.test.js` | Node | `filterAndSort` (category, difficulty, bookmark, recent, new filters), `toggleBookmark`, `extractPlaceholders`, `fillPlaceholders`, `applyOutputOptions`, `OUTPUT_OPTIONS`, `pushRecent` from `prompt-filter.js` |
 | `tests/sw.test.js` | Node | `CACHE_NAME` format, `PRECACHE_URLS` contents, fetch routing logic from `sw.js` |
 | `tests/wa-init.test.js` | **jsdom** | WhatsApp link click handler, Base64 encoding in `wa-init.js` |
 | `tests/dark-mode.test.js` | **jsdom** | `localStorage` persistence and theme toggle logic |
@@ -52,7 +52,7 @@ Each HTML tool is fully self-contained: its CSS lives in `<style>` tags and its 
 | `wa-init.js` | Initialises `.wa-link` click handlers with a Base64-encoded WhatsApp number | No |
 | `challan-parser.js` | PDF challan parsing (ITNS 280/280N/281/281N/282/283) — used by the challan tool and unit tests | **Yes** — listed in `PRECACHE_URLS` |
 | `contact-form.js` | Contact form validation + WhatsApp URL builders — used by `index.html` and tests | No |
-| `prompt-filter.js` | Filter/sort/bookmark helpers for the prompt library — used by `CA-Prompt-Library.html` and tests | No |
+| `prompt-filter.js` | Filter/sort/bookmark, placeholder fill, output options and recent-prompts helpers for the prompt library — used by `CA-Prompt-Library.html` and tests | No |
 
 ### Dual-module pattern (critical)
 The three `*.js` files above (`challan-parser.js`, `contact-form.js`, `prompt-filter.js`) end with:
@@ -95,12 +95,17 @@ The WhatsApp number is Base64-encoded in `wa-init.js` (`atob('...')`). Never exp
 ### Articles (blog section on index.html)
 Article files (PDF/JPEG) live in `/articles/` and are served directly by GitHub Pages — no upload service, no backend. This replaced the earlier pattern of linking out to Google Drive.
 
+**Current articles:**
+- `Section-Comparison-Income-Tax-Act-1961-vs-2025.pdf`
+- `Tax-Amount-New-Regime-FY2025-26.pdf`
+
 **To add a new article:**
 1. Save the file to `/articles/` using UPPER/kebab-case matching the article title, e.g. `/articles/Article-Title-Here.pdf`.
 2. Add a new `.blog-card` in the `.blog-grid` section of `index.html` (copy an existing card as a template — emoji, category badge, date, title, one-line description).
-3. Point both actions at the local file:
-   - `Read More →` — `href="/articles/FILENAME.pdf" target="_blank" rel="noopener noreferrer"`
-   - `⬇ Download PDF` — same `href`, plus a `download` attribute to force download instead of opening in-tab.
+3. Wire up both actions:
+   - `Read More →` — a `<button type="button" class="blog-read" onclick="openArticlePreview('/articles/FILENAME.pdf','Article Title')">`. This opens the in-page preview modal (`#article-modal-overlay`, PDF embedded in an `<iframe>` with its own Download button) — do **not** use a new-tab link.
+   - `⬇ Download PDF` — `<a href="/articles/FILENAME.pdf" download …>` to force download.
+   - Escape any `'` in the title passed to `openArticlePreview`.
 4. Articles are **not** added to `sw.js` `PRECACHE_URLS` (they're downloadable documents, not app pages) — no cache version bump needed.
 5. Update `sitemap.xml` with the new article URL if you want it indexed by search engines.
 
@@ -123,6 +128,12 @@ Article files (PDF/JPEG) live in `/articles/` and are served directly by GitHub 
 | `INCOME-TAX-CALCULATOR-FY2526-FY2627.html` | Income Tax Calculator FY 2025-26 & FY 2026-27 |
 
 When a new tool is added via `add-tool.sh`, update this table.
+
+### Unlisted / private pages
+| Path | Notes |
+|---|---|
+| `rn-hub-7k2q9/index.html` | Private Physio Hub page (not a tax tool). Has `<meta name="robots" content="noindex, nofollow">`. Must **not** be linked from `index.html`, added to `sitemap.xml`, or added to `sw.js` `PRECACHE_URLS`. Exempt from the tool `<head>` checklist below. |
+
 
 ---
 
