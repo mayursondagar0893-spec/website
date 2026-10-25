@@ -32,7 +32,7 @@ npx vitest run tests/challan-parser.test.js
 |---|---|---|
 | `tests/challan-parser.test.js` | Node | `clean`, `parseAmount`, `between`, `get`, `parseChallan` from `challan-parser.js` |
 | `tests/contact-form.test.js` | Node | `validateForm`, `buildWAMessage`, `buildWAUrl` from `contact-form.js` |
-| `tests/prompt-filter.test.js` | Node | `filterAndSort`, `toggleBookmark` from `prompt-filter.js` |
+| `tests/prompt-filter.test.js` | Node | `filterAndSort` (category, difficulty, bookmark, recent, new filters), `toggleBookmark`, `extractPlaceholders`, `fillPlaceholders`, `applyOutputOptions`, `pushRecent` from `prompt-filter.js` |
 | `tests/sw.test.js` | Node | `CACHE_NAME` format, `PRECACHE_URLS` contents, fetch routing logic from `sw.js` |
 | `tests/wa-init.test.js` | **jsdom** | WhatsApp link click handler, Base64 encoding in `wa-init.js` |
 | `tests/dark-mode.test.js` | **jsdom** | `localStorage` persistence and theme toggle logic |

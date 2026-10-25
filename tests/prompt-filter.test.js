@@ -10,7 +10,10 @@ import { describe, it, expect } from 'vitest';
 import { createRequire } from 'module';
 
 const require = createRequire(import.meta.url);
-const { filterAndSort, toggleBookmark } = require('../prompt-filter.js');
+const {
+  filterAndSort, toggleBookmark,
+  extractPlaceholders, fillPlaceholders, applyOutputOptions, OUTPUT_OPTIONS, pushRecent,
+} = require('../prompt-filter.js');
 
 // ─── Category helpers (mirrors getCat in CA-Prompt-Library.html) ─────────────
 
@@ -236,5 +239,97 @@ describe('toggleBookmark', () => {
     expect(bm).toContain(1);
     expect(bm).toContain(5);
     expect(bm).toContain(7);
+  });
+});
+
+// ─── Difficulty / recent / new filters ───────────────────────────────────────
+
+describe('filterAndSort – difficulty, recent and new filters', () => {
+  const list = [
+    { id: 1, cat: 'gst', diff: 'easy', title: 'A', prompt: 'x' },
+    { id: 2, cat: 'it',  diff: 'adv',  title: 'B', prompt: 'x', isNew: 1 },
+    { id: 3, cat: 'it',  diff: 'easy', title: 'C', prompt: 'x', upd: 1 },
+  ];
+
+  it('filters by difficulty', () => {
+    expect(filterAndSort(list, { diff: 'easy' }).map(p => p.id)).toEqual([1, 3]);
+  });
+
+  it("'all' difficulty keeps everything", () => {
+    expect(filterAndSort(list, { diff: 'all' })).toHaveLength(3);
+  });
+
+  it("'new' filter keeps isNew and upd prompts", () => {
+    expect(filterAndSort(list, { activeFilter: 'new' }).map(p => p.id)).toEqual([2, 3]);
+  });
+
+  it("'recent' filter keeps recent prompts, most recent first", () => {
+    expect(filterAndSort(list, { activeFilter: 'recent', recent: [3, 1] }).map(p => p.id)).toEqual([3, 1]);
+  });
+
+  it('combines difficulty with category', () => {
+    expect(filterAndSort(list, { activeCat: 'it', diff: 'easy' }).map(p => p.id)).toEqual([3]);
+  });
+});
+
+// ─── Placeholders ────────────────────────────────────────────────────────────
+
+describe('extractPlaceholders', () => {
+  it('returns unique labels in order', () => {
+    expect(extractPlaceholders('FY [year], ₹[X] lakh, again [year]')).toEqual(['year', 'X']);
+  });
+
+  it('returns empty array when none', () => {
+    expect(extractPlaceholders('No placeholders here')).toEqual([]);
+    expect(extractPlaceholders(undefined)).toEqual([]);
+  });
+
+  it('ignores brackets spanning lines', () => {
+    expect(extractPlaceholders('[a\nb]')).toEqual([]);
+  });
+});
+
+describe('fillPlaceholders', () => {
+  it('replaces every occurrence of a filled placeholder', () => {
+    expect(fillPlaceholders('[year] and [year]', { year: '2025-26' })).toBe('2025-26 and 2025-26');
+  });
+
+  it('leaves blank or missing values as placeholders', () => {
+    expect(fillPlaceholders('[a] [b]', { a: '  ' })).toBe('[a] [b]');
+  });
+
+  it('trims values', () => {
+    expect(fillPlaceholders('₹[X]', { X: ' 50 ' })).toBe('₹50');
+  });
+});
+
+describe('applyOutputOptions', () => {
+  it('returns the text unchanged with no options', () => {
+    expect(applyOutputOptions('P', [])).toBe('P');
+  });
+
+  it('appends selected options in canonical order', () => {
+    const out = applyOutputOptions('P', ['table', 'cite']);
+    expect(out).toBe('P\n\nOutput requirements:\n- ' + OUTPUT_OPTIONS.cite + '\n- ' + OUTPUT_OPTIONS.table);
+  });
+
+  it('ignores unknown keys', () => {
+    expect(applyOutputOptions('P', ['nope'])).toBe('P');
+  });
+});
+
+describe('pushRecent', () => {
+  it('moves id to front without duplicates', () => {
+    expect(pushRecent([1, 2, 3], 2)).toEqual([2, 1, 3]);
+  });
+
+  it('caps the list length', () => {
+    expect(pushRecent([1, 2, 3], 4, 3)).toEqual([4, 1, 2]);
+  });
+
+  it('does not mutate the input', () => {
+    const r = [1];
+    pushRecent(r, 2);
+    expect(r).toEqual([1]);
   });
 });
