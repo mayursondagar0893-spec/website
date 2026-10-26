@@ -463,6 +463,74 @@ mark{background:rgba(140,154,26,.18);border-bottom:1.5px solid #8c9a1a;border-ra
 .disc-note{font-size:9px;color:var(--t3);padding:5px 8px;background:var(--s2);border:1px solid var(--bd);border-radius:4px;line-height:1.5;margin-top:8px}
 /* Modal 197/206 flag boxes */
 
+/* ══ COPY CODE / RATE-CHANGE BADGES ══ */
+.mcode-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.mcode[role="button"]{cursor:pointer}
+.mcode[role="button"]:hover,.mcode[role="button"]:focus-visible{text-decoration:underline dotted;outline:none}
+.mcopy{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.75);
+  border-radius:4px;padding:2px 8px;font-family:'DM Sans',sans-serif;font-size:10px;cursor:pointer;transition:all var(--tr)}
+.mcopy:hover{background:rgba(255,255,255,.16);color:#fff}
+.chgbtn{background:transparent;border:1px dashed var(--tcs-bd);border-radius:20px;padding:3px 11px;margin-left:4px;
+  font-size:10px;cursor:pointer;color:var(--tcs);font-family:'DM Sans',sans-serif;font-weight:500;transition:all var(--tr)}
+.chgbtn:hover{border-style:solid}
+.chgbtn.on{background:var(--tcs);border:1px solid var(--tcs);color:var(--sf);font-weight:600}
+.chgtag{display:inline-block;margin-top:2px;padding:0 5px;border-radius:3px;font-size:8.5px;font-weight:700;
+  background:var(--tcs-bg);border:1px solid var(--tcs-bd);color:var(--tcs);white-space:nowrap}
+.mchg{background:var(--tcs-bg);border:1px solid var(--tcs-bd);border-radius:6px;padding:9px 11px;margin:4px 0 8px;font-size:11px;color:var(--tx);line-height:1.55}
+.mchg-hd{font-weight:700;color:var(--tcs);margin-bottom:5px}
+.mchg-g{display:grid;grid-template-columns:auto 1fr;gap:3px 10px}
+.mchg-g .k{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);padding-top:2px}
+.mchg-g .old{text-decoration:line-through;opacity:.75}
+.mchg-src{font-size:9.5px;color:var(--t3);margin-top:5px}
+
+/* ══ WIZARD & MAPPING PANELS ══ */
+.modal-wide{max-width:960px}
+.tp-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#fff;line-height:1.2}
+.wz-crumbs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.wz-crumb{font-size:10px;padding:2px 9px;border-radius:20px;background:var(--s2);border:1px solid var(--bd);color:var(--t2)}
+.wz-crumb b{color:var(--tx)}
+.wz-q{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--tx);margin-bottom:9px}
+.wz-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wz-opt{text-align:left;background:var(--s2);border:1.5px solid var(--bd);border-radius:8px;padding:10px 12px;
+  font-family:'DM Sans',sans-serif;font-size:12px;color:var(--tx);cursor:pointer;transition:all var(--tr);line-height:1.45}
+.wz-opt:hover,.wz-opt:focus-visible{border-color:var(--blue);background:var(--rh);outline:none}
+.wz-opt small{display:block;font-size:10px;color:var(--t3);margin-top:2px}
+.wz-opt .wz-oc{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--codec);margin-right:6px}
+.wz-grp{font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin:12px 0 6px}
+.wz-grp:first-child{margin-top:0}
+.wz-list{display:flex;flex-direction:column;gap:6px}
+.wz-search{width:100%;margin-bottom:10px}
+.wz-res{background:var(--s2);border:1.5px solid var(--blue);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.wz-res-hd{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.wz-res-code{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--codec)}
+.wz-kv{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:11.5px;margin:8px 0}
+.wz-kv .k{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);padding-top:2px}
+.wz-chk{font-size:11px;border-radius:6px;padding:7px 10px;margin-top:8px;line-height:1.55;background:var(--amb-bg);border:1px solid var(--amb-bd);color:var(--tx)}
+.wz-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.wz-acts .btn{font-size:11px}
+.wz-note{font-size:9.5px;color:var(--t3);margin-top:10px;line-height:1.55}
+.mp-input{width:100%}
+.mp-chips{display:flex;flex-wrap:wrap;gap:4px;margin:9px 0}
+.mp-chip{font-family:'JetBrains Mono',monospace;font-size:9.5px;padding:2px 7px;border-radius:4px;cursor:pointer;
+  background:var(--s2);border:1px solid var(--bd);color:var(--codec);transition:all var(--tr)}
+.mp-chip:hover,.mp-chip.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.mp-count{font-size:10px;color:var(--t3);margin-bottom:6px}
+.mp-wrap{overflow-x:auto;border:1px solid var(--bd);border-radius:8px}
+.mp-tbl{width:100%;border-collapse:collapse;font-size:11px}
+.mp-tbl th{background:var(--thd);color:#fff;text-align:left;padding:7px 9px;font-size:9.5px;font-weight:600;letter-spacing:.04em;white-space:nowrap}
+.mp-tbl td{padding:6px 9px;border-top:1px solid var(--bd);vertical-align:top;color:var(--tx)}
+.mp-tbl tr.mp-row{cursor:pointer}
+.mp-tbl tr.mp-row:hover td{background:var(--rh)}
+.mp-tbl .mp-old{font-family:'JetBrains Mono',monospace;font-weight:600;color:#761212;white-space:nowrap}
+[data-theme="dark"] .mp-tbl .mp-old{color:#df9191}
+.mp-tbl .mp-new{font-family:'JetBrains Mono',monospace;color:var(--codec)}
+.mp-tbl .mp-arr{color:var(--t3);text-align:center}
+.mp-tbl .mp-code{font-family:'JetBrains Mono',monospace;font-weight:600}
+@media(max-width:600px){
+  .wz-opts{grid-template-columns:1fr}
+  .mp-tbl th:nth-child(5),.mp-tbl td:nth-child(5){display:none}
+}
+
 /* ══ TOAST ══ */
 .toast{position:fixed;bottom:18px;right:18px;z-index:9999;background:var(--sf);border:1px solid var(--bd2);
   border-radius:8px;padding:8px 14px;font-size:11.5px;color:var(--tx);
@@ -876,7 +944,7 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
           <span style="opacity:.4">·</span>
           Applicable for Tax Year 2026-27
           <span style="opacity:.4">·</span>
-          Forms 138 · 140 · 143 · 144
+          Forms 138 · 140 · 141 · 143 · 144
           <span style="opacity:.4">·</span>
           91 Section Codes
         </div>
@@ -885,6 +953,8 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
     <div class="ha">
       <a href="/" class="back-link">← <span>Back to Home</span></a>
       <button class="btn-stats" id="statsBtn" onclick="toggleDash()">📊 Stats</button>
+      <button class="btn bg" id="wizBtn" title="Guided finder: payer → payee → nature → amount">🧭 Find My Code</button>
+      <button class="btn bg" id="mapBtn" title="Map IT Act 1961 sections to IT Act 2025">⇄ Old ↔ New</button>
       <button class="btn bcalc" id="calcBtn">🧮 TDS/TCS Calculator</button>
       <button class="btn bg" id="printBtn">🖨️ Print</button>
       <button class="btn bacc" id="copyBtn">⬇️ Export CSV</button>
@@ -947,6 +1017,7 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
   <button class="ft active" data-form="all">All Forms</button>
   <button class="ft" data-form="138">Form 138</button>
   <button class="ft" data-form="140">Form 140</button>
+  <button class="ft" data-form="141">Form 141</button>
   <button class="ft" data-form="143">Form 143</button>
   <button class="ft" data-form="144">Form 144</button>
 
@@ -957,6 +1028,7 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
     <button class="typebtn" id="bothBtnF" data-type="BOTH">Both</button>
   </div>
 
+  <button class="chgbtn" id="chgBtn" title="Show only codes whose rate or threshold changed w.e.f. 1 April 2026">🔄 Changed w.e.f. 1-Apr-2026 <span id="chgN"></span></button>
   <div class="gtoggle">
     <span class="glbl">Group by Section</span>
     <label class="toggle"><input type="checkbox" id="grpTog" checked><span class="tsl"></span></label>
@@ -1074,7 +1146,10 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
   <div class="modal">
     <div class="mh">
       <div>
-        <div class="mcode" id="mCode">—</div>
+        <div class="mcode-wrap">
+          <div class="mcode" id="mCode" role="button" tabindex="0" title="Click to copy section code">—</div>
+          <button type="button" class="mcopy" id="mCodeCopy" title="Copy section code to clipboard">⧉ Copy code</button>
+        </div>
         <div class="msub" id="mSub"></div>
         <div style="margin-top:5px" id="mBadge"></div>
       </div>
@@ -1130,13 +1205,58 @@ body.grid-mode .tds-card.card-tcs:hover{box-shadow:0 6px 24px rgba(180,83,9,.22)
       <div class="mg2" style="margin-top:2px">
 
       </div>
+      <div class="mchg" id="mChg" style="display:none"></div>
       <div class="mfb" id="mFb" style="display:none"></div>
 
     </div>
     <div class="mnav">
       <button class="btn bg" id="mPrev">← Prev</button>
       <button class="btn bg" id="mCopy" title="Copy this row as CSV">📋 Copy Row</button>
+      <button class="btn bg" id="mShare" title="Share a direct link to this section code">🔗 Share Link</button>
       <button class="btn bg" id="mNext" style="margin-left:auto">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- WHICH CODE APPLIES? WIZARD -->
+<div class="mo" id="wizMo" role="dialog" aria-modal="true" aria-labelledby="wizTitle">
+  <div class="modal">
+    <div class="mh">
+      <div>
+        <div class="tp-title" id="wizTitle">🧭 Which Code Applies?</div>
+        <div class="msub">Answer a few questions to find the TDS / TCS section code</div>
+      </div>
+      <button class="mclose" id="wizClose" aria-label="Close">✕</button>
+    </div>
+    <div class="mb">
+      <div class="wz-crumbs" id="wizCrumbs"></div>
+      <div id="wizBody"></div>
+    </div>
+    <div class="mnav">
+      <button class="btn bg" id="wizBack">← Back</button>
+      <button class="btn bg" id="wizRestart" style="margin-left:auto">↺ Start over</button>
+    </div>
+  </div>
+</div>
+
+<!-- OLD ⇄ NEW SECTION MAPPING -->
+<div class="mo" id="mapMo" role="dialog" aria-modal="true" aria-labelledby="mapTitle">
+  <div class="modal modal-wide">
+    <div class="mh">
+      <div>
+        <div class="tp-title" id="mapTitle">⇄ Old ↔ New Section Mapping</div>
+        <div class="msub">IT Act, 1961 section → IT Act, 2025 section, table &amp; serial number</div>
+      </div>
+      <button class="mclose" id="mapClose" aria-label="Close">✕</button>
+    </div>
+    <div class="mb">
+      <input class="fi mp-input" id="mapIn" type="text" autocomplete="off" spellcheck="false"
+        placeholder="Enter old section (e.g. 194J, 194-IA, 206C(1G)) or new section (e.g. 393(1), 394)">
+      <div class="mp-chips" id="mapChips"></div>
+      <div class="mp-count" id="mapCount"></div>
+      <div class="mp-wrap"><table class="mp-tbl"><thead><tr>
+        <th>IT Act, 1961</th><th></th><th>IT Act, 2025 — Section / Table / Sl. No.</th><th>Code</th><th>Nature</th><th>Rate</th>
+      </tr></thead><tbody id="mapBody"></tbody></table></div>
     </div>
   </div>
 </div>
@@ -1285,9 +1405,9 @@ const ALL_DATA = [
   ["1067", "Salary / remuneration / commission / bonus / interest paid to partner of a firm", "Any person, being a firm", "393(3) [Table: Sl. No. 7]", "140, 144", "10%", "₹ 20,000", "194T", "", "194T", "TDS", "Resident", "Yes", "20%"],
   ["1068", "TCS — Sale of alcoholic liquor for human consumption", "Seller", "394(1) [Table: Sl. No. 1]", "143", "2%", "Nil", "206C(1)(a)", "Finance Act 2026, Section 85(a): Rate increased from 1% to 2% w.e.f. 1 April 2026.", "206C(1)(a)", "TCS", "Buyer", "Yes — Buyer files Form 27C declaration for nil TCS", "5%"],
   ["1069", "TCS — Sale of tendu leaves", "Seller", "394(1) [Table: Sl. No. 2]", "143", "2%", "Nil", "206C(1)(b)", "Finance Act 2026, Section 85(b): Rate reduced from 5% to 2% w.e.f. 1 April 2026.", "206C(1)(b)", "TCS", "Buyer", "Yes — Buyer files Form 27C declaration for nil TCS", "10%"],
-  ["1070", "TCS — Sale of timber obtained under a forest lease", "Seller", "394(1) [Table: Sl. No. 3]", "143", "2%", "Nil", "206C(1)(c)", "Correct rate as per S. 394(1) [Table: Sl. No. 3] is 2%. HTML previously showed 2.5% in error.", "206C(1)(c)", "TCS", "Buyer", "Yes — Buyer files Form 27C declaration for nil TCS", "5%"],
-  ["1071", "TCS — Sale of timber obtained by any mode other than a forest lease", "Seller", "394(1) [Table: Sl. No. 3]", "143", "2%", "Nil", "206C(1)(c)", "Correct rate as per S. 394(1) [Table: Sl. No. 3] is 2%. HTML previously showed 2.5% in error.", "206C(1)(c)", "TCS", "Buyer", "Yes — Buyer files Form 27C declaration for nil TCS", "5%"],
-  ["1072", "TCS — Sale of other forest produce (not timber/tendu) obtained under a forest lease", "Seller", "394(1) [Table: Sl. No. 3]", "143", "2%", "Nil", "206C(1)(c)", "Correct rate as per S. 394(1) [Table: Sl. No. 3] is 2%. HTML previously showed 2.5% in error.", "206C(1)(c)", "TCS", "Buyer", "Yes — Buyer files Form 27C declaration for nil TCS", "5%"],
+  ["1070", "TCS — Sale of timber obtained under a forest lease", "Seller", "394(1) [Table: Sl. No. 3]", "143", "2%", "Nil", "206C(1)(c)", "TCS @ 2% on sale of timber obtained under a forest lease — S. 394(1) [Table: Sl. No. 3] of the Income-tax Act, 2025, applicable w.e.f. 1 April 2026 (Tax Year 2026-27 onwards). Corresponding provision: S. 206C(1) of the Income-tax Act, 1961 (rate 2.5%).", "206C(1)(c)", "TCS", "Buyer", "Yes — Buyer files Form 27C declaration for nil TCS", "5%"],
+  ["1071", "TCS — Sale of timber obtained by any mode other than a forest lease", "Seller", "394(1) [Table: Sl. No. 3]", "143", "2%", "Nil", "206C(1)(c)", "TCS @ 2% on sale of timber obtained by any mode other than under a forest lease — S. 394(1) [Table: Sl. No. 3] of the Income-tax Act, 2025, applicable w.e.f. 1 April 2026 (Tax Year 2026-27 onwards). Corresponding provision: S. 206C(1) of the Income-tax Act, 1961 (rate 2.5%).", "206C(1)(c)", "TCS", "Buyer", "Yes — Buyer files Form 27C declaration for nil TCS", "5%"],
+  ["1072", "TCS — Sale of other forest produce (not timber/tendu) obtained under a forest lease", "Seller", "394(1) [Table: Sl. No. 3]", "143", "2%", "Nil", "206C(1)(c)", "TCS @ 2% on sale of any other forest produce (not being timber or tendu leaves) obtained under a forest lease — S. 394(1) [Table: Sl. No. 3] of the Income-tax Act, 2025, applicable w.e.f. 1 April 2026 (Tax Year 2026-27 onwards). Corresponding provision: S. 206C(1) of the Income-tax Act, 1961 (rate 2.5%).", "206C(1)(c)", "TCS", "Buyer", "Yes — Buyer files Form 27C declaration for nil TCS", "5%"],
   ["1073", "TCS — Sale of scrap", "Seller", "394(1) [Table: Sl. No. 4]", "143", "2%", "Nil", "206C(1)(d)", "Finance Act 2026, Section 85(c): Rate increased from 1% to 2% w.e.f. 1 April 2026.", "206C(1)(d)", "TCS", "Buyer", "Yes — Buyer files Form 27C declaration for nil TCS", "5%"],
   ["1074", "TCS — Sale of minerals - coal, lignite or iron ore", "Seller", "394(1) [Table: Sl. No. 5]", "143", "2%", "Nil", "206C(1C)", "Finance Act 2026, Section 85(d): Rate increased from 1% to 2% w.e.f. 1 April 2026.", "206C(1C)", "TCS", "Buyer / Lessee", "Yes — Buyer files Form 27C declaration for nil TCS", "5%"],
   ["1075", "TCS — Sale of motor vehicle exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(a)]", "143", "1%", "₹ 10,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
@@ -1302,7 +1422,7 @@ const ALL_DATA = [
   ["1084", "TCS — Sale of home theatre system exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 2,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
   ["1085", "TCS — Sale of horse for horse racing / polo exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 2,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
   ["1086", "TCS — LRS remittance for education or medical treatment", "Authorised dealer", "394(1) [Table: Sl. No. 7.D(a)]", "143", "2%", "₹ 10,00,000", "206C(1G)(a)", "Finance Act 2026, Section 85(e): Rate reduced from 5% to 2% w.e.f. 1 April 2026. Threshold ₹10,00,000 per S.394(1)[Sl.No.7] of IT Act 2025.", "206C(1G)(a)", "TCS", "Remitter", "No — S. 197A exemption not available for TCS under this sub-section", "5%"],
-  ["1087", "TCS — LRS remittance for purposes other than education / medical", "Authorised dealer", "394(1) [Table: Sl. No. 7.D(b)]", "143", "20%", "₹ 10,00,000", "206C(1G)(b)", "Threshold corrected to ₹10,00,000 as per S.394(1) Sl.No.7 (HTML previously showed ₹7,00,000 — old Act 1961 threshold). Rate of 20% unchanged by Finance Act 2026.", "206C(1G)(b)", "TCS", "Remitter", "No — S. 197A exemption not available for TCS under this sub-section", "40%"],
+  ["1087", "TCS — LRS remittance for purposes other than education / medical", "Authorised dealer", "394(1) [Table: Sl. No. 7.D(b)]", "143", "20%", "₹ 10,00,000", "206C(1G)(b)", "TCS @ 20% on the amount exceeding ₹10,00,000 in a tax year — S. 394(1) [Table: Sl. No. 7] of the Income-tax Act, 2025, applicable w.e.f. 1 April 2026. The ₹10,00,000 threshold corresponds to S. 206C(1G) of the Income-tax Act, 1961 as amended by the Finance Act, 2025 (w.e.f. 1 April 2025). Rate unchanged by the Finance Act, 2026.", "206C(1G)(b)", "TCS", "Remitter", "No — S. 197A exemption not available for TCS under this sub-section", "40%"],
   ["1088", "TCS — Sale of overseas tour programme package (any amount)", "Seller", "394(1) [Table: Sl. No. 8]", "143", "2%", "Nil", "206C(1G)", "Finance Act 2026, w.e.f. 1-Apr-2026: Old two-tier structure [5% up to ₹10L / 20% above ₹10L] replaced by flat 2% on ALL amounts — no threshold exemption. TCS applies from Rupee 1. Code 1089 is retained for legacy reference but is now identical to 1088 post-amendment.", "206C(1G)", "TCS", "Buyer", "No — S. 197A exemption not available for TCS under this sub-section", "5%"],
   ["1089", "TCS — Sale of overseas tour programme package (legacy: above ₹10,00,000 — merged into flat 2% by Finance Act 2026)", "Seller", "394(1) [Table: Sl. No. 8]", "143", "2%", "Nil", "206C(1G)", "Finance Act 2026, w.e.f. 1-Apr-2026: Previous rate of 20% for amounts above ₹10L is abolished. Flat 2% TCS applies on ALL overseas tour package sales irrespective of amount. No threshold exemption. See code 1088 for merged post-amendment entry.", "206C(1G)", "TCS", "Buyer", "No — S. 197A exemption not available for TCS under this sub-section", "5%"],
   ["1090", "TCS — Use of parking lot for business (excluding mineral oil mining)", "Seller / Licensor", "394(1) [Table: Sl. No. 9]", "143", "2%", "Nil", "206C(1C)", "", "206C(1C)", "TCS", "Buyer / Lessee", "Yes — Buyer files Form 27C declaration u/s 197A(1C) / 206C(1A) for nil TCS", "5%"],
@@ -1362,8 +1482,24 @@ const SEC_CODE_LABELS = {
   "206C(1G)":"206C(1G) — TCS: Overseas Tour Package",
 };
 
+/* ═══ RATE / THRESHOLD CHANGES w.e.f. 1 April 2026 ═══
+   f: what changed · o: position up to 31-Mar-2026 · n: position from 1-Apr-2026 · src: authority
+   (values mirror the TY 2026-27 notes in ALL_DATA[8]) */
+const TCS_FOREST={f:'Rate',o:'2.5% — S. 206C(1), IT Act 1961',n:'2% — S. 394(1) [Table: Sl. No. 3], IT Act 2025',src:'Income-tax Act, 2025 — S. 394(1) [Table: Sl. No. 3]'};
+const TCS_TOUR={f:'Rate & threshold',o:'5% up to ₹10,00,000; 20% on amount above ₹10,00,000',n:'2% on the entire amount (no threshold)',src:'Finance Act, 2026'};
+const RATE_CHANGES={
+  '1068':{f:'Rate',o:'1%',n:'2%',src:'Finance Act, 2026 — Section 85(a)'},
+  '1069':{f:'Rate',o:'5%',n:'2%',src:'Finance Act, 2026 — Section 85(b)'},
+  '1070':TCS_FOREST,'1071':TCS_FOREST,'1072':TCS_FOREST,
+  '1073':{f:'Rate',o:'1%',n:'2%',src:'Finance Act, 2026 — Section 85(c)'},
+  '1074':{f:'Rate',o:'1%',n:'2%',src:'Finance Act, 2026 — Section 85(d)'},
+  '1086':{f:'Rate',o:'5% (on amount above ₹10,00,000)',n:'2% (on amount above ₹10,00,000)',src:'Finance Act, 2026 — Section 85(e)'},
+  '1088':TCS_TOUR,'1089':TCS_TOUR,
+};
+function chgTag(code){return RATE_CHANGES[code]?'<span class="chgtag" title="Rate / threshold changed w.e.f. 1 April 2026">🔄 Changed 1-Apr-2026</span>':'';}
+
 /* ═══ STATE ═══ */
-let disp=[...ALL_DATA], q='', aCol='all', aForm='all', aType='all';
+let disp=[...ALL_DATA], q='', aCol='all', aForm='all', aType='all', chgOnly=false;
 let sIdx=0, sDir=1, kRow=-1, mIdx=-1, grpMode=true;
 
 /* ═══ ELEMENTS ═══ */
@@ -1405,7 +1541,8 @@ function updCounts(){
 
 /* ═══ RESET ALL FILTERS ═══ */
 function resetAll(){
-  siEl.value=''; q=''; aCol='all'; aForm='all'; aType='all';
+  siEl.value=''; q=''; aCol='all'; aForm='all'; aType='all'; chgOnly=false;
+  document.getElementById('chgBtn').classList.remove('on');
   grpMode=true; sIdx=0; sDir=1; kRow=-1;
   siClear.classList.remove('show');
   /* Reset pills */
@@ -1442,7 +1579,8 @@ function render(){
     else if(aType==='TCS')tm=row[10]==='TCS';
     /* BOTH = show TDS and TCS (same as ALL for type) */
     const sm=!lq||cols.some(c=>row[c]&&String(row[c]).toLowerCase().includes(lq));
-    return fm&&tm&&sm;
+    const cm=!chgOnly||!!RATE_CHANGES[row[0]];
+    return fm&&tm&&sm&&cm;
   });
 
   disp.sort((a,b)=>{
@@ -1515,7 +1653,7 @@ function mkRow(row,i,lq){
       '<span class="cs25">'+hl(row[3]||'—',lq)+'</span>'+
     '</td>'+
     '<td class="cw8"><span class="crate '+rc+'">'+hl(row[5]||'—',lq)+'</span>'+
-      (fb?'<span class="fbtag">📋 FA 2026</span>':'')+
+      (fb?'<span class="fbtag">📋 FA 2026</span>':'')+chgTag(row[0])+
     '</td>'+
     '<td class="cw9"><span class="cthr">'+hl(row[6]||'—',lq).replace(/₹ /g,'₹&nbsp;')+'</span></td>'+
 
@@ -1753,7 +1891,10 @@ function fbTab(uid,panel,btn){
 
 /* ═══ MODAL ═══ */
 function openMo(i){mIdx=i;fillMo(i);moEl.classList.add('open');document.getElementById('mClose').focus();}
-function closeMo(){moEl.classList.remove('open');mIdx=-1;}
+function closeMo(){
+  if(!moEl.classList.contains('open'))return;
+  moEl.classList.remove('open');mIdx=-1;setDeepLink(null);
+}
 function fillMo(i){
   const r=disp[i];if(!r)return;
   const isTDS=r[10]==='TDS';
@@ -1772,7 +1913,21 @@ function fillMo(i){
   document.getElementById('mThr').innerHTML=esc(r[6]||'—').replace(/₹ /g,'₹&nbsp;');
   document.getElementById('mForm').textContent=r[4];
   document.getElementById('mTypeD').textContent=r[10];
+  setDeepLink(r[0]);
 
+  const chEl=document.getElementById('mChg');
+  const ch=RATE_CHANGES[r[0]];
+  if(ch){
+    chEl.style.display='block';
+    chEl.innerHTML='<div class="mchg-hd">🔄 '+esc(ch.f)+' changed w.e.f. 1 April 2026</div>'+
+      '<div class="mchg-g">'+
+        '<span class="k">Up to 31-Mar-2026</span><span class="old">'+esc(ch.o)+'</span>'+
+        '<span class="k">From 1-Apr-2026</span><span><strong>'+esc(ch.n)+'</strong></span>'+
+      '</div>'+
+      '<div class="mchg-src">Source: '+esc(ch.src)+'</div>';
+  } else {
+    chEl.style.display='none';
+  }
 
 
   const fb=document.getElementById('mFb');
@@ -1821,6 +1976,20 @@ document.getElementById('mCopy').onclick=()=>{
     .catch(()=>toast('⚠️','Copy failed'));
 };
 moEl.addEventListener('click',e=>{if(e.target===moEl)closeMo();});
+const _copyCode=()=>{const r=disp[mIdx];if(r)copyText(r[0],'Code '+r[0]+' copied');};
+document.getElementById('mCode').onclick=_copyCode;
+document.getElementById('mCode').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();_copyCode();}});
+document.getElementById('mCodeCopy').onclick=_copyCode;
+document.getElementById('mShare').onclick=()=>{
+  const r=disp[mIdx];if(!r)return;
+  const url=codeUrl(r[0]);
+  const title='TDS/TCS Code '+r[0]+' — '+r[1];
+  if(navigator.share&&window.matchMedia('(pointer:coarse)').matches){
+    navigator.share({title:title,url:url}).catch(()=>{});
+  } else {
+    copyText(url,'Link to code '+r[0]+' copied');
+  }
+};
 
 /* ═══ KEYBOARD ═══ */
 function clearK(){tbody.querySelectorAll('tr.kbf').forEach(r=>r.classList.remove('kbf'));}
@@ -1831,6 +2000,9 @@ function setK(i){
   rows[kRow].scrollIntoView({block:'nearest',behavior:'smooth'});
 }
 document.addEventListener('keydown',e=>{
+  for(const id of ['wizMo','mapMo']){
+    if(document.getElementById(id).classList.contains('open')){if(e.key==='Escape'){e.preventDefault();closeTp(id);}return;}
+  }
   if(moEl.classList.contains('open')){if(e.key==='Escape'){e.preventDefault();closeMo();}return;}
   if(document.getElementById('calcp').classList.contains('open')){if(e.key==='Escape')closeCalc();return;}
   if(e.key==='/'&&document.activeElement!==siEl){e.preventDefault();siEl.focus();return;}
@@ -1901,6 +2073,14 @@ document.querySelectorAll('.typebtn').forEach(b=>{
     }
     render();
   });
+});
+
+/* ═══ CHANGED w.e.f. 1-APR-2026 FILTER ═══ */
+document.getElementById('chgN').textContent='('+ALL_DATA.filter(r=>RATE_CHANGES[r[0]]).length+')';
+document.getElementById('chgBtn').addEventListener('click',e=>{
+  chgOnly=!chgOnly;
+  e.currentTarget.classList.toggle('on',chgOnly);
+  render();
 });
 
 /* ═══ GROUP TOGGLE ═══ */
@@ -2602,7 +2782,7 @@ function mkCardHtml(r,idx){
         +(r[2]?'<div class="card-field card-full"><span class="card-fl">Deductor</span><span class="card-fv" style="color:var(--t2);font-size:11px">'+esc(r[2])+'</span></div>':'')
       +'</div>'
       /* Enhancement 4: compact FB tag */
-      +fbTag
+      +fbTag+(RATE_CHANGES[r[0]]?'<div>'+chgTag(r[0])+'</div>':'')
     +'</div>'
     +'<div class="card-hint">👆 Tap for details &nbsp;·&nbsp; ⟶ Swipe right for modal</div>'
     +'</div>';
@@ -2711,10 +2891,313 @@ window.addEventListener('resize',function(){
   else{document.body.classList.remove('card-mode');}
 })();
 
+/* ═══════════════════════════════════════════════════
+   ENHANCEMENT: COPY · SHARE · DEEP LINKS
+   ?code=1027 or #1027 → opens that code's detail popup
+   #194J / ?sec=194J   → opens the code (if unique) or the Old ↔ New mapping view
+═══════════════════════════════════════════════════ */
+function copyText(text,msg){
+  const done=()=>toast('📋',msg||'Copied to clipboard');
+  const fallback=()=>{
+    try{
+      const ta=document.createElement('textarea');
+      ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';
+      document.body.appendChild(ta);ta.select();
+      const ok=document.execCommand('copy');document.body.removeChild(ta);
+      ok?done():toast('⚠️','Copy failed');
+    }catch(e){toast('⚠️','Copy failed');}
+  };
+  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(text).then(done).catch(fallback);
+  else fallback();
+}
+function codeUrl(code){return location.origin+location.pathname+'?code='+encodeURIComponent(code);}
+function setDeepLink(code,hash){
+  try{
+    const u=new URL(location.href);
+    if(code)u.searchParams.set('code',code);else u.searchParams.delete('code');
+    if(hash)u.hash=hash;else if(u.hash!=='#calculator')u.hash='';
+    history.replaceState(history.state,'',u.pathname+u.search+u.hash);
+  }catch(e){}
+}
+function openCode(code){
+  code=String(code);
+  if(!ALL_DATA.some(r=>r[0]===code))return false;
+  ['wizMo','mapMo'].forEach(closeTp);
+  closeCalc();
+  let i=disp.findIndex(r=>r[0]===code);
+  if(i<0){resetAll();i=disp.findIndex(r=>r[0]===code);}
+  if(i<0)return false;
+  openMo(i);
+  return true;
+}
+
+/* Tool panels (wizard / mapping) share the .mo overlay styles */
+function openTp(id){closeMo();closeCalc();document.getElementById(id).classList.add('open');}
+function closeTp(id){
+  const el=document.getElementById(id);
+  if(!el.classList.contains('open'))return;
+  el.classList.remove('open');
+  if(id==='mapMo')setDeepLink(null);
+}
+['wizMo','mapMo'].forEach(id=>{
+  const el=document.getElementById(id);
+  el.addEventListener('click',e=>{if(e.target===el)closeTp(id);});
+});
+
+/* ═══════════════════════════════════════════════════
+   ENHANCEMENT: "WHICH CODE APPLIES?" WIZARD
+   TDS: Type → Payer → Payee residency → Nature → Amount
+   TCS: Type → Nature → Amount
+═══════════════════════════════════════════════════ */
+const WIZ_PAYERS=[
+  {id:'ind', label:'Individual / HUF — not liable to tax audit', hint:'Not a “specified person” (e.g. salaried individual paying rent or buying property)'},
+  {id:'biz', label:'Company, firm, LLP, trust, Government, or Individual / HUF liable to tax audit', hint:'“Specified person” / “designated person” for TDS purposes'},
+  {id:'bank',label:'Bank, co-operative society or post office', hint:'Banking company / co-operative bank / post office'},
+];
+const WIZ_CATS=[
+  ['💼 Salary, PF & specified senior citizen',             /^(192|192A|194P)$/],
+  ['🏠 Rent',                                               /^194-I(\(|B$)/],
+  ['🏢 Immovable property, JDA & compulsory acquisition',  /^(194-IA|194-IC|194LA)$/],
+  ['🧾 Contract, professional / technical fees & commission',/^(194C|194D|194G|194H|194J|194M)/],
+  ['💰 Interest',                                           /^(193|194A|194LB|194LC)$/],
+  ['📈 Dividend, units & investment income',                /^(194|194K|194LBA|194LBB|194LBC|196B|196C|196D)$/],
+  ['🛡️ Life insurance payout & NSS deposits',              /^(194DA|194EE)$/],
+  ['🎰 Winnings — lottery, online games, horse races',      /^(194B|194BA|194BB)$/],
+  ['🛒 Purchase of goods, e-commerce, VDA & perquisites',   /^(194Q|194-O|194S|194R)$/],
+  ['🏦 Cash withdrawal',                                    /^194N$/],
+  ['🤝 Payments by a firm to its partners',                 /^194T$/],
+  ['🌐 Other payments to non-residents',                    /^(194E|195)$/],
+  ['🍾 Sale of liquor, tendu leaves, timber, forest produce & scrap', /^206C\(1\)\(/],
+  ['⛏️ Minerals; parking lot, toll plaza, mine or quarry',  /^206C\(1C\)$/],
+  ['🚗 Motor vehicle & specified luxury goods',             /^206C\(1F\)$/],
+  ['✈️ LRS remittance & overseas tour package',            /^206C\(1G\)/],
+];
+function wizCat(r){const c=WIZ_CATS.find(x=>x[1].test(r[7]));return c?c[0]:'📂 Others';}
+function wizPayerOk(r,p){
+  const d=String(r[2]).toLowerCase();
+  if(/employer/.test(d))return true;
+  if(/bank|co-?operative|post office/.test(d))return p==='bank';
+  if(/individual or hindu|other than specified person/.test(d))return p==='ind';
+  if(/^any person(?!, being| \(buyer\))/.test(d))return true;   /* 194Q buyer = turnover-based, so not offered to non-audit individuals */
+  return p!=='ind';                      /* specified / designated person, company, trust, fund, firm … */
+}
+function wizResOk(r,res){
+  if(res==='nr')return /non-resident/i.test(r[11])||/non-resident/i.test(r[5])||r[4].indexOf('144')>-1;
+  return r[11]!=='Non-Resident';
+}
+function wizThresh(t){
+  if(!t||t==='Nil'||t==='—'||/slab|as per|net winnings/i.test(t)||!/\d/.test(t))return 0;
+  return parseFloat(t.replace(/[₹,\s]/g,'').replace(/per.*/i,''))||0;
+}
+const WIZ_LBL={type:'Type',payer:'Payer',res:'Payee',code:'Code'};
+let wz={};
+function wizSteps(){return wz.type==='TCS'?['type','code']:['type','payer','res','code'];}
+function wizSet(k,v){wz[k]=v;wizRender();}
+function wizBack(){
+  const st=wizSteps().filter(k=>wz[k]);
+  if(st.length)delete wz[st[st.length-1]];
+  if(!wz.type){delete wz.payer;delete wz.res;}
+  wizRender();
+}
+function wizRows(){
+  return ALL_DATA.filter(r=>r[10]===wz.type&&
+    (wz.type==='TCS'||(wizPayerOk(r,wz.payer)&&wizResOk(r,wz.res))));
+}
+function wizOpt(onclick,html){return '<button type="button" class="wz-opt" onclick="'+onclick+'">'+html+'</button>';}
+function wizRender(){
+  const body=document.getElementById('wizBody');
+  /* breadcrumbs */
+  const crumbTxt={
+    type:wz.type==='TDS'?'TDS (paying)':'TCS (collecting)',
+    payer:(WIZ_PAYERS.find(p=>p.id===wz.payer)||{}).label,
+    res:wz.res==='nr'?'Non-resident':'Resident',
+    code:wz.code
+  };
+  document.getElementById('wizCrumbs').innerHTML=wizSteps().filter(k=>wz[k])
+    .map(k=>'<span class="wz-crumb">'+WIZ_LBL[k]+': <b>'+esc(crumbTxt[k])+'</b></span>').join('');
+  document.getElementById('wizBack').disabled=!wz.type;
+
+  if(!wz.type){
+    body.innerHTML='<div class="wz-q">1. What are you doing?</div><div class="wz-opts">'+
+      wizOpt("wizSet('type','TDS')",'💸 <strong>Making a payment</strong><small>Tax to be deducted at source (TDS) — Forms 138 / 140 / 141 / 144</small>')+
+      wizOpt("wizSet('type','TCS')",'🧾 <strong>Selling goods / receiving money</strong><small>Tax to be collected at source (TCS) — Form 143</small>')+
+      '</div>';
+    return;
+  }
+  if(wz.type==='TDS'&&!wz.payer){
+    body.innerHTML='<div class="wz-q">2. Who is making the payment (deductor)?</div><div class="wz-opts">'+
+      WIZ_PAYERS.map(p=>wizOpt("wizSet('payer','"+p.id+"')",'<strong>'+esc(p.label)+'</strong><small>'+esc(p.hint)+'</small>')).join('')+
+      '</div><div class="wz-note">“Specified person” and “designated person” carry statutory meanings for TDS under the Income-tax Act, 2025 — broadly, persons other than individuals / HUFs not liable to tax audit. Check the definition for your case.</div>';
+    return;
+  }
+  if(wz.type==='TDS'&&!wz.res){
+    body.innerHTML='<div class="wz-q">3. What is the residential status of the payee (deductee)?</div><div class="wz-opts">'+
+      wizOpt("wizSet('res','r')",'🇮🇳 <strong>Resident</strong><small>Resident in India for the tax year</small>')+
+      wizOpt("wizSet('res','nr')",'🌐 <strong>Non-resident</strong><small>Includes foreign companies — Form 144</small>')+
+      '</div>';
+    return;
+  }
+  if(!wz.code){
+    const n=wz.type==='TCS'?2:4;
+    body.innerHTML='<div class="wz-q">'+n+'. What is the nature of the '+(wz.type==='TCS'?'sale / receipt':'payment')+'?</div>'+
+      '<input class="fi wz-search" id="wizSearch" type="text" autocomplete="off" placeholder="Filter — e.g. rent, contract, interest, scrap…">'+
+      '<div id="wizList"></div>';
+    const s=document.getElementById('wizSearch');
+    s.addEventListener('input',()=>wizList(s.value));
+    wizList('');
+    setTimeout(()=>s.focus(),50);
+    return;
+  }
+  wizResult();
+}
+function wizList(f){
+  const lf=f.toLowerCase().trim();
+  const rows=wizRows().filter(r=>!lf||[r[1],r[2],r[7],r[9],r[0],wizCat(r)].some(x=>String(x).toLowerCase().includes(lf)));
+  const el=document.getElementById('wizList');
+  if(!rows.length){el.innerHTML='<div class="wz-note">No matching codes for these answers. Go back and change an answer, or use the main search.</div>';return;}
+  const groups={};
+  rows.forEach(r=>{const c=wizCat(r);(groups[c]=groups[c]||[]).push(r);});
+  el.innerHTML=Object.keys(groups).map(g=>'<div class="wz-grp">'+esc(g)+'</div><div class="wz-list">'+
+    groups[g].map(r=>wizOpt("wizSet('code','"+r[0]+"')",
+      '<span class="wz-oc">'+esc(r[0])+' · '+esc(r[9]||r[7])+'</span>'+esc(r[1])+
+      '<small>Deductor / collector: '+esc(r[2])+'</small>')).join('')+'</div>').join('');
+}
+function wizResult(){
+  const r=ALL_DATA.find(x=>x[0]===wz.code);if(!r)return;
+  const canCalc=calcItems.some(x=>x.code===r[0]);
+  document.getElementById('wizBody').innerHTML=
+    '<div class="wz-q">✅ Applicable section code</div>'+
+    '<div class="wz-res">'+
+      '<div class="wz-res-hd"><span class="wz-res-code">'+esc(r[0])+'</span>'+
+        '<span class="tbadge '+(r[10]==='TDS'?'tb-tds':'tb-tcs')+'">'+esc(r[10])+'</span>'+chgTag(r[0])+'</div>'+
+      '<div style="font-size:12.5px;font-weight:600">'+esc(r[1])+'</div>'+
+      '<div class="wz-kv">'+
+        '<span class="k">IT Act 1961</span><span>'+esc(r[9]||r[7])+'</span>'+
+        '<span class="k">IT Act 2025</span><span>'+esc(r[3])+'</span>'+
+        '<span class="k">Rate</span><span>'+esc(r[5])+'</span>'+
+        '<span class="k">Threshold</span><span>'+esc(r[6]||'—')+'</span>'+
+        '<span class="k">Form</span><span>'+esc(r[4])+'</span>'+
+        '<span class="k">Deductor</span><span>'+esc(r[2])+'</span>'+
+      '</div>'+
+      '<div class="fg" style="margin-top:6px"><label class="fl" for="wizAmt">'+(r[10]==='TCS'?'Sale / receipt':'Payment')+' amount (₹) — optional</label>'+
+        '<input class="fi" id="wizAmt" type="number" min="0" step="1" placeholder="e.g. 75000"></div>'+
+      '<div id="wizChk"></div>'+
+      '<div class="wz-acts">'+
+        (canCalc?'<button class="btn bcalc" onclick="wizCalc()">🧮 Calculate '+esc(r[10])+'</button>':'')+
+        '<button class="btn bacc" onclick="openCode(\''+r[0]+'\')">📄 Full details</button>'+
+        '<button class="btn bg" onclick="copyText(\''+r[0]+'\',\'Code '+r[0]+' copied\')">⧉ Copy code</button>'+
+        '<button class="btn bg" onclick="copyText(codeUrl(\''+r[0]+'\'),\'Link to code '+r[0]+' copied\')">🔗 Copy link</button>'+
+      '</div>'+
+    '</div>'+
+    '<div class="wz-note">⚠️ Guidance only. Confirm the conditions in the Act before deducting / collecting — definition of specified person, aggregate thresholds for the tax year, exemptions, lower / nil deduction certificates and declarations, and DTAA relief for non-residents.</div>';
+  const a=document.getElementById('wizAmt');
+  a.addEventListener('input',()=>wizCheck(r,parseFloat(a.value)||0));
+  a.addEventListener('keydown',e=>{if(e.key==='Enter'&&canCalc)wizCalc();});
+}
+function wizCheck(r,amt){
+  const el=document.getElementById('wizChk');
+  const t=wizThresh(r[6]);
+  if(!amt){el.innerHTML='';return;}
+  let msg;
+  if(!t)msg='No single-payment threshold applies to this code ('+esc(r[6]||'—')+'). '+esc(r[10])+' applies @ '+esc(r[5])+'.';
+  else if(amt<=t)msg='Amount of '+fmtN(amt)+' does not exceed the threshold of '+fmtN(t)+' for this code. '+esc(r[10])+' may not apply — but check the aggregate for the tax year ('+esc(r[6])+').';
+  else msg='Amount of '+fmtN(amt)+' exceeds the threshold of '+fmtN(t)+'. '+esc(r[10])+' applies @ '+esc(r[5])+'.';
+  el.innerHTML='<div class="wz-chk">'+msg+'</div>';
+}
+function wizCalc(){
+  const it=calcItems.find(x=>x.code===wz.code);if(!it)return;
+  const amt=parseFloat((document.getElementById('wizAmt')||{}).value)||0;
+  const nr=wz.res==='nr';
+  closeTp('wizMo');openCalc();selectItem(it);
+  if(nr&&calcExtraState.type==='resnr'){
+    const b=document.querySelectorAll('#calcExtrasWrap .cex-rbtn')[1];if(b)b.click();
+  }
+  if(amt>0){document.getElementById('calcAmt').value=amt;document.getElementById('calcGo').click();}
+}
+function openWiz(){wz={};wizRender();openTp('wizMo');}
+document.getElementById('wizBtn').onclick=openWiz;
+document.getElementById('wizClose').onclick=()=>closeTp('wizMo');
+document.getElementById('wizBack').onclick=wizBack;
+document.getElementById('wizRestart').onclick=()=>{wz={};wizRender();};
+
+/* ═══════════════════════════════════════════════════
+   ENHANCEMENT: OLD ⇄ NEW SECTION MAPPING
+═══════════════════════════════════════════════════ */
+function normSec(s){return String(s||'').toUpperCase().replace(/^\s*(SECTION|SEC\.?|S\.)\s*/,'').replace(/[\s\-–]/g,'');}
+function mapMatch(qs){
+  const nq=normSec(qs);
+  if(!nq)return ALL_DATA.slice();
+  if(/^39\d/.test(nq))return ALL_DATA.filter(r=>normSec(r[3]).startsWith(nq));
+  let m=ALL_DATA.filter(r=>{
+    const a=normSec(r[9]),b=normSec(r[7]);
+    return a===nq||b===nq||a.startsWith(nq+'(')||b.startsWith(nq+'(');
+  });
+  if(!m.length)m=ALL_DATA.filter(r=>[r[9],r[7],r[3]].some(x=>normSec(x).includes(nq)));
+  return m;
+}
+const MAP_OLD=[...new Set(ALL_DATA.map(r=>r[9]||r[7]))];
+function renderMap(qs){
+  const rows=mapMatch(qs);
+  const nq=normSec(qs);
+  document.getElementById('mapChips').innerHTML=MAP_OLD.map(s=>
+    '<button type="button" class="mp-chip'+(nq&&normSec(s)===nq?' on':'')+'" data-s="'+esc4a(s)+'">'+esc(s)+'</button>').join('');
+  document.getElementById('mapCount').textContent=nq
+    ?(rows.length?rows.length+' code'+(rows.length===1?'':'s')+' mapped for “'+qs.trim()+'” — click a row for full details':'No section found for “'+qs.trim()+'”')
+    :'All '+rows.length+' codes — type a section or pick one above';
+  document.getElementById('mapBody').innerHTML=rows.map(r=>{
+    const old=r[9]||r[7];
+    const sub=r[7]&&normSec(r[7])!==normSec(old)?' <span style="opacity:.7">['+esc(r[7])+']</span>':'';
+    return '<tr class="mp-row" data-code="'+esc4a(r[0])+'">'+
+      '<td class="mp-old">'+esc(old)+sub+'</td><td class="mp-arr">→</td>'+
+      '<td class="mp-new">'+esc(r[3])+'</td>'+
+      '<td class="mp-code">'+esc(r[0])+'</td>'+
+      '<td>'+esc(r[1])+'</td>'+
+      '<td>'+esc(r[5])+chgTag(r[0])+'</td></tr>';
+  }).join('');
+}
+function openMap(qs){
+  const inp=document.getElementById('mapIn');
+  inp.value=qs||'';
+  renderMap(inp.value);
+  openTp('mapMo');
+  setTimeout(()=>inp.focus(),50);
+}
+document.getElementById('mapBtn').onclick=()=>openMap('');
+document.getElementById('mapClose').onclick=()=>closeTp('mapMo');
+document.getElementById('mapIn').addEventListener('input',e=>{
+  renderMap(e.target.value);
+  const v=e.target.value.trim();
+  setDeepLink(null,v?'#'+encodeURIComponent(v):'');
+});
+document.getElementById('mapChips').addEventListener('click',e=>{
+  const b=e.target.closest('.mp-chip');if(!b)return;
+  const inp=document.getElementById('mapIn');
+  inp.value=b.dataset.s;inp.dispatchEvent(new Event('input'));
+});
+document.getElementById('mapBody').addEventListener('click',e=>{
+  const tr=e.target.closest('tr.mp-row');if(tr)openCode(tr.dataset.code);
+});
+
+/* Resolve ?code= / ?sec= / #hash on load and on hash change */
+function applyDeepLink(){
+  const p=new URLSearchParams(location.search);
+  let h='';try{h=decodeURIComponent(location.hash.replace(/^#/,'')).trim();}catch(e){}
+  let code=(p.get('code')||'').trim();
+  if(!code&&/^\d{4}$/.test(h))code=h;
+  if(code){if(!openCode(code))toast('⚠️','Section code '+code+' not found');return;}
+  const sec=(p.get('sec')||(h==='calculator'?'':h)).trim();
+  if(!sec||!/^\s*(S\.|sec|section)?\s*\d{3}/i.test(sec))return;
+  const m=mapMatch(sec);
+  if(m.length===1)openCode(m[0][0]);
+  else if(m.length)openMap(sec);
+}
+window.addEventListener('hashchange',applyDeepLink);
+
 document.getElementById('totalN').textContent=ALL_DATA.length;
 const initTh=document.querySelector('th[data-idx="0"]');
 if(initTh){initTh.classList.add('asc');const a=initTh.querySelector('.sarr');if(a)a.textContent='↑';}
 render();
+applyDeepLink();
 </script>
 <footer class="sft">
   <a href="/" class="sft-logo-box">Taxation<sup>®</sup><br/>Updates</a>
