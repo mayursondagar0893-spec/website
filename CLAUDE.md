@@ -112,6 +112,10 @@ Article files (PDF/JPEG) live in `/articles/` and are served directly by GitHub 
 
 ---
 
+### Homepage smart features (index.html)
+- **Smart Tax Check** (`#tax-check`): live New Regime estimate, 3D slab chart and ready-reckoner table. Slabs, ₹75,000 standard deduction, the s.87A/s.156 rebate (₹60,000 up to ₹12 L, with marginal relief) and 4% cess must stay in sync with `INCOME-TAX-CALCULATOR-FY2526-FY2627.html` (`NR`, `rebN`). It deliberately excludes surcharge (shows a warning above ₹50 L), special-rate income and the Old Regime.
+- **Command palette** (`#cmdk`, Ctrl/⌘+K or `/`): edit the `ITEMS` array when adding a tool, section or article.
+
 ## Current Tool Inventory
 
 | File | Title |

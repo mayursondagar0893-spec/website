@@ -464,6 +464,15 @@ td:last-child{border-right:none}
 .bar-col:hover{background:var(--accent-bg)}
 .bar-fill{border-radius:3px 3px 0 0;width:100%;transition:opacity .13s,transform .1s;min-width:0}
 .bar-col:hover .bar-fill{opacity:.8;transform:scaleY(1.04);transform-origin:bottom}
+.bar-chart{height:auto;min-height:150px;padding-top:14px;gap:6px}
+.bar-chart .bar-num{margin-bottom:11px}
+.bar-chart .bar-col{padding:2px 10px 2px 2px}
+/* 3D prism bars: front gradient + skewed top and side faces (colour inherited from inline background) */
+.bar-fill{position:relative;border-radius:2px 2px 0 0;overflow:visible;background-image:linear-gradient(90deg,rgba(255,255,255,.30) 0%,rgba(255,255,255,.08) 38%,rgba(0,0,0,.14) 100%);box-shadow:0 10px 18px -10px rgba(0,0,0,.45)}
+.bar-fill::before{content:'';position:absolute;left:0;right:0;bottom:100%;height:8px;background-color:inherit;background-image:linear-gradient(90deg,rgba(255,255,255,.55),rgba(255,255,255,.35));transform:skewX(-45deg);transform-origin:bottom left;border-radius:2px 2px 0 0}
+.bar-fill::after{content:'';position:absolute;top:0;bottom:0;left:100%;width:8px;background-color:inherit;background-image:linear-gradient(180deg,rgba(0,0,0,.30),rgba(0,0,0,.45));transform:skewY(-45deg);transform-origin:top left}
+.bar-col:hover .bar-fill{opacity:1;filter:brightness(1.08) saturate(1.1)}
+@media (max-width:600px){.bar-chart .bar-col{padding:2px 5px 2px 0}.bar-chart .bar-num{margin-bottom:7px;font-size:10px}.bar-fill::before{height:5px}.bar-fill::after{width:5px}.bar-chart{gap:3px}}
 .bar-lbl{font-size:11px;font-weight:700;color:var(--text2);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%}
 .bar-num{font-size:11.5px;font-weight:800;color:var(--text);font-family:'JetBrains Mono',monospace;line-height:1;margin-bottom:1px}
 /* Upcoming list */
@@ -2069,7 +2078,7 @@ function renderInsightPanels(){
             title="${cnt?(isActive?`Click to reset filter`:`Click: view ${lbl}`):'No deadlines'}"
             style="${isActive?'background:var(--accent-bg);border-radius:4px;':''}">
             <div class="bar-num" style="color:${cnt?'var(--text)':'var(--muted2)'}">${cnt||''}</div>
-            <div class="bar-fill" style="height:${cnt?Math.round(cnt/maxCnt*70)+10:2}px;background:${cnt?MONTH_COLORS[FY_MONTHS[idx][1]-1]:'var(--border)'};outline:${isActive?'2px solid var(--accent)':'none'};outline-offset:1px"></div>
+            <div class="bar-fill" style="height:${cnt?Math.round(cnt/maxCnt*90)+10:2}px;background-color:${cnt?MONTH_COLORS[FY_MONTHS[idx][1]-1]:'var(--border)'};outline:${isActive?'2px solid var(--accent)':'none'};outline-offset:1px"></div>
             <div class="bar-lbl" style="color:${isActive?'var(--accent)':'var(--muted)'};font-weight:${isActive?'800':'700'}">${lbl}</div>
           </div>`;
         }).join('')}
