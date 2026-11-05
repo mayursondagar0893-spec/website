@@ -170,7 +170,7 @@ body.dark .capnote{color:#ff8a7a;}
 .mrrow div:last-child{border-left:none;text-align:center;}
 .brand{background:#ADB11F;color:#000;text-align:center;padding:7px;font-size:15px;font-weight:700;margin-top:5px;font-family:'Inter',Calibri,Arial,sans-serif;letter-spacing:0.03em;}
 
-@media(max-width:680px){.halves,.toprow{grid-template-columns:1fr;}}
+@media(max-width:680px){.halves,.toprow{grid-template-columns:minmax(0,1fr);}.halves>*,.toprow>*{min-width:0;}.halves>*{overflow-x:auto;}}
 /* PDF capture: force the desktop two-column layout even on narrow phones */
 #tab-calc.pdf-capture .halves{grid-template-columns:1fr 1fr !important;align-items:stretch !important;}
 #tab-calc.pdf-capture .toprow{grid-template-columns:1fr 1fr !important;}
@@ -532,6 +532,12 @@ body.dark .mrrow div{background:#12120b;color:#94a3b8;border-color:#414218;}
 .rg-box.oldside .rg-row.tax b{color:#C5610A;}
 .rg-box.newside .rg-row.tax b{color:#3D8934;}
 @media(max-width:680px){
+  .nav{flex-wrap:wrap;gap:6px;}
+  .nav > div:last-child{flex-wrap:wrap;flex-shrink:1 !important;}
+  .tabbar{flex-wrap:wrap;}
+  table:has(#taxpayerName){table-layout:fixed;}
+  .nm-v input{min-width:0;}
+  .nm-l{white-space:normal;}
   .threecol{display:block;}
   .col-side,.col-mid{width:100%;padding:0;}
   .col-side{margin-bottom:10px;display:block;}
@@ -829,6 +835,7 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
     <a href="/INCOME-TAX-CHALLAN-TO-EXCEL.html" class="site-topnav-btn tool">🧾 Challan Parser</a>
     <a href="/FORM-10-IEA-REFERENCE.html" class="site-topnav-btn tool">📝 Form 10-IEA</a>
     <a href="/INCOME-TAX-CALCULATOR-FY2526-FY2627.html" class="site-topnav-btn tool current">🧮 IT Calculator</a>
+    <a href="/KNOWLEDGE-HUB.html" class="site-topnav-btn tool">📚 Knowledge Hub</a>
   </div>
 </nav>
 
@@ -4492,6 +4499,8 @@ function toggleDark(){
     <a href="/FORM-10-IEA-REFERENCE.html">Form 10-IEA</a><span>·</span>
     <a href="/INCOME-TAX-CALCULATOR-FY2526-FY2627.html">IT Calculator</a><span>·</span>
     <a href="/KNOWLEDGE-HUB.html">Knowledge Hub</a><span>·</span>
+    <a href="/about.html">About</a><span>·</span>
+    <a href="/contact.html">Contact</a><span>·</span>
     <a href="/disclaimer.html">Disclaimer</a><span>·</span>
     <a href="/privacy-policy.html">Privacy Policy</a>
   </nav>

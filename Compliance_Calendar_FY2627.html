@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Compliance Calendar FY 2026-27 — Taxation Updates</title>
+<title>Compliance Calendar FY 2026-27 – Taxation Updates</title>
 <meta name="description" content="Interactive compliance calendar for FY 2026-27 with GST, TDS, IT, PF due dates, reminders and export — taxationupdates.com"/>
-<meta property="og:title"       content="Compliance Calendar FY 2026-27 — Taxation Updates"/>
+<meta property="og:title"       content="Compliance Calendar FY 2026-27 – Taxation Updates"/>
 <meta property="og:description" content="Interactive compliance calendar for FY 2026-27 with GST, TDS, IT, PF due dates, reminders and export"/>
 <meta property="og:type"        content="website"/>
 <meta property="og:url"         content="https://taxationupdates.com/Compliance_Calendar_FY2627.html"/>
 <meta property="og:image"       content="https://taxationupdates.com/og-cover.png"/>
 <meta name="twitter:card"        content="summary_large_image"/>
 <meta name="twitter:site"        content="@TaxationUpdates"/>
-<meta name="twitter:title"       content="Compliance Calendar FY 2026-27 — Taxation Updates"/>
+<meta name="twitter:title"       content="Compliance Calendar FY 2026-27 – Taxation Updates"/>
 <meta name="twitter:description" content="Interactive compliance calendar for FY 2026-27 with GST, TDS, IT, PF due dates, reminders and export"/>
 <meta name="twitter:image"       content="https://taxationupdates.com/og-cover.png"/>
 <link rel="canonical"            href="https://taxationupdates.com/Compliance_Calendar_FY2627.html"/>
@@ -486,7 +486,7 @@ td:last-child{border-right:none}
 .prog-bar{flex:1;height:6px;background:var(--surface2);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
 .prog-fill{height:100%;border-radius:4px;transition:width .4s ease}
 .prog-pct{font-size:12.5px;font-weight:700;font-family:'JetBrains Mono',monospace;min-width:30px;text-align:right}
-@media(max-width:768px){.dash{grid-template-columns:1fr}.dash-two{grid-column:1/-1}}
+@media(max-width:768px){.dash{grid-template-columns:minmax(0,1fr)}.dash>*{min-width:0}.dash-two{grid-column:1/-1}.dash-panel-title{flex-wrap:wrap}}
 
 /* ── BACK LINK ── */
 .back-link{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:7px;font-size:12.5px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.18);background:transparent;color:#c9d1d9;text-decoration:none;transition:all .15s;white-space:nowrap;line-height:1}
@@ -543,6 +543,7 @@ td:last-child{border-right:none}
   .dash-panel{padding:14px 12px}
   .dash-panel-title{font-size:12.5px;margin-bottom:10px}
   .bar-chart{height:100px;gap:2px;padding-top:16px}
+  .bar-col{min-width:0;padding:2px 0}
   .bar-lbl{font-size:11px}
   .bar-num{font-size:11px}
 
@@ -826,6 +827,7 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
     <a href="/INCOME-TAX-CHALLAN-TO-EXCEL.html" class="site-topnav-btn tool">🧾 Challan Parser</a>
     <a href="/FORM-10-IEA-REFERENCE.html" class="site-topnav-btn tool">📝 Form 10-IEA</a>
     <a href="/INCOME-TAX-CALCULATOR-FY2526-FY2627.html" class="site-topnav-btn tool">🧮 IT Calculator</a>
+    <a href="/KNOWLEDGE-HUB.html" class="site-topnav-btn tool">📚 Knowledge Hub</a>
   </div>
 </nav>
 
@@ -932,6 +934,8 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
     <a href="/FORM-10-IEA-REFERENCE.html">Form 10-IEA</a><span>·</span>
     <a href="/INCOME-TAX-CALCULATOR-FY2526-FY2627.html">IT Calculator</a><span>·</span>
     <a href="/KNOWLEDGE-HUB.html">Knowledge Hub</a><span>·</span>
+    <a href="/about.html">About</a><span>·</span>
+    <a href="/contact.html">Contact</a><span>·</span>
     <a href="/disclaimer.html">Disclaimer</a><span>·</span>
     <a href="/privacy-policy.html">Privacy Policy</a>
   </nav>

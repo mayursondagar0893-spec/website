@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Income Tax Challan PDF to Excel — Taxation Updates</title>
+<title>Income Tax Challan PDF to Excel – Taxation Updates</title>
 <meta name="description" content="Free online Income Tax challan PDF parser. Upload ITNS 280/280N/281/281N/282/282N/283/283N challans and export data to Excel instantly. 100% client-side — no data uploaded. By CA Mayur Sondagar."/>
 <link rel="canonical" href="https://taxationupdates.com/INCOME-TAX-CHALLAN-TO-EXCEL.html"/>
 <link rel="stylesheet" href="/brand-icons.css"/>
@@ -12,14 +12,14 @@
   <link rel="icon" type="image/svg+xml" href="/icons/logo.svg"/>
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png"/>
 <meta name="theme-color" content="#adb11f"/>
-<meta property="og:title"       content="Income Tax Challan PDF to Excel — Taxation Updates"/>
+<meta property="og:title"       content="Income Tax Challan PDF to Excel – Taxation Updates"/>
 <meta property="og:description" content="Free online Income Tax challan PDF parser. Upload ITNS 280/280N/281/281N/282/282N/283/283N challans and export data to Excel instantly. 100% client-side — no data uploaded. By CA Mayur Sondagar."/>
 <meta property="og:type"        content="website"/>
 <meta property="og:url"         content="https://taxationupdates.com/INCOME-TAX-CHALLAN-TO-EXCEL.html"/>
 <meta property="og:image"       content="https://taxationupdates.com/og-cover.png"/>
 <meta name="twitter:card"        content="summary_large_image"/>
 <meta name="twitter:site"        content="@TaxationUpdates"/>
-<meta name="twitter:title"       content="Income Tax Challan PDF to Excel — Taxation Updates"/>
+<meta name="twitter:title"       content="Income Tax Challan PDF to Excel – Taxation Updates"/>
 <meta name="twitter:description" content="Upload ITNS 280/280N/281/281N/282/282N/283/283N challans and export data to Excel instantly. Free, 100% client-side tool."/>
 <meta name="twitter:image"       content="https://taxationupdates.com/og-cover.png"/>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YC101DVMH7"></script>
@@ -594,7 +594,9 @@ kbd{display:inline-block;background:var(--olive-pale);border:1px solid var(--gla
     [data-theme="dark"] .check-icon { color: var(--olive-ink); background: rgba(205,209,58,0.12); }
     [data-theme="dark"] .social-btn-x { border: 1px solid rgba(255,255,255,0.28) !important; }
     [data-theme="dark"] .hero-dots { opacity: .45; }
-  </style>
+  .site-topnav-btn.theme-btn{cursor:pointer;background:transparent;border:1.5px solid rgba(173,177,31,.35);color:inherit;font-size:14px;line-height:1;}
+[data-theme="dark"] .site-topnav-btn.theme-btn{border-color:rgba(255,255,255,.2);}
+</style>
 <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
 <style id="tu-3d-layer">
 /* ══════════════════════════════════════════════════════════
@@ -742,6 +744,8 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
     <a href="/INCOME-TAX-CHALLAN-TO-EXCEL.html" class="site-topnav-btn tool current">🧾 Challan Parser</a>
     <a href="/FORM-10-IEA-REFERENCE.html" class="site-topnav-btn tool">📝 Form 10-IEA</a>
     <a href="/INCOME-TAX-CALCULATOR-FY2526-FY2627.html" class="site-topnav-btn tool">🧮 IT Calculator</a>
+    <a href="/KNOWLEDGE-HUB.html" class="site-topnav-btn tool">📚 Knowledge Hub</a>
+    <button type="button" class="site-topnav-btn theme-btn" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
   </div>
 </nav>
 
@@ -968,6 +972,8 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
     <a href="/FORM-10-IEA-REFERENCE.html">Form 10-IEA</a><span>·</span>
     <a href="/INCOME-TAX-CALCULATOR-FY2526-FY2627.html">IT Calculator</a><span>·</span>
     <a href="/KNOWLEDGE-HUB.html">Knowledge Hub</a><span>·</span>
+    <a href="/about.html">About</a><span>·</span>
+    <a href="/contact.html">Contact</a><span>·</span>
     <a href="/disclaimer.html">Disclaimer</a><span>·</span>
     <a href="/privacy-policy.html">Privacy Policy</a>
   </nav>
@@ -1569,5 +1575,18 @@ document.addEventListener('keydown',function(e){
 });
 </script>
 <script src="/wa-init.js"></script>
+<script>
+(function(){
+  var b=document.getElementById('theme-toggle');if(!b)return;
+  function sync(){b.textContent=document.documentElement.getAttribute('data-theme')==='dark'?'☀️':'🌙';}
+  sync();
+  b.addEventListener('click',function(){
+    var next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',next);
+    try{localStorage.setItem('theme',next);}catch(e){}
+    sync();
+  });
+})();
+</script>
 </body>
 </html>
