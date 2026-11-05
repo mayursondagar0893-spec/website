@@ -73,11 +73,11 @@ Placement is flexible — the theme init can appear either:
 Both are valid as long as the `localStorage` key is `'theme'` and the attribute is `data-theme`.
 
 ### PWA / Service Worker
-`sw.js` pre-caches tool pages for offline use. Current `CACHE_NAME`: **`taxationupdates-v9`**.  
+`sw.js` pre-caches tool pages for offline use. Current `CACHE_NAME`: **`taxationupdates-v10`**.  
 Strategy: network-first for HTML, cache-first for everything else (same-origin only).  
 Bump the version number whenever you add/rename a cached file. The script `add-tool.sh` does this automatically.
 
-Current `PRECACHE_URLS` (as of `taxationupdates-v9`):
+Current `PRECACHE_URLS` (as of `taxationupdates-v10`):
 ```
 /                                       /index.html
 /TDS-SECTION-CODE.html                  /CA-Prompt-Library.html
@@ -87,7 +87,7 @@ Current `PRECACHE_URLS` (as of `taxationupdates-v9`):
 /icons/icon-512.png                     /manifest.json
 /challan-parser.js                      /Compliance_Calendar_FY2627.html
 /FORM-10-IEA-REFERENCE.html             /INCOME-TAX-CALCULATOR-FY2526-FY2627.html
-/KNOWLEDGE-HUB.html
+/KNOWLEDGE-HUB.html                     /icons/logo.svg
 ```
 
 ### Phone number security
@@ -190,8 +190,9 @@ When the user says "add this tool" / "integrate this" / pastes HTML:
   <link rel="stylesheet" href="/brand-icons.css"/>
   <link rel="manifest" href="/manifest.json"/>
   <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png"/>
-  <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192.png"/>
-  <meta name="theme-color" content="#8c9a1a"/>
+  <link rel="icon" type="image/svg+xml" href="/icons/logo.svg"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png"/>
+  <meta name="theme-color" content="#adb11f"/>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-YC101DVMH7"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -203,7 +204,7 @@ When the user says "add this tool" / "integrate this" / pastes HTML:
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
   <style>
-    :root { --primary: #8c9a1a; /* ... */ }
+    :root { --primary: #ADB11F; /* ... */ }
     [data-theme="dark"] { /* ... */ }
   </style>
 </head>
@@ -259,6 +260,9 @@ This is optional but recommended for tools. `index.html` uses `Person` + `WebSit
 ---
 
 ## CSS Conventions
+
+- **Brand colour = logo colour `#ADB11F`** (sampled from the Taxation Updates logo). All olive shades sit on the logo's hue (~62°). Use `#ADB11F` for fills, logo tiles, active tabs and `theme-color`; use the darker same-hue ink (`#6e7112` / `--olive` `#73760f`) for text on light backgrounds, because `#ADB11F` text on white is not legible.
+- Logo assets: `/icons/logo.svg` (vector), `icon-192.png`, `icon-512.png`, `icon-maskable-512.png`, `apple-touch-icon.png`; social share image `/og-cover.png` (2400×1260).
 
 - Custom properties on `:root` for light mode; overrides on `[data-theme="dark"]`.
 - Use semantic tokens (`--primary`, `--accent`, `--text`, `--bg`) — never hardcode colours.
