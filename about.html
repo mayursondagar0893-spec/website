@@ -481,6 +481,11 @@
     [data-theme="dark"] .check-icon { color: var(--olive-ink); background: rgba(194,209,58,0.12); }
     [data-theme="dark"] .social-btn-x { border: 1px solid rgba(255,255,255,0.28) !important; }
     [data-theme="dark"] .hero-dots { opacity: .45; }
+  
+    /* Profile photo */
+    .profile-avatar { overflow: hidden; padding: 0; width: 128px; height: 128px; }
+    .profile-avatar picture { display: block; width: 100%; height: 100%; }
+    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; }
   </style>
   <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
@@ -519,7 +524,7 @@
 
   <!-- Profile Card -->
   <div class="profile-card">
-    <div class="profile-avatar" aria-hidden="true">MS</div>
+    <div class="profile-avatar"><picture><source srcset="/images/ca-mayur-sondagar.webp" type="image/webp"/><img src="/images/ca-mayur-sondagar.jpg" alt="CA Mayur J Sondagar" width="360" height="360" decoding="async"/></picture></div>
     <div class="profile-info">
       <h2>CA Mayur J Sondagar</h2>
       <p>@TaxationUpdates · Mumbai, Maharashtra, India</p>
