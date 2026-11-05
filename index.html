@@ -465,18 +465,9 @@
   
     /* Profile photo */
     .hero-avatar { overflow: hidden; padding: 0; }
-    .hero-avatar img, .profile-avatar img, .reach-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; border-radius: 50%; }
+    .hero-avatar img, .profile-avatar img, .reach-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; border-radius: 50%; }
     .hero-avatar picture, .profile-avatar picture, .reach-avatar picture { display: block; width: 100%; height: 100%; }
     .hero-avatar { width: 136px; height: 136px; }
-    .about-photo { aspect-ratio: 11/10; justify-content: flex-end; align-items: stretch; }
-    .about-photo::before, .about-photo::after { display: none; }
-    .about-photo picture, .about-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-    .about-photo-cap { position: relative; z-index: 1; padding: 4rem 1.6rem 1.4rem; background: linear-gradient(180deg, transparent 0%, rgba(20,24,6,0.55) 40%, rgba(20,24,6,0.88) 100%); text-align: left; }
-    .about-photo .about-box-text { font-size: 1.7rem; text-align: left; }
-    .about-photo .about-box-text sup { font-size: .8rem; }
-    .about-float { z-index: 3; }
-    @media (max-width: 920px) { .about-photo-cap { padding-bottom: 4.6rem; } .about-float { padding: 1rem 1.4rem; min-width: 0; } }
-    .about-photo .about-box-sub { margin-top: .3rem; opacity: .9; font-family: 'DM Sans', sans-serif; }
   </style>
   <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
@@ -563,12 +554,9 @@
 <section id="about">
   <div class="about-grid">
     <div class="about-img-wrap reveal">
-      <div class="about-box about-photo">
-        <picture><source srcset="/images/ca-mayur-sondagar-portrait.webp" type="image/webp"/><img src="/images/ca-mayur-sondagar-portrait.jpg" alt="CA Mayur J Sondagar" width="550" height="500" loading="lazy" decoding="async"/></picture>
-        <div class="about-photo-cap">
-          <div class="about-box-text">Taxation<sup>®</sup> Updates</div>
-          <div class="about-box-sub">Managed by CA Mayur J Sondagar</div>
-        </div>
+      <div class="about-box">
+        <div class="about-box-text">Taxation<sup>®</sup><br/>Updates</div>
+        <div class="about-box-sub">Managed by CA Mayur J Sondagar</div>
       </div>
       <div class="about-float">
         <strong>8+</strong>
