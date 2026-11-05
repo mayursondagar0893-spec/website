@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <title>Taxation Updates</title>
+  <rect width="512" height="512" fill="#ADB11F"/>
+  <g fill="#ffffff" font-family="'Times New Roman', 'Liberation Serif', Times, serif" font-weight="700" text-anchor="middle">
+    <text x="255" y="226" font-size="82">Taxation</text>
+    <text x="257" y="336" font-size="82">Updates</text>
+  </g>
+  <circle cx="432" cy="174" r="14" fill="#ffffff" stroke="#1a1a1a" stroke-width="3.5"/>
+  <text x="432" y="182" font-family="Arial, 'Liberation Sans', sans-serif" font-weight="700" font-size="20" fill="#1a1a1a" text-anchor="middle">R</text>
+</svg>
