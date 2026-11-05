@@ -4,7 +4,7 @@
    Strategy: Cache-first for static assets, Network-first for HTML.
 ═══════════════════════════════════════════════════════════════ */
 
-const CACHE_NAME = 'taxationupdates-v8';
+const CACHE_NAME = 'taxationupdates-v9';
 
 const PRECACHE_URLS = [
   '/',
@@ -23,6 +23,7 @@ const PRECACHE_URLS = [
   '/Compliance_Calendar_FY2627.html',
   '/FORM-10-IEA-REFERENCE.html',
   '/INCOME-TAX-CALCULATOR-FY2526-FY2627.html',
+  '/KNOWLEDGE-HUB.html',
 ];
 
 // Pure routing helpers — also exported for unit testing (see module.exports below)

@@ -73,11 +73,11 @@ Placement is flexible — the theme init can appear either:
 Both are valid as long as the `localStorage` key is `'theme'` and the attribute is `data-theme`.
 
 ### PWA / Service Worker
-`sw.js` pre-caches tool pages for offline use. Current `CACHE_NAME`: **`taxationupdates-v8`**.  
+`sw.js` pre-caches tool pages for offline use. Current `CACHE_NAME`: **`taxationupdates-v9`**.  
 Strategy: network-first for HTML, cache-first for everything else (same-origin only).  
 Bump the version number whenever you add/rename a cached file. The script `add-tool.sh` does this automatically.
 
-Current `PRECACHE_URLS` (as of `taxationupdates-v8`):
+Current `PRECACHE_URLS` (as of `taxationupdates-v9`):
 ```
 /                                       /index.html
 /TDS-SECTION-CODE.html                  /CA-Prompt-Library.html
@@ -87,6 +87,7 @@ Current `PRECACHE_URLS` (as of `taxationupdates-v8`):
 /icons/icon-512.png                     /manifest.json
 /challan-parser.js                      /Compliance_Calendar_FY2627.html
 /FORM-10-IEA-REFERENCE.html             /INCOME-TAX-CALCULATOR-FY2526-FY2627.html
+/KNOWLEDGE-HUB.html
 ```
 
 ### Phone number security
@@ -126,6 +127,7 @@ Article files (PDF/JPEG) live in `/articles/` and are served directly by GitHub 
 | `Compliance_Calendar_FY2627.html` | Compliance Calendar FY 2026-27 |
 | `FORM-10-IEA-REFERENCE.html` | Form 10-IEA Reference |
 | `INCOME-TAX-CALCULATOR-FY2526-FY2627.html` | Income Tax Calculator FY 2025-26 & FY 2026-27 |
+| `KNOWLEDGE-HUB.html` | Knowledge Hub (curated GST & Income Tax links by author; edit the `AUTHORS` array to add links) |
 
 When a new tool is added via `add-tool.sh`, update this table.
 
