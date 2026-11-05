@@ -771,6 +771,17 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
 /* Embossed white labels on brand-coloured 3D buttons (legibility on the lighter logo colour) */
 .nav-cta,.kh-cta,.form-btn,.mob-cta,.cta-btn,.add-btn,.btn-open,.fb-analyse,.wiz-next,.btn-dl,.site-topnav-btn.home,.site-topnav-btn.current,.tool-nav a.tnb-active,.blog-cat,.highlight{text-shadow:0 1px 1px rgba(0,0,0,.38);}
 @media (prefers-reduced-motion: reduce){.logo-box::after,.footer-logo-box::after,.stn-logo-box::after,.sft-logo-box::after,.hdr-logo-box::after{transition:none;}}
+/* ── Nav: never clip the logo tile or wrap labels; switch to hamburger before the links run out of room ── */
+.logo-box{flex-shrink:0;}
+.nav-logo{min-width:0;}
+.logo-box,.logo-name,.nav-links a{white-space:nowrap;}
+.nav-links{gap:clamp(1rem,2vw,2rem);}
+@media (max-width: 1180px){
+  .nav-links,.nav-cta{display:none;}
+  .hamburger{display:flex;}
+  #main-nav > .nav-logo + .nav-links + div{margin-left:auto;margin-right:.6rem;}
+}
+@media (max-width: 400px){ .logo-name{white-space:normal;} }
 </style>
   <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
