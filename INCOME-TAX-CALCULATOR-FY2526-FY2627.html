@@ -170,7 +170,7 @@ body.dark .capnote{color:#ff8a7a;}
 .mrrow div:last-child{border-left:none;text-align:center;}
 .brand{background:#ADB11F;color:#000;text-align:center;padding:7px;font-size:15px;font-weight:700;margin-top:5px;font-family:'Inter',Calibri,Arial,sans-serif;letter-spacing:0.03em;}
 
-@media(max-width:680px){.halves,.toprow{grid-template-columns:1fr;}}
+@media(max-width:680px){.halves,.toprow{grid-template-columns:minmax(0,1fr);}.halves>*,.toprow>*{min-width:0;}.halves>*{overflow-x:auto;}}
 /* PDF capture: force the desktop two-column layout even on narrow phones */
 #tab-calc.pdf-capture .halves{grid-template-columns:1fr 1fr !important;align-items:stretch !important;}
 #tab-calc.pdf-capture .toprow{grid-template-columns:1fr 1fr !important;}
@@ -532,6 +532,12 @@ body.dark .mrrow div{background:#12120b;color:#94a3b8;border-color:#414218;}
 .rg-box.oldside .rg-row.tax b{color:#C5610A;}
 .rg-box.newside .rg-row.tax b{color:#3D8934;}
 @media(max-width:680px){
+  .nav{flex-wrap:wrap;gap:6px;}
+  .nav > div:last-child{flex-wrap:wrap;flex-shrink:1 !important;}
+  .tabbar{flex-wrap:wrap;}
+  table:has(#taxpayerName){table-layout:fixed;}
+  .nm-v input{min-width:0;}
+  .nm-l{white-space:normal;}
   .threecol{display:block;}
   .col-side,.col-mid{width:100%;padding:0;}
   .col-side{margin-bottom:10px;display:block;}
@@ -829,6 +835,7 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
     <a href="/INCOME-TAX-CHALLAN-TO-EXCEL.html" class="site-topnav-btn tool">🧾 Challan Parser</a>
     <a href="/FORM-10-IEA-REFERENCE.html" class="site-topnav-btn tool">📝 Form 10-IEA</a>
     <a href="/INCOME-TAX-CALCULATOR-FY2526-FY2627.html" class="site-topnav-btn tool current">🧮 IT Calculator</a>
+    <a href="/KNOWLEDGE-HUB.html" class="site-topnav-btn tool">📚 Knowledge Hub</a>
   </div>
 </nav>
 
@@ -1162,10 +1169,13 @@ function stcgTax(s,ni,tot,ex){if(s<=0||tot<=0)return 0;var r=ex-ni;if(r<0)return
 /* LTCG u/s 112A: exemption remaining AFTER STCG has used it (base = normal income + STCG) */
 function ltcgN(l,ni,s){if(l<=0)return 0;var r=Math.max(0,400000-(ni+s));return Math.round(Math.max(0,Math.max(0,l-125000)-r)*.125);}
 function ltcgO(l,ni,s,el){if(l<=0)return 0;var r=Math.max(0,el-(ni+s));return Math.round(Math.max(0,Math.max(0,l-125000)-r)*.125);}
-function rebN(st,ni){
-  if(ni<=1200000)return Math.min(st,60000);
-  var ex=ni-1200000;               /* 87A marginal relief: tax capped at income above 12L */
-  return st>ex?st-ex:0;
+/* 87A (new regime): eligibility tested on TOTAL income (incl. STCG/LTCG), not only normal-rate income.
+   Rebate is allowed only against slab tax; tax at special rates (111A/112A) stays payable.
+   Marginal relief: tax payable on total income > 12L shall not exceed the excess over 12L. */
+function rebN(st,tot,sp){
+  if(tot<=1200000)return Math.min(st,60000);
+  var ex=tot-1200000,due=st+(sp||0);
+  return due>ex?Math.min(st,due-ex):0;
 }
 function rebO(st,tot){return tot<=500000?Math.min(12500,st):0;}
 /* Surcharge: enhanced 25%/37% rates apply only if income excluding S.111A/112A gains crosses the threshold; CG portion capped at 15% */
@@ -1251,7 +1261,7 @@ function calc(){
   var n_nti=n_norm+stcg+ltcg;
   var nS=calcNR(n_norm);
   var n_st=nS.total,n_sT=stcgTax(stcg,n_norm,n_nti,400000),n_lT=ltcgN(ltcg,n_norm,stcg);
-  var n_reb=rebN(n_st,n_norm),n_ntp=n_st+n_sT+n_lT-n_reb;
+  var n_reb=rebN(n_st,n_nti,n_sT+n_lT),n_ntp=n_st+n_sT+n_lT-n_reb;
   var n_srR=srN(n_ntp,n_sT,n_lT,n_nti,n_norm),n_sr=mrN(n_st,n_sT,n_lT,n_srR,n_nti,stcg,ltcg);
   var n_cess=Math.round((n_ntp+n_sr)*.04),n_tot=n_ntp+n_sr+n_cess;
 
@@ -1469,7 +1479,7 @@ function populatePrintSheet(){
   var n_nti=n_norm+stcg+ltcg;
   var nS=calcNR(n_norm);
   var n_st=nS.total,n_sT=stcgTax(stcg,n_norm,n_nti,400000),n_lT=ltcgN(ltcg,n_norm,stcg);
-  var n_reb=rebN(n_st,n_norm),n_ntp=n_st+n_sT+n_lT-n_reb;
+  var n_reb=rebN(n_st,n_nti,n_sT+n_lT),n_ntp=n_st+n_sT+n_lT-n_reb;
   var n_srR=srN(n_ntp,n_sT,n_lT,n_nti,n_norm),n_sr=mrN(n_st,n_sT,n_lT,n_srR,n_nti,stcg,ltcg);
   var n_cess=Math.round((n_ntp+n_sr)*.04),n_tot=n_ntp+n_sr+n_cess;
 
@@ -1811,10 +1821,10 @@ function updateInsights(){
   var cl112a = window.CL_112A || 'S. 112A';
   var html='';
   var spNote=(L.n_sT+L.n_lT)>0?'<div class="cnote">Note: STCG '+cl111a+' and LTCG '+cl112a+' remain taxable at special rates — the rebate '+cl87a+' does not cover them.</div>':'';
-  if(L.n_norm>1200000&&L.n_reb>0){
-    var ex=L.n_norm-1200000;
+  if(L.n_nti>1200000&&L.n_reb>0){
+    var ex=L.n_nti-1200000;
     html='<div class="cliff"><div class="ch">⚠️ You are just above the ₹12 Lakh zero-tax limit (New Regime)</div>'
-      +'Your income taxable at normal rates is <b>'+fr(L.n_norm)+'</b> — only <b>'+fr(ex)+' above</b> the ₹12,00,000 rebate limit '+cl87a+'. '
+      +'Your total income is <b>'+fr(L.n_nti)+'</b> — only <b>'+fr(ex)+' above</b> the ₹12,00,000 rebate limit '+cl87a+'. '
       +'Marginal relief restricts the tax on your normal income to <b>'+fr(L.n_st-L.n_reb)+'</b> (before cess) instead of <b>'+fr(L.n_st)+'</b>.'
       +spNote+'</div>';
   } else if(L.n_norm>0&&L.n_reb>0&&(L.n_st-L.n_reb)===0){
@@ -2010,7 +2020,7 @@ function drawCard(){
   c.fillText(bigTxt,540,252);
   noShadow();
   c.fillStyle=BLUEL;c.font='500 24px '+F;
-  var t3=(L.n_reb>0&&L.n_norm>1200000)?'incl. Marginal Relief near the \u20B912 lakh zero-tax limit':'Income Tax \u00B7 AY 2026-27 (FY 2025-26)';
+  var t3=(L.n_reb>0&&L.n_nti>1200000)?'incl. Marginal Relief near the \u20B912 lakh zero-tax limit':'Income Tax \u00B7 AY 2026-27 (FY 2025-26)';
   c.fillText(t3,540,332);
 
   /* section title */
@@ -4492,6 +4502,8 @@ function toggleDark(){
     <a href="/FORM-10-IEA-REFERENCE.html">Form 10-IEA</a><span>·</span>
     <a href="/INCOME-TAX-CALCULATOR-FY2526-FY2627.html">IT Calculator</a><span>·</span>
     <a href="/KNOWLEDGE-HUB.html">Knowledge Hub</a><span>·</span>
+    <a href="/about.html">About</a><span>·</span>
+    <a href="/contact.html">Contact</a><span>·</span>
     <a href="/disclaimer.html">Disclaimer</a><span>·</span>
     <a href="/privacy-policy.html">Privacy Policy</a>
   </nav>

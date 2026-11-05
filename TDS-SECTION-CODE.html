@@ -10,6 +10,8 @@
 <link rel="manifest" href="/manifest.json"/>
 <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png"/>
   <link rel="icon" type="image/svg+xml" href="/icons/logo.svg"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png"/>
+  <meta name="theme-color" content="#adb11f"/>
 <meta property="og:title"       content="TDS/TCS Section Code Master | IT Act 1961 & Finance Act 2026"/>
 <meta property="og:description" content="Complete TDS/TCS section code reference under Income Tax Act 1961. Rates, thresholds, and challan codes — updated for Tax Year 2026-27 by CA Mayur Sondagar."/>
 <meta property="og:type"        content="website"/>
@@ -1058,6 +1060,7 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
     <a href="/INCOME-TAX-CHALLAN-TO-EXCEL.html" class="site-topnav-btn tool">🧾 Challan Parser</a>
     <a href="/FORM-10-IEA-REFERENCE.html" class="site-topnav-btn tool">📝 Form 10-IEA</a>
     <a href="/INCOME-TAX-CALCULATOR-FY2526-FY2627.html" class="site-topnav-btn tool">🧮 IT Calculator</a>
+    <a href="/KNOWLEDGE-HUB.html" class="site-topnav-btn tool">📚 Knowledge Hub</a>
   </div>
 </nav>
 
@@ -1497,7 +1500,7 @@ const ALL_DATA = [
   ["1026", "Fees for technical services / royalty for cinematographic films / call centre", "Specified person", "393(1) [Table: Sl. No. 6(iii).D(a)]", "140", "2%", "₹ 50,000", "194J(a)", "", "194J", "TDS", "Resident", "Yes", "20%"],
   ["1027", "Fees for professional services / sum referred to in section 26(2)(h)", "Specified person", "393(1) [Table: Sl. No. 6(iii).D(b)]", "140", "10%", "₹ 50,000", "194J(b)", "", "194J", "TDS", "Resident", "Yes", "20%"],
   ["1028", "Remuneration / fees / commission to a director of a company", "Specified person", "393(1) [Table: Sl. No. 6(iii).D(b)]", "140", "10%", "Nil", "194J(b)", "", "194J", "TDS", "Resident", "Yes", "20%"],
-  ["1029", "Any dividends (including on preference shares) declared", "Any domestic company", "393(1) [Table: Sl. No. 7]", "140", "10%", "Nil", "194", "", "194", "TDS", "Resident", "Yes", "20%"],
+  ["1029", "Any dividends (including on preference shares) declared", "Any domestic company", "393(1) [Table: Sl. No. 7]", "140", "10%", "₹ 10,000 (individual shareholder, other than cash)", "194", "", "194", "TDS", "Resident", "Yes", "20%"],
   ["1030", "Sum under a life insurance policy including bonus", "Any person", "393(1) [Table: Sl. No. 8(i)]", "140", "2% on income comprised in sum", "₹ 1,00,000", "194DA", "", "194DA", "TDS", "Resident", "No", "20%"],
   ["1031", "Any sum for purchase of any goods", "Any person (buyer)", "393(1) [Table: Sl. No. 8(ii)]", "140", "0.1%", "₹ 50,00,000", "194Q", "", "194Q", "TDS", "Resident", "No", "5%"],
   ["1032", "Payment to Specified Senior Citizen - total income", "Specified bank", "393(1) [Table: Sl. No. 8(iii)]", "138", "Slab rates", "As per regime opted", "194P", "OLD REGIME (Finance Act 2026, First Schedule Part III — S. 393(1)[Table: Sl. No. 8(iii)] takes precedence over all TDS provisions): Senior citizen (60-80 yrs): Nil up to ₹3L; 5% (₹3L–₹5L); 20% (₹5L–₹10L); 30% above ₹10L. Super senior (80+ yrs): Nil up to ₹5L; 20% (₹5L–₹10L); 30% above ₹10L. | NEW REGIME (S. 202, IT Act 2025 / S. 115BAC, IT Act 1961): Nil up to ₹4L; 5% (₹4L–₹8L); 10% (₹8L–₹12L); 15% (₹12L–₹16L); 20% (₹16L–₹20L); 25% (₹20L–₹24L); 30% above ₹24L.", "194P", "TDS", "Resident (Senior Citizen)", "No", "Higher of 20% or slab"],
@@ -1543,16 +1546,16 @@ const ALL_DATA = [
   ["1073", "TCS — Sale of scrap", "Seller", "394(1) [Table: Sl. No. 4]", "143", "2%", "Nil", "206C(1)(d)", "Finance Act 2026, Section 85(c): Rate increased from 1% to 2% w.e.f. 1 April 2026.", "206C(1)(d)", "TCS", "Buyer", "Yes — Buyer files Form 27C declaration for nil TCS", "5%"],
   ["1074", "TCS — Sale of minerals - coal, lignite or iron ore", "Seller", "394(1) [Table: Sl. No. 5]", "143", "2%", "Nil", "206C(1C)", "Finance Act 2026, Section 85(d): Rate increased from 1% to 2% w.e.f. 1 April 2026.", "206C(1C)", "TCS", "Buyer / Lessee", "Yes — Buyer files Form 27C declaration for nil TCS", "5%"],
   ["1075", "TCS — Sale of motor vehicle exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(a)]", "143", "1%", "₹ 10,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
-  ["1076", "TCS — Sale of wrist watch exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 2,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
-  ["1077", "TCS — Sale of art piece (antiques, painting, sculpture) exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 2,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
-  ["1078", "TCS — Sale of collectibles (coin, stamp) exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 2,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
-  ["1079", "TCS — Sale of yacht / rowing boat / canoe / helicopter exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 2,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
-  ["1080", "TCS — Sale of pair of sunglasses exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 2,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
-  ["1081", "TCS — Sale of handbag or purse exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 2,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
-  ["1082", "TCS — Sale of pair of shoes exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 2,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
-  ["1083", "TCS — Sale of sportswear and equipment (golf kit, ski-wear) exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 2,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
-  ["1084", "TCS — Sale of home theatre system exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 2,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
-  ["1085", "TCS — Sale of horse for horse racing / polo exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 2,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
+  ["1076", "TCS — Sale of wrist watch exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 10,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
+  ["1077", "TCS — Sale of art piece (antiques, painting, sculpture) exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 10,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
+  ["1078", "TCS — Sale of collectibles (coin, stamp) exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 10,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
+  ["1079", "TCS — Sale of yacht / rowing boat / canoe / helicopter exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 10,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
+  ["1080", "TCS — Sale of pair of sunglasses exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 10,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
+  ["1081", "TCS — Sale of handbag or purse exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 10,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
+  ["1082", "TCS — Sale of pair of shoes exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 10,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
+  ["1083", "TCS — Sale of sportswear and equipment (golf kit, ski-wear) exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 10,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
+  ["1084", "TCS — Sale of home theatre system exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 10,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
+  ["1085", "TCS — Sale of horse for horse racing / polo exceeding threshold limit", "Seller", "394(1) [Table: Sl. No. 6.D(b)]", "143", "1%", "₹ 10,00,000", "206C(1F)", "", "206C(1F)", "TCS", "Buyer", "No — Sec 197A exemption not available for this TCS sub-section", "5%"],
   ["1086", "TCS — LRS remittance for education or medical treatment", "Authorised dealer", "394(1) [Table: Sl. No. 7.D(a)]", "143", "2%", "₹ 10,00,000", "206C(1G)(a)", "Finance Act 2026, Section 85(e): Rate reduced from 5% to 2% w.e.f. 1 April 2026. Threshold ₹10,00,000 per S.394(1)[Sl.No.7] of IT Act 2025.", "206C(1G)(a)", "TCS", "Remitter", "No — S. 197A exemption not available for TCS under this sub-section", "5%"],
   ["1087", "TCS — LRS remittance for purposes other than education / medical", "Authorised dealer", "394(1) [Table: Sl. No. 7.D(b)]", "143", "20%", "₹ 10,00,000", "206C(1G)(b)", "TCS @ 20% on the amount exceeding ₹10,00,000 in a tax year — S. 394(1) [Table: Sl. No. 7] of the Income-tax Act, 2025, applicable w.e.f. 1 April 2026. The ₹10,00,000 threshold corresponds to S. 206C(1G) of the Income-tax Act, 1961 as amended by the Finance Act, 2025 (w.e.f. 1 April 2025). Rate unchanged by the Finance Act, 2026.", "206C(1G)(b)", "TCS", "Remitter", "No — S. 197A exemption not available for TCS under this sub-section", "40%"],
   ["1088", "TCS — Sale of overseas tour programme package (any amount)", "Seller", "394(1) [Table: Sl. No. 8]", "143", "2%", "Nil", "206C(1G)", "Finance Act 2026, w.e.f. 1-Apr-2026: Old two-tier structure [5% up to ₹10L / 20% above ₹10L] replaced by flat 2% on ALL amounts — no threshold exemption. TCS applies from Rupee 1. Code 1089 is retained for legacy reference but is now identical to 1088 post-amendment.", "206C(1G)", "TCS", "Buyer", "No — S. 197A exemption not available for TCS under this sub-section", "5%"],
@@ -3343,6 +3346,8 @@ applyDeepLink();
     <a href="/FORM-10-IEA-REFERENCE.html">Form 10-IEA</a><span>·</span>
     <a href="/INCOME-TAX-CALCULATOR-FY2526-FY2627.html">IT Calculator</a><span>·</span>
     <a href="/KNOWLEDGE-HUB.html">Knowledge Hub</a><span>·</span>
+    <a href="/about.html">About</a><span>·</span>
+    <a href="/contact.html">Contact</a><span>·</span>
     <a href="/disclaimer.html">Disclaimer</a><span>·</span>
     <a href="/privacy-policy.html">Privacy Policy</a>
   </nav>
