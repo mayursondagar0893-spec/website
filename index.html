@@ -782,6 +782,20 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
   #main-nav > .nav-logo + .nav-links + div{margin-left:auto;margin-right:.6rem;}
 }
 @media (max-width: 400px){ .logo-name{white-space:normal;} }
+/* ── Sticky section tab bar: visible whenever the nav links are hidden (≤1180px) ── */
+.section-tabs{display:none;}
+@media (max-width: 1180px){
+  .section-tabs{display:flex;position:fixed;left:0;right:0;top:var(--nav-h,64px);z-index:195;gap:.45rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:.5rem 5%;background:var(--nav-bg);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--glass-border);}
+  .section-tabs::-webkit-scrollbar{display:none;}
+  .section-tabs a{flex-shrink:0;white-space:nowrap;text-decoration:none;font-size:.84rem;font-weight:600;color:var(--text-mid);padding:.42rem .95rem;border-radius:50px;border:1px solid var(--glass-border);background:var(--olive-pale);transition:background .2s,color .2s;}
+  .section-tabs a:hover{color:var(--olive-ink);}
+  .section-tabs a.active{background:var(--olive);color:#fff;border-color:var(--olive);text-shadow:0 1px 1px rgba(0,0,0,.38);}
+  [data-theme="dark"] .section-tabs a{color:var(--text);background:transparent;}
+  [data-theme="dark"] .section-tabs a.active{background:var(--olive);color:#fff;}
+  #hero{margin-top:var(--tabs-h,46px);}
+  body.drawer-open .section-tabs{visibility:hidden;}
+}
+section[id]{scroll-margin-top:var(--jump-offset,0px);}
 </style>
   <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
@@ -812,6 +826,17 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
   <button class="hamburger" id="ham" aria-label="Open menu">
     <span></span><span></span><span></span>
   </button>
+</nav>
+
+<!-- Sticky section tabs (phones/tablets) -->
+<nav class="section-tabs" id="section-tabs" aria-label="Jump to section">
+  <a href="#hero">Home</a>
+  <a href="#about">About</a>
+  <a href="#portfolio">Content</a>
+  <a href="#blog">Blog</a>
+  <a href="KNOWLEDGE-HUB.html">Knowledge Hub</a>
+  <a href="#testimonials">Reviews</a>
+  <a href="#contact">Contact</a>
 </nav>
 
 <!-- Mobile drawer -->
@@ -1131,11 +1156,33 @@ I really admire how you present complex things in so simple manner @TaxationUpda
   /* ── Active nav link ── */
   const secs=document.querySelectorAll('section[id]');
   const navAs=document.querySelectorAll('#nav-links a');
+  const tabs=document.getElementById('section-tabs');
+  const tabAs=tabs.querySelectorAll('a');
+  /* Keep the tab bar just under the fixed nav, and stop jumps from hiding headings under them */
+  const setOffsets=()=>{
+    const navH=nav.offsetHeight, tabsH=tabs.offsetParent!==null?tabs.offsetHeight:0;
+    const r=document.documentElement.style;
+    r.setProperty('--nav-h',navH+'px');
+    r.setProperty('--tabs-h',tabsH+'px');
+    r.setProperty('--jump-offset',(navH+tabsH)+'px');
+  };
+  setOffsets();
+  window.addEventListener('resize',setOffsets);
+  window.addEventListener('load',setOffsets);
   window.addEventListener('scroll',()=>{
     let cur='';
-    secs.forEach(s=>{ if(scrollY>=s.offsetTop-130) cur=s.id; });
+    secs.forEach(s=>{ if(scrollY>=s.offsetTop-(nav.offsetHeight+(tabs.offsetParent!==null?tabs.offsetHeight:0)+20)) cur=s.id; });
     navAs.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
+    tabAs.forEach(a=>{
+      const on=a.getAttribute('href')==='#'+cur;
+      if(on&&!a.classList.contains('active')&&tabs.offsetParent!==null){
+        tabs.scrollTo({left:a.offsetLeft-(tabs.clientWidth-a.offsetWidth)/2,behavior:'smooth'});
+      }
+      a.classList.toggle('active',on);
+    });
   },{passive:true});
+
+  window.addEventListener('load',()=>window.dispatchEvent(new Event('scroll')));
 
   /* ── Back to top ── */
   const btt=document.getElementById('btt');
@@ -1145,7 +1192,7 @@ I really admire how you present complex things in so simple manner @TaxationUpda
   /* ── Hamburger ── */
   const ham=document.getElementById('ham');
   const drawer=document.getElementById('drawer');
-  const toggle=(open)=>{ ham.classList.toggle('open',open); drawer.classList.toggle('open',open); document.body.style.overflow=open?'hidden':''; };
+  const toggle=(open)=>{ ham.classList.toggle('open',open); drawer.classList.toggle('open',open); document.body.classList.toggle('drawer-open',open); document.body.style.overflow=open?'hidden':''; };
   ham.addEventListener('click',()=>toggle(!drawer.classList.contains('open')));
   document.querySelectorAll('.dl').forEach(a=>a.addEventListener('click',()=>toggle(false)));
 
