@@ -919,12 +919,26 @@ section[id]{scroll-margin-top:var(--jump-offset,0px);}
     @media (max-width: 600px) { .cmdk-overlay { padding-top: 70px; } .cmdk-foot { display: none; } }
 </style>
   <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+<style id="tu-a11y">
+/* ══ ACCESSIBILITY LAYER (tu-a11y) · skip link · focus ring · WCAG AA contrast ══ */
+:root{--tu-focus:#5b5d0b;--tu-grad:linear-gradient(145deg,#c9cd3a 0%,#ADB11F 45%,#999d1a 100%);}
+:root[data-theme="dark"],body.dark{--tu-focus:#dfe35a;}
+.tu-skip{position:fixed;left:12px;top:-80px;z-index:100000;background:#1f2006;color:#fff!important;padding:10px 18px;border-radius:10px;font:700 15px/1.2 'DM Sans',system-ui,sans-serif;text-decoration:none!important;box-shadow:0 6px 18px rgba(0,0,0,.35);transition:top .15s}
+.tu-skip:focus{top:12px;outline:3px solid #dfe35a;outline-offset:2px}
+.tu-sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+:focus-visible:not([data-tu-skip-target]){outline:3px solid var(--tu-focus)!important;outline-offset:2px}
+[data-tu-skip-target]:focus{outline:none}
+/* Text on olive (#ADB11F) fills: dark ink instead of white (white was 1.8–2.3:1) */
+.nav-cta,.kh-cta,.form-btn,.mob-cta,.cta-btn,.add-btn,.btn-open,.fb-analyse,.wiz-next,.btn-dl,.btn-primary,.site-topnav-btn.home,.site-topnav-btn.current,.site-topnav-btn.active,.site-topnav-btn[aria-current="page"],.tool-nav a.tnb-active,.blog-cat,h1 .highlight{color:#1f2006!important;text-shadow:0 1px 0 rgba(255,255,255,.28)!important}
+[data-theme="dark"] .site-topnav-btn.current,body.dark .site-topnav-btn.current{color:#1f2006!important;text-shadow:0 1px 0 rgba(255,255,255,.28)!important}
+[data-theme="dark"] .footer-name{color:#ecedc6}
+
+:root,[data-theme="dark"]{--olive-grad:linear-gradient(145deg,#c9cd3a 0%,#ADB11F 45%,#999d1a 100%);}
+html:not([data-theme="dark"]) .check-icon,.tc-chip.on,.tc-res.big,.tc-res.big small,.tc-res.big b,a.pill:hover,.btn-ghost:hover{color:#1f2006!important;text-shadow:none!important}
+</style>
 </head>
 <body>
-
-<!-- Skip navigation for keyboard users -->
-<a href="#hero" class="skip-nav">Skip to main content</a>
-
+<a class="tu-skip" href="#hero" onclick="var t=document.getElementById('hero');if(t){event.preventDefault();t.focus({preventScroll:true});t.scrollIntoView();}">Skip to main content</a>
 <!-- ══════════ NAV ══════════ -->
 <nav id="main-nav">
   <div class="nav-logo">
@@ -979,7 +993,7 @@ section[id]{scroll-margin-top:var(--jump-offset,0px);}
 
 
 <!-- ══════════ HERO ══════════ -->
-<section id="hero">
+<section id="hero" tabindex="-1" data-tu-skip-target>
   <div class="hero-deco"></div>
   <div class="hero-deco2"></div>
   <div class="hero-dots"></div>
@@ -1115,7 +1129,8 @@ section[id]{scroll-margin-top:var(--jump-offset,0px);}
       </div>
       <label class="tc-switch"><input type="checkbox" id="tc-salaried" checked/> Salaried / pensioner (₹75,000 standard deduction)</label>
 
-      <div class="tc-results" aria-live="polite">
+      <p class="tu-sr-only" id="tc-sr" role="status" aria-live="polite" aria-atomic="true"></p>
+      <div class="tc-results">
         <div class="tc-res big"><small>Total tax payable</small><b id="tc-total">₹0</b></div>
         <div class="tc-res"><small>Taxable income</small><b id="tc-ti">₹0</b></div>
         <div class="tc-res"><small>Effective rate</small><b id="tc-rate">0%</b></div>
@@ -1539,7 +1554,15 @@ I really admire how you present complex things in so simple manner @TaxationUpda
     b.className='tc-badge '+cls; b.innerHTML=h;
     document.querySelectorAll('#tc-chips .tc-chip').forEach(function(c){c.classList.toggle('on',+c.dataset.v===v);});
     document.querySelectorAll('#tc-tbody tr').forEach(function(tr){tr.classList.toggle('on',+tr.dataset.v===v);});
+    /* Screen readers: one short sentence, announced after typing/sliding pauses (the figures animate, so the boxes are not live) */
+    clearTimeout(srT);
+    if(srOn) srT=setTimeout(function(){
+      $('tc-sr').textContent=r.ti>0
+        ? 'Total tax payable '+inr(r.total)+' on taxable income of '+inr(r.ti)+'. Effective rate '+(r.gross?(r.total/r.gross*100):0).toFixed(2)+' percent.'+(r.reb?' Rebate under section 87A: '+inr(r.reb)+'.':'')+(r.sur?' Surcharge: '+inr(r.sur)+'.':'')
+        : 'No tax payable.';
+    },700);
   }
+  var srT, srOn=false;
 
   var REF=[400000,775000,1275000,1300000,1500000,2000000,2500000,3000000,5000000,5200000,7500000,10200000,15000000,25000000];
   function table(){
@@ -1557,7 +1580,7 @@ I really admire how you present complex things in so simple manner @TaxationUpda
   $('tc-chips').addEventListener('click',function(e){var c=e.target.closest('.tc-chip');if(c)load(c.dataset.v);});
   $('tc-tbody').addEventListener('click',function(e){var tr=e.target.closest('tr');if(tr){load(tr.dataset.v);$('tc-income').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});}});
   $('tc-tbody').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){var tr=e.target.closest('tr');if(tr){e.preventDefault();load(tr.dataset.v);}}});
-  table(); render(false);
+  table(); render(false); srOn=true;
 })();
 
 (function(){

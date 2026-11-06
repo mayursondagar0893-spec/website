@@ -189,10 +189,13 @@ print("")
 
 PYEOF
 
+# Refresh every <lastmod> in sitemap.xml from git / working-tree dates
+"$(dirname "$0")/update-sitemap-dates.sh" >/dev/null || echo "  ⚠️  update-sitemap-dates.sh failed — check sitemap.xml dates manually"
+
 echo "  Done. Files updated:"
 echo "    • $FILENAME  (your tool)"
 echo "    • sw.js      (cache version bumped + precache entry added)"
-echo "    • sitemap.xml (new URL entry added)"
+echo "    • sitemap.xml (new URL entry added, all <lastmod> dates refreshed)"
 echo "    • index.html  (portfolio card added)"
 echo ""
 echo "  Next: commit all 4 files and push to deploy."

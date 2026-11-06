@@ -26,6 +26,13 @@ npm run test:watch
 npx vitest run tests/challan-parser.test.js
 ```
 
+If `npm test` says `vitest: not found`, run `npm install` first (`node_modules` is not committed). CI runs the same suite on every push/PR via `.github/workflows/test.yml`.
+
+```bash
+# Refresh <lastmod> dates in sitemap.xml (git date per file; today if uncommitted)
+./update-sitemap-dates.sh
+```
+
 ### Test suite (6 files)
 
 | File | Environment | What it tests |
@@ -116,6 +123,13 @@ Article files (PDF/JPEG) live in `/articles/` and are served directly by GitHub 
 - **Smart Tax Check** (`#tax-check`): live New Regime estimate, 3D slab chart and ready-reckoner table. Slabs, ₹75,000 standard deduction, the s.87A/s.156 rebate (₹60,000 up to ₹12 L, with marginal relief) and 4% cess must stay in sync with `INCOME-TAX-CALCULATOR-FY2526-FY2627.html` (`NR`, `rebN`). Surcharge (10% / 15% / 25% with marginal relief at ₹50 L / ₹1 Cr / ₹2 Cr) mirrors `srN` / `mrN` in the calculator for normal-rate income. It deliberately excludes special-rate income (s.111A/112A), the Old Regime and non-individuals.
 - **Command palette** (`#cmdk`, Ctrl/⌘+K or `/`): edit the `ITEMS` array when adding a tool, section or article.
 
+### Accessibility layer (every page)
+Each page has a `<style id="tu-a11y">` block immediately before `</head>` and one `<a class="tu-skip">Skip to main content</a>` right after `<body>`. Keep both when editing or adding pages (copy them from an existing page into new tools).
+- **Skip link** moves focus to the element marked `data-tu-skip-target` (with `tabindex="-1"`) via `onclick` + `preventDefault`, so it never changes `location.hash` (TDS Codes and Knowledge Hub use the hash for deep links/filters).
+- **Focus ring:** `:focus-visible` → 3px outline in `--tu-focus` (`#5b5d0b` light / `#dfe35a` dark). Do not add `outline:none` without a visible replacement. Never use positive `tabindex`.
+- **Contrast (WCAG AA 4.5:1):** text on `#ADB11F` olive fills/gradients must be dark ink `#1f2006` (7.1:1), not white (2.3:1). `--tu-grad` ends at `#999d1a` so dark ink passes on every stop. Logo tiles (white logotype) are exempt.
+- **Screen-reader results:** calculators announce one debounced sentence through a visually hidden `role="status"` element (`.tu-sr-only`) — homepage `#tc-sr`, calculator `#tu-calc-sr` (`tuAnnounce()`). Don't put `aria-live` on animated number boxes.
+
 ## Current Tool Inventory
 
 | File | Title |
@@ -132,6 +146,7 @@ Article files (PDF/JPEG) live in `/articles/` and are served directly by GitHub 
 | `FORM-10-IEA-REFERENCE.html` | Form 10-IEA Reference |
 | `INCOME-TAX-CALCULATOR-FY2526-FY2627.html` | Income Tax Calculator FY 2025-26 & FY 2026-27 |
 | `KNOWLEDGE-HUB.html` | Knowledge Hub (curated GST & Income Tax links by author; edit the `AUTHORS` array to add links) |
+| `404.html` | Page Not Found (served by GitHub Pages for any missing URL; `noindex`, no canonical, "Did you mean" + tool search — add new tools to its `PAGES` array) |
 
 When a new tool is added via `add-tool.sh`, update this table.
 
@@ -266,7 +281,7 @@ This is optional but recommended for tools. `index.html` uses `Person` + `WebSit
 ## CSS Conventions
 
 - **Brand colour = logo colour `#ADB11F`** (sampled from the Taxation Updates logo). All olive shades sit on the logo's hue (~62°). Use `#ADB11F` for fills, logo tiles, active tabs and `theme-color`; use the darker same-hue ink (`#6e7112` / `--olive` `#73760f`) for text on light backgrounds, because `#ADB11F` text on white is not legible.
-- Logo assets: `/icons/logo.svg` (vector), `icon-192.png`, `icon-512.png`, `icon-maskable-512.png`, `apple-touch-icon.png`; social share image `/og-cover.png` (2400×1260).
+- Logo assets: `/icons/logo.svg` (vector), `icon-192.png`, `icon-512.png`, `icon-maskable-512.png`, `apple-touch-icon.png`; social share image `/og-cover.png` (1200×630, keep under 300–350 KB).
 
 - Custom properties on `:root` for light mode; overrides on `[data-theme="dark"]`.
 - Use semantic tokens (`--primary`, `--accent`, `--text`, `--bg`) — never hardcode colours.
