@@ -919,6 +919,7 @@ function selA(idx,noHash){
   buildSB(document.getElementById("sbSrch").value.toLowerCase().trim()||undefined);
   updateMobStrip(); renderDetail(); document.getElementById("dc").scrollTop=0;
   if(!noHash) setHash("#a="+slug(AUTHORS[idx].name));
+  if(!noHash) khTrack("kh_author_view",{author:AUTHORS[idx].name});
   if(keep){const sb=document.querySelector(".sidebar");const vis=sb&&getComputedStyle(sb).display!=="none";const t=vis?document.querySelector(".a-item.active"):document.getElementById("mc"+ai);if(t)t.focus({preventScroll:true});}
 }
 
@@ -1023,6 +1024,7 @@ function onArt(v){
   const t=v.trim();
   setHash(t?"#q="+encodeURIComponent(t):"#a="+slug(AUTHORS[ai].name));
   renderSearch();
+  clearTimeout(khSrchT);if(t.length>=2)khSrchT=setTimeout(function(){khTrack("search",{search_term:t.slice(0,100)});},1500);
 }
 function clearArt(){onArt("");}
 function openAuthor(i){selA(i);}
@@ -1135,6 +1137,26 @@ document.addEventListener("keydown",function(e){
     e.preventDefault();setCat(n);const nt=document.querySelectorAll(".cat-tab")[n];if(nt)nt.focus();
   }
 });
+/* ── Google Analytics (G-YC101DVMH7) events: which links, authors, searches and shares are used ── */
+function khTrack(n,p){try{if(window.gtag)gtag("event",n,p||{});}catch(e){}}
+var khSrchT=null;
+function khInfo(url){
+  for(var x=0;x<AUTHORS.length;x++){var a=AUTHORS[x];
+    for(var y=0;y<a.categories.length;y++){var c=a.categories[y];
+      for(var z=0;z<c.links.length;z++){if(c.links[z].url===url)return {author:a.name,category:c.name,link_text:c.links[z].label,link_type:c.links[z].type};}}}
+  return null;
+}
+document.addEventListener("click",function(e){
+  var el=e.target.closest&&e.target.closest("a[href],[data-act]");if(!el)return;
+  var act=el.dataset&&el.dataset.act;
+  if(act){khTrack("share",{method:act==="copypage"?"copy_page_link":act==="copyp"?"copy_folder_path":"copy_link",content_type:"knowledge_link"});return;}
+  var h=el.getAttribute("href")||"";
+  if(h.indexOf("https://wa.me/?text=")===0){khTrack("share",{method:"whatsapp",content_type:"knowledge_link"});return;}
+  if(el.classList.contains("soc-btn")){khTrack("kh_author_social",{author:(AUTHORS[ai]||{}).name,link_url:el.href});return;}
+  if(!/^https?:/i.test(h))return;
+  var i=khInfo(h);
+  if(i){i.link_url=h;khTrack("kh_link_click",i);}
+},true);
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 function escA(s){return String(s).replace(/"/g,"&quot;").replace(/'/g,"&#39;");}
 </script>
