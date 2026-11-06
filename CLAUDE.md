@@ -80,11 +80,11 @@ Placement is flexible — the theme init can appear either:
 Both are valid as long as the `localStorage` key is `'theme'` and the attribute is `data-theme`.
 
 ### PWA / Service Worker
-`sw.js` pre-caches tool pages for offline use. Current `CACHE_NAME`: **`taxationupdates-v10`**.  
+`sw.js` pre-caches tool pages for offline use. Current `CACHE_NAME`: **`taxationupdates-v11`**.  
 Strategy: network-first for HTML, cache-first for everything else (same-origin only).  
 Bump the version number whenever you add/rename a cached file. The script `add-tool.sh` does this automatically.
 
-Current `PRECACHE_URLS` (as of `taxationupdates-v10`):
+Current `PRECACHE_URLS` (as of `taxationupdates-v11`):
 ```
 /                                       /index.html
 /TDS-SECTION-CODE.html                  /CA-Prompt-Library.html
