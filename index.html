@@ -946,6 +946,18 @@ section[id]{scroll-margin-top:var(--jump-offset,0px);}
 [data-theme="dark"] .due-chip.it{background:rgba(248,113,113,.16);color:#ffc0b5}
 [data-theme="dark"] .due-chip.co{background:rgba(251,191,36,.16);color:#fbd98a}
 .due-note{margin:0;padding:.5rem 1rem .65rem;font-size:.72rem;color:var(--text-soft);border-top:1px solid var(--glass-border)}
+/* Desktop/tablet: "Due next" spans both hero columns as a 3-up strip, so neither column leaves a big empty gap */
+@media (min-width: 921px){
+  #hero{row-gap:2.5rem}
+  #hero > .due-next{grid-column:1 / -1;max-width:none;margin-top:0;position:relative;z-index:2}
+  #hero > .due-next .due-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+  #hero > .due-next .due-list li{border-top:0;border-left:1px solid var(--glass-border);padding:.85rem 1.1rem}
+  #hero > .due-next .due-list li:first-child{border-left:0}
+}
+@media (min-width: 921px) and (max-width: 1180px){
+  #hero{grid-template-columns:1fr 360px;column-gap:3rem;padding-bottom:3.5rem}
+  .hero-card{padding:2.4rem 1.8rem}
+}
 
 /* ══ Phones: one-line header (the bottom tab bar from /tu-tabbar.js replaces the hamburger) ══ */
 @media (max-width: 768px){
@@ -1063,11 +1075,6 @@ html:not([data-theme="dark"]) .check-icon,.tc-chip.on,.tc-res.big,.tc-res.big sm
       <div><div class="stat-num">19K</div><div class="stat-label">LinkedIn Followers</div></div>
       <div><div class="stat-num">8,500+</div><div class="stat-label">Posts &amp; Updates</div></div>
     </div>
-    <div class="due-next" id="due-next" role="region" aria-labelledby="due-next-title" hidden>
-      <div class="due-hd"><h2 id="due-next-title">📅 Due next</h2><a href="/Compliance_Calendar_FY2627.html">Full calendar →</a></div>
-      <ul class="due-list" id="due-list"></ul>
-      <p class="due-note">Statutory due dates. Check for any CBDT / CBIC extension before relying on them.</p>
-    </div>
   </div>
 
   <!-- RIGHT: card — properly centered as flex sibling -->
@@ -1082,6 +1089,13 @@ html:not([data-theme="dark"]) .check-icon,.tc-chip.on,.tc-res.big,.tc-res.big sm
       </div>
       <div class="hero-card-tag">Chartered Accountant · Mumbai</div>
     </div>
+  </div>
+
+  <!-- BOTTOM: next due dates — full-width strip on desktop, stacked list on phones -->
+  <div class="due-next" id="due-next" role="region" aria-labelledby="due-next-title" hidden>
+    <div class="due-hd"><h2 id="due-next-title">📅 Due next</h2><a href="/Compliance_Calendar_FY2627.html">Full calendar →</a></div>
+    <ul class="due-list" id="due-list"></ul>
+    <p class="due-note">Statutory due dates. Check for any CBDT / CBIC extension before relying on them.</p>
   </div>
 </section>
 
