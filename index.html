@@ -919,6 +919,57 @@ section[id]{scroll-margin-top:var(--jump-offset,0px);}
     @media (max-width: 600px) { .cmdk-overlay { padding-top: 70px; } .cmdk-foot { display: none; } }
 </style>
   <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+<style id="tu-home-mobile">
+/* ══ "Due next" card — reads /compliance-data.js (same rows as the Compliance Calendar) ══ */
+.due-next{margin-top:1.6rem;max-width:520px;background:var(--card-bg);border:1.5px solid var(--glass-border);border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(173,177,31,.12);animation:fadeUp .9s .45s ease both;opacity:0}
+.due-next[hidden]{display:none}
+.due-hd{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.7rem 1rem;background:var(--olive-bg);border-bottom:1px solid var(--glass-border)}
+.due-hd h2{font-family:'DM Sans',sans-serif;font-size:.92rem;font-weight:700;color:var(--text);margin:0;letter-spacing:0}
+.due-hd a{font-size:.8rem;font-weight:700;color:var(--olive-ink);text-decoration:none;white-space:nowrap}
+.due-hd a:hover{text-decoration:underline}
+.due-list{list-style:none;margin:0;padding:0}
+.due-list li{display:flex;align-items:center;gap:.75rem;padding:.6rem 1rem;border-top:1px solid var(--glass-border)}
+.due-list li:first-child{border-top:0}
+.due-dt{flex:0 0 46px;text-align:center;background:var(--olive-pale);border-radius:10px;padding:.25rem 0;line-height:1.05}
+.due-dt b{display:block;font-size:1.05rem;color:var(--text)}
+.due-dt small{font-size:.68rem;color:var(--text-soft);font-weight:600}
+.due-t{flex:1;min-width:0;font-size:.9rem;font-weight:600;color:var(--text);line-height:1.3}
+.due-t small{display:block;font-size:.76rem;font-weight:400;color:var(--text-soft);margin-top:.1rem}
+.due-when{font-weight:700;color:var(--olive-ink)}
+.due-when.soon{color:#a3260f}
+[data-theme="dark"] .due-when.soon{color:#ff9b85}
+.due-chip{flex-shrink:0;font-size:.68rem;font-weight:700;border-radius:99px;padding:.18rem .55rem;background:#eef0cf;color:#4d4f0a}
+.due-chip.gst{background:#dcf1e1;color:#155c28}.due-chip.pf{background:#ece3fb;color:#4f2496}.due-chip.it{background:#fbe1dc;color:#8b1d12}.due-chip.co{background:#fbeccd;color:#7a4a00}
+[data-theme="dark"] .due-chip{background:rgba(223,227,90,.14);color:#e6e9a0}
+[data-theme="dark"] .due-chip.gst{background:rgba(74,222,128,.14);color:#a7efbd}
+[data-theme="dark"] .due-chip.pf{background:rgba(167,139,250,.16);color:#d4c6ff}
+[data-theme="dark"] .due-chip.it{background:rgba(248,113,113,.16);color:#ffc0b5}
+[data-theme="dark"] .due-chip.co{background:rgba(251,191,36,.16);color:#fbd98a}
+.due-note{margin:0;padding:.5rem 1rem .65rem;font-size:.72rem;color:var(--text-soft);border-top:1px solid var(--glass-border)}
+
+/* ══ Phones: one-line header (the bottom tab bar from /tu-tabbar.js replaces the hamburger) ══ */
+@media (max-width: 768px){
+  .hamburger,.mobile-drawer{display:none!important}
+  #main-nav > .nav-logo + .nav-links + div{margin-right:0!important;gap:.45rem!important}
+  .nav-logo{gap:.55rem}
+  .logo-name{white-space:nowrap!important;font-size:.95rem}
+  .cmdk-btn{width:40px;height:40px;padding:0!important;justify-content:center;border-radius:50%}
+  .dark-toggle{width:40px!important;height:40px!important;border-radius:50%!important}
+  .dark-toggle::after,[data-theme="dark"] .dark-toggle::after{left:50%!important;transform:translate(-50%,-50%)!important;width:30px!important;height:30px!important;font-size:1rem!important}
+  .due-next{max-width:none}
+}
+@media (max-width: 480px){
+  .hero-sub{margin-bottom:1.5rem}
+  .hero-btns{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+  .hero-btns a{display:flex;align-items:center;justify-content:center;text-align:center;padding:.85rem .6rem!important;font-size:.92rem}
+  .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.3rem;text-align:center;margin-top:1.3rem;padding:.8rem .3rem;border:1.5px solid var(--glass-border);border-radius:16px;background:var(--card-bg)}
+  .hero-stats .stat-num{font-size:1.2rem}
+  .hero-stats .stat-label{font-size:.7rem;line-height:1.25}
+  .due-list li{padding:.55rem .8rem;gap:.6rem}
+  .due-hd{padding:.65rem .8rem}
+}
+@media (max-width: 350px){ .logo-name{display:none} }
+</style>
 <style id="tu-a11y">
 /* ══ ACCESSIBILITY LAYER (tu-a11y) · skip link · focus ring · WCAG AA contrast ══ */
 :root{--tu-focus:#5b5d0b;--tu-grad:linear-gradient(145deg,#c9cd3a 0%,#ADB11F 45%,#999d1a 100%);}
@@ -1011,6 +1062,11 @@ html:not([data-theme="dark"]) .check-icon,.tc-chip.on,.tc-res.big,.tc-res.big sm
       <div><div class="stat-num">106K</div><div class="stat-label">Twitter Followers</div></div>
       <div><div class="stat-num">19K</div><div class="stat-label">LinkedIn Followers</div></div>
       <div><div class="stat-num">8,500+</div><div class="stat-label">Posts &amp; Updates</div></div>
+    </div>
+    <div class="due-next" id="due-next" role="region" aria-labelledby="due-next-title" hidden>
+      <div class="due-hd"><h2 id="due-next-title">📅 Due next</h2><a href="/Compliance_Calendar_FY2627.html">Full calendar →</a></div>
+      <ul class="due-list" id="due-list"></ul>
+      <p class="due-note">Statutory due dates. Check for any CBDT / CBIC extension before relying on them.</p>
     </div>
   </div>
 
@@ -1699,5 +1755,39 @@ I really admire how you present complex things in so simple manner @TaxationUpda
   });
 })();
 </script>
+<script src="/compliance-data.js" defer></script>
+<script>
+/* "Due next" card: next 3 deadlines from /compliance-data.js (deferred, so it is loaded by DOMContentLoaded). */
+document.addEventListener('DOMContentLoaded', function () {
+  var box = document.getElementById('due-next'), list = document.getElementById('due-list');
+  if (!box || !list || typeof upcomingDeadlines !== 'function') return;
+  var today = new Date(), rows = upcomingDeadlines(COMPLIANCE_DATA, today, 3);
+  if (!rows.length) return;
+  var WD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var CHIP = { 'GST': ['gst','GST'], 'TDS/TCS': ['tds','TDS/TCS'], 'PF/ESIC': ['pf','PF/ESIC'], 'Income Tax': ['it','Income Tax'], 'Company Law': ['co','Co. Law'] };
+  rows.forEach(function (r) {
+    var d = new Date(r.d + 'T00:00:00'), n = daysUntil(r.d, today);
+    var li = document.createElement('li');
+    var dt = document.createElement('div'); dt.className = 'due-dt';
+    dt.innerHTML = '<b></b><small></small>';
+    dt.firstChild.textContent = String(d.getDate()).padStart(2, '0');
+    dt.lastChild.textContent = WD[d.getDay()];
+    var t = document.createElement('div'); t.className = 'due-t';
+    t.textContent = r.n;
+    var sm = document.createElement('small');
+    var when = document.createElement('span');
+    when.className = 'due-when' + (n <= 1 ? ' soon' : '');
+    when.textContent = n === 0 ? 'Due today' : n === 1 ? 'Tomorrow' : 'In ' + n + ' days';
+    sm.appendChild(document.createTextNode(r.p + ' · ')); sm.appendChild(when);
+    t.appendChild(sm);
+    var c = CHIP[r.c] || ['', r.c];
+    var chip = document.createElement('span'); chip.className = 'due-chip ' + c[0]; chip.textContent = c[1];
+    li.appendChild(dt); li.appendChild(t); li.appendChild(chip);
+    list.appendChild(li);
+  });
+  box.hidden = false;
+});
+</script>
+<script src="/tu-tabbar.js" defer></script>
 </body>
 </html>

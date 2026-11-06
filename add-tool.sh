@@ -168,6 +168,7 @@ checks = [
     ('No raw phone numbers',         not bool(re.search(r'\b[6-9]\d{9}\b', tool_html))),
     ('dark mode CSS block',          '[data-theme="dark"]'         in tool_html),
     ('viewport meta',                'name="viewport"'             in tool_html),
+    ('mobile tab bar (tu-tabbar.js)', '/tu-tabbar.js'              in tool_html),
 ]
 
 print("")

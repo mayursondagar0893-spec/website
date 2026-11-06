@@ -61,6 +61,8 @@ describe('PRECACHE_URLS — required assets', () => {
     '/icons/icon-192.png',
     '/icons/icon-512.png',
     '/manifest.json',
+    '/compliance-data.js',
+    '/tu-tabbar.js',
   ];
 
   ASSETS.forEach(asset => {

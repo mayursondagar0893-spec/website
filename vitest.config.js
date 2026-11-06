@@ -6,6 +6,7 @@ module.exports = defineConfig({
     environmentMatchGlobs: [
       ['tests/wa-init.test.js', 'jsdom'],
       ['tests/dark-mode.test.js', 'jsdom'],
+      ['tests/tu-tabbar.test.js', 'jsdom'],
     ],
   },
 });
