@@ -1035,6 +1035,45 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
 <style id="tu-mobile-scroll">/* phones: only the thin site nav stays pinned; the page header scrolls away so content gets the screen */
 @media(max-width:640px){header{position:relative;top:auto}}
 </style>
+<style id="tu-tds-mobile">
+/* ══ Phones: one header, results above the fold (bottom tab bar from /tu-tabbar.js handles site nav) ══ */
+.disc-short,.tu-crumb,.tu-more,.tu-qf{display:none}
+@media(max-width:768px){
+  .site-topnav{display:none!important}
+  .disc{padding:6px 12px;font-size:11.5px;align-items:center}
+  .disc-icon{font-size:13px;margin-top:0}
+  .disc-long{display:none}.disc-short{display:inline}
+  .hr1{flex-wrap:nowrap;position:relative}
+  .brand{min-width:0;flex:1}
+  .tg{min-width:0}
+  .tu-crumb{display:block;font-size:11px;color:var(--hsb);margin-bottom:1px}
+  .tu-crumb a{color:inherit;text-decoration:none}
+  .tu-crumb a:hover{text-decoration:underline}
+  .tg h1{font-size:15px!important}
+  .tsub{display:none!important}
+  .tu-more{display:grid;place-items:center;flex-shrink:0;width:40px;height:40px;border-radius:50%;border:1px solid var(--hbd);background:transparent;color:var(--htx);font-size:20px;line-height:1;cursor:pointer}
+  .tu-more[aria-expanded="true"]{background:rgba(173,177,31,.14);border-color:var(--blue)}
+  .ha{display:none;position:absolute;right:12px;top:calc(100% - 4px);z-index:260;flex-direction:column;align-items:stretch;gap:4px;
+      min-width:220px;padding:8px;background:var(--hdr);border:1px solid var(--hbd);border-radius:14px;box-shadow:0 14px 40px rgba(31,32,6,.22)}
+  header.tu-ha-open .ha{display:flex}
+  .ha .back-link{display:none}
+  .ha .btn,.ha .btn-stats{justify-content:flex-start;font-size:13.5px!important;padding:10px 12px!important;width:100%}
+  .ha .tbtn{align-self:flex-start;margin:4px 6px}
+  .sw-wrap .si{font-size:16px}
+  .pills{display:none!important}
+  .filterbar,.mv-bar{display:none!important}
+  body.tu-filters-open .pills,body.tu-filters-open .filterbar{display:flex!important}
+  body.tu-filters-open .mv-bar{display:flex!important}
+  .filterbar .view-toggle{display:none!important}
+  .tu-qf{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:8px 0 2px}
+  .tu-qf::-webkit-scrollbar{display:none}
+  .tu-qc{flex-shrink:0;min-height:36px;padding:6px 13px;border-radius:999px;border:1px solid var(--bd2);background:transparent;color:var(--htx);font:600 13px/1 'DM Sans',sans-serif;cursor:pointer;white-space:nowrap}
+  .tu-qc[aria-pressed="true"],.tu-qc[aria-expanded="true"]{background:#5b5d0b;border-color:#5b5d0b;color:#fff}
+  [data-theme="dark"] .tu-qc[aria-pressed="true"],[data-theme="dark"] .tu-qc[aria-expanded="true"]{background:#dfe35a;border-color:#dfe35a;color:#1f2006}
+  .tu-qn:not(:empty){display:inline-grid;place-items:center;min-width:18px;height:18px;margin-left:6px;padding:0 5px;border-radius:9px;background:#ADB11F;color:#1f2006;font-size:11px}
+  .toolbar .si-item:nth-child(4){display:none}
+}
+</style>
 <style id="tu-a11y">
 /* ══ ACCESSIBILITY LAYER (tu-a11y) · skip link · focus ring · WCAG AA contrast ══ */
 :root{--tu-focus:#5b5d0b;--tu-grad:linear-gradient(145deg,#c9cd3a 0%,#ADB11F 45%,#999d1a 100%);}
@@ -1064,7 +1103,8 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
 <div class="disc" id="discBar">
   <span class="disc-icon">⚠️</span>
   <span class="disc-txt">
-    <strong>Legal Disclaimer:</strong> For reference &amp; educational purposes only. Always verify from <strong>Official Gazette / CBDT Circulars</strong> before use for compliance or filing.
+    <span class="disc-long"><strong>Legal Disclaimer:</strong> For reference &amp; educational purposes only. Always verify from <strong>Official Gazette / CBDT Circulars</strong> before use for compliance or filing.</span>
+    <span class="disc-short">For reference only. Verify with the Gazette / CBDT circulars before filing.</span>
   </span>
   <button class="disc-close" id="discClose" title="Dismiss">✕</button>
 </div>
@@ -1093,6 +1133,7 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
     <div class="brand">
       <a href="/" class="logo" title="Back to Home – Taxation Updates" aria-label="Back to Home – Taxation Updates">Taxation<sup>®</sup><br/>Updates</a>
       <div class="tg">
+        <nav class="tu-crumb" aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/#portfolio">Tools</a></nav>
         <h1>TDS / TCS Section Code Master Table</h1>
         <div class="tsub">
           <span class="atag at61">IT Act, 1961</span>
@@ -1106,8 +1147,9 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
           91 Section Codes
         </div>
       </div>
+      <button type="button" class="tu-more" id="tuMore" aria-label="More actions" aria-expanded="false" aria-controls="tuActions">⋯</button>
     </div>
-    <div class="ha">
+    <div class="ha" id="tuActions">
       <a href="/" class="back-link">← <span>Back to Home</span></a>
       <button class="btn-stats" id="statsBtn" onclick="toggleDash()">📊 Stats</button>
       <button class="btn bg" id="wizBtn" title="Guided finder: payer → payee → nature → amount">🧭 Find My Code</button>
@@ -1128,6 +1170,13 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
         placeholder="Search code · nature · section · rate · payee · form…"
         autocomplete="off" spellcheck="false">
       <button class="si-clear" id="siClear" title="Clear search">✕ Clear</button>
+    </div>
+    <div class="tu-qf" id="tuQuick" role="group" aria-label="Quick filters">
+      <button type="button" class="tu-qc" data-q="all" aria-pressed="true">All</button>
+      <button type="button" class="tu-qc" data-q="TDS" aria-pressed="false">TDS</button>
+      <button type="button" class="tu-qc" data-q="TCS" aria-pressed="false">TCS</button>
+      <button type="button" class="tu-qc" data-q="fav" aria-pressed="false" title="My Sections">★ Saved</button>
+      <button type="button" class="tu-qc tu-qf-more" data-q="filters" aria-expanded="false" aria-controls="tuFilterPanel">⚙ Filters<span class="tu-qn" id="tuQn"></span></button>
     </div>
     <div class="pills">
       <span class="plbl">Search in:</span>
@@ -1169,7 +1218,7 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
 </div>
 
 <!-- FILTER BAR -->
-<div class="filterbar">
+<div class="filterbar" id="tuFilterPanel">
   <span style="font-size:11px;color:var(--t3);margin-right:2px">Form:</span>
   <button class="ft active" data-form="all">All Forms</button>
   <button class="ft" data-form="138">Form 138</button>
@@ -3380,5 +3429,49 @@ applyDeepLink();
   </div>
 </footer>
 <script src="/wa-init.js"></script>
+<script>
+/* Phones: "⋯" actions menu, quick filter chips and the Filters panel toggle. */
+(function(){
+  var hdr=document.querySelector('header'), more=document.getElementById('tuMore'), quick=document.getElementById('tuQuick');
+  if(!hdr||!more||!quick)return;
+  function setMenu(open){hdr.classList.toggle('tu-ha-open',open);more.setAttribute('aria-expanded',open?'true':'false');}
+  more.addEventListener('click',function(e){e.stopPropagation();setMenu(!hdr.classList.contains('tu-ha-open'));});
+  document.getElementById('tuActions').addEventListener('click',function(e){if(e.target.closest('button,a')&&!e.target.closest('#themeBtn'))setMenu(false);});
+  /* A tap outside the open menu only closes it (capture phase), so it doesn't also open a card behind it. */
+  document.addEventListener('click',function(e){if(hdr.classList.contains('tu-ha-open')&&!e.target.closest('#tuActions,#tuMore')){e.preventDefault();e.stopPropagation();setMenu(false);}},true);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&hdr.classList.contains('tu-ha-open')){setMenu(false);more.focus();}});
+
+  function curType(){
+    if(document.querySelector('.typebtn.tds-on'))return'TDS';
+    if(document.querySelector('.typebtn.tcs-on'))return'TCS';
+    if(document.querySelector('.typebtn.both-on'))return'BOTH';
+    return'all';
+  }
+  function sync(){
+    var t=curType(), fav=!!document.querySelector('#favPill.active'), open=document.body.classList.contains('tu-filters-open');
+    quick.querySelectorAll('.tu-qc').forEach(function(b){
+      var q=b.dataset.q;
+      if(q==='filters')b.setAttribute('aria-expanded',open?'true':'false');
+      else b.setAttribute('aria-pressed',String(q==='fav'?fav:q===t));
+    });
+    var n=document.querySelectorAll('.ft.active:not([data-form="all"]),.pill.active:not([data-col="all"]):not(#favPill),#chgBtn.on,#bothBtnF.both-on').length;
+    document.getElementById('tuQn').textContent=n?String(n):'';
+  }
+  quick.addEventListener('click',function(e){
+    var b=e.target.closest('.tu-qc');if(!b)return;
+    var q=b.dataset.q,t=curType();
+    if(q==='filters')document.body.classList.toggle('tu-filters-open');
+    else if(q==='fav'){if(typeof toggleFavFilter==='function')toggleFavFilter();}
+    else if(q==='all'){var on=document.querySelector('.typebtn.tds-on,.typebtn.tcs-on,.typebtn.both-on');if(on)on.click();}
+    else if(q!==t)document.getElementById(q==='TDS'?'tdsBtnF':'tcsBtnF').click();
+    sync();
+  });
+  /* Desktop controls, Reset and keyboard shortcuts change the same state: re-sync after any click/key. */
+  document.addEventListener('click',function(){setTimeout(sync,0);});
+  document.addEventListener('keyup',function(){setTimeout(sync,0);});
+  sync();
+})();
+</script>
+<script src="/tu-tabbar.js" defer></script>
 </body>
 </html>

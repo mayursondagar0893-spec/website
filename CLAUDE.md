@@ -33,7 +33,7 @@ If `npm test` says `vitest: not found`, run `npm install` first (`node_modules` 
 ./update-sitemap-dates.sh
 ```
 
-### Test suite (6 files)
+### Test suite (8 files)
 
 | File | Environment | What it tests |
 |---|---|---|
@@ -43,8 +43,10 @@ If `npm test` says `vitest: not found`, run `npm install` first (`node_modules` 
 | `tests/sw.test.js` | Node | `CACHE_NAME` format, `PRECACHE_URLS` contents, fetch routing logic from `sw.js` |
 | `tests/wa-init.test.js` | **jsdom** | WhatsApp link click handler, Base64 encoding in `wa-init.js` |
 | `tests/dark-mode.test.js` | **jsdom** | `localStorage` persistence and theme toggle logic |
+| `tests/compliance-data.test.js` | Node | Row shape of `COMPLIANCE_DATA`, `upcomingDeadlines`, `isoDate`, `daysUntil` from `compliance-data.js` |
+| `tests/tu-tabbar.test.js` | **jsdom** | `tabKeyFor` page → tab mapping and `mount` (5 links, `aria-current`, idempotent) from `tu-tabbar.js` |
 
-After editing any shared JS file (`challan-parser.js`, `contact-form.js`, `prompt-filter.js`, `wa-init.js`, `sw.js`) run `npm test` before committing.
+After editing any shared JS file (`challan-parser.js`, `contact-form.js`, `prompt-filter.js`, `compliance-data.js`, `tu-tabbar.js`, `wa-init.js`, `sw.js`) run `npm test` before committing.
 
 ---
 
@@ -60,9 +62,11 @@ Each HTML tool is fully self-contained: its CSS lives in `<style>` tags and its 
 | `challan-parser.js` | PDF challan parsing (ITNS 280/280N/281/281N/282/283) — used by the challan tool and unit tests | **Yes** — listed in `PRECACHE_URLS` |
 | `contact-form.js` | Contact form validation + WhatsApp URL builders — used by `index.html` and tests | No |
 | `prompt-filter.js` | Filter/sort/bookmark, placeholder fill, output options and recent-prompts helpers for the prompt library — used by `CA-Prompt-Library.html` and tests | No |
+| `compliance-data.js` | FY 2026-27 due-date rows (`COMPLIANCE_DATA`) + `upcomingDeadlines()` — the **only** copy of the calendar data; used by `Compliance_Calendar_FY2627.html` (`const DATA = COMPLIANCE_DATA`) and the homepage "Due next" card | **Yes** |
+| `tu-tabbar.js` | Mobile bottom tab bar (Home · Tools · Tax Check · Calendar · Contact), ≤768px only. Self-injects its CSS + markup; loaded on **every page** with `<script src="/tu-tabbar.js" defer></script>` before `</body>` | **Yes** |
 
 ### Dual-module pattern (critical)
-The three `*.js` files above (`challan-parser.js`, `contact-form.js`, `prompt-filter.js`) end with:
+The `*.js` files above (`challan-parser.js`, `contact-form.js`, `prompt-filter.js`, `compliance-data.js`, `tu-tabbar.js`) end with:
 ```js
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { ... };
@@ -80,11 +84,11 @@ Placement is flexible — the theme init can appear either:
 Both are valid as long as the `localStorage` key is `'theme'` and the attribute is `data-theme`.
 
 ### PWA / Service Worker
-`sw.js` pre-caches tool pages for offline use. Current `CACHE_NAME`: **`taxationupdates-v11`**.  
+`sw.js` pre-caches tool pages for offline use. Current `CACHE_NAME`: **`taxationupdates-v12`**.  
 Strategy: network-first for HTML, cache-first for everything else (same-origin only).  
 Bump the version number whenever you add/rename a cached file. The script `add-tool.sh` does this automatically.
 
-Current `PRECACHE_URLS` (as of `taxationupdates-v11`):
+Current `PRECACHE_URLS` (as of `taxationupdates-v12`):
 ```
 /                                       /index.html
 /TDS-SECTION-CODE.html                  /CA-Prompt-Library.html
@@ -95,6 +99,7 @@ Current `PRECACHE_URLS` (as of `taxationupdates-v11`):
 /challan-parser.js                      /Compliance_Calendar_FY2627.html
 /FORM-10-IEA-REFERENCE.html             /INCOME-TAX-CALCULATOR-FY2526-FY2627.html
 /KNOWLEDGE-HUB.html                     /icons/logo.svg
+/compliance-data.js                     /tu-tabbar.js
 ```
 
 ### Phone number security
@@ -122,6 +127,13 @@ Article files (PDF/JPEG) live in `/articles/` and are served directly by GitHub 
 ### Homepage smart features (index.html)
 - **Smart Tax Check** (`#tax-check`): live New Regime estimate, 3D slab chart and ready-reckoner table. Slabs, ₹75,000 standard deduction, the s.87A/s.156 rebate (₹60,000 up to ₹12 L, with marginal relief) and 4% cess must stay in sync with `INCOME-TAX-CALCULATOR-FY2526-FY2627.html` (`NR`, `rebN`). Surcharge (10% / 15% / 25% with marginal relief at ₹50 L / ₹1 Cr / ₹2 Cr) mirrors `srN` / `mrN` in the calculator for normal-rate income. It deliberately excludes special-rate income (s.111A/112A), the Old Regime and non-individuals.
 - **Command palette** (`#cmdk`, Ctrl/⌘+K or `/`): edit the `ITEMS` array when adding a tool, section or article.
+
+### Mobile navigation (every page)
+- **Bottom tab bar** comes from `/tu-tabbar.js` (≤768px). It sits at `z-index:400` — above sticky headers, below every modal (≥500). It adds `body{padding-bottom}` and lifts `#btt, #scrollTopBtn, #toast, .toast, #resultToast` with `margin-bottom`; if a new page has another bottom-anchored floating element, add its selector to `LIFT_SELECTORS`. The bar's positioning uses `!important` because some pages style bare `nav {}`.
+- **New tools:** add the filename (lower-case) to `TOOL_PAGES` in `tu-tabbar.js` so the "Tools" tab highlights, and include the script tag (`add-tool.sh` checks for it).
+- **Homepage:** the hamburger/drawer is hidden ≤768px (tab bar + section tabs replace it). The "Due next" card (`#due-next`) shows the next 3 rows of `compliance-data.js`, skipping AGM-relative rows.
+- **TDS Codes & IT Calculator phones:** `.site-topnav` is hidden ≤768px; page actions live in a "⋯" menu (`#tuMore`). TDS has quick chips (`#tuQuick`) that drive the existing `.typebtn` / `toggleFavFilter()` controls and a Filters toggle (`body.tu-filters-open`). The calculator's result card (`#tuVerdict`) and lakh/crore hints (`.tu-lakh`) mirror `n-total`/`o-total` by wrapping `calc()`, and carry `data-html2canvas-ignore` so PDF/JPEG exports are unchanged.
+- **Calculator regime colours:** New = brand olive `#ADB11F`, Old = amber `#EE9A3A`, both with dark ink `#1f2006` text (the old Excel green/orange with white text failed WCAG AA).
 
 ### Accessibility layer (every page)
 Each page has a `<style id="tu-a11y">` block immediately before `</head>` and one `<a class="tu-skip">Skip to main content</a>` right after `<body>`. Keep both when editing or adding pages (copy them from an existing page into new tools).

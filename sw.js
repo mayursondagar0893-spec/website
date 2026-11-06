@@ -4,7 +4,7 @@
    Strategy: Cache-first for static assets, Network-first for HTML.
 ═══════════════════════════════════════════════════════════════ */
 
-const CACHE_NAME = 'taxationupdates-v11';
+const CACHE_NAME = 'taxationupdates-v12';
 
 const PRECACHE_URLS = [
   '/',
@@ -21,6 +21,8 @@ const PRECACHE_URLS = [
   '/icons/logo.svg',
   '/manifest.json',
   '/challan-parser.js',
+  '/compliance-data.js',
+  '/tu-tabbar.js',
   '/Compliance_Calendar_FY2627.html',
   '/FORM-10-IEA-REFERENCE.html',
   '/INCOME-TAX-CALCULATOR-FY2526-FY2627.html',
