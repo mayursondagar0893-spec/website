@@ -379,6 +379,17 @@ a.lc-ico{text-decoration:none;color:var(--text2)}
 /* v13 — footer grows if its text wraps on narrow screens */
 .foot{height:auto;min-height:28px;padding:5px 10px;text-align:center;line-height:1.4}
 .tb-home{text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+/* v14 — mobile: the whole page scrolls (only the top bar stays pinned), so the
+   author strip, search, profile and footer no longer eat the screen */
+@media(max-width:640px){
+  html,body{height:auto;overflow:visible;min-height:100%}
+  body{display:block}
+  .topbar{position:sticky;top:0}
+  .layout,.main,#detailView,#searchView,.dc{overflow:visible!important;flex:none}
+  .layout{display:block}
+  .main{min-height:calc(100vh - 50px)}
+  .dc{padding-bottom:24px}
+}
 </style>
 <style id="tu-3d-layer">
 /* ══════════════════════════════════════════════════════════
@@ -917,7 +928,7 @@ function selA(idx,noHash){
   if(searchQ) clearArtSilent();
   ai=idx; ac=0;
   buildSB(document.getElementById("sbSrch").value.toLowerCase().trim()||undefined);
-  updateMobStrip(); renderDetail(); document.getElementById("dc").scrollTop=0;
+  updateMobStrip(); renderDetail(); document.getElementById("dc").scrollTop=0; if(window.scrollY>0) window.scrollTo(0,0);
   if(!noHash) setHash("#a="+slug(AUTHORS[idx].name));
   if(!noHash) khTrack("kh_author_view",{author:AUTHORS[idx].name});
   if(keep){const sb=document.querySelector(".sidebar");const vis=sb&&getComputedStyle(sb).display!=="none";const t=vis?document.querySelector(".a-item.active"):document.getElementById("mc"+ai);if(t)t.focus({preventScroll:true});}
