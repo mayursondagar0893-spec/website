@@ -4,7 +4,7 @@
    Strategy: Cache-first for static assets, Network-first for HTML.
 ═══════════════════════════════════════════════════════════════ */
 
-const CACHE_NAME = 'taxationupdates-v10';
+const CACHE_NAME = 'taxationupdates-v11';
 
 const PRECACHE_URLS = [
   '/',
