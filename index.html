@@ -865,7 +865,7 @@ section[id]{scroll-margin-top:var(--jump-offset,0px);}
     /* ready reckoner table */
     .tc-table-card { max-width: 1180px; margin: 1.5rem auto 0; }
     .tc-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 14px; border: 1px solid var(--glass-border); margin-top: .9rem; }
-    .tc-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .86rem; min-width: 640px; font-variant-numeric: tabular-nums; }
+    .tc-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .86rem; min-width: 760px; font-variant-numeric: tabular-nums; }
     .tc-table th { position: sticky; top: 0; background: linear-gradient(180deg, #7d8015, #5b5d0b); color: #fff; text-align: right; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; padding: .7rem .8rem; white-space: nowrap; text-shadow: 0 1px 1px rgba(0,0,0,.35); }
     .tc-table th:first-child, .tc-table td:first-child { text-align: left; }
     .tc-table td { padding: .62rem .8rem; text-align: right; border-top: 1px solid var(--glass-border); color: var(--text-mid); white-space: nowrap; }
@@ -1103,7 +1103,7 @@ section[id]{scroll-margin-top:var(--jump-offset,0px);}
       <label class="tc-label" for="tc-income">Annual income</label>
       <div class="tc-input-wrap"><input id="tc-income" type="text" inputmode="numeric" autocomplete="off" value="15,00,000" aria-describedby="tc-words"/></div>
       <div class="tc-words" id="tc-words"></div>
-      <input id="tc-range" type="range" min="0" max="5000000" step="25000" value="1500000" aria-label="Annual income slider (up to ₹50 lakh)"/>
+      <input id="tc-range" type="range" min="0" max="25000000" step="25000" value="1500000" aria-label="Annual income slider (up to ₹2.5 crore)"/>
       <div class="tc-chips" id="tc-chips">
         <button type="button" class="tc-chip" data-v="775000">₹7.75 L</button>
         <button type="button" class="tc-chip" data-v="1275000">₹12.75 L</button>
@@ -1111,6 +1111,7 @@ section[id]{scroll-margin-top:var(--jump-offset,0px);}
         <button type="button" class="tc-chip" data-v="2000000">₹20 L</button>
         <button type="button" class="tc-chip" data-v="3000000">₹30 L</button>
         <button type="button" class="tc-chip" data-v="5000000">₹50 L</button>
+        <button type="button" class="tc-chip" data-v="10000000">₹1 Cr</button>
       </div>
       <label class="tc-switch"><input type="checkbox" id="tc-salaried" checked/> Salaried / pensioner (₹75,000 standard deduction)</label>
 
@@ -1118,7 +1119,9 @@ section[id]{scroll-margin-top:var(--jump-offset,0px);}
         <div class="tc-res big"><small>Total tax payable</small><b id="tc-total">₹0</b></div>
         <div class="tc-res"><small>Taxable income</small><b id="tc-ti">₹0</b></div>
         <div class="tc-res"><small>Effective rate</small><b id="tc-rate">0%</b></div>
-        <div class="tc-res"><small>Rebate / relief</small><b id="tc-reb">₹0</b></div>
+        <div class="tc-res"><small>Rebate u/s 87A</small><b id="tc-reb">₹0</b></div>
+        <div class="tc-res"><small>Surcharge</small><b id="tc-sur">₹0</b></div>
+        <div class="tc-res"><small>Cess @ 4%</small><b id="tc-cess">₹0</b></div>
         <div class="tc-res"><small>Tax per month</small><b id="tc-month">₹0</b></div>
       </div>
       <div class="tc-badge" id="tc-badge"></div>
@@ -1141,12 +1144,12 @@ section[id]{scroll-margin-top:var(--jump-offset,0px);}
     <div class="tc-chart-title"><h3>Ready reckoner: tax at common income levels</h3><span>Tap a row to load it above</span></div>
     <div class="tc-scroll">
       <table class="tc-table">
-        <thead><tr><th id="tc-th-inc">Gross salary</th><th>Taxable income</th><th>Tax on slabs</th><th>Rebate / relief</th><th>Cess @ 4%</th><th>Total tax</th><th>Effective rate</th></tr></thead>
+        <thead><tr><th id="tc-th-inc">Gross salary</th><th>Taxable income</th><th>Tax on slabs</th><th>Rebate u/s 87A</th><th>Surcharge</th><th>Cess @ 4%</th><th>Total tax</th><th>Effective rate</th></tr></thead>
         <tbody id="tc-tbody"></tbody>
       </table>
     </div>
-    <p class="tc-foot"><b>Legal basis:</b> Slab rates under the New (Default) Regime: s. 115BAC(1A) of the Income-tax Act, 1961 (FY 2025-26), and s. 202 of the Income-tax Act, 2025 (Tax Year 2026-27). The rebate u/s 87A (s. 156 of the 2025 Act) is up to ₹60,000 where total income does not exceed ₹12,00,000, with marginal relief just above that limit. Health &amp; Education Cess is 4%.
-    <br/><b>Limits of this estimate:</b> it assumes all income is taxed at normal slab rates. It does not cover special-rate income such as capital gains u/s 111A/112A (the rebate does not apply to these), surcharge above ₹50 lakh, the Old Regime, non-residents, or rounding u/s 288B. For those, use the <a href="INCOME-TAX-CALCULATOR-FY2526-FY2627.html" style="color:var(--olive-ink);font-weight:600;">full Income Tax Calculator</a>. This is for education only and is not tax advice.</p>
+    <p class="tc-foot"><b>Legal basis:</b> Slab rates under the New (Default) Regime: s. 115BAC(1A) of the Income-tax Act, 1961 (FY 2025-26), and s. 202 of the Income-tax Act, 2025 (Tax Year 2026-27). The rebate u/s 87A (s. 156 of the 2025 Act) is up to ₹60,000 where total income does not exceed ₹12,00,000, with marginal relief just above that limit. Surcharge under the New Regime is 10% above ₹50 lakh, 15% above ₹1 crore and 25% above ₹2 crore (capped at 25%), with marginal relief at each threshold, as prescribed in Part I of the First Schedule to the Finance Act. Health &amp; Education Cess is 4% of tax plus surcharge.
+    <br/><b>Limits of this estimate:</b> it assumes all income is taxed at normal slab rates. It does not cover special-rate income such as capital gains u/s 111A/112A (the rebate does not apply to these, and surcharge on them is capped at 15%), the Old Regime, HUF/AOP/firms, non-residents, or rounding u/s 288A/288B. For those, use the <a href="INCOME-TAX-CALCULATOR-FY2526-FY2627.html" style="color:var(--olive-ink);font-weight:600;">full Income Tax Calculator</a>. This is for education only and is not tax advice.</p>
   </div>
 </section>
 
@@ -1444,6 +1447,7 @@ I really admire how you present complex things in so simple manner @TaxationUpda
   /* ── New (Default) Regime: s.115BAC(1A) [FY 2025-26] / s.202 IT Act 2025 [Tax Year 2026-27] ── */
   var SLABS=[{to:400000,r:0},{to:800000,r:.05},{to:1200000,r:.10},{to:1600000,r:.15},{to:2000000,r:.20},{to:2400000,r:.25},{to:Infinity,r:.30}];
   var LBL=['0–4 L','4–8 L','8–12 L','12–16 L','16–20 L','20–24 L','24 L +'];
+  function slabTax(x){var t=0,prev=0;SLABS.forEach(function(s){t+=Math.round(Math.max(0,Math.min(x,s.to)-prev)*s.r);prev=s.to;});return t;}
   function compute(gross,salaried){
     gross=Math.max(0,Math.round(gross||0));
     var sd=salaried?Math.min(gross,75000):0, ti=gross-sd, prev=0, slab=0, parts=[];
@@ -1455,8 +1459,22 @@ I really admire how you present complex things in so simple manner @TaxationUpda
     var reb=0;                                   /* s.87A / s.156: rebate + marginal relief */
     if(ti<=1200000) reb=Math.min(slab,60000);
     else if(slab>ti-1200000) reb=slab-(ti-1200000);
-    var net=slab-reb, cess=Math.round(net*.04), total=net+cess;
-    return {gross:gross,sd:sd,ti:ti,slab:slab,reb:reb,cess:cess,total:total,parts:parts,mr:ti>1200000&&reb>0,sur:ti>5000000};
+    var net=slab-reb;
+    /* Surcharge (New Regime, normal-rate income): 10% > ₹50 L, 15% > ₹1 Cr, 25% > ₹2 Cr (max 25%).
+       Marginal relief: tax + surcharge cannot exceed tax + surcharge at the threshold plus the income above it.
+       Mirrors srN / mrN in INCOME-TAX-CALCULATOR-FY2526-FY2627.html. */
+    var srRate=ti>2e7?.25:ti>1e7?.15:ti>5e6?.10:0, srGross=0, srRelief=0, T=0;
+    if(srRate){
+      T=ti>2e7?2e7:ti>1e7?1e7:5e6;
+      var thrRate=T===2e7?.15:T===1e7?.10:0, thrSlab=slabTax(T);
+      var maxPay=thrSlab+thrSlab*thrRate+(ti-T);
+      srGross=net*srRate;
+      srRelief=Math.max(0,net+srGross-maxPay);
+    }
+    var sur=Math.round(srGross-srRelief);
+    var cess=Math.round((net+sur)*.04), total=net+sur+cess;
+    return {gross:gross,sd:sd,ti:ti,slab:slab,reb:reb,cess:cess,total:total,parts:parts,mr:ti>1200000&&reb>0,
+            sur:sur,srRate:srRate,srGross:Math.round(srGross),srRelief:Math.round(srRelief),srT:T};
   }
   var inr=function(n){return '₹'+Math.round(n).toLocaleString('en-IN');};
   function words(n){
@@ -1490,13 +1508,15 @@ I really admire how you present complex things in so simple manner @TaxationUpda
   function render(fromRange){
     var v=parseInt(String(inEl.value).replace(/[^0-9]/g,''),10)||0;
     if(v>999999999) v=999999999;
-    if(!fromRange){ rng.value=Math.min(v,5000000); }
+    if(!fromRange){ rng.value=Math.min(v,25000000); }
     if(document.activeElement!==inEl||fromRange) inEl.value=v?v.toLocaleString('en-IN'):'';
     $('tc-words').textContent=words(v);
     var r=compute(v,sal.checked);
     animate('tc-total',r.total,inr);
     animate('tc-ti',r.ti,inr);
     animate('tc-reb',r.reb,inr);
+    animate('tc-sur',r.sur,inr);
+    animate('tc-cess',r.cess,inr);
     animate('tc-month',r.total/12,inr);
     $('tc-rate').textContent=(r.gross?(r.total/r.gross*100):0).toFixed(2)+'%';
     r.parts.forEach(function(p,i){
@@ -1509,7 +1529,9 @@ I really admire how you present complex things in so simple manner @TaxationUpda
     var amt=function(n){return small&&n>=1000?'₹'+(+(n/1000).toFixed(n>=1e5?0:1))+'K':inr(n);};
     xl.innerHTML=r.parts.map(function(p,i){return '<div>'+LBL[i]+'<b>'+(p.tax?amt(p.tax):'–')+'</b></div>';}).join('');
     var b=$('tc-badge'), h, cls='';
-    if(r.sur){cls='warn';h='⚠️ Taxable income is above ₹50 lakh, so <b>surcharge</b> (with marginal relief) also applies. The figure above <b>excludes surcharge</b>. Use the full calculator for the exact amount.';}
+    var lim={5e6:'₹50 lakh',1e7:'₹1 crore',2e7:'₹2 crore'};
+    if(r.srRate&&r.srRelief>0){cls='warn';h='⚖️ <b>Surcharge @ '+(r.srRate*100)+'% with marginal relief.</b> Taxable income is '+inr(r.ti-r.srT)+' above '+lim[r.srT]+', so surcharge is reduced from '+inr(r.srGross)+' to <b>'+inr(r.sur)+'</b>. Tax plus surcharge cannot exceed the amount payable at '+lim[r.srT]+' plus the income above it.';}
+    else if(r.srRate){cls='warn';h='📈 <b>Surcharge @ '+(r.srRate*100)+'%</b> of '+inr(r.slab)+' = '+inr(r.sur)+' applies, because taxable income exceeds '+lim[r.srT]+'. Cess @ 4% is charged on tax plus surcharge. The New Regime caps surcharge at 25%.';}
     else if(r.total===0&&r.ti>0){cls='good';h='🎉 <b>Zero tax.</b> The rebate u/s 87A (s. 156 of the 2025 Act) fully covers the '+inr(r.slab)+' slab tax, because taxable income is within ₹12,00,000.';}
     else if(r.mr){cls='warn';h='⚖️ <b>Marginal relief applied.</b> Your taxable income is '+inr(r.ti-1200000)+' above ₹12 lakh, so tax before cess is limited to that excess ('+inr(r.slab-r.reb)+') instead of '+inr(r.slab)+'.';}
     else if(r.ti===0){h='Enter your annual income to see the tax under the New Regime.';}
@@ -1519,12 +1541,12 @@ I really admire how you present complex things in so simple manner @TaxationUpda
     document.querySelectorAll('#tc-tbody tr').forEach(function(tr){tr.classList.toggle('on',+tr.dataset.v===v);});
   }
 
-  var REF=[400000,775000,1275000,1300000,1500000,1800000,2000000,2500000,3000000,5000000];
+  var REF=[400000,775000,1275000,1300000,1500000,2000000,2500000,3000000,5000000,5200000,7500000,10200000,15000000,25000000];
   function table(){
     $('tc-th-inc').textContent=sal.checked?'Gross salary':'Total income';
     $('tc-tbody').innerHTML=REF.map(function(v){
       var r=compute(v,sal.checked);
-      return '<tr data-v="'+v+'" tabindex="0"><td>'+inr(v)+(r.total===0?'<span class="tc-zero">NIL</span>':'')+'</td><td>'+inr(r.ti)+'</td><td>'+inr(r.slab)+'</td><td>'+(r.reb?'– '+inr(r.reb):'–')+'</td><td>'+inr(r.cess)+'</td><td class="tot">'+inr(r.total)+'</td><td>'+(v?(r.total/v*100).toFixed(2):'0.00')+'%</td></tr>';
+      return '<tr data-v="'+v+'" tabindex="0"><td>'+inr(v)+(r.total===0?'<span class="tc-zero">NIL</span>':'')+'</td><td>'+inr(r.ti)+'</td><td>'+inr(r.slab)+'</td><td>'+(r.reb?'– '+inr(r.reb):'–')+'</td><td>'+(r.sur?inr(r.sur):'–')+'</td><td>'+inr(r.cess)+'</td><td class="tot">'+inr(r.total)+'</td><td>'+(v?(r.total/v*100).toFixed(2):'0.00')+'%</td></tr>';
     }).join('');
   }
   function load(v){inEl.value=v;render(false);}
