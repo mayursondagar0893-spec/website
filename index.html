@@ -796,6 +796,127 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
   body.drawer-open .section-tabs{visibility:hidden;}
 }
 section[id]{scroll-margin-top:var(--jump-offset,0px);}
+
+    /* ══════════════ SMART TAX CHECK (3D slab chart + ready reckoner) ══════════════ */
+    #tax-check { background: var(--card-bg); }
+    .tc-head { text-align: center; max-width: 640px; margin: 0 auto 2.6rem; }
+    .tc-head .divider { margin-left: auto; margin-right: auto; }
+    .tc-head .section-sub { margin: 0 auto; }
+    .tc-meta { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: .4rem; margin-top: 1rem; }
+    .tc-meta span { font-size: .74rem; font-weight: 700; letter-spacing: .04em; color: var(--olive-ink); background: var(--olive-pale); border: 1px solid var(--glass-border); padding: .25rem .7rem; border-radius: 50px; }
+    .tc-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 1.5rem; max-width: 1180px; margin: 0 auto; }
+    .tc-card { background: linear-gradient(180deg, var(--cream), var(--card-bg)); border: 1.5px solid var(--glass-border); border-radius: 22px; padding: 1.6rem; box-shadow: var(--shadow-3d); min-width: 0; }
+    [data-theme="dark"] .tc-card { background: linear-gradient(180deg, #1b2013 0%, #13170d 100%); }
+    .tc-label { display: block; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--olive-ink); margin-bottom: .55rem; }
+    .tc-input-wrap { position: relative; }
+    .tc-input-wrap::before { content: '₹'; position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); font-weight: 700; font-size: 1.3rem; color: var(--text-soft); }
+    #tc-income { width: 100%; font: inherit; font-size: 1.55rem; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--text); background: var(--card-bg); border: 1.5px solid var(--glass-border); border-radius: 14px; padding: .7rem 1rem .7rem 2.3rem; box-shadow: inset 0 2px 5px rgba(52,53,6,.08); transition: border-color .2s, box-shadow .2s; }
+    #tc-income:focus { outline: none; border-color: var(--olive-brand); box-shadow: inset 0 2px 5px rgba(52,53,6,.08), 0 0 0 4px rgba(173,177,31,.22); }
+    .tc-words { font-size: .8rem; color: var(--text-soft); margin-top: .35rem; min-height: 1.1em; }
+    #tc-range { width: 100%; margin: 1rem 0 .4rem; accent-color: var(--olive-brand); height: 6px; cursor: pointer; }
+    .tc-chips { display: flex; flex-wrap: wrap; gap: .4rem; margin: .4rem 0 1rem; }
+    .tc-chip { font: inherit; font-size: .78rem; font-weight: 600; color: var(--text-mid); background: var(--olive-bg); border: 1px solid var(--glass-border); border-radius: 50px; padding: .3rem .75rem; cursor: pointer; transition: background .2s, transform .15s, color .2s; }
+    .tc-chip:hover { transform: translateY(-1px); background: var(--olive-pale); }
+    .tc-chip.on { background: var(--olive-grad); color: #fff; border-color: transparent; text-shadow: 0 1px 1px rgba(0,0,0,.35); }
+    .tc-switch { display: flex; align-items: center; gap: .6rem; font-size: .86rem; color: var(--text-mid); cursor: pointer; user-select: none; }
+    .tc-switch input { width: 18px; height: 18px; accent-color: var(--olive-brand); cursor: pointer; }
+    .tc-results { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-top: 1.3rem; }
+    .tc-res { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 14px; padding: .8rem .9rem; box-shadow: var(--shadow-1); }
+    .tc-res.big { grid-column: 1 / -1; background: var(--olive-grad); border: none; color: #fff; box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 -4px 0 rgba(0,0,0,.18) inset, 0 14px 30px -10px rgba(115,118,15,.6); }
+    .tc-res small { display: block; font-size: .72rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--text-soft); }
+    .tc-res.big small { color: rgba(255,255,255,.85); }
+    .tc-res b { display: block; font-size: 1.15rem; font-weight: 800; color: var(--text); font-variant-numeric: tabular-nums; margin-top: .15rem; }
+    .tc-res.big b { font-family: 'Playfair Display', serif; font-size: 2.3rem; color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,.3); line-height: 1.1; }
+    .tc-badge { margin-top: .9rem; font-size: .84rem; line-height: 1.55; border-radius: 12px; padding: .7rem .85rem; border: 1px solid var(--glass-border); background: var(--olive-bg); color: var(--text-mid); }
+    .tc-badge.good { background: rgba(34,160,80,.10); border-color: rgba(34,160,80,.35); }
+    .tc-badge.warn { background: rgba(245,158,11,.12); border-color: rgba(245,158,11,.45); }
+    .tc-cta { display: inline-flex; align-items: center; gap: .4rem; margin-top: 1rem; font-weight: 700; font-size: .88rem; color: var(--olive-ink); text-decoration: none; }
+    .tc-cta:hover { gap: .7rem; }
+
+    /* 3D slab staircase */
+    .tc-chart-title { display: flex; justify-content: space-between; align-items: baseline; gap: .5rem; flex-wrap: wrap; margin-bottom: .2rem; }
+    .tc-chart-title h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--olive-deep); }
+    [data-theme="dark"] .tc-chart-title h3 { color: var(--text); }
+    .tc-chart-title span { font-size: .78rem; color: var(--text-soft); }
+    .tc-bars { --depth: 12px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); align-items: end; gap: clamp(8px, 1.6vw, 18px); height: 260px; padding: 34px calc(var(--depth) + 4px) 0 0; margin-top: .6rem; border-bottom: 2px solid var(--glass-border); position: relative; }
+    .tc-chart-card { display: flex; flex-direction: column; }
+    .tc-chart-card .tc-bars { flex: 1 1 auto; min-height: 260px; height: auto; }
+    .tc-col { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; }
+    .tc-prism { position: relative; height: var(--h); min-height: 8px; transition: height .6s cubic-bezier(.2,.8,.2,1); }
+    .tc-front { position: absolute; inset: 0; border-radius: 3px 3px 0 0; overflow: hidden;
+      background: linear-gradient(90deg, rgba(173,177,31,.20), rgba(173,177,31,.10)); border: 1px solid rgba(115,118,15,.28); border-bottom: 0; }
+    .tc-prism::before { /* top face */ content: ''; position: absolute; left: 0; right: 0; bottom: 100%; height: var(--depth); transform: skewX(-45deg); transform-origin: bottom left;
+      background: rgba(192,196,34,.30); border: 1px solid rgba(115,118,15,.22); border-bottom: 0; }
+    .tc-prism::after { /* side face */ content: ''; position: absolute; top: 0; bottom: 0; left: 100%; width: var(--depth); transform: skewY(-45deg); transform-origin: top left;
+      background: rgba(115,118,15,.22); border: 1px solid rgba(115,118,15,.18); border-left: 0; }
+    .tc-fill { position: absolute; left: 0; right: 0; bottom: 0; height: var(--f, 0%); transition: height .6s cubic-bezier(.2,.8,.2,1);
+      background: linear-gradient(90deg, #d4d840 0%, #ADB11F 45%, #7d8015 100%); box-shadow: 0 -2px 0 rgba(255,255,255,.55) inset; }
+    .tc-col.full .tc-prism::before { background: linear-gradient(90deg, #e2e66a, #c9cd3a); }
+    .tc-col.full .tc-prism::after { background: linear-gradient(180deg, #6e7112, #4a4c0a); }
+    .tc-col.part .tc-fill { background: linear-gradient(90deg, #fcd34d 0%, #f5b301 50%, #d48a00 100%); }
+    .tc-rate { position: absolute; left: 0; right: 0; bottom: calc(var(--h) + var(--depth) + 4px); text-align: center; font-weight: 800; font-size: .92rem; color: var(--olive-deep); font-variant-numeric: tabular-nums; transition: bottom .6s cubic-bezier(.2,.8,.2,1); }
+    [data-theme="dark"] .tc-rate { color: var(--text); }
+    .tc-xl { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: clamp(8px, 1.6vw, 18px); padding-right: calc(12px + 4px); margin-top: .5rem; }
+    .tc-xl div { text-align: center; font-size: .7rem; line-height: 1.35; color: var(--text-soft); font-variant-numeric: tabular-nums; }
+    .tc-xl b { display: block; font-size: .76rem; color: var(--text); font-weight: 700; }
+    .tc-legend { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; font-size: .78rem; color: var(--text-soft); }
+    .tc-legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: .35rem; }
+
+    /* ready reckoner table */
+    .tc-table-card { max-width: 1180px; margin: 1.5rem auto 0; }
+    .tc-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 14px; border: 1px solid var(--glass-border); margin-top: .9rem; }
+    .tc-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .86rem; min-width: 760px; font-variant-numeric: tabular-nums; }
+    .tc-table th { position: sticky; top: 0; background: linear-gradient(180deg, #7d8015, #5b5d0b); color: #fff; text-align: right; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; padding: .7rem .8rem; white-space: nowrap; text-shadow: 0 1px 1px rgba(0,0,0,.35); }
+    .tc-table th:first-child, .tc-table td:first-child { text-align: left; }
+    .tc-table td { padding: .62rem .8rem; text-align: right; border-top: 1px solid var(--glass-border); color: var(--text-mid); white-space: nowrap; }
+    .tc-table tbody tr { cursor: pointer; transition: background .15s; }
+    .tc-table tbody tr:nth-child(even) td { background: var(--glass); }
+    .tc-table tbody tr:hover td { background: var(--olive-pale); }
+    .tc-table tbody tr.on td { background: rgba(245,179,1,.16); }
+    .tc-table td.tot { font-weight: 800; color: var(--text); }
+    .tc-zero { display: inline-block; font-size: .68rem; font-weight: 800; letter-spacing: .05em; color: #fff; background: linear-gradient(180deg, #34c06a, #1f8f4a); border-radius: 50px; padding: .1rem .5rem; margin-left: .35rem; vertical-align: 1px; }
+    .tc-foot { font-size: .76rem; color: var(--text-soft); line-height: 1.6; margin-top: .9rem; }
+    @media (max-width: 920px) {
+      .tc-grid { grid-template-columns: 1fr; }
+      .tc-chart-card .tc-bars { min-height: 220px; }
+    }
+    @media (max-width: 480px) {
+      .tc-card { padding: 1.15rem; border-radius: 18px; }
+      .tc-bars { --depth: 7px; gap: 6px; padding-right: 11px; }
+      .tc-chart-card .tc-bars { min-height: 190px; }
+      .tc-xl { gap: 6px; padding-right: 11px; }
+      .tc-xl div { font-size: .6rem; }
+      .tc-rate { font-size: .74rem; }
+      .tc-res.big b { font-size: 1.9rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { .tc-prism, .tc-fill, .tc-rate { transition: none; } }
+
+    /* ══════════════ COMMAND PALETTE (Ctrl/⌘ + K) ══════════════ */
+    .cmdk-btn { display: inline-flex; align-items: center; gap: .45rem; font: inherit; font-size: .82rem; color: var(--text-soft); background: var(--card-bg); border: 1.5px solid var(--glass-border); border-radius: 50px; padding: .42rem .8rem; cursor: pointer; box-shadow: var(--shadow-1); transition: border-color .2s, color .2s; }
+    .cmdk-btn:hover { border-color: var(--olive-brand); color: var(--text); }
+    .cmdk-btn kbd { font: inherit; font-size: .7rem; font-weight: 700; background: var(--olive-bg); border: 1px solid var(--glass-border); border-radius: 6px; padding: .05rem .4rem; }
+    @media (max-width: 1180px) { .cmdk-btn .cmdk-txt, .cmdk-btn kbd { display: none; } .cmdk-btn { padding: .5rem; } }
+    .cmdk-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(20,22,6,.45); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); display: flex; align-items: flex-start; justify-content: center; padding: 12vh 16px 16px; opacity: 0; pointer-events: none; transition: opacity .18s; }
+    .cmdk-overlay.open { opacity: 1; pointer-events: auto; }
+    .cmdk { width: 100%; max-width: 620px; background: var(--card-bg); border: 1.5px solid var(--glass-border); border-radius: 18px; box-shadow: 0 30px 80px -20px rgba(0,0,0,.45); overflow: hidden; transform: translateY(-8px) scale(.98); transition: transform .18s; }
+    .cmdk-overlay.open .cmdk { transform: none; }
+    .cmdk-top { display: flex; align-items: center; gap: .6rem; padding: .9rem 1rem; border-bottom: 1px solid var(--glass-border); }
+    .cmdk-top svg { flex-shrink: 0; color: var(--text-soft); }
+    #cmdk-input { flex: 1; min-width: 0; font: inherit; font-size: 1rem; color: var(--text); background: transparent; border: 0; outline: none; }
+    .cmdk-esc { font: inherit; font-size: .7rem; font-weight: 700; color: var(--text-soft); background: var(--olive-bg); border: 1px solid var(--glass-border); border-radius: 6px; padding: .15rem .45rem; cursor: pointer; }
+    .cmdk-list { list-style: none; max-height: min(60vh, 440px); overflow-y: auto; padding: .4rem; margin: 0; }
+    .cmdk-group { font-size: .68rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--text-soft); padding: .7rem .7rem .3rem; }
+    .cmdk-item { display: flex; align-items: center; gap: .75rem; padding: .6rem .7rem; border-radius: 10px; cursor: pointer; color: var(--text); text-decoration: none; }
+    .cmdk-item .ic { width: 34px; height: 34px; flex-shrink: 0; display: grid; place-items: center; font-size: 1.05rem; border-radius: 9px; background: var(--olive-bg); border: 1px solid var(--glass-border); }
+    .cmdk-item .tx { min-width: 0; }
+    .cmdk-item .tx b { display: block; font-size: .9rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cmdk-item .tx span { display: block; font-size: .76rem; color: var(--text-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cmdk-item.sel { background: var(--olive-pale); }
+    .cmdk-item.sel .ic { background: var(--olive-grad); border-color: transparent; }
+    .cmdk-empty { padding: 1.6rem 1rem; text-align: center; color: var(--text-soft); font-size: .9rem; }
+    .cmdk-foot { display: flex; gap: 1rem; flex-wrap: wrap; padding: .55rem 1rem; border-top: 1px solid var(--glass-border); font-size: .72rem; color: var(--text-soft); }
+    .cmdk-foot kbd { font: inherit; font-weight: 700; background: var(--olive-bg); border: 1px solid var(--glass-border); border-radius: 5px; padding: 0 .35rem; }
+    @media (max-width: 600px) { .cmdk-overlay { padding-top: 70px; } .cmdk-foot { display: none; } }
 </style>
   <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
@@ -820,6 +941,10 @@ section[id]{scroll-margin-top:var(--jump-offset,0px);}
   </ul>
   <!-- Dark mode toggle + CTA -->
   <div style="display:flex;align-items:center;gap:1rem;">
+    <button type="button" class="cmdk-btn" id="cmdk-open" aria-label="Search tools, sections and articles" title="Search (Ctrl + K)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <span class="cmdk-txt">Search</span><kbd>Ctrl K</kbd>
+    </button>
     <button class="dark-toggle" id="dark-toggle" role="switch" aria-checked="false" aria-label="Toggle dark mode" title="Toggle dark mode"></button>
     <a href="#contact" class="nav-cta">Get in Touch</a>
   </div>
@@ -833,6 +958,7 @@ section[id]{scroll-margin-top:var(--jump-offset,0px);}
   <a href="#hero">Home</a>
   <a href="#about">About</a>
   <a href="#portfolio">Content</a>
+  <a href="#tax-check">Tax Check</a>
   <a href="#blog">Blog</a>
   <a href="KNOWLEDGE-HUB.html">Knowledge Hub</a>
   <a href="#testimonials">Reviews</a>
@@ -843,6 +969,7 @@ section[id]{scroll-margin-top:var(--jump-offset,0px);}
 <div class="mobile-drawer" id="drawer">
   <a href="#about"        class="dl">About</a>
   <a href="#portfolio"    class="dl">Content</a>
+  <a href="#tax-check"    class="dl">Tax Check</a>
   <a href="#blog"         class="dl">Blog</a>
   <a href="KNOWLEDGE-HUB.html" class="dl">Knowledge Hub</a>
   <a href="#testimonials" class="dl">Reviews</a>
@@ -957,6 +1084,72 @@ section[id]{scroll-margin-top:var(--jump-offset,0px);}
       <div class="p-thumb t1">📚</div>
       <div class="p-body"><div class="p-tag">Resource</div><h3>Knowledge Hub</h3><p>Curated library of GST & Income Tax knowledge links from leading tax professionals — search, browse by author and share on WhatsApp</p></div>
     </a>
+  </div>
+</section>
+
+
+<!-- ══════════ SMART TAX CHECK ══════════ -->
+<section id="tax-check" aria-labelledby="tc-title">
+  <div class="tc-head reveal">
+    <div class="section-tag">Smart Tax Check</div>
+    <h2 class="section-title" id="tc-title">How Much Tax Will You Pay?</h2>
+    <div class="divider"></div>
+    <p class="section-sub">Type your income and watch every slab fill up live. Instant estimate under the New (Default) Tax Regime, including rebate, marginal relief and cess.</p>
+    <div class="tc-meta"><span>FY 2025-26 · AY 2026-27</span><span>Tax Year 2026-27</span><span>Resident Individual</span></div>
+  </div>
+
+  <div class="tc-grid">
+    <div class="tc-card reveal">
+      <label class="tc-label" for="tc-income">Annual income</label>
+      <div class="tc-input-wrap"><input id="tc-income" type="text" inputmode="numeric" autocomplete="off" value="15,00,000" aria-describedby="tc-words"/></div>
+      <div class="tc-words" id="tc-words"></div>
+      <input id="tc-range" type="range" min="0" max="25000000" step="25000" value="1500000" aria-label="Annual income slider (up to ₹2.5 crore)"/>
+      <div class="tc-chips" id="tc-chips">
+        <button type="button" class="tc-chip" data-v="775000">₹7.75 L</button>
+        <button type="button" class="tc-chip" data-v="1275000">₹12.75 L</button>
+        <button type="button" class="tc-chip" data-v="1500000">₹15 L</button>
+        <button type="button" class="tc-chip" data-v="2000000">₹20 L</button>
+        <button type="button" class="tc-chip" data-v="3000000">₹30 L</button>
+        <button type="button" class="tc-chip" data-v="5000000">₹50 L</button>
+        <button type="button" class="tc-chip" data-v="10000000">₹1 Cr</button>
+      </div>
+      <label class="tc-switch"><input type="checkbox" id="tc-salaried" checked/> Salaried / pensioner (₹75,000 standard deduction)</label>
+
+      <div class="tc-results" aria-live="polite">
+        <div class="tc-res big"><small>Total tax payable</small><b id="tc-total">₹0</b></div>
+        <div class="tc-res"><small>Taxable income</small><b id="tc-ti">₹0</b></div>
+        <div class="tc-res"><small>Effective rate</small><b id="tc-rate">0%</b></div>
+        <div class="tc-res"><small>Rebate u/s 87A</small><b id="tc-reb">₹0</b></div>
+        <div class="tc-res"><small>Surcharge</small><b id="tc-sur">₹0</b></div>
+        <div class="tc-res"><small>Cess @ 4%</small><b id="tc-cess">₹0</b></div>
+        <div class="tc-res"><small>Tax per month</small><b id="tc-month">₹0</b></div>
+      </div>
+      <div class="tc-badge" id="tc-badge"></div>
+      <a class="tc-cta" href="INCOME-TAX-CALCULATOR-FY2526-FY2627.html">Compare Old vs New Regime in the full calculator →</a>
+    </div>
+
+    <div class="tc-card tc-chart-card reveal">
+      <div class="tc-chart-title"><h3>New Regime slab staircase</h3><span>Bar height = slab rate · fill = your income in that slab</span></div>
+      <div class="tc-bars" id="tc-bars" role="img" aria-label="3D bar chart of New Regime slab rates and how much of each slab your income uses"></div>
+      <div class="tc-xl" id="tc-xl"></div>
+      <div class="tc-legend">
+        <span><i style="background:linear-gradient(90deg,#d4d840,#7d8015)"></i>Slab fully used</span>
+        <span><i style="background:linear-gradient(90deg,#fcd34d,#d48a00)"></i>Slab partly used</span>
+        <span><i style="background:rgba(173,177,31,.22);border:1px solid rgba(115,118,15,.3)"></i>Not reached</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tc-card tc-table-card reveal">
+    <div class="tc-chart-title"><h3>Ready reckoner: tax at common income levels</h3><span>Tap a row to load it above</span></div>
+    <div class="tc-scroll">
+      <table class="tc-table">
+        <thead><tr><th id="tc-th-inc">Gross salary</th><th>Taxable income</th><th>Tax on slabs</th><th>Rebate u/s 87A</th><th>Surcharge</th><th>Cess @ 4%</th><th>Total tax</th><th>Effective rate</th></tr></thead>
+        <tbody id="tc-tbody"></tbody>
+      </table>
+    </div>
+    <p class="tc-foot"><b>Legal basis:</b> Slab rates under the New (Default) Regime: s. 115BAC(1A) of the Income-tax Act, 1961 (FY 2025-26), and s. 202 of the Income-tax Act, 2025 (Tax Year 2026-27). The rebate u/s 87A (s. 156 of the 2025 Act) is up to ₹60,000 where total income does not exceed ₹12,00,000, with marginal relief just above that limit. Surcharge under the New Regime is 10% above ₹50 lakh, 15% above ₹1 crore and 25% above ₹2 crore (capped at 25%), with marginal relief at each threshold, as prescribed in Part I of the First Schedule to the Finance Act. Health &amp; Education Cess is 4% of tax plus surcharge.
+    <br/><b>Limits of this estimate:</b> it assumes all income is taxed at normal slab rates. It does not cover special-rate income such as capital gains u/s 111A/112A (the rebate does not apply to these, and surcharge on them is capped at 15%), the Old Regime, HUF/AOP/firms, non-residents, or rounding u/s 288A/288B. For those, use the <a href="INCOME-TAX-CALCULATOR-FY2526-FY2627.html" style="color:var(--olive-ink);font-weight:600;">full Income Tax Calculator</a>. This is for education only and is not tax advice.</p>
   </div>
 </section>
 
@@ -1112,6 +1305,19 @@ I really admire how you present complex things in so simple manner @TaxationUpda
   </div>
 </footer>
 
+<!-- ══════════ COMMAND PALETTE ══════════ -->
+<div class="cmdk-overlay" id="cmdk" role="dialog" aria-modal="true" aria-label="Search the site" hidden>
+  <div class="cmdk">
+    <div class="cmdk-top">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="cmdk-input" type="text" placeholder="Search tools, topics, articles… try “194J”, “GSTR-1”, “87A”" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true" aria-controls="cmdk-list" aria-autocomplete="list"/>
+      <button type="button" class="cmdk-esc" id="cmdk-close" aria-label="Close search">Esc</button>
+    </div>
+    <ul class="cmdk-list" id="cmdk-list" role="listbox"></ul>
+    <div class="cmdk-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>Enter</kbd> open</span><span><kbd>/</kbd> or <kbd>Ctrl K</kbd> anywhere</span></div>
+  </div>
+</div>
+
 <button id="btt" title="Back to top">↑</button>
 
 <!-- Article Preview Modal -->
@@ -1233,6 +1439,212 @@ I really admire how you present complex things in so simple manner @TaxationUpda
     document.getElementById('form-btn').textContent='Sent ✓';
     document.getElementById('form-btn').disabled=true;
   });
+</script>
+
+<!-- Smart Tax Check + Command Palette -->
+<script>
+(function(){
+  /* ── New (Default) Regime: s.115BAC(1A) [FY 2025-26] / s.202 IT Act 2025 [Tax Year 2026-27] ── */
+  var SLABS=[{to:400000,r:0},{to:800000,r:.05},{to:1200000,r:.10},{to:1600000,r:.15},{to:2000000,r:.20},{to:2400000,r:.25},{to:Infinity,r:.30}];
+  var LBL=['0–4 L','4–8 L','8–12 L','12–16 L','16–20 L','20–24 L','24 L +'];
+  function slabTax(x){var t=0,prev=0;SLABS.forEach(function(s){t+=Math.round(Math.max(0,Math.min(x,s.to)-prev)*s.r);prev=s.to;});return t;}
+  function compute(gross,salaried){
+    gross=Math.max(0,Math.round(gross||0));
+    var sd=salaried?Math.min(gross,75000):0, ti=gross-sd, prev=0, slab=0, parts=[];
+    SLABS.forEach(function(s){
+      var used=Math.max(0,Math.min(ti,s.to)-prev), tax=Math.round(used*s.r);
+      parts.push({used:used,width:s.to===Infinity?null:s.to-prev,tax:tax});
+      slab+=tax; prev=s.to;
+    });
+    var reb=0;                                   /* s.87A / s.156: rebate + marginal relief */
+    if(ti<=1200000) reb=Math.min(slab,60000);
+    else if(slab>ti-1200000) reb=slab-(ti-1200000);
+    var net=slab-reb;
+    /* Surcharge (New Regime, normal-rate income): 10% > ₹50 L, 15% > ₹1 Cr, 25% > ₹2 Cr (max 25%).
+       Marginal relief: tax + surcharge cannot exceed tax + surcharge at the threshold plus the income above it.
+       Mirrors srN / mrN in INCOME-TAX-CALCULATOR-FY2526-FY2627.html. */
+    var srRate=ti>2e7?.25:ti>1e7?.15:ti>5e6?.10:0, srGross=0, srRelief=0, T=0;
+    if(srRate){
+      T=ti>2e7?2e7:ti>1e7?1e7:5e6;
+      var thrRate=T===2e7?.15:T===1e7?.10:0, thrSlab=slabTax(T);
+      var maxPay=thrSlab+thrSlab*thrRate+(ti-T);
+      srGross=net*srRate;
+      srRelief=Math.max(0,net+srGross-maxPay);
+    }
+    var sur=Math.round(srGross-srRelief);
+    var cess=Math.round((net+sur)*.04), total=net+sur+cess;
+    return {gross:gross,sd:sd,ti:ti,slab:slab,reb:reb,cess:cess,total:total,parts:parts,mr:ti>1200000&&reb>0,
+            sur:sur,srRate:srRate,srGross:Math.round(srGross),srRelief:Math.round(srRelief),srT:T};
+  }
+  var inr=function(n){return '₹'+Math.round(n).toLocaleString('en-IN');};
+  function words(n){
+    if(!n) return '';
+    if(n>=1e7) return '₹'+(+(n/1e7).toFixed(2))+' crore';
+    if(n>=1e5) return '₹'+(+(n/1e5).toFixed(2))+' lakh';
+    if(n>=1e3) return '₹'+(+(n/1e3).toFixed(2))+' thousand';
+    return '₹'+n;
+  }
+  var $=function(id){return document.getElementById(id);};
+  var inEl=$('tc-income'), rng=$('tc-range'), sal=$('tc-salaried');
+  if(!inEl) return;
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* build bars once */
+  var bars=$('tc-bars'), xl=$('tc-xl');
+  bars.innerHTML=SLABS.map(function(s,i){
+    var h=s.r?Math.round(s.r/.30*100):4;
+    return '<div class="tc-col" style="--h:'+h+'%"><div class="tc-rate">'+Math.round(s.r*100)+'%</div><div class="tc-prism"><div class="tc-front"><div class="tc-fill"></div></div></div></div>';
+  }).join('');
+  var cols=bars.querySelectorAll('.tc-col');
+
+  var shown={};
+  function animate(id,to,fmt){
+    var el=$(id), from=shown[id]||0; shown[id]=to;
+    if(reduce||from===to){el.textContent=fmt(to);return;}
+    var t0=performance.now(), d=450;
+    (function step(t){var k=Math.min(1,(t-t0)/d); k=1-Math.pow(1-k,3); el.textContent=fmt(from+(to-from)*k); if(k<1) requestAnimationFrame(step);})(t0);
+  }
+
+  function render(fromRange){
+    var v=parseInt(String(inEl.value).replace(/[^0-9]/g,''),10)||0;
+    if(v>999999999) v=999999999;
+    if(!fromRange){ rng.value=Math.min(v,25000000); }
+    if(document.activeElement!==inEl||fromRange) inEl.value=v?v.toLocaleString('en-IN'):'';
+    $('tc-words').textContent=words(v);
+    var r=compute(v,sal.checked);
+    animate('tc-total',r.total,inr);
+    animate('tc-ti',r.ti,inr);
+    animate('tc-reb',r.reb,inr);
+    animate('tc-sur',r.sur,inr);
+    animate('tc-cess',r.cess,inr);
+    animate('tc-month',r.total/12,inr);
+    $('tc-rate').textContent=(r.gross?(r.total/r.gross*100):0).toFixed(2)+'%';
+    r.parts.forEach(function(p,i){
+      var pct=p.width===null?(p.used>0?Math.min(100,30+p.used/2400000*70):0):p.used/p.width*100;
+      cols[i].style.setProperty('--f',pct.toFixed(1)+'%');
+      cols[i].classList.toggle('full',pct>=99.9);
+      cols[i].classList.toggle('part',pct>0&&pct<99.9);
+    });
+    var small=window.innerWidth<560;
+    var amt=function(n){return small&&n>=1000?'₹'+(+(n/1000).toFixed(n>=1e5?0:1))+'K':inr(n);};
+    xl.innerHTML=r.parts.map(function(p,i){return '<div>'+LBL[i]+'<b>'+(p.tax?amt(p.tax):'–')+'</b></div>';}).join('');
+    var b=$('tc-badge'), h, cls='';
+    var lim={5e6:'₹50 lakh',1e7:'₹1 crore',2e7:'₹2 crore'};
+    if(r.srRate&&r.srRelief>0){cls='warn';h='⚖️ <b>Surcharge @ '+(r.srRate*100)+'% with marginal relief.</b> Taxable income is '+inr(r.ti-r.srT)+' above '+lim[r.srT]+', so surcharge is reduced from '+inr(r.srGross)+' to <b>'+inr(r.sur)+'</b>. Tax plus surcharge cannot exceed the amount payable at '+lim[r.srT]+' plus the income above it.';}
+    else if(r.srRate){cls='warn';h='📈 <b>Surcharge @ '+(r.srRate*100)+'%</b> of '+inr(r.slab)+' = '+inr(r.sur)+' applies, because taxable income exceeds '+lim[r.srT]+'. Cess @ 4% is charged on tax plus surcharge. The New Regime caps surcharge at 25%.';}
+    else if(r.total===0&&r.ti>0){cls='good';h='🎉 <b>Zero tax.</b> The rebate u/s 87A (s. 156 of the 2025 Act) fully covers the '+inr(r.slab)+' slab tax, because taxable income is within ₹12,00,000.';}
+    else if(r.mr){cls='warn';h='⚖️ <b>Marginal relief applied.</b> Your taxable income is '+inr(r.ti-1200000)+' above ₹12 lakh, so tax before cess is limited to that excess ('+inr(r.slab-r.reb)+') instead of '+inr(r.slab)+'.';}
+    else if(r.ti===0){h='Enter your annual income to see the tax under the New Regime.';}
+    else {h='Slab tax '+inr(r.slab)+' + cess '+inr(r.cess)+'. The rebate u/s 87A is not available because taxable income exceeds ₹12 lakh and no marginal relief arises.';}
+    b.className='tc-badge '+cls; b.innerHTML=h;
+    document.querySelectorAll('#tc-chips .tc-chip').forEach(function(c){c.classList.toggle('on',+c.dataset.v===v);});
+    document.querySelectorAll('#tc-tbody tr').forEach(function(tr){tr.classList.toggle('on',+tr.dataset.v===v);});
+  }
+
+  var REF=[400000,775000,1275000,1300000,1500000,2000000,2500000,3000000,5000000,5200000,7500000,10200000,15000000,25000000];
+  function table(){
+    $('tc-th-inc').textContent=sal.checked?'Gross salary':'Total income';
+    $('tc-tbody').innerHTML=REF.map(function(v){
+      var r=compute(v,sal.checked);
+      return '<tr data-v="'+v+'" tabindex="0"><td>'+inr(v)+(r.total===0?'<span class="tc-zero">NIL</span>':'')+'</td><td>'+inr(r.ti)+'</td><td>'+inr(r.slab)+'</td><td>'+(r.reb?'– '+inr(r.reb):'–')+'</td><td>'+(r.sur?inr(r.sur):'–')+'</td><td>'+inr(r.cess)+'</td><td class="tot">'+inr(r.total)+'</td><td>'+(v?(r.total/v*100).toFixed(2):'0.00')+'%</td></tr>';
+    }).join('');
+  }
+  function load(v){inEl.value=v;render(false);}
+  inEl.addEventListener('input',function(){render(false);});
+  inEl.addEventListener('blur',function(){render(false);});
+  rng.addEventListener('input',function(){inEl.value=rng.value;render(true);});
+  sal.addEventListener('change',function(){table();render(false);});
+  $('tc-chips').addEventListener('click',function(e){var c=e.target.closest('.tc-chip');if(c)load(c.dataset.v);});
+  $('tc-tbody').addEventListener('click',function(e){var tr=e.target.closest('tr');if(tr){load(tr.dataset.v);$('tc-income').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});}});
+  $('tc-tbody').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){var tr=e.target.closest('tr');if(tr){e.preventDefault();load(tr.dataset.v);}}});
+  table(); render(false);
+})();
+
+(function(){
+  /* ── Command palette: Ctrl/⌘+K or "/" ── */
+  var ITEMS=[
+    {g:'Tools',ic:'🧮',t:'Income Tax Calculator FY 2025-26 & FY 2026-27',d:'Old vs New Regime, advance tax, slabs, deductions',u:'INCOME-TAX-CALCULATOR-FY2526-FY2627.html',k:'tax calculator old new regime 115bac 202 87a 156 rebate slab salary advance tax 234b 234c 80c 80d hra itr due date'},
+    {g:'Tools',ic:'🧾',t:'TDS / TCS Section Codes',d:'IT Act 1961 vs IT Act 2025 · rates, thresholds, calculator',u:'TDS-SECTION-CODE.html',k:'tds tcs section code 192 194 194a 194c 194h 194i 194j 194q 194r 194t 206c 393 394 rate threshold form 138 140 141 143 144'},
+    {g:'Tools',ic:'📅',t:'Compliance Calendar FY 2026-27',d:'GST, TDS, Income Tax, PF/ESIC, ROC due dates',u:'Compliance_Calendar_FY2627.html',k:'compliance calendar due date deadline gstr-1 gstr-3b gstr 9 tds return 24q 26q advance tax pf esic roc aoc mgt reminder'},
+    {g:'Tools',ic:'📂',t:'Challan PDF to Excel',d:'Convert ITNS 280 / 281 / 282 / 283 challans to Excel',u:'INCOME-TAX-CHALLAN-TO-EXCEL.html',k:'challan pdf excel itns 280 281 282 283 cin bsr tds payment convert'},
+    {g:'Tools',ic:'🔄',t:'Form 10-IEA Reference',d:'Tax regime switching — 64 scenarios & Smart Finder',u:'FORM-10-IEA-REFERENCE.html',k:'form 10-iea 10iea regime switch opt out business income 115bac(6) scenario'},
+    {g:'Tools',ic:'💡',t:'CA Prompt Library',d:'Ready AI prompts for tax professionals',u:'CA-Prompt-Library.html',k:'ai prompt chatgpt claude gpt notice reply drafting audit gst income tax'},
+    {g:'Tools',ic:'📚',t:'Knowledge Hub',d:'Curated GST & Income Tax links by author',u:'KNOWLEDGE-HUB.html',k:'knowledge hub links gst portal cbic income tax india articles authors'},
+    {g:'On this page',ic:'⚡',t:'Smart Tax Check',d:'Instant New Regime tax estimate with 3D slab chart',u:'#tax-check',k:'quick estimate tax check slab chart how much tax 12 lakh zero tax marginal relief ready reckoner'},
+    {g:'On this page',ic:'👤',t:'About CA Mayur J Sondagar',d:'Background & expertise',u:'#about',k:'about mayur sondagar ca chartered accountant mumbai'},
+    {g:'On this page',ic:'🛠️',t:'All tools & content',d:'Featured work & topics',u:'#portfolio',k:'tools content featured work'},
+    {g:'On this page',ic:'📰',t:'Articles & updates',d:'Downloadable PDFs',u:'#blog',k:'blog article pdf update'},
+    {g:'On this page',ic:'⭐',t:'Reviews',d:'What professionals say',u:'#testimonials',k:'testimonials reviews feedback'},
+    {g:'On this page',ic:'✉️',t:'Contact / Get in touch',d:'Send an enquiry via WhatsApp',u:'#contact',k:'contact enquiry consultation whatsapp email'},
+    {g:'Articles',ic:'📊',t:'Section Comparison: IT Act 1961 vs IT Act 2025',d:'Old vs new section numbers (PDF)',a:['/articles/Section-Comparison-Income-Tax-Act-1961-vs-2025.pdf','Section Comparison of Income Tax Act, 1961 vs Income Tax Act, 2025'],k:'section mapping new act 2025 old act 1961 comparison pdf'},
+    {g:'Articles',ic:'🧾',t:'Tax Amount under New Regime FY 2025-26',d:'Tax for income up to ₹1 crore (PDF)',a:['/articles/Tax-Amount-New-Regime-FY2025-26.pdf','Tax Amount as per New (Default) Tax Regime for F.Y. 2025-26'],k:'tax amount new regime table 1 crore pdf'},
+    {g:'Actions',ic:'🌓',t:'Toggle dark mode',d:'Switch light / dark theme',fn:function(){document.getElementById('dark-toggle').click();},k:'dark light theme mode night'},
+    {g:'Actions',ic:'🔔',t:'Join the WhatsApp Channel',d:'Daily tax updates',u:'https://whatsapp.com/channel/0029Va52NFa1SWt3oyF1Hk1g',x:1,k:'whatsapp channel updates join follow'},
+    {g:'Actions',ic:'𝕏',t:'Follow @TaxationUpdates on X',d:'106K followers',u:'https://twitter.com/TaxationUpdates',x:1,k:'twitter x follow social'},
+    {g:'Pages',ic:'ℹ️',t:'About page',d:'',u:'about.html',k:'about'},
+    {g:'Pages',ic:'⚖️',t:'Disclaimer',d:'',u:'disclaimer.html',k:'disclaimer legal'},
+    {g:'Pages',ic:'🔒',t:'Privacy Policy',d:'',u:'privacy-policy.html',k:'privacy policy data cookies'}
+  ];
+  var ov=document.getElementById('cmdk'), inp=document.getElementById('cmdk-input'), list=document.getElementById('cmdk-list');
+  if(!ov) return;
+  var sel=0, res=[], lastFocus=null;
+  var norm=function(s){return String(s).toLowerCase().replace(/[^a-z0-9₹ ]+/g,' ');};
+  function score(it,q){
+    if(!q) return 1;
+    var title=norm(it.t), hay=title+' '+norm(it.d)+' '+norm(it.k), toks=q.split(/\s+/).filter(Boolean), s=0;
+    for(var i=0;i<toks.length;i++){
+      var t=toks[i], p=hay.indexOf(t); if(p<0) return 0;
+      s+= title.indexOf(t)===0?6 : title.indexOf(' '+t)>=0||title.indexOf(t)>=0?4 : (' '+hay).indexOf(' '+t)>=0?2:1;
+    }
+    return s;
+  }
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function draw(){
+    var q=norm(inp.value).trim();
+    res=ITEMS.map(function(it,i){return {it:it,s:score(it,q),i:i};}).filter(function(r){return r.s>0;});
+    if(q) res.sort(function(a,b){return b.s-a.s||a.i-b.i;});
+    if(sel>=res.length) sel=Math.max(0,res.length-1);
+    if(!res.length){list.innerHTML='<li class="cmdk-empty">No match for “'+esc(inp.value)+'”. Try a section number, form or tool name.</li>';inp.removeAttribute('aria-activedescendant');return;}
+    var html='', g=null;
+    res.forEach(function(r,k){
+      if(!q&&r.it.g!==g){g=r.it.g;html+='<li class="cmdk-group" role="presentation">'+g+'</li>';}
+      html+='<li class="cmdk-item'+(k===sel?' sel':'')+'" id="cmdk-o'+k+'" role="option" aria-selected="'+(k===sel)+'" data-k="'+k+'"><span class="ic" aria-hidden="true">'+r.it.ic+'</span><span class="tx"><b>'+esc(r.it.t)+'</b>'+(r.it.d?'<span>'+esc(r.it.d)+'</span>':'')+'</span></li>';
+    });
+    list.innerHTML=html;
+    inp.setAttribute('aria-activedescendant','cmdk-o'+sel);
+    var el=document.getElementById('cmdk-o'+sel); if(el) el.scrollIntoView({block:'nearest'});
+  }
+  function open(){lastFocus=document.activeElement;ov.hidden=false;requestAnimationFrame(function(){ov.classList.add('open');});inp.value='';sel=0;draw();inp.focus();document.body.style.overflow='hidden';}
+  function close(){ov.classList.remove('open');setTimeout(function(){ov.hidden=true;},180);document.body.style.overflow='';if(lastFocus&&lastFocus.focus)lastFocus.focus();}
+  function go(k){
+    var r=res[k]; if(!r) return; var it=r.it; close();
+    if(window.gtag) gtag('event','site_search',{search_term:inp.value||'(browse)',selected:it.t});
+    if(it.fn) return it.fn();
+    if(it.a) return window.openArticlePreview&&openArticlePreview(it.a[0],it.a[1]);
+    if(it.x) return window.open(it.u,'_blank','noopener');
+    if(it.u.charAt(0)==='#'){var t=document.querySelector(it.u); if(t) t.scrollIntoView({behavior:'smooth'}); history.replaceState(null,'',it.u); return;}
+    location.href=it.u;
+  }
+  inp.addEventListener('input',function(){sel=0;draw();});
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'){e.preventDefault();if(res.length){sel=(sel+1)%res.length;draw();}}
+    else if(e.key==='ArrowUp'){e.preventDefault();if(res.length){sel=(sel-1+res.length)%res.length;draw();}}
+    else if(e.key==='Enter'){e.preventDefault();go(sel);}
+    else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();close();}
+    else if(e.key==='Tab'){e.preventDefault();}
+  });
+  list.addEventListener('click',function(e){var li=e.target.closest('.cmdk-item');if(li)go(+li.dataset.k);});
+  list.addEventListener('mousemove',function(e){var li=e.target.closest('.cmdk-item');if(li&&+li.dataset.k!==sel){sel=+li.dataset.k;draw();}});
+  ov.addEventListener('click',function(e){if(e.target===ov)close();});
+  document.getElementById('cmdk-close').addEventListener('click',close);
+  document.getElementById('cmdk-open').addEventListener('click',open);
+  document.addEventListener('keydown',function(e){
+    var typing=/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)||e.target.isContentEditable;
+    if((e.key==='k'||e.key==='K')&&(e.ctrlKey||e.metaKey)){e.preventDefault();ov.hidden?open():close();}
+    else if(e.key==='/'&&!typing&&ov.hidden){e.preventDefault();open();}
+  });
+  if(/Mac|iPhone|iPad/.test(navigator.platform||'')){var kb=document.querySelector('#cmdk-open kbd');if(kb)kb.textContent='⌘ K';}
+})();
 </script>
 
 <!-- Service Worker Registration -->
