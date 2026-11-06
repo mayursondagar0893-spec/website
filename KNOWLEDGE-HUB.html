@@ -103,11 +103,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);dis
 .tb-left{display:flex;align-items:center;gap:10px;}
 .tb-brand{display:flex;align-items:center;gap:9px;}
 .tb-logo{
-  width:28px;height:28px;border-radius:6px;
-  background:var(--olive);display:flex;align-items:center;justify-content:center;
-  font-size:.9rem;font-weight:700;color:#fff;font-family:'Libre Baskerville',serif;
-  flex-shrink:0;
+  display:inline-block;border-radius:7px;padding:.2rem .5rem;
+  background:var(--olive);text-align:center;text-decoration:none;cursor:pointer;
+  font-family:'Playfair Display','Libre Baskerville',serif;font-weight:900;font-size:.7rem;line-height:1.15;
+  color:#fff;flex-shrink:0;transition:filter .15s,transform .15s;
 }
+.tb-logo:hover{filter:brightness(1.12);transform:translateY(-1px);}
+.tb-logo sup{font-size:.5em;vertical-align:super;color:#fff;}
 .tb-title{display:flex;flex-direction:column;line-height:1.1;}
 .tb-title>span:first-child{font-family:'Libre Baskerville',serif;font-size:0.92rem;color:#fff;letter-spacing:-0.1px;}
 .tb-title>span:last-child{font-size:.75rem;color:var(--sb-mut);letter-spacing:0.5px;text-transform:uppercase;}
@@ -543,7 +545,7 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
 <div class="topbar" role="banner">
   <div class="tb-left">
     <div class="tb-brand">
-      <div class="tb-logo">KH</div>
+      <a href="/" class="tb-logo" title="Back to Home – Taxation Updates" aria-label="Back to Home – Taxation Updates">Taxation<sup>®</sup><br/>Updates</a>
       <div class="tb-title">
         <span role="heading" aria-level="1">Knowledge Hub </span>
         <span>TaxationUpdates.com</span>
