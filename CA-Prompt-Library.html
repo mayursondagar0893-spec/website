@@ -399,12 +399,23 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
 .nav-cta,.kh-cta,.form-btn,.mob-cta,.cta-btn,.add-btn,.btn-open,.fb-analyse,.wiz-next,.btn-dl,.site-topnav-btn.home,.site-topnav-btn.current,.tool-nav a.tnb-active,.blog-cat,.highlight{text-shadow:0 1px 1px rgba(0,0,0,.38);}
 @media (prefers-reduced-motion: reduce){.logo-box::after,.footer-logo-box::after,.stn-logo-box::after,.sft-logo-box::after,.hdr-logo-box::after{transition:none;}}
 </style>
+<style id="tu-a11y">
+/* ══ ACCESSIBILITY LAYER (tu-a11y) · skip link · focus ring · WCAG AA contrast ══ */
+:root{--tu-focus:#5b5d0b;--tu-grad:linear-gradient(145deg,#c9cd3a 0%,#ADB11F 45%,#999d1a 100%);}
+:root[data-theme="dark"],body.dark{--tu-focus:#dfe35a;}
+.tu-skip{position:fixed;left:12px;top:-80px;z-index:100000;background:#1f2006;color:#fff!important;padding:10px 18px;border-radius:10px;font:700 15px/1.2 'DM Sans',system-ui,sans-serif;text-decoration:none!important;box-shadow:0 6px 18px rgba(0,0,0,.35);transition:top .15s}
+.tu-skip:focus{top:12px;outline:3px solid #dfe35a;outline-offset:2px}
+.tu-sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+:focus-visible:not([data-tu-skip-target]){outline:3px solid var(--tu-focus)!important;outline-offset:2px}
+[data-tu-skip-target]:focus{outline:none}
+/* Text on olive (#ADB11F) fills: dark ink instead of white (white was 1.8–2.3:1) */
+.nav-cta,.kh-cta,.form-btn,.mob-cta,.cta-btn,.add-btn,.btn-open,.fb-analyse,.wiz-next,.btn-dl,.btn-primary,.site-topnav-btn.home,.site-topnav-btn.current,.site-topnav-btn.active,.site-topnav-btn[aria-current="page"],.tool-nav a.tnb-active,.blog-cat,h1 .highlight{color:#1f2006!important;text-shadow:0 1px 0 rgba(255,255,255,.28)!important}
+[data-theme="dark"] .site-topnav-btn.current,body.dark .site-topnav-btn.current{color:#1f2006!important;text-shadow:0 1px 0 rgba(255,255,255,.28)!important}
+[data-theme="dark"] .footer-name{color:#ecedc6}
+</style>
 </head>
 <body>
-
-<!-- Skip navigation for keyboard users -->
-<a href="#prompt-content" class="skip-nav">Skip to main content</a>
-
+<a class="tu-skip" href="#prompt-content" onclick="var t=document.getElementById('prompt-content');if(t){event.preventDefault();t.focus({preventScroll:true});t.scrollIntoView();}">Skip to main content</a>
 <nav class="site-topnav" aria-label="Site navigation">
   <a href="/" class="site-topnav-logo">
     <span class="stn-logo-box">Taxation<sup style="font-size:.44em;vertical-align:super">®</sup><br/>Updates</span>
@@ -444,7 +455,7 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
 </div>
 
 <!-- LAYOUT -->
-<div class="layout" id="prompt-content">
+<div class="layout" id="prompt-content" tabindex="-1" data-tu-skip-target>
   <!-- SIDEBAR -->
   <div class="sidebar" id="sidebar">
     <div class="sb-title">Browse Categories</div>
