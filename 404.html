@@ -459,6 +459,13 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
 .nav-cta,.kh-cta,.form-btn,.mob-cta,.cta-btn,.add-btn,.btn-open,.fb-analyse,.wiz-next,.btn-dl,.btn-primary,.site-topnav-btn.home,.site-topnav-btn.current,.site-topnav-btn.active,.site-topnav-btn[aria-current="page"],.tool-nav a.tnb-active,.blog-cat,h1 .highlight{color:#1f2006!important;text-shadow:0 1px 0 rgba(255,255,255,.28)!important}
 [data-theme="dark"] .site-topnav-btn.current,body.dark .site-topnav-btn.current{color:#1f2006!important;text-shadow:0 1px 0 rgba(255,255,255,.28)!important}
 [data-theme="dark"] .footer-name{color:#ecedc6}
+/* ══ PAGE TRANSITIONS (tu-motion) · cross-page fade/slide, progressive enhancement ══ */
+@view-transition{navigation:auto}
+@keyframes tu-vt-out{to{opacity:0;transform:translateY(-10px) scale(.985)}}
+@keyframes tu-vt-in{from{opacity:0;transform:translateY(14px)}}
+::view-transition-old(root){animation:tu-vt-out .22s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:tu-vt-in .38s cubic-bezier(.16,1,.3,1) .06s both}
+@media (prefers-reduced-motion:reduce){@view-transition{navigation:none}::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 </style>
 </head>
 <body>

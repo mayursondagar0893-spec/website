@@ -44,7 +44,7 @@ If `npm test` says `vitest: not found`, run `npm install` first (`node_modules` 
 | `tests/wa-init.test.js` | **jsdom** | WhatsApp link click handler, Base64 encoding in `wa-init.js` |
 | `tests/dark-mode.test.js` | **jsdom** | `localStorage` persistence and theme toggle logic |
 | `tests/compliance-data.test.js` | Node | Row shape of `COMPLIANCE_DATA`, `upcomingDeadlines`, `isoDate`, `daysUntil` from `compliance-data.js` |
-| `tests/tu-tabbar.test.js` | **jsdom** | `tabKeyFor` page → tab mapping and `mount` (5 links, `aria-current`, idempotent) from `tu-tabbar.js` |
+| `tests/tu-tabbar.test.js` | **jsdom** | `tabKeyFor` page → tab mapping, `mount` (5 links, `aria-current`, idempotent) and `isPageNav` (top loading-bar link filter) from `tu-tabbar.js` |
 
 After editing any shared JS file (`challan-parser.js`, `contact-form.js`, `prompt-filter.js`, `compliance-data.js`, `tu-tabbar.js`, `wa-init.js`, `sw.js`) run `npm test` before committing.
 
@@ -63,7 +63,7 @@ Each HTML tool is fully self-contained: its CSS lives in `<style>` tags and its 
 | `contact-form.js` | Contact form validation + WhatsApp URL builders — used by `index.html` and tests | No |
 | `prompt-filter.js` | Filter/sort/bookmark, placeholder fill, output options and recent-prompts helpers for the prompt library — used by `CA-Prompt-Library.html` and tests | No |
 | `compliance-data.js` | FY 2026-27 due-date rows (`COMPLIANCE_DATA`) + `upcomingDeadlines()` — the **only** copy of the calendar data; used by `Compliance_Calendar_FY2627.html` (`const DATA = COMPLIANCE_DATA`) and the homepage "Due next" card | **Yes** |
-| `tu-tabbar.js` | Mobile bottom tab bar (Home · Tools · Tax Check · Calendar · Contact), ≤768px only. Self-injects its CSS + markup; loaded on **every page** with `<script src="/tu-tabbar.js" defer></script>` before `</body>` | **Yes** |
+| `tu-tabbar.js` | Mobile bottom tab bar (Home · Tools · Tax Check · Calendar · Contact), ≤768px only. Also injects the top page-loading bar (`.tu-loadbar`, all widths). Self-injects its CSS + markup; loaded on **every page** with `<script src="/tu-tabbar.js" defer></script>` before `</body>` | **Yes** |
 
 ### Dual-module pattern (critical)
 The `*.js` files above (`challan-parser.js`, `contact-form.js`, `prompt-filter.js`, `compliance-data.js`, `tu-tabbar.js`) end with:
@@ -134,6 +134,12 @@ Article files (PDF/JPEG) live in `/articles/` and are served directly by GitHub 
 - **Homepage:** the hamburger/drawer is hidden ≤768px (tab bar + section tabs replace it). The "Due next" card (`#due-next`) shows the next 3 rows of `compliance-data.js`, skipping AGM-relative rows.
 - **TDS Codes & IT Calculator phones:** `.site-topnav` is hidden ≤768px; page actions live in a "⋯" menu (`#tuMore`). TDS has quick chips (`#tuQuick`) that drive the existing `.typebtn` / `toggleFavFilter()` controls and a Filters toggle (`body.tu-filters-open`). The calculator's result card (`#tuVerdict`) and lakh/crore hints (`.tu-lakh`) mirror `n-total`/`o-total` by wrapping `calc()`, and carry `data-html2canvas-ignore` so PDF/JPEG exports are unchanged.
 - **Calculator regime colours:** New = brand olive `#ADB11F`, Old = amber `#EE9A3A`, both with dark ink `#1f2006` text (the old Excel green/orange with white text failed WCAG AA).
+
+### Motion / page transitions (every page)
+- **Cross-page transitions:** each page's `tu-a11y` style block ends with a `tu-motion` section: `@view-transition{navigation:auto}` plus fade/slide keyframes on `::view-transition-old/new(root)`. Pure CSS progressive enhancement (Chrome/Edge 126+, Safari 18.2+; other browsers just navigate normally). Copy it into new tools along with the rest of `tu-a11y`.
+- **Loading bar:** `tu-tabbar.js` shows a 3px olive bar at the top when a same-origin page link is clicked (`isPageNav` skips hash links, downloads/PDFs, new tabs, modified clicks and links whose handler calls `preventDefault`); reset on `pageshow` for back/forward cache. The tab bar has `view-transition-name:tu-tabbar` so it stays still while pages cross-fade.
+- **Homepage hero:** staggered blur-rise entrance (`tuRise`), shimmer on `h1 .accent`, pop on `h1 .highlight`, floating `.hero-deco` glows, avatar ring pulse, and a count-up on `.hero-stats .stat-num` (final text restored exactly).
+- Every animation is disabled under `prefers-reduced-motion: reduce` — keep it that way for anything new.
 
 ### Accessibility layer (every page)
 Each page has a `<style id="tu-a11y">` block immediately before `</head>` and one `<a class="tu-skip">Skip to main content</a>` right after `<body>`. Keep both when editing or adding pages (copy them from an existing page into new tools).
