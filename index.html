@@ -1449,9 +1449,11 @@ I really admire how you present complex things in so simple manner @TaxationUpda
   const navAs=document.querySelectorAll('#nav-links a');
   const tabs=document.getElementById('section-tabs');
   const tabAs=tabs.querySelectorAll('a');
+  /* offsetParent is always null for position:fixed, so test display instead */
+  const tabsOn=()=>getComputedStyle(tabs).display!=='none';
   /* Keep the tab bar just under the fixed nav, and stop jumps from hiding headings under them */
   const setOffsets=()=>{
-    const navH=nav.offsetHeight, tabsH=tabs.offsetParent!==null?tabs.offsetHeight:0;
+    const navH=nav.offsetHeight, tabsH=tabsOn()?tabs.offsetHeight:0;
     const r=document.documentElement.style;
     r.setProperty('--nav-h',navH+'px');
     r.setProperty('--tabs-h',tabsH+'px');
@@ -1462,11 +1464,11 @@ I really admire how you present complex things in so simple manner @TaxationUpda
   window.addEventListener('load',setOffsets);
   window.addEventListener('scroll',()=>{
     let cur='';
-    secs.forEach(s=>{ if(scrollY>=s.offsetTop-(nav.offsetHeight+(tabs.offsetParent!==null?tabs.offsetHeight:0)+20)) cur=s.id; });
+    secs.forEach(s=>{ if(scrollY>=s.offsetTop-(nav.offsetHeight+(tabsOn()?tabs.offsetHeight:0)+20)) cur=s.id; });
     navAs.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
     tabAs.forEach(a=>{
       const on=a.getAttribute('href')==='#'+cur;
-      if(on&&!a.classList.contains('active')&&tabs.offsetParent!==null){
+      if(on&&!a.classList.contains('active')&&tabsOn()){
         tabs.scrollTo({left:a.offsetLeft-(tabs.clientWidth-a.offsetWidth)/2,behavior:'smooth'});
       }
       a.classList.toggle('active',on);
