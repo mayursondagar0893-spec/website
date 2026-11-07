@@ -7,7 +7,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { createRequire } from 'module';
 
 const require = createRequire(import.meta.url);
-const { tabKeyFor, mount, ITEMS } = require('../tu-tabbar.js');
+const { tabKeyFor, mount, isPageNav, ITEMS } = require('../tu-tabbar.js');
 
 describe('tabKeyFor', () => {
   it.each([
@@ -67,5 +67,40 @@ describe('mount', () => {
     document.querySelectorAll('.tu-tabbar svg').forEach(svg => {
       expect(svg.getAttribute('aria-hidden')).toBe('true');
     });
+  });
+});
+
+describe('isPageNav (top loading bar)', () => {
+  const loc = { origin: 'https://taxationupdates.com', pathname: '/', search: '' };
+  const link = (href, attrs = {}) => {
+    const a = document.createElement('a');
+    a.href = new URL(href, 'https://taxationupdates.com/').href;
+    Object.entries(attrs).forEach(([k, v]) => a.setAttribute(k, v));
+    return a;
+  };
+  const click = (o = {}) => ({ defaultPrevented: false, button: 0, metaKey: false, ctrlKey: false, shiftKey: false, altKey: false, ...o });
+
+  it('shows for a same-origin page link', () => {
+    expect(isPageNav(link('/TDS-SECTION-CODE.html'), click(), loc)).toBe(true);
+  });
+  it('ignores same-page hash links, external links and new tabs', () => {
+    expect(isPageNav(link('/#portfolio'), click(), loc)).toBe(false);
+    expect(isPageNav(link('https://x.com/TaxationUpdates'), click(), loc)).toBe(false);
+    expect(isPageNav(link('/about.html', { target: '_blank' }), click(), loc)).toBe(false);
+  });
+  it('ignores downloads, PDFs and modified clicks', () => {
+    expect(isPageNav(link('/articles/A.pdf'), click(), loc)).toBe(false);
+    expect(isPageNav(link('/about.html', { download: '' }), click(), loc)).toBe(false);
+    expect(isPageNav(link('/about.html'), click({ ctrlKey: true }), loc)).toBe(false);
+    expect(isPageNav(link('/about.html'), click({ defaultPrevented: true }), loc)).toBe(false);
+  });
+});
+
+describe('load bar', () => {
+  it('is injected once with the tab bar', () => {
+    document.body.innerHTML = '';
+    mount(document, '/');
+    mount(document, '/');
+    expect(document.querySelectorAll('.tu-loadbar').length).toBe(1);
   });
 });

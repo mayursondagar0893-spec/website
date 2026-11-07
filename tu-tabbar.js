@@ -61,7 +61,16 @@
       ':is([data-theme="dark"],body.dark) .tu-tabbar a[aria-current="page"] .tu-tb-ic{background:rgba(223,227,90,.14)}' +
       ':is([data-theme="dark"],body.dark) .tu-tabbar a:focus-visible{outline-color:#dfe35a}' +
     '}' +
-    '@media print{.tu-tabbar{display:none!important}html.tu-has-tabbar body{padding-bottom:0!important}}';
+    '@media print{.tu-tabbar{display:none!important}html.tu-has-tabbar body{padding-bottom:0!important}}' +
+    /* Tab bar stays put while the page cross-fades (page CSS: @view-transition). */
+    '.tu-tabbar{view-transition-name:tu-tabbar}' +
+    '::view-transition-group(tu-tabbar),::view-transition-old(tu-tabbar),::view-transition-new(tu-tabbar){animation:none}' +
+    /* Top loading bar shown while the next page loads (all widths). */
+    '.tu-loadbar{position:fixed;left:0;top:0;height:3px;width:100%;z-index:100001;pointer-events:none;transform-origin:0 50%;transform:scaleX(0);opacity:0;' +
+      'background:linear-gradient(90deg,#c9cd3a,#ADB11F 60%,#73760f);box-shadow:0 0 10px rgba(173,177,31,.7)}' +
+    '.tu-loadbar.on{opacity:1;transform:scaleX(.82);transition:transform 2.4s cubic-bezier(.08,.82,.17,1),opacity .15s}' +
+    '@media (prefers-reduced-motion:reduce){.tu-loadbar.on{transition:opacity .15s}}' +
+    '@media print{.tu-loadbar{display:none!important}}';
 
   function mount(doc, pathname) {
     if (!doc || !doc.body || doc.querySelector('.tu-tabbar')) return null;
@@ -80,7 +89,37 @@
     }).join('');
     doc.body.appendChild(nav);
     doc.documentElement.classList.add('tu-has-tabbar');
+    initLoadBar(doc);
     return nav;
+  }
+
+  /* Should clicking this link show the loading bar? Only same-origin page loads
+   * in this tab — not same-page #hash jumps, downloads, new tabs or modified clicks. */
+  function isPageNav(a, ev, loc) {
+    if (!a || !a.href || a.hasAttribute('download')) return false;
+    if (ev && (ev.defaultPrevented || ev.button > 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey)) return false;
+    var tgt = (a.getAttribute('target') || '').toLowerCase();
+    if (tgt && tgt !== '_self') return false;
+    if (a.origin !== loc.origin || !/^https?:$/.test(a.protocol)) return false;
+    if (a.pathname === loc.pathname && a.search === loc.search) return false;
+    return !/\.(pdf|xlsx?|csv|zip|png|jpe?g|webp|svg)$/i.test(a.pathname);
+  }
+
+  function initLoadBar(doc) {
+    var win = doc.defaultView;
+    if (!win || doc.querySelector('.tu-loadbar')) return;
+    var bar = doc.createElement('div');
+    bar.className = 'tu-loadbar';
+    bar.setAttribute('aria-hidden', 'true');
+    doc.body.appendChild(bar);
+    doc.addEventListener('click', function (ev) {
+      var a = ev.target && ev.target.closest ? ev.target.closest('a[href]') : null;
+      if (!isPageNav(a, ev, win.location)) return;
+      /* Defer so a page's own handler can still preventDefault (modals etc.). */
+      setTimeout(function () { if (!ev.defaultPrevented) bar.classList.add('on'); }, 0);
+    });
+    /* Back/forward cache restores the old page with the bar still running. */
+    win.addEventListener('pageshow', function () { bar.classList.remove('on'); });
   }
 
   if (typeof document !== 'undefined' && typeof location !== 'undefined') {
@@ -89,6 +128,6 @@
   }
 
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { tabKeyFor: tabKeyFor, mount: mount, ITEMS: ITEMS };
+    module.exports = { tabKeyFor: tabKeyFor, mount: mount, isPageNav: isPageNav, ITEMS: ITEMS };
   }
 })();
