@@ -26,7 +26,7 @@ npm run test:watch
 npx vitest run tests/challan-parser.test.js
 ```
 
-If `npm test` says `vitest: not found`, run `npm install` first (`node_modules` is not committed). CI runs the same suite on every push/PR via `.github/workflows/test.yml`.
+If `npm test` says `vitest: not found`, run `npm install` first (`node_modules` is not committed). CI (`.github/workflows/test.yml`) runs `npm ci` + `npm test` on Node 20 for every push and PR on any branch.
 
 ```bash
 # Refresh <lastmod> dates in sitemap.xml (git date per file; today if uncommitted)
@@ -38,13 +38,13 @@ If `npm test` says `vitest: not found`, run `npm install` first (`node_modules` 
 | File | Environment | What it tests |
 |---|---|---|
 | `tests/challan-parser.test.js` | Node | `clean`, `parseAmount`, `between`, `get`, `parseChallan` from `challan-parser.js` |
-| `tests/contact-form.test.js` | Node | `validateForm`, `buildWAMessage`, `buildWAUrl` from `contact-form.js` |
+| `tests/contact-form.test.js` | Node | `EMAIL_RE`, `validateForm`, `buildWAMessage`, `buildWAUrl` from `contact-form.js` |
 | `tests/prompt-filter.test.js` | Node | `filterAndSort` (category, difficulty, bookmark, recent, new filters), `toggleBookmark`, `extractPlaceholders`, `fillPlaceholders`, `applyOutputOptions`, `OUTPUT_OPTIONS`, `pushRecent` from `prompt-filter.js` |
 | `tests/sw.test.js` | Node | `CACHE_NAME` format, `PRECACHE_URLS` contents, fetch routing logic from `sw.js` |
 | `tests/wa-init.test.js` | **jsdom** | WhatsApp link click handler, Base64 encoding in `wa-init.js` |
 | `tests/dark-mode.test.js` | **jsdom** | `localStorage` persistence and theme toggle logic |
 | `tests/compliance-data.test.js` | Node | Row shape of `COMPLIANCE_DATA`, `upcomingDeadlines`, `isoDate`, `daysUntil` from `compliance-data.js` |
-| `tests/tu-tabbar.test.js` | **jsdom** | `tabKeyFor` page → tab mapping, `mount` (5 links, `aria-current`, idempotent), `isPageNav` (top loading-bar link filter) and `addSpeculationRules` / `SPECULATION_RULES` (prefetch rules) from `tu-tabbar.js` |
+| `tests/tu-tabbar.test.js` | **jsdom** | `tabKeyFor` page → tab mapping, `ITEMS`, `mount` (5 links, `aria-current`, idempotent), `isPageNav` (top loading-bar link filter) and `addSpeculationRules` / `SPECULATION_RULES` (prefetch rules) from `tu-tabbar.js` |
 
 After editing any shared JS file (`challan-parser.js`, `contact-form.js`, `prompt-filter.js`, `compliance-data.js`, `tu-tabbar.js`, `wa-init.js`, `sw.js`) run `npm test` before committing.
 
@@ -72,7 +72,7 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = { ... };
 }
 ```
-In the browser they are loaded as `<script>` tags and their functions become globals. In Vitest they are `require()`'d as CommonJS modules. **Never remove this block.**
+In the browser they are loaded as `<script>` tags and their functions become globals. In Vitest they are `require()`'d as CommonJS modules. **Never remove this block.** (`tu-tabbar.js` is wrapped in an IIFE, so its functions are not browser globals; its export block exists for tests.) `wa-init.js` has no export block — it is tested through jsdom.
 
 ### Dark mode
 Every page persists and restores theme via `localStorage.getItem/setItem('theme', ...)` and toggles `document.documentElement.setAttribute('data-theme', 'light'|'dark')`. The key **must** stay `'theme'` — live users depend on it.
@@ -101,6 +101,15 @@ Current `PRECACHE_URLS` (as of `taxationupdates-v14`):
 /KNOWLEDGE-HUB.html                     /icons/logo.svg
 /compliance-data.js                     /tu-tabbar.js
 ```
+
+### Other static files
+| Path | Purpose |
+|---|---|
+| `images/ca-mayur-sondagar.jpg` / `.webp` | Profile photo (360×360). Used in `index.html` hero, `about.html` and `contact.html` via `<picture>` (WebP source + JPEG fallback) and in the homepage `Person` JSON-LD. Keep both formats in sync. |
+| `og-cover.svg` | Editable source for `og-cover.png` (the social share image). |
+| `robots.txt` | Allows all crawlers and points to `sitemap.xml`. |
+| `sitemap.xml` | All indexable pages + article PDFs (not `404.html`). `<lastmod>` is maintained by `update-sitemap-dates.sh`. |
+| `README.md` | Placeholder only — CLAUDE.md is the real documentation. |
 
 ### Phone number security
 The WhatsApp number is Base64-encoded in `wa-init.js` (`atob('...')`). Never expose the decoded number in plaintext anywhere in the repo.
@@ -203,13 +212,21 @@ When the user says "add this tool" / "integrate this" / pastes HTML:
 
 3. **Save** the file to the repo root.
 
-4. **Run the integration script** — it bumps `sw.js` cache version, adds the URL to `sitemap.xml`, and inserts a portfolio card in `index.html`:
+4. **Run the integration script** — it bumps the `sw.js` cache version, adds the file to `PRECACHE_URLS`, adds the URL to `sitemap.xml` (then refreshes every `<lastmod>` via `update-sitemap-dates.sh`), and inserts a portfolio card in `index.html`:
    ```bash
    ./add-tool.sh FILENAME.html "Tool Name" "One-line description" "emoji"
    ```
-   Fix any `❌` items the script reports, then confirm the 4 files updated: `FILENAME.html`, `sw.js`, `sitemap.xml`, `index.html`.
+   Fix any `❌` items the script reports (its checks include the `/tu-tabbar.js` script tag), then confirm the 4 files updated: `FILENAME.html`, `sw.js`, `sitemap.xml`, `index.html`.
 
-5. **Update the tool inventory table** in this file.
+5. **Manual follow-ups the script does not do:**
+   - Add the filename (lower-case) to `TOOL_PAGES` in `tu-tabbar.js`, then run `npm test`.
+   - Add the tool to the command palette `ITEMS` array in `index.html` and to the `PAGES` array in `404.html`.
+   - Copy the `<style id="tu-a11y">` block (incl. its `tu-motion` section) and the `.tu-skip` link from an existing tool; mark the main content with `data-tu-skip-target` + `tabindex="-1"`.
+   - If the tool exports/parses files, use the `tuLazy` loader (`URLS` / `WRAPS` / `WARM`) — no blocking library `<script>` tags.
+   - New sticky bars → `NO_BLUR_SELECTORS`; new bottom-anchored floating elements → `LIFT_SELECTORS` (both in `tu-tabbar.js`).
+   - Update `CACHE_NAME` / `PRECACHE_URLS` in the PWA section of this file to match `sw.js`.
+
+6. **Update the tool inventory table** in this file.
 
 ### Required `<head>` template
 ```html
@@ -317,6 +334,6 @@ This is optional but recommended for tools. `index.html` uses `Person` + `WebSit
 
 ## Git Workflow
 
-- **Main branch:** `master` (auto-deploys to GitHub Pages on push)
-- **Feature branches:** `claude/<description>-<id>`
+- **Main branch:** `main` (auto-deploys to GitHub Pages on push)
+- **Feature branches:** `claude/<description>-<id>` or session branches `ccr-<id>`; changes land on `main` via pull request
 - Commit messages are imperative: `Fix mobile nav overflow`, `Add dark mode to challan parser`
