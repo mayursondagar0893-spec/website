@@ -44,11 +44,8 @@
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 <style>
 :root{
   --bg:#fbfbf0;--surface:#fff;--surface2:#f0f2f7;--border:#b8c0d4;--border2:#9aa3bc;
@@ -2728,7 +2725,7 @@ function saveAndDownloadICS(){
         <div class="help-limit-item"><strong>Google Calendar</strong> button requires you to be signed into a Google account in the same browser session.</div>
         <div class="help-limit-item"><strong>AGM date changes</strong> affect only three filings: AOC-4, MGT-7, and ADT-1. All other deadlines are fixed.</div>
         <div class="help-limit-item">Calendar view shows a maximum of <strong>3 events per day cell</strong>. Use the "+N more" link to see additional events for that date.</div>
-        <div class="help-limit-item">Month Image/PDF export requires <strong>html2canvas</strong> to load from CDN — will fail if there is no internet connection at page load time.</div>
+        <div class="help-limit-item">Excel, PDF and Image exports load their libraries from a CDN on first use — an internet connection is needed the first time you export.</div>
         <div class="help-limit-item">This tool provides deadline information only. <strong>Verify due dates against official CBDT / CBIC / MCA notifications</strong> as extensions or changes may be announced after the tool was last updated (March 2026).</div>
       </div>
 
@@ -2971,6 +2968,52 @@ function switchHelpTab(tab){
     document.getElementById('hpanel-'+t).classList.toggle('hide',t!==tab);
   });
 }
+</script>
+<script>
+/* tuLazy — export/parse libraries load on first use (or when an export button is
+   hovered/focused/touched) instead of blocking page load. Wraps the page's own
+   global functions, so every existing onclick/call site keeps working. */
+(function(){
+  var URLS={"autotable": "https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js", "h2c": "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js", "jspdf": "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js", "xlsx": "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"};
+  var WRAPS=[["exportExcel", ["xlsx"]], ["exportPDF", ["jspdf", "autotable"]], ["captureElement", ["h2c"]], ["buildMonthCanvas", ["h2c"]], ["exportCalendarPDF", ["h2c", "jspdf"]], ["exportMonthPDF", ["h2c", "jspdf"]], ["exportImage", ["h2c"]]];
+  var WARM=[];
+  var cache={};
+  function load(k){
+    if(!cache[k]) cache[k]=new Promise(function(res,rej){
+      var s=document.createElement('script');s.src=URLS[k];s.async=false;
+      s.onload=function(){
+        if(k==='pdfjs'&&window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc=URLS[k].replace('pdf.min.js','pdf.worker.min.js');
+        res();
+      };
+      s.onerror=function(){delete cache[k];s.remove();rej(new Error('Could not load the '+k+' library. Please check your internet connection and try again.'));};
+      document.head.appendChild(s);
+    });
+    return cache[k];
+  }
+  function need(keys){return keys.reduce(function(p,k){return p.then(function(){return load(k);});},Promise.resolve());}
+  window.tuNeed=need;
+  WRAPS.forEach(function(w){
+    var name=w[0],keys=w[1],rethrow=w[2],fn=window[name];
+    if(typeof fn!=='function') return;
+    window[name]=function(){
+      var self=this,args=arguments;
+      return need(keys).then(function(){return fn.apply(self,args);},function(e){
+        if(rethrow) throw e;
+        alert(e.message);
+      });
+    };
+  });
+  function warm(t){
+    if(!t||!t.closest) return;
+    var el=t.closest('[onclick]');
+    if(el){var c=el.getAttribute('onclick');WRAPS.forEach(function(w){if(new RegExp('\\b'+w[0]+'\\(').test(c)) need(w[1]).catch(function(){});});}
+    WARM.forEach(function(m){if(t.closest(m[0])) need(m[1]).catch(function(){});});
+  }
+  ['pointerover','focusin','touchstart','change'].forEach(function(ev){
+    document.addEventListener(ev,function(e){warm(e.target);},{passive:true,capture:true});
+  });
+  if(WARM.length) document.addEventListener('dragenter',function(){WARM.forEach(function(m){need(m[1]).catch(function(){});});},{passive:true});
+})();
 </script>
 <script src="/tu-tabbar.js" defer></script>
 </body>

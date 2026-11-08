@@ -29,10 +29,11 @@
   gtag('js', new Date());
   gtag('config', 'G-YC101DVMH7');
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"/>
 <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
-
 :root{
   /* TaxationUpdates — Olive Green Brand */
   --brand:#73760f; --brand-dk:#5b5d0b; --brand-lt:#f2f3d8; --brand-bd:#c0c422;
@@ -2515,9 +2516,6 @@ function fallbackCopy(text, btn, showToast){
   document.body.removeChild(ta);
 }
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 /* ═══ SUB-TAB SWITCH ═══ */
 /* ═══════════════════════════════════════════════════
@@ -3237,7 +3235,6 @@ function switchSub(id,btn){
 }
 
 /* ═══ FORM-BASED SMART FINDER ═══ */
-if(window.pdfjsLib){ pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }
 var FB={A:null,B:null,filed:{A:null,B:null}};
 
 function fbNum(s){ if(!s) return 0; return parseInt(String(s).replace(/[^0-9]/g,''),10)||0; }
@@ -3919,6 +3916,52 @@ function fbInitDrop(slot){
   });
 }
 
+</script>
+<script>
+/* tuLazy — export/parse libraries load on first use (or when an export button is
+   hovered/focused/touched) instead of blocking page load. Wraps the page's own
+   global functions, so every existing onclick/call site keeps working. */
+(function(){
+  var URLS={"jszip": "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js", "pdfjs": "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js", "xlsx": "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"};
+  var WRAPS=[["maExportExcel", ["xlsx"]], ["fbExtract", ["pdfjs"], true], ["fbExtractZip", ["jszip"], true]];
+  var WARM=[["input[type=\"file\"]", ["pdfjs"]]];
+  var cache={};
+  function load(k){
+    if(!cache[k]) cache[k]=new Promise(function(res,rej){
+      var s=document.createElement('script');s.src=URLS[k];s.async=false;
+      s.onload=function(){
+        if(k==='pdfjs'&&window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc=URLS[k].replace('pdf.min.js','pdf.worker.min.js');
+        res();
+      };
+      s.onerror=function(){delete cache[k];s.remove();rej(new Error('Could not load the '+k+' library. Please check your internet connection and try again.'));};
+      document.head.appendChild(s);
+    });
+    return cache[k];
+  }
+  function need(keys){return keys.reduce(function(p,k){return p.then(function(){return load(k);});},Promise.resolve());}
+  window.tuNeed=need;
+  WRAPS.forEach(function(w){
+    var name=w[0],keys=w[1],rethrow=w[2],fn=window[name];
+    if(typeof fn!=='function') return;
+    window[name]=function(){
+      var self=this,args=arguments;
+      return need(keys).then(function(){return fn.apply(self,args);},function(e){
+        if(rethrow) throw e;
+        alert(e.message);
+      });
+    };
+  });
+  function warm(t){
+    if(!t||!t.closest) return;
+    var el=t.closest('[onclick]');
+    if(el){var c=el.getAttribute('onclick');WRAPS.forEach(function(w){if(new RegExp('\\b'+w[0]+'\\(').test(c)) need(w[1]).catch(function(){});});}
+    WARM.forEach(function(m){if(t.closest(m[0])) need(m[1]).catch(function(){});});
+  }
+  ['pointerover','focusin','touchstart','change'].forEach(function(ev){
+    document.addEventListener(ev,function(e){warm(e.target);},{passive:true,capture:true});
+  });
+  if(WARM.length) document.addEventListener('dragenter',function(){WARM.forEach(function(m){need(m[1]).catch(function(){});});},{passive:true});
+})();
 </script>
 <script src="/tu-tabbar.js" defer></script>
 </body>

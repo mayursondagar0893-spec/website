@@ -26,6 +26,37 @@
 
   var LIFT_SELECTORS = '#btt,#scrollTopBtn,#toast,.toast,#resultToast';
 
+  /* Sticky/fixed bars whose backdrop blur is switched off at ≤768px (see CSS). */
+  var NO_BLUR_SELECTORS = 'body>nav,body>header,.site-topnav,.section-tabs,.hdr,.hero-card,.mobile-drawer';
+
+  /* Speculation Rules: Chrome/Edge prefetch a same-site page when its link is
+   * hovered (desktop) or pressed (touch), so the next page opens almost instantly.
+   * Skips articles, PDFs/files, downloads and new-tab links. Other browsers ignore it. */
+  var SPECULATION_RULES = {
+    prefetch: [{
+      source: 'document',
+      where: { and: [
+        { href_matches: '/*' },
+        { not: { href_matches: ['/articles/*', '/*.pdf', '/*.xlsx', '/*.xls', '/*.csv', '/*.zip',
+                                '/*.png', '/*.jpg', '/*.jpeg', '/*.webp', '/*.svg', '/*.json', '/*.js', '/*.css'] } },
+        { not: { selector_matches: '[download],[target="_blank"],[rel~="nofollow"],.no-prefetch' } }
+      ] },
+      eagerness: 'moderate'
+    }]
+  };
+
+  function addSpeculationRules(doc) {
+    var S = doc.defaultView && doc.defaultView.HTMLScriptElement;
+    if (!S || typeof S.supports !== 'function' || !S.supports('speculationrules')) return null;
+    if (doc.getElementById('tu-speculation')) return null;
+    var s = doc.createElement('script');
+    s.type = 'speculationrules';
+    s.id = 'tu-speculation';
+    s.textContent = JSON.stringify(SPECULATION_RULES);
+    doc.head.appendChild(s);
+    return s;
+  }
+
   /* Which tab is "current" for a URL path. '' means none (about, disclaimer, 404 …). */
   function tabKeyFor(pathname) {
     var f = String(pathname || '/').split('/').pop().toLowerCase();
@@ -44,8 +75,7 @@
       '.tu-tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed!important;left:0!important;right:0!important;bottom:0!important;top:auto!important;' +
         'width:auto!important;height:auto!important;min-height:0!important;max-width:none!important;transform:none!important;z-index:400!important;' +
         'padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));margin:0;' +
-        'background:rgba(255,255,252,.96);border-top:1px solid rgba(110,113,18,.18);box-shadow:0 -6px 20px rgba(31,32,6,.08);' +
-        '-webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);' +
+        'background:#fffffc;border-top:1px solid rgba(110,113,18,.18);box-shadow:0 -6px 20px rgba(31,32,6,.08);' +
         'font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}' +
       '.tu-tabbar a{display:flex;flex-direction:column;align-items:center;gap:2px;min-height:48px;justify-content:center;' +
         'color:#5f614a;text-decoration:none;font-size:11px;font-weight:600;line-height:1.1;letter-spacing:0;border-radius:12px;-webkit-tap-highlight-color:transparent}' +
@@ -55,11 +85,17 @@
       '.tu-tabbar a[aria-current="page"] .tu-tb-ic{background:#e9ebbd}' +
       '.tu-tabbar a[aria-current="page"] svg{stroke-width:2.2}' +
       '.tu-tabbar a:focus-visible{outline:3px solid #5b5d0b;outline-offset:-3px}' +
-      ':is([data-theme="dark"],body.dark) .tu-tabbar{background:rgba(18,19,12,.95);border-top-color:rgba(223,227,90,.16);box-shadow:0 -6px 20px rgba(0,0,0,.4)}' +
+      ':is([data-theme="dark"],body.dark) .tu-tabbar{background:#12130c;border-top-color:rgba(223,227,90,.16);box-shadow:0 -6px 20px rgba(0,0,0,.4)}' +
       ':is([data-theme="dark"],body.dark) .tu-tabbar a{color:#b9bba0}' +
       ':is([data-theme="dark"],body.dark) .tu-tabbar a[aria-current="page"]{color:#dfe35a}' +
       ':is([data-theme="dark"],body.dark) .tu-tabbar a[aria-current="page"] .tu-tb-ic{background:rgba(223,227,90,.14)}' +
       ':is([data-theme="dark"],body.dark) .tu-tabbar a:focus-visible{outline-color:#dfe35a}' +
+      /* Phones: frosted-glass blur on sticky/fixed bars is re-painted on every scroll frame
+       * and stutters on budget Android. Drop it and make the bars near-opaque instead.
+       * Modal overlays keep their blur (they don't scroll content underneath). */
+      'html.tu-has-tabbar :is(' + NO_BLUR_SELECTORS + '){-webkit-backdrop-filter:none!important;backdrop-filter:none!important}' +
+      'html.tu-has-tabbar:not([data-theme="dark"]){--nav-bg:rgba(251,251,246,.97)}' +
+      'html.tu-has-tabbar[data-theme="dark"]{--nav-bg:rgba(14,16,10,.97)}' +
     '}' +
     '@media print{.tu-tabbar{display:none!important}html.tu-has-tabbar body{padding-bottom:0!important}}' +
     /* Tab bar stays put while the page cross-fades (page CSS: @view-transition). */
@@ -90,6 +126,7 @@
     doc.body.appendChild(nav);
     doc.documentElement.classList.add('tu-has-tabbar');
     initLoadBar(doc);
+    addSpeculationRules(doc);
     return nav;
   }
 
@@ -128,6 +165,7 @@
   }
 
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { tabKeyFor: tabKeyFor, mount: mount, isPageNav: isPageNav, ITEMS: ITEMS };
+    module.exports = { tabKeyFor: tabKeyFor, mount: mount, isPageNav: isPageNav, ITEMS: ITEMS,
+      addSpeculationRules: addSpeculationRules, SPECULATION_RULES: SPECULATION_RULES };
   }
 })();

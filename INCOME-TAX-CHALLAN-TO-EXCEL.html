@@ -29,8 +29,6 @@
   gtag('js', new Date());
   gtag('config', 'G-YC101DVMH7');
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="/challan-parser.js"></script>
 <!-- Schema.org: WebApplication -->
 <script type="application/ld+json">
@@ -1010,7 +1008,6 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
 <button id="btt" title="Back to top">↑</button>
 
 <script>
-pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
 let files=[], parsedData=[], filteredData=[], sortCol='', sortDir='asc';
 
@@ -1609,6 +1606,52 @@ document.addEventListener('keydown',function(e){
     try{localStorage.setItem('theme',next);}catch(e){}
     sync();
   });
+})();
+</script>
+<script>
+/* tuLazy — export/parse libraries load on first use (or when an export button is
+   hovered/focused/touched) instead of blocking page load. Wraps the page's own
+   global functions, so every existing onclick/call site keeps working. */
+(function(){
+  var URLS={"pdfjs": "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js", "xlsx": "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"};
+  var WRAPS=[["extractText", ["pdfjs"], true], ["exportExcel", ["xlsx"]]];
+  var WARM=[["#dropZone,#parseBtn,#fileInput,#folderInput", ["pdfjs"]]];
+  var cache={};
+  function load(k){
+    if(!cache[k]) cache[k]=new Promise(function(res,rej){
+      var s=document.createElement('script');s.src=URLS[k];s.async=false;
+      s.onload=function(){
+        if(k==='pdfjs'&&window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc=URLS[k].replace('pdf.min.js','pdf.worker.min.js');
+        res();
+      };
+      s.onerror=function(){delete cache[k];s.remove();rej(new Error('Could not load the '+k+' library. Please check your internet connection and try again.'));};
+      document.head.appendChild(s);
+    });
+    return cache[k];
+  }
+  function need(keys){return keys.reduce(function(p,k){return p.then(function(){return load(k);});},Promise.resolve());}
+  window.tuNeed=need;
+  WRAPS.forEach(function(w){
+    var name=w[0],keys=w[1],rethrow=w[2],fn=window[name];
+    if(typeof fn!=='function') return;
+    window[name]=function(){
+      var self=this,args=arguments;
+      return need(keys).then(function(){return fn.apply(self,args);},function(e){
+        if(rethrow) throw e;
+        alert(e.message);
+      });
+    };
+  });
+  function warm(t){
+    if(!t||!t.closest) return;
+    var el=t.closest('[onclick]');
+    if(el){var c=el.getAttribute('onclick');WRAPS.forEach(function(w){if(new RegExp('\\b'+w[0]+'\\(').test(c)) need(w[1]).catch(function(){});});}
+    WARM.forEach(function(m){if(t.closest(m[0])) need(m[1]).catch(function(){});});
+  }
+  ['pointerover','focusin','touchstart','change'].forEach(function(ev){
+    document.addEventListener(ev,function(e){warm(e.target);},{passive:true,capture:true});
+  });
+  if(WARM.length) document.addEventListener('dragenter',function(){WARM.forEach(function(m){need(m[1]).catch(function(){});});},{passive:true});
 })();
 </script>
 <script src="/tu-tabbar.js" defer></script>

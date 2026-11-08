@@ -44,7 +44,7 @@ If `npm test` says `vitest: not found`, run `npm install` first (`node_modules` 
 | `tests/wa-init.test.js` | **jsdom** | WhatsApp link click handler, Base64 encoding in `wa-init.js` |
 | `tests/dark-mode.test.js` | **jsdom** | `localStorage` persistence and theme toggle logic |
 | `tests/compliance-data.test.js` | Node | Row shape of `COMPLIANCE_DATA`, `upcomingDeadlines`, `isoDate`, `daysUntil` from `compliance-data.js` |
-| `tests/tu-tabbar.test.js` | **jsdom** | `tabKeyFor` page → tab mapping, `mount` (5 links, `aria-current`, idempotent) and `isPageNav` (top loading-bar link filter) from `tu-tabbar.js` |
+| `tests/tu-tabbar.test.js` | **jsdom** | `tabKeyFor` page → tab mapping, `mount` (5 links, `aria-current`, idempotent), `isPageNav` (top loading-bar link filter) and `addSpeculationRules` / `SPECULATION_RULES` (prefetch rules) from `tu-tabbar.js` |
 
 After editing any shared JS file (`challan-parser.js`, `contact-form.js`, `prompt-filter.js`, `compliance-data.js`, `tu-tabbar.js`, `wa-init.js`, `sw.js`) run `npm test` before committing.
 
@@ -84,11 +84,11 @@ Placement is flexible — the theme init can appear either:
 Both are valid as long as the `localStorage` key is `'theme'` and the attribute is `data-theme`.
 
 ### PWA / Service Worker
-`sw.js` pre-caches tool pages for offline use. Current `CACHE_NAME`: **`taxationupdates-v13`**.  
+`sw.js` pre-caches tool pages for offline use. Current `CACHE_NAME`: **`taxationupdates-v14`**.  
 Strategy: network-first for HTML, cache-first for everything else (same-origin only).  
 Bump the version number whenever you add/rename a cached file. The script `add-tool.sh` does this automatically.
 
-Current `PRECACHE_URLS` (as of `taxationupdates-v13`):
+Current `PRECACHE_URLS` (as of `taxationupdates-v14`):
 ```
 /                                       /index.html
 /TDS-SECTION-CODE.html                  /CA-Prompt-Library.html
@@ -140,6 +140,13 @@ Article files (PDF/JPEG) live in `/articles/` and are served directly by GitHub 
 - **Loading bar:** `tu-tabbar.js` shows a 3px olive bar at the top when a same-origin page link is clicked (`isPageNav` skips hash links, downloads/PDFs, new tabs, modified clicks and links whose handler calls `preventDefault`); reset on `pageshow` for back/forward cache. The tab bar has `view-transition-name:tu-tabbar` so it stays still while pages cross-fade.
 - **Homepage hero:** staggered blur-rise entrance (`tuRise`), shimmer on `h1 .accent`, pop on `h1 .highlight`, floating `.hero-deco` glows, avatar ring pulse, and a count-up on `.hero-stats .stat-num` (final text restored exactly).
 - Every animation is disabled under `prefers-reduced-motion: reduce` — keep it that way for anything new.
+- Animate only `transform` and `opacity` — never `filter: blur()` (repaints every frame on phones).
+
+### Performance (every page)
+- **Lazy export/parse libraries (`tuLazy`):** the Calendar, IT Calculator, Challan to Excel and Form 10-IEA pages do **not** load xlsx / html2canvas / jspdf / jspdf-autotable / pdf.js / jszip in `<head>`. A `<script>` block just before the `tu-tabbar.js` tag lists the CDN URLs (`URLS`) and the page functions that need them (`WRAPS`, e.g. `["exportExcel",["xlsx"]]`); it replaces each global function with a wrapper that loads the libraries first, then calls the original. Libraries start downloading early when an export button (any `[onclick]` that calls a wrapped function) or a `WARM` selector is hovered, focused, touched or changed. pdf.js `workerSrc` is set in the loader's `onload`. **When adding a new export function, add it to `WRAPS`; never add these libraries back as blocking `<script>` tags.** `window.tuNeed(['xlsx'])` returns a promise if you need a library elsewhere.
+- **Speculation Rules prefetch:** `tu-tabbar.js` injects a `<script type="speculationrules">` (`SPECULATION_RULES`) so Chrome/Edge prefetch same-site pages on link hover/press (`eagerness: moderate`). Articles, file links (`.pdf`, `.xlsx` …), `[download]`, `target="_blank"` and `.no-prefetch` links are excluded — add `class="no-prefetch"` to any link that must not be fetched early.
+- **No backdrop blur on phones:** at ≤768px `tu-tabbar.js` switches off `backdrop-filter` on sticky/fixed bars (`NO_BLUR_SELECTORS`: `body>nav`, `body>header`, `.site-topnav`, `.section-tabs`, `.hdr`, `.hero-card`, `.mobile-drawer`) and raises `--nav-bg` to 0.97 opacity; the tab bar itself is solid. Modal overlays keep their blur. Add new sticky bars to `NO_BLUR_SELECTORS`.
+- **Fonts:** load Google Fonts with `<link rel="preconnect">` to both `fonts.googleapis.com` and `fonts.gstatic.com` (crossorigin) plus a `<link rel="stylesheet">` — never a CSS `@import`.
 
 ### Accessibility layer (every page)
 Each page has a `<style id="tu-a11y">` block immediately before `</head>` and one `<a class="tu-skip">Skip to main content</a>` right after `<body>`. Keep both when editing or adding pages (copy them from an existing page into new tools).
