@@ -104,3 +104,39 @@ describe('load bar', () => {
     expect(document.querySelectorAll('.tu-loadbar').length).toBe(1);
   });
 });
+
+describe('speculation rules', () => {
+  const { addSpeculationRules, SPECULATION_RULES } = require('../tu-tabbar.js');
+
+  beforeEach(() => {
+    document.head.innerHTML = '';
+    delete HTMLScriptElement.supports;
+  });
+
+  it('prefetches same-site pages with moderate eagerness', () => {
+    const rule = SPECULATION_RULES.prefetch[0];
+    expect(rule.eagerness).toBe('moderate');
+    expect(rule.where.and[0]).toEqual({ href_matches: '/*' });
+  });
+
+  it('never prefetches articles, PDFs, downloads or new-tab links', () => {
+    const [, files, attrs] = SPECULATION_RULES.prefetch[0].where.and;
+    expect(files.not.href_matches).toEqual(expect.arrayContaining(['/articles/*', '/*.pdf', '/*.xlsx']));
+    expect(attrs.not.selector_matches).toContain('[download]');
+    expect(attrs.not.selector_matches).toContain('[target="_blank"]');
+  });
+
+  it('does nothing in browsers without speculation rules support', () => {
+    expect(addSpeculationRules(document)).toBeNull();
+    expect(document.querySelector('script[type="speculationrules"]')).toBeNull();
+  });
+
+  it('injects one valid JSON rules script when supported', () => {
+    HTMLScriptElement.supports = t => t === 'speculationrules';
+    addSpeculationRules(document);
+    addSpeculationRules(document);
+    const tags = document.querySelectorAll('script[type="speculationrules"]');
+    expect(tags.length).toBe(1);
+    expect(JSON.parse(tags[0].textContent)).toEqual(SPECULATION_RULES);
+  });
+});
