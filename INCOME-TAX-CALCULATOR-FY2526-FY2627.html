@@ -861,6 +861,8 @@ a:hover .logo-box::after,a:hover .stn-logo-box::after,.nav-logo:hover .logo-box:
   .tu-v-bar i{display:block;height:100%;width:0;background:#5B5D0B;transition:width .3s}
   #tuVold .tu-v-bar i{background:#c27a2c}
   .tu-v-note{margin:8px 2px 0;font-size:12px;color:#55573a;line-height:1.4}
+  .tu-v-clear{font:inherit;font-weight:700;color:#5b5d0b;background:none;border:0;padding:0;text-decoration:underline;cursor:pointer}
+  body.dark .tu-v-clear,[data-theme="dark"] .tu-v-clear{color:#dfe35a}
   .tu-lakh{display:block;font-size:10.5px;line-height:1.2;color:#5B5D0B;text-align:right;padding:1px 4px 2px;font-weight:600}
   .tu-lakh:empty{display:none}
   body.dark .tu-more{background:#1a1b12;border-color:#3b3d1c;color:#ecedbb}
@@ -977,7 +979,7 @@ html body.dark .btn-search{color:#1f2006!important}
     <div class="tu-v-rg" id="tuVnew"><div class="tu-v-h">New Regime <em>Lower</em></div><b>—</b><small></small><span class="tu-v-bar"><i></i></span></div>
     <div class="tu-v-rg" id="tuVold"><div class="tu-v-h">Old Regime <em>Lower</em></div><b>—</b><small></small><span class="tu-v-bar"><i></i></span></div>
   </div>
-  <p class="tu-v-note">Enter your income and deductions below. The result updates as you type; slab-wise working is further down.</p>
+  <p class="tu-v-note">Sample figures are pre-filled — <button type="button" class="tu-v-clear" onclick="resetAll()">clear them</button> and enter your own income and deductions below. The result updates as you type; slab-wise working is further down.</p>
 </div>
 
 <!-- TOP ROW: instruction | manual entry -->
@@ -994,7 +996,7 @@ html body.dark .btn-search{color:#1f2006!important}
     <table style="width:100%;height:100%;border-collapse:collapse;">
       <colgroup><col style="width:42%"><col style="width:20%"><col style="width:19%"><col style="width:19%"></colgroup>
       <!-- NAME -->
-      <tr><td class="nm-l">TAX PAYER NAME:</td><td class="nm-v" colspan="3"><input type="text" id="taxpayerName" value="MAYUR J SONDAGAR" oninput="calc()"></td></tr>
+      <tr><td class="nm-l">TAX PAYER NAME:</td><td class="nm-v" colspan="3"><input type="text" id="taxpayerName" value="" placeholder="Your name (optional)" oninput="calc()"></td></tr>
       <!-- PAN -->
       <tr><td class="ag-l">PAN</td><td class="ag-v" colspan="3"><input type="text" id="panNo" value="" placeholder="ABCDE1234F" maxlength="10" style="background:transparent;border:none;outline:none;width:100%;font-family:Calibri,sans-serif;font-size:13px;color:#000;text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()"></td></tr>
       <!-- AGE -->
