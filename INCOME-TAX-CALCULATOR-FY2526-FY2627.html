@@ -929,8 +929,8 @@ html body.dark .btn-search{color:#1f2006!important}
   </div>
   <!-- YEAR TOGGLE -->
   <div class="yr-toggle" title="Switch between tax years">
-    <button class="yr-btn yr-active" id="yr-fy25" onclick="setYear('fy2526')">FY 2025-26</button>
-    <button class="yr-btn" id="yr-fy26" onclick="setYear('fy2627')">FY 2026-27</button>
+    <button class="yr-btn" id="yr-fy25" onclick="setYear('fy2526')">FY 2025-26</button>
+    <button class="yr-btn yr-active" id="yr-fy26" onclick="setYear('fy2627')">FY 2026-27</button>
   </div>
   <button type="button" class="tu-more" id="tuMore" aria-label="More actions" aria-expanded="false" aria-controls="tuCalcActions">⋯</button>
   <div id="tuCalcActions" style="display:flex;gap:5px;align-items:center;flex-shrink:0;">
@@ -2576,10 +2576,12 @@ calc = function(){
 
 /* ══════════════════════════════════════════════════════════════
    YEAR TOGGLE SYSTEM
-   'fy2526' = AY 2026-27, FY 2025-26, IT Act 1961  (DEFAULT)
-   'fy2627' = Tax Year 2026-27, IT Act 2025
+   'fy2526' = AY 2026-27, FY 2025-26, IT Act 1961
+   'fy2627' = Tax Year 2026-27, IT Act 2025  (DEFAULT)
+   Static HTML keeps the fy2526 wording — swapSectionRefs() caches it as
+   the source text and applyYear() converts it on load.
    ══════════════════════════════════════════════════════════════ */
-var ACTIVE_YEAR = 'fy2526';
+var ACTIVE_YEAR = 'fy2627';
 
 var YEAR_CFG = {
   fy2526: {
@@ -3319,7 +3321,7 @@ function setYear(yr){
 
 /* Run applyYear on page load with default year; restore last active tab */
 document.addEventListener('DOMContentLoaded', function(){
-  applyYear('fy2526');
+  applyYear(ACTIVE_YEAR);
   var savedTab = localStorage.getItem('itc-tab');
   if(savedTab) showTab(savedTab);
 });
